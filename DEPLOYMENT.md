@@ -177,3 +177,42 @@ git push origin main
 ```
 
 That's it! 🚀
+
+---
+
+**Vercel-specific Quick Setup (automated option)**
+
+1. Install the Vercel CLI (optional, for CLI deployment):
+
+```bash
+npm i -g vercel
+```
+
+2. Log in and link project (CLI):
+
+```bash
+vercel login
+cd "c:\\Users\\G R  HARSHA\\OneDrive\\Desktop\\Ganapathi Mentor AI\\neural-code-symbiosis"
+vercel link # link to an existing project or create a new one interactively
+```
+
+3. Set environment variables with the Vercel CLI (example):
+
+```bash
+vercel env add NEXT_PUBLIC_SUPABASE_URL production
+vercel env add NEXT_PUBLIC_SUPABASE_ANON_KEY production
+vercel env add SUPABASE_SERVICE_ROLE_KEY production
+vercel env add NEXT_PUBLIC_SITE_URL production
+```
+
+4. Deploy (CLI):
+
+```bash
+vercel --prod
+```
+
+Notes:
+- If you prefer the dashboard, import the GitHub repo and add environment variables in Project Settings → Environment Variables.
+- Ensure `NEXT_PUBLIC_SITE_URL` matches the Vercel production domain you use for Supabase redirect URLs.
+
+**Security note:** Do not commit secrets into the repository. Use environment variables in Vercel and Supabase Dashboard.
