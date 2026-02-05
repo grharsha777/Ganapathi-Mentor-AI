@@ -1,0 +1,2 @@
+// Backwards-compat shim to forward to the new `proxy.ts` convention.
+export { middleware, config } from './proxy'
