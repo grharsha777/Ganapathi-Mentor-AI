@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
+import { Analytics } from "@vercel/analytics/next"
 import GlobalChatbot from '@/components/chat/global-chatbot'
 
 const inter = Inter({
@@ -39,6 +40,7 @@ export default function RootLayout({
             <GlobalChatbot />
           </AuthProvider>
           <Toaster />
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>
