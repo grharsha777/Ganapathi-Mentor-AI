@@ -117,6 +117,30 @@
   .scrollbar-none::-webkit-scrollbar {
     display: none;
   }
+
+  /* Infinite Scroll Animation */
+  @keyframes scroll-x {
+    0% {
+      transform: translateX(0);
+    }
+
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-scroll-x {
+    animation: scroll-x 25s linear infinite;
+  }
+
+  .animate-scroll-x:hover {
+    animation-play-state: paused;
+  }
+
+  /* Smooth snap for mobile carousel */
+  .snap-x {
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 @layer base {
