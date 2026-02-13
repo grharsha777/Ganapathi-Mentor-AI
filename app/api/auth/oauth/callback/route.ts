@@ -67,10 +67,10 @@ export async function GET(req: NextRequest) {
     }); // Consider wrapping this in try/catch or assume it throws
     console.log('[Auth Callback] JWT signed');
 
-    const response = NextResponse.redirect(new URL(next, req.url));
+    const response = NextResponse.redirect(new URL(next, req.nextUrl.origin));
     response.cookies.set('token', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: true,
       sameSite: 'lax',
       maxAge: 7 * 24 * 60 * 60,
       path: '/',
