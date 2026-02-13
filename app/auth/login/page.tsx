@@ -61,7 +61,7 @@ export default function Page() {
                 onClick={() => handleOAuth('google')}
                 disabled={isLoading}
               >
-                <img src="/google.svg" alt="Google" className="mr-2 h-4 w-4" />
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" className="mr-2 h-4 w-4" />
                 Continue with Google
               </Button>
             </div>
