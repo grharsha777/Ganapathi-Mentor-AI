@@ -1,279 +1,174 @@
-# Analytics Pro - Enterprise Dashboard
+# Ganapathi Mentor AI 🐘
 
-A full-stack analytics platform built with Next.js 16, Supabase, and TypeScript. Production-ready with authentication, real-time data visualization, team management, and alerts.
+**A Next-Generation AI-Powered Learning Ecosystem for Developers.**
 
-## Features
+Ganapathi Mentor AI is a comprehensive platform designed to accelerate developer growth through personalized, multi-modal learning experiences. It combines advanced RAG (Retrieval-Augmented Generation), real-time code analysis, and interactive tools to serve as a 24/7 senior engineering mentor.
 
-- **Executive Dashboard** - Real-time metrics with beautiful visualizations
-- **Real-time Data Visualization** - Interactive charts showing performance trends
-- **Team Management** - Role-based access control and team collaboration
-- **Alerts & Notifications** - Configurable alerts with severity levels
-- **User Authentication** - Secure authentication with Supabase Auth
-- **Row Level Security** - Database-level security with RLS policies
+![Banner](/public/banner.png) 
+*(Note: Replace with actual banner if available)*
 
-## Tech Stack
+---
 
-- **Frontend**: Next.js 16, React 19, TypeScript, Tailwind CSS
-- **Backend**: Next.js API Routes, Server Actions
-- **Database**: Supabase PostgreSQL with Row Level Security
-- **Authentication**: Supabase Auth with email/password
-- **UI Components**: shadcn/ui
-- **Charts**: Recharts
+## 🚀 Key Features
 
-## Prerequisites
+### 🧠 **Neural Concept Engine**
+- **Multi-Modal Explanations**: Breaks down complex topics (e.g., "Event Loop", "Closures") into beginner/intermediate/advanced tiers.
+- **RAG-Powered**: Retrieves up-to-date context from trusted documentation and community sources (StackOverflow, MDN).
+- **Curated Media**: Fetches relevant YouTube tutorials and research papers automatically.
 
-- Node.js 18+ and npm/pnpm/yarn
-- Supabase account (free tier available)
-- Git
+### 🔍 **Intelligent Code Review**
+- **Deep Static Analysis**: Identifies anti-patterns, security vulnerabilities, and performance bottlenecks.
+- **Architectural Insights**: Suggests design patterns (Singleton, Factory, Observer) appropriate for the code context.
+- **Auto-Documentation**: Generates comprehensive documentation and usage examples.
 
-## Local Development
+### 🗺️ **Adaptive Learning Roadmaps**
+- **Dynamic Curriculum**: Generates personalized learning paths based on current role and target goals.
+- **Progress Tracking**: Persists progress across sessions using a dual-layer storage system.
+- **Resource Integration**: Direct links to GitHub repositories and interactive tutorials.
 
-### 1. Clone and Install
+### 🎤 **Voice-First Interview Prep**
+- **Real-Time Simulation**: AI interviewer conducts technical, behavioral, and system design rounds.
+- **Speech-to-Text**: Transcribes user answers and provides instant feedback on clarity, technical accuracy, and tone.
+- **Role-Specific Scenarios**: Tailored questions for Frontend, Backend, DevOps, and Full Stack roles.
 
+### 🎨 **Creative Studio**
+- **Image Generation**: Create assets for projects using specialized prompts.
+- **Diagramming**: Auto-generate Mermaid.js architecture diagrams from code snippets.
+
+### ⚡ **Productivity Hub**
+- **Eisenhower Matrix AI**: Automatically prioritizes tasks based on urgency and impact.
+- **Smart Agenda Builder**: Converts unstructured notes into structured meeting agendas.
+
+---
+
+## 🛠️ Tech Stack
+
+### **Frontend**
+- **Framework**: [Next.js 15 (App Router)](https://nextjs.org/)
+- **Language**: TypeScript
+- **UI Architecture**: React 19 (Server Components + Client Hooks)
+- **Styling**: TailwindCSS v4, Shadcn/UI, Framer Motion (Animations)
+- **State Management**: React Hooks + Custom Persistence Layer
+
+### **Backend & AI**
+- **AI Runtime**: [Vercel AI SDK](https://sdk.vercel.ai/docs)
+- **Video Intelligence**: YouTube Data API v3
+- **Knowledge Sources**: StackExchange API, Wikipedia API
+- **Database**: 
+  - **MongoDB** (Atlas): Durable user data and content history.
+  - **IndexedDB** (Dexie-like wrapper): Offline-first local caching for instant load times.
+
+### **Infrastructure**
+- **Authentication**: JWT-based secure auth system.
+- **Deployment**: Vercel (Edge Functions + Serverless).
+
+---
+
+## 🏗️ Architecture
+
+The application follows a **Hybrid Persistence Architecture** to ensure zero data loss and offline capability.
+
+```mermaid
+graph TD
+    User[User] -->|Interacts| Client[Next.js Client]
+    
+    subgraph "Frontend Layer"
+        Client -->|Auto-Save| IDB[(IndexedDB)]
+        Client -->|Sync| API[Next.js API Routes]
+    end
+    
+    subgraph "Backend Layer"
+        API -->|Auth| Middleware[JWT Middleware]
+        API -->|Persist| Mongo[(MongoDB Atlas)]
+        
+        API -->|LLM Request| AISDK[Vercel AI SDK]
+        API -->|External Data| Tools[External APIs]
+    end
+    
+    subgraph "AI & External Services"
+        AISDK --> OpenAI[OpenAI GPT-4o]
+        AISDK --> Mistral[Mistral Large]
+        AISDK --> Gemini[Google Gemini]
+        
+        Tools --> YouTube[YouTube Data API]
+        Tools --> Stack[StackOverflow API]
+    end
+    
+    IDB -.->|Hydrate on Load| Client
+```
+
+---
+
+## 🔌 API Integrations
+
+| Service | Usage | Key |
+|---|---|---|
+| **OpenAI / Mistral / Gemini** | Core reasoning, code generation, RAG synthesis | `OPENAI_API_KEY` etc. |
+| **YouTube Data API** | Fetching curated video tutorials | `YOUTUBE_API_KEY` |
+| **StackExchange API** | Real-time community solutions | No Key (Public) |
+| **MongoDB Atlas** | User persistence and history | `MONGODB_URI` |
+
+---
+
+## ⚡ Getting Started
+
+### 1. Clone the Repository
 ```bash
-git clone <your-repo-url>
-cd analytics-pro
+git clone https://github.com/grharsha777/ganapathi-mentor-ai.git
+cd ganapathi-mentor-ai
+```
+
+### 2. Install Dependencies
+```bash
 npm install
+# or
+pnpm install
 ```
 
-### 2. Set Up Supabase
+### 3. Environment Setup
+Create a `.env.local` file in the root directory:
 
-1. Create a Supabase project at [supabase.com](https://supabase.com)
-2. Copy your project credentials
-3. In v0 UI sidebar → Vars section, set these environment variables:
-   - `NEXT_PUBLIC_SUPABASE_URL` - Your Supabase project URL
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Your Supabase anon key
-   - `SUPABASE_SERVICE_ROLE_KEY` - Your service role key (for server operations)
+```env
+# Database
+MONGODB_URI=mongodb+srv://...
 
-### 3. Set Up Database
+# Auth
+JWT_SECRET=your_super_secret_key
 
-The database schema is automatically initialized. Run the migration script:
+# AI Services (Add at least one)
+OPENAI_API_KEY=sk-...
+MISTRAL_API_KEY=...
+GOOGLE_GENERATIVE_AI_API_KEY=...
 
-```bash
-# Option 1: Use Supabase SQL Editor (recommended)
-# Open Supabase Dashboard → SQL Editor
-# Paste contents of scripts/init-database.sql and execute
-
-# Option 2: Use v0 system
-# The scripts/init-database.sql has been executed automatically
+# External Data
+YOUTUBE_API_KEY=...
+GITHUB_ACCESS_TOKEN=...
 ```
 
-### 4. (Optional) Seed Sample Data
-
-To populate the dashboard with sample metrics and alerts:
-
-```bash
-# In Supabase SQL Editor, paste and execute:
-# scripts/seed-data.sql
-```
-
-### 5. Run Development Server
-
+### 4. Run Locally
 ```bash
 npm run dev
 ```
+Open [http://localhost:3000](http://localhost:3000) to see the app.
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+---
 
-## Authentication
+## 🤝 Contributing
 
-### Sign Up
-1. Visit `/auth/sign-up`
-2. Enter email, password, and full name
-3. You'll be redirected to sign-up-success page
-4. Confirm your email (if using production Supabase)
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-### Sign In
-1. Visit `/auth/login`
-2. Enter your credentials
-3. Redirected to dashboard after successful login
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-### Sign Out
-- Use the dropdown menu in the dashboard header
+---
 
-## Project Structure
+## 📄 License
 
-```
-├── app/
-│   ├── auth/              # Authentication pages
-│   │   ├── login/
-│   │   ├── sign-up/
-│   │   ├── error/
-│   │   └── actions.ts
-│   ├── api/               # API routes
-│   │   ├── metrics/
-│   │   ├── alerts/
-│   │   └── teams/
-│   ├── dashboard/         # Main dashboard
-│   │   ├── alerts/
-│   │   ├── team/
-│   │   ├── settings/
-│   │   └── page.tsx
-│   ├── layout.tsx
-│   ├── globals.css
-│   └── page.tsx          # Home page
-├── components/
-│   ├── dashboard/        # Dashboard components
-│   │   ├── nav.tsx
-│   │   ├── sidebar.tsx
-│   │   ├── team-selector.tsx
-│   │   ├── metrics-chart.tsx
-│   │   └── alerts-list.tsx
-│   └── ui/              # shadcn/ui components
-├── lib/
-│   ├── supabase/
-│   │   ├── client.ts    # Browser client
-│   │   ├── server.ts    # Server client
-│   │   └── proxy.ts     # Session handling
-│   └── utils.ts
-├── scripts/
-│   ├── init-database.sql
-│   └── seed-data.sql
-├── middleware.ts
-└── README.md
-```
+Distributed under the MIT License. See `LICENSE` for more information.
 
-## Database Schema
+---
 
-### Tables
-
-- **users** - User profiles linked to auth.users
-- **teams** - Team information and ownership
-- **team_members** - Team membership with roles
-- **metrics** - Performance metrics with timestamps
-- **alerts** - Alert notifications and events
-- **team_alert_settings** - Alert threshold configurations
-
-### Row Level Security (RLS)
-
-All tables have RLS enabled:
-- Users can only view their own profile
-- Users can only access teams they're members of
-- Team members can view and create metrics
-- Team members can view and create alerts
-
-## API Routes
-
-### Metrics
-- `GET /api/metrics?teamId={id}` - Get team metrics
-- `POST /api/metrics` - Create new metric
-
-### Alerts
-- `GET /api/alerts?teamId={id}` - Get team alerts
-- `POST /api/alerts` - Create new alert
-- `PATCH /api/alerts` - Mark alert as read
-
-### Teams
-- `GET /api/teams` - Get user's teams
-- `POST /api/teams` - Create new team
-
-## Environment Variables
-
-### Required
-- `NEXT_PUBLIC_SUPABASE_URL` - Supabase project URL
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Public anon key
-- `SUPABASE_SERVICE_ROLE_KEY` - Service role key
-
-### Optional
-- `NEXT_PUBLIC_SITE_URL` - Your deployment URL (for email redirects)
-
-## Deployment to Vercel
-
-### Step 1: Push to GitHub
-
-```bash
-git add .
-git commit -m "Initial commit"
-git push origin main
-```
-
-### Step 2: Deploy to Vercel
-
-1. Visit [vercel.com](https://vercel.com)
-2. Click "New Project" → "Import Git Repository"
-3. Select your repository
-4. Add environment variables in the "Environment Variables" section:
-   - `NEXT_PUBLIC_SUPABASE_URL`
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-   - `SUPABASE_SERVICE_ROLE_KEY`
-   - `NEXT_PUBLIC_SITE_URL` (your Vercel domain)
-
-### Step 3: Configure Supabase
-
-In your Supabase project settings, add your Vercel domain to:
-- Authentication → Site URL
-- Authentication → Redirect URLs
-
-## Performance Optimization
-
-- Server-side data fetching with Next.js Server Components
-- Client-side caching with SWR patterns
-- Database indexes on frequently queried columns
-- 30-second polling interval for dashboard updates
-- Recharts for optimized data visualization
-
-## Security
-
-- Row Level Security (RLS) on all database tables
-- Supabase Auth with secure session management
-- Server-side API routes with authentication checks
-- CSRF protection via middleware
-- No sensitive data in client-side code
-
-## Monitoring & Debugging
-
-### Enable Debug Logging
-
-Add `console.log("[v0] ...")` statements in components to trace execution flow.
-
-### Check Database
-
-Use Supabase dashboard to:
-- Monitor real-time data
-- Inspect RLS policies
-- View error logs
-
-### Check Deployment
-
-Use Vercel dashboard to:
-- View deployment logs
-- Monitor function durations
-- Check error rates
-
-## Common Issues
-
-### "NEXT_PUBLIC_SUPABASE_URL not found"
-- Check environment variables in Vercel project settings
-- Ensure variables are properly set with correct names
-
-### "User not authenticated"
-- Clear browser cookies and sign in again
-- Check Supabase auth settings
-
-### "RLS policy denied"
-- Verify user is member of team
-- Check RLS policies in Supabase SQL Editor
-
-### "Metrics not loading"
-- Ensure metrics exist for selected team
-- Check browser console for API errors
-- Verify team_id is correct
-
-## Support
-
-- Issues? Check the README sections above
-- Error messages? Look at browser console and Vercel logs
-- Database issues? Use Supabase SQL Editor to debug
-
-## License
-
-MIT
-
-## Next Steps
-
-1. Customize branding in components/dashboard/sidebar.tsx
-2. Add more metric types and categories
-3. Implement email alerts
-4. Add user preferences/themes
-5. Create admin dashboard
-6. Set up webhook integrations
+**Built with ❤️ by [G R Harsha](https://github.com/grharsha777)**

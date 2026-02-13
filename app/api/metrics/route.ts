@@ -1,71 +1,62 @@
-import { createClient } from '@/lib/supabase/server'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server';
+import connectToDatabase from '@/lib/mongoose';
+import Metric from '@/models/Metric';
+import { verifyToken } from '@/lib/auth';
 
 export async function GET(request: NextRequest) {
-  const searchParams = request.nextUrl.searchParams
-  const teamId = searchParams.get('teamId')
-
-  if (!teamId) {
-    return NextResponse.json({ error: 'Team ID is required' }, { status: 400 })
-  }
-
-  const supabase = await createClient()
-
   try {
-    const { data, error } = await supabase
-      .from('metrics')
-      .select('*')
-      .eq('team_id', teamId)
-      .order('timestamp', { ascending: false })
-      .limit(100)
+    const searchParams = request.nextUrl.searchParams;
+    const teamId = searchParams.get('teamId');
 
-    if (error) throw error
+    if (!teamId) {
+      return NextResponse.json({ error: 'Team ID is required' }, { status: 400 });
+    }
 
-    return NextResponse.json(data)
+    const token = request.cookies.get('token')?.value;
+    if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const decoded = await verifyToken(token);
+    if (!decoded) return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
+
+    await connectToDatabase();
+
+    const metrics = await Metric.find({ team_id: teamId })
+      .sort({ timestamp: -1 })
+      .limit(100);
+
+    return NextResponse.json(metrics);
   } catch (error) {
-    console.error('Error fetching metrics:', error)
-    return NextResponse.json(
-      { error: 'Failed to fetch metrics' },
-      { status: 500 }
-    )
+    console.error('Error fetching metrics:', error);
+    return NextResponse.json({ error: 'Failed to fetch metrics' }, { status: 500 });
   }
 }
 
 export async function POST(request: NextRequest) {
-  const supabase = await createClient()
-  const body = await request.json()
-
-  const { team_id, name, value, unit, category } = body
-
-  if (!team_id || !name || value === undefined) {
-    return NextResponse.json(
-      { error: 'Missing required fields' },
-      { status: 400 }
-    )
-  }
-
   try {
-    const { data, error } = await supabase
-      .from('metrics')
-      .insert([
-        {
-          team_id,
-          name,
-          value: parseFloat(value),
-          unit,
-          category: category || 'performance',
-        },
-      ])
-      .select()
+    const token = request.cookies.get('token')?.value;
+    if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const decoded = await verifyToken(token);
+    if (!decoded) return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
 
-    if (error) throw error
+    const body = await request.json();
+    const { team_id, name, value, unit, category } = body;
 
-    return NextResponse.json(data[0], { status: 201 })
+    if (!team_id || !name || value === undefined) {
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+    }
+
+    await connectToDatabase();
+
+    const newMetric = await Metric.create({
+      team_id,
+      name,
+      value: parseFloat(value),
+      unit,
+      category: category || 'performance'
+    });
+
+    return NextResponse.json(newMetric, { status: 201 });
   } catch (error) {
-    console.error('Error creating metric:', error)
-    return NextResponse.json(
-      { error: 'Failed to create metric' },
-      { status: 500 }
-    )
+    console.error('Error creating metric:', error);
+    return NextResponse.json({ error: 'Failed to create metric' }, { status: 500 });
   }
 }

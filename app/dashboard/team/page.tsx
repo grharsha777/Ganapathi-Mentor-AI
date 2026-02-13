@@ -4,8 +4,12 @@ import { useEffect, useState } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Plus, Users } from 'lucide-react'
+import { Plus, Users, Brain, Activity, Bot } from 'lucide-react'
 import { TeamSelector } from '@/components/dashboard/team-selector'
+import { PageShell } from '@/components/layout/PageShell';
+import { PageHeader } from '@/components/layout/PageHeader';
+import { Section } from '@/components/layout/Section';
+import { GridContainer } from '@/components/layout/GridContainer';
 import {
   Dialog,
   DialogContent,
@@ -35,142 +39,190 @@ export default function TeamManagementPage() {
   const [loading, setLoading] = useState(false)
   const [memberEmail, setMemberEmail] = useState('')
 
+  // Placeholder analytics data
+  const [analytics, setAnalytics] = useState({
+    totalQuestions: 120,
+    topTopics: ['React', 'Supabase', 'Typescript'],
+    activeUsers: 5
+  })
+
   useEffect(() => {
     if (!selectedTeam) return
 
-    const fetchMembers = async () => {
+    const fetchData = async () => {
       setLoading(true)
       try {
-        // In a real app, you'd fetch team members from an API
-        // For now, this is a placeholder
         setMembers([])
+
+        // Fetch Real Analytics
+        const analyticsRes = await fetch(`/api/team/analytics?teamId=${selectedTeam}`);
+        if (analyticsRes.ok) {
+          const data = await analyticsRes.json();
+          setAnalytics(data);
+        }
+
       } catch (error) {
-        console.error('Error fetching members:', error)
+        console.error('Error fetching data:', error)
       } finally {
         setLoading(false)
       }
     }
 
-    fetchMembers()
+    fetchData()
   }, [selectedTeam])
 
   const handleAddMember = async () => {
     if (!memberEmail.trim() || !selectedTeam) return
 
     try {
-      // In a real implementation, this would send an invitation email
-      // For now, just show the form
-      setMembers([
-        ...members,
-        {
-          id: Math.random().toString(),
-          user_id: memberEmail,
-          role: 'member',
-          joined_at: new Date().toISOString(),
-        },
-      ])
-      setMemberEmail('')
+      const res = await fetch('/api/teams/members', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          teamId: selectedTeam,
+          email: memberEmail
+        })
+      });
+
+      if (res.ok) {
+        const newMember = await res.json();
+        setMembers([...members, newMember])
+        setMemberEmail('')
+      }
     } catch (error) {
       console.error('Error adding member:', error)
     }
   }
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Team Management</h1>
-          <p className="text-muted-foreground mt-1">
-            Manage team members and their roles
-          </p>
-        </div>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button>
-              <Plus className="w-4 h-4 mr-2" />
-              Add Member
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Add Team Member</DialogTitle>
-              <DialogDescription>
-                Invite a new member to your team
-              </DialogDescription>
-            </DialogHeader>
-            <div className="space-y-4">
-              <Input
-                placeholder="Member email"
-                type="email"
-                value={memberEmail}
-                onChange={(e) => setMemberEmail(e.target.value)}
-              />
-              <Button
-                onClick={handleAddMember}
-                disabled={!memberEmail.trim()}
-                className="w-full"
-              >
-                Send Invitation
+    <PageShell>
+      <PageHeader
+        title="Team Analytics & Management"
+        description="Manage team members and view learning insights"
+        icon={Users}
+        actions={
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button>
+                <Plus className="w-4 h-4 mr-2" />
+                Add Member
               </Button>
-            </div>
-          </DialogContent>
-        </Dialog>
-      </div>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Add Team Member</DialogTitle>
+                <DialogDescription>
+                  Invite a new member to your team
+                </DialogDescription>
+              </DialogHeader>
+              <div className="space-y-4">
+                <Input
+                  placeholder="Member email"
+                  type="email"
+                  value={memberEmail}
+                  onChange={(e) => setMemberEmail(e.target.value)}
+                />
+                <Button
+                  onClick={handleAddMember}
+                  disabled={!memberEmail.trim()}
+                  className="w-full"
+                >
+                  Send Invitation
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+        }
+      />
 
-      <div className="space-y-4">
-        <h2 className="text-lg font-semibold">Select Team</h2>
+      <Section title="Select Team">
         <TeamSelector
           selectedTeam={selectedTeam}
           onTeamSelect={setSelectedTeam}
         />
-      </div>
+      </Section>
 
       {selectedTeam && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <Users className="w-5 h-5" />
-              <span>Team Members</span>
-            </CardTitle>
-            <CardDescription>
-              {members.length} member{members.length !== 1 ? 's' : ''}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {members.length > 0 ? (
-              <div className="space-y-3">
-                {members.map((member) => (
-                  <div
-                    key={member.id}
-                    className="flex items-center justify-between p-3 border rounded-lg"
-                  >
-                    <div className="flex-1">
-                      <p className="font-medium">{member.user_id}</p>
-                      <p className="text-sm text-muted-foreground">
-                        Joined{' '}
-                        {new Date(member.joined_at).toLocaleDateString()}
-                      </p>
-                    </div>
-                    <Select defaultValue={member.role}>
-                      <SelectTrigger className="w-32">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="owner">Owner</SelectItem>
-                        <SelectItem value="member">Member</SelectItem>
-                        <SelectItem value="viewer">Viewer</SelectItem>
-                      </SelectContent>
-                    </Select>
+        <>
+          <Section title="Team Analytics">
+            <GridContainer cols={3}>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Total AI Questions</CardTitle>
+                  <Brain className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{analytics.totalQuestions}</div>
+                  <p className="text-xs text-muted-foreground">+10% from last month</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Active Learners</CardTitle>
+                  <Activity className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{analytics.activeUsers}</div>
+                  <p className="text-xs text-muted-foreground">Team members active this week</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Top Topics</CardTitle>
+                  <Bot className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="flex flex-wrap gap-1 mt-1">
+                    {analytics.topTopics.map(t => (
+                      <span key={t} className="inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80">
+                        {t}
+                      </span>
+                    ))}
                   </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-8 text-muted-foreground">
-                No team members yet
-              </div>
-            )}
-          </CardContent>
-        </Card>
+                </CardContent>
+              </Card>
+            </GridContainer>
+          </Section>
+
+          <Section title="Members" description={`${members.length} member${members.length !== 1 ? 's' : ''}`}>
+            <Card>
+              <CardContent className="pt-6">
+                {members.length > 0 ? (
+                  <div className="space-y-3">
+                    {members.map((member) => (
+                      <div
+                        key={member.id}
+                        className="flex items-center justify-between p-3 border rounded-lg"
+                      >
+                        <div className="flex-1">
+                          <p className="font-medium">{member.user_id}</p>
+                          <p className="text-sm text-muted-foreground">
+                            Joined{' '}
+                            {new Date(member.joined_at).toLocaleDateString()}
+                          </p>
+                        </div>
+                        <Select defaultValue={member.role}>
+                          <SelectTrigger className="w-32">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="owner">Owner</SelectItem>
+                            <SelectItem value="member">Member</SelectItem>
+                            <SelectItem value="viewer">Viewer</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-8 text-muted-foreground">
+                    No team members yet
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </Section>
+        </>
       )}
 
       {!selectedTeam && (
@@ -182,6 +234,6 @@ export default function TeamManagementPage() {
           </CardContent>
         </Card>
       )}
-    </div>
+    </PageShell>
   )
 }

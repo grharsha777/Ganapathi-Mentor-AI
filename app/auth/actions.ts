@@ -2,26 +2,47 @@
 
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
+import { cookies } from 'next/headers'
+import connectToDatabase from '@/lib/mongoose'
+import User from '@/models/User'
+import bcrypt from 'bcryptjs'
+import { signToken } from '@/lib/auth'
 
 export async function signOut() {
-  const supabase = await createClient()
-  await supabase.auth.signOut()
+  const cookieStore = await cookies()
+  cookieStore.delete('token')
   revalidatePath('/', 'layout')
   redirect('/auth/login')
 }
 
 export async function signIn(email: string, password: string) {
-  const supabase = await createClient()
+  await connectToDatabase()
 
-  const { error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  })
-
-  if (error) {
-    redirect('/auth/error?message=' + error.message)
+  if (!email || !password) {
+    redirect('/auth/error?message=Missing credentials')
   }
+
+  const user = await User.findOne({ email }).select('+password_hash')
+
+  if (!user || !user.password_hash) {
+    redirect('/auth/error?message=Invalid credentials')
+  }
+
+  const isMatch = await bcrypt.compare(password, user.password_hash)
+
+  if (!isMatch) {
+    redirect('/auth/error?message=Invalid credentials')
+  }
+
+  const token = await signToken({ userId: user._id, email: user.email, role: user.role })
+
+  const cookieStore = await cookies()
+  cookieStore.set('token', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    maxAge: 7 * 24 * 60 * 60 // 7 days
+  })
 
   revalidatePath('/', 'layout')
   redirect('/dashboard')
@@ -32,44 +53,38 @@ export async function signUp(
   password: string,
   fullName: string
 ) {
-  const supabase = await createClient()
+  await connectToDatabase()
 
-  const { error, data } = await supabase.auth.signUp({
+  if (!email || !password) {
+    redirect('/auth/error?message=Missing required fields')
+  }
+
+  const existingUser = await User.findOne({ email })
+  if (existingUser) {
+    redirect('/auth/error?message=User already exists')
+  }
+
+  const salt = await bcrypt.genSalt(10)
+  const passwordHash = await bcrypt.hash(password, salt)
+  const userId = crypto.randomUUID()
+
+  const newUser = await User.create({
+    _id: userId,
     email,
-    password,
-    options: {
-      data: {
-        full_name: fullName,
-      },
-      emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/protected`,
-    },
+    full_name: fullName,
+    password_hash: passwordHash,
+    role: 'viewer'
   })
 
-  if (error) {
-    redirect('/auth/error?message=' + error.message)
-  }
+  const token = await signToken({ userId: newUser._id, email: newUser.email, role: newUser.role })
 
-  if (data.user) {
-    try {
-      // Create user profile
-      const { error: profileError } = await supabase
-        .from('users')
-        .insert([
-          {
-            id: data.user.id,
-            email,
-            full_name: fullName,
-            role: 'viewer',
-          },
-        ])
-
-      if (profileError) {
-        console.error('Error creating profile:', profileError)
-      }
-    } catch (error) {
-      console.error('Error in signUp:', error)
-    }
-  }
+  const cookieStore = await cookies()
+  cookieStore.set('token', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    maxAge: 7 * 24 * 60 * 60 // 7 days
+  })
 
   redirect('/auth/sign-up-success')
 }

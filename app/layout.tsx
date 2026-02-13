@@ -1,18 +1,23 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Inter } from 'next/font/google'
 
 import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
+import GlobalChatbot from '@/components/chat/global-chatbot'
 
-const geist = Geist({ subsets: ['latin'] })
-const geistMono = Geist_Mono({ subsets: ['latin'] })
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-sans',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
-  title: 'Analytics Pro',
-  description: 'Enterprise analytics dashboard with real-time metrics and team management',
-  generator: 'v0.dev',
+  title: 'Ganapathi Mentor AI',
+  description: 'Your AI-powered learning companion for coding, concepts, and career growth',
 }
+
+import { AuthProvider } from '@/hooks/useAuth'
 
 export default function RootLayout({
   children,
@@ -21,24 +26,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <style dangerouslySetInnerHTML={{__html: `
-          html, body { 
-            margin: 0; 
-            padding: 0; 
-            background: white; 
-            color: black;
-          }
-        `}} />
-      </head>
-      <body className={`${geist.className} font-sans antialiased`}>
+      <head />
+      <body className={`${inter.variable} font-sans antialiased`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="light"
-          enableSystem={false}
+          defaultTheme="dark"
+          enableSystem={true}
           disableTransitionOnChange
         >
-          {children}
+          <AuthProvider>
+            {children}
+            <GlobalChatbot />
+          </AuthProvider>
           <Toaster />
         </ThemeProvider>
       </body>

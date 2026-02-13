@@ -5,6 +5,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button'
 import { AlertCircle, CheckCircle2, Info, AlertTriangle, Plus } from 'lucide-react'
 import { TeamSelector } from '@/components/dashboard/team-selector'
+import { PageShell } from '@/components/layout/PageShell';
+import { PageHeader } from '@/components/layout/PageHeader';
+import { Section } from '@/components/layout/Section';
 import {
   Dialog,
   DialogContent,
@@ -115,82 +118,71 @@ export default function AlertsPage() {
   }
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Alerts</h1>
-          <p className="text-muted-foreground mt-1">
-            Manage system alerts and notifications
-          </p>
-        </div>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button>
-              <Plus className="w-4 h-4 mr-2" />
-              New Alert
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Create Alert</DialogTitle>
-              <DialogDescription>
-                Add a new alert to notify your team
-              </DialogDescription>
-            </DialogHeader>
-            <div className="space-y-4">
-              <Input
-                placeholder="Alert title"
-                value={newAlert.title}
-                onChange={(e) =>
-                  setNewAlert({ ...newAlert, title: e.target.value })
-                }
-              />
-              <Select
-                value={newAlert.severity}
-                onValueChange={(value) =>
-                  setNewAlert({ ...newAlert, severity: value })
-                }
-              >
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="info">Info</SelectItem>
-                  <SelectItem value="warning">Warning</SelectItem>
-                  <SelectItem value="critical">Critical</SelectItem>
-                </SelectContent>
-              </Select>
-              <Button
-                onClick={handleCreateAlert}
-                disabled={!newAlert.title.trim()}
-                className="w-full"
-              >
-                Create Alert
+    <PageShell>
+      <PageHeader
+        title="Alerts"
+        description="Manage system alerts and notifications"
+        icon={AlertCircle}
+        actions={
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button>
+                <Plus className="w-4 h-4 mr-2" />
+                New Alert
               </Button>
-            </div>
-          </DialogContent>
-        </Dialog>
-      </div>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Create Alert</DialogTitle>
+                <DialogDescription>
+                  Add a new alert to notify your team
+                </DialogDescription>
+              </DialogHeader>
+              <div className="space-y-4">
+                <Input
+                  placeholder="Alert title"
+                  value={newAlert.title}
+                  onChange={(e) =>
+                    setNewAlert({ ...newAlert, title: e.target.value })
+                  }
+                />
+                <Select
+                  value={newAlert.severity}
+                  onValueChange={(value) =>
+                    setNewAlert({ ...newAlert, severity: value })
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="info">Info</SelectItem>
+                    <SelectItem value="warning">Warning</SelectItem>
+                    <SelectItem value="critical">Critical</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Button
+                  onClick={handleCreateAlert}
+                  disabled={!newAlert.title.trim()}
+                  className="w-full"
+                >
+                  Create Alert
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+        }
+      />
 
-      <div className="space-y-4">
-        <h2 className="text-lg font-semibold">Select Team</h2>
+      <Section title="Select Team">
         <TeamSelector
           selectedTeam={selectedTeam}
           onTeamSelect={setSelectedTeam}
         />
-      </div>
+      </Section>
 
       {selectedTeam && !loading && (
-        <div className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Alert Summary</CardTitle>
-              <CardDescription>
-                {alerts.filter((a) => !a.is_read).length} unread alerts
-              </CardDescription>
-            </CardHeader>
-          </Card>
-
+        <Section title="Alert Summary" description={`${alerts.filter((a) => !a.is_read).length} unread alerts`}>
           <div className="space-y-3">
             {alerts.map((alert) => (
               <Card
@@ -241,7 +233,7 @@ export default function AlertsPage() {
               </CardContent>
             </Card>
           )}
-        </div>
+        </Section>
       )}
 
       {loading && (
@@ -257,6 +249,6 @@ export default function AlertsPage() {
           </div>
         </div>
       )}
-    </div>
+    </PageShell>
   )
 }
