@@ -8,7 +8,8 @@ import {
   Linkedin, Github, Mail, ChevronDown, Rocket, BookOpen,
   Mic, Image as ImageIcon, Brain, Target, Trophy, Clock
 } from 'lucide-react';
-import { useRef, useState, useEffect, useCallback } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react'
+  ;
 
 // ─── Animated Counter ────────────────────────────────────────────
 function Counter({ target, suffix = "", duration = 2 }: { target: number; suffix?: string; duration?: number }) {
@@ -34,26 +35,43 @@ function Counter({ target, suffix = "", duration = 2 }: { target: number; suffix
 
 // ─── Floating Particles ──────────────────────────────────────────
 function Particles() {
+  const [particles, setParticles] = useState<{ width: number, height: number, left: string, top: string, duration: number, delay: number }[]>([]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setParticles(Array.from({ length: 30 }).map(() => ({
+        width: Math.random() * 4 + 2,
+        height: Math.random() * 4 + 2,
+        left: `${Math.random() * 100}%`,
+        top: `${Math.random() * 100}%`,
+        duration: Math.random() * 4 + 3,
+        delay: Math.random() * 2,
+      })));
+    }, 0);
+  }, []);
+
+  if (particles.length === 0) return null;
+
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {Array.from({ length: 30 }).map((_, i) => (
+      {particles.map((p: { width: number, height: number, left: string, top: string, duration: number, delay: number }, i: number) => (
         <motion.div
           key={i}
           className="absolute rounded-full bg-indigo-500/20"
           style={{
-            width: Math.random() * 4 + 2,
-            height: Math.random() * 4 + 2,
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
+            width: p.width,
+            height: p.height,
+            left: p.left,
+            top: p.top,
           }}
           animate={{
             y: [0, -30, 0],
             opacity: [0.2, 0.6, 0.2],
           }}
           transition={{
-            duration: Math.random() * 4 + 3,
+            duration: p.duration,
             repeat: Infinity,
-            delay: Math.random() * 2,
+            delay: p.delay,
           }}
         />
       ))}

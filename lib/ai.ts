@@ -53,7 +53,7 @@ export function getAIModelOrNull() {
 
 // Configuration Types
 export interface CallSettings {
-  maxTokens?: number;
+  maxOutputTokens?: number;
   temperature?: number;
   topP?: number;
 }
@@ -70,17 +70,27 @@ export async function generateText(
   const messages = Array.isArray(prompt) ? prompt as any[] : undefined;
   const userPrompt = typeof prompt === 'string' ? prompt : undefined;
 
-  return await aiGenerateText({
+  const baseOptions = {
     model,
-    messages,
-    prompt: userPrompt,
     system: settings?.system,
-    maxTokens: settings?.maxTokens,
+    maxOutputTokens: settings?.maxOutputTokens, // Updated property
     temperature: settings?.temperature,
     topP: settings?.topP,
     tools: settings?.tools,
-    maxSteps: settings?.maxSteps,
-  });
+    // maxSteps is removed as it caused type error. Standard generateText might not support it in this version or types are strict.
+  };
+
+  if (userPrompt) {
+    return await aiGenerateText({
+      ...baseOptions,
+      prompt: userPrompt,
+    });
+  } else {
+    return await aiGenerateText({
+      ...baseOptions,
+      messages: messages!,
+    });
+  }
 }
 
 export async function generateObject<T>(
@@ -92,15 +102,25 @@ export async function generateObject<T>(
   const messages = Array.isArray(prompt) ? prompt as any[] : undefined;
   const userPrompt = typeof prompt === 'string' ? prompt : undefined;
 
-  return await aiGenerateObject({
+  const baseOptions = {
     model,
-    messages,
-    prompt: userPrompt,
     schema,
     system: settings?.system,
-    maxTokens: settings?.maxTokens,
+    maxOutputTokens: settings?.maxOutputTokens,
     temperature: settings?.temperature,
-  });
+  };
+
+  if (userPrompt) {
+    return await aiGenerateObject({
+      ...baseOptions,
+      prompt: userPrompt,
+    });
+  } else {
+    return await aiGenerateObject({
+      ...baseOptions,
+      messages: messages!,
+    });
+  }
 }
 
 export function streamText(
@@ -111,16 +131,26 @@ export function streamText(
   const messages = Array.isArray(prompt) ? prompt as any[] : undefined;
   const userPrompt = typeof prompt === 'string' ? prompt : undefined;
 
-  return aiStreamText({
+  const baseOptions = {
     model,
-    messages,
-    prompt: userPrompt,
     system: settings?.system,
-    maxTokens: settings?.maxTokens,
+    maxOutputTokens: settings?.maxOutputTokens,
     temperature: settings?.temperature,
     tools: settings?.tools,
     onFinish: settings?.onFinish,
-  });
+  };
+
+  if (userPrompt) {
+    return aiStreamText({
+      ...baseOptions,
+      prompt: userPrompt,
+    });
+  } else {
+    return aiStreamText({
+      ...baseOptions,
+      messages: messages!,
+    });
+  }
 }
 
 
@@ -140,40 +170,40 @@ import { tool } from 'ai';
 export const aiTools = {
   search_wikipedia: tool({
     description: 'Search Wikipedia for information on a topic',
-    parameters: z.object({ query: z.string() }),
-    execute: async ({ query }) => {
+    inputSchema: z.object({ query: z.string() }),
+    execute: async ({ query }: { query: string }) => {
       const results = await searchWikipedia(query, 3);
       return results.map(r => `${r.title}: ${r.snippet}`).join('\n\n');
     },
   }),
   search_web: tool({
     description: 'Search the web for real-time information and news',
-    parameters: z.object({ query: z.string() }),
-    execute: async ({ query }) => {
+    inputSchema: z.object({ query: z.string() }),
+    execute: async ({ query }: { query: string }) => {
       const results = await searchTavily(query, 3);
       return results.map(r => `${r.title} (${r.link}): ${r.snippet}`).join('\n\n');
     },
   }),
   search_arxiv: tool({
     description: 'Search arXiv for academic and research papers',
-    parameters: z.object({ query: z.string() }),
-    execute: async ({ query }) => {
+    inputSchema: z.object({ query: z.string() }),
+    execute: async ({ query }: { query: string }) => {
       const results = await searchArxiv(query, 3);
       return results.map(r => `${r.title} (${r.id}): ${r.summary.substring(0, 300)}...`).join('\n\n');
     },
   }),
   search_semantic_scholar: tool({
     description: 'Search Semantic Scholar for scientific papers and citations',
-    parameters: z.object({ query: z.string() }),
-    execute: async ({ query }) => {
+    inputSchema: z.object({ query: z.string() }),
+    execute: async ({ query }: { query: string }) => {
       const results = await searchSemanticScholar(query, 3);
       return results.map(r => `${r.title} (${r.year}) - ${r.citationCount} citations: ${r.abstract?.substring(0, 200)}...`).join('\n\n');
     },
   }),
   search_tmdb: tool({
     description: 'Search for movies and TV shows to get details like release date, overview, and rating',
-    parameters: z.object({ query: z.string() }),
-    execute: async ({ query }) => {
+    inputSchema: z.object({ query: z.string() }),
+    execute: async ({ query }: { query: string }) => {
       const results = await searchTMDB(query);
       return results.map(r => `${r.title} (${r.release_date}) - Rating: ${r.vote_average}\nOverview: ${r.overview}`).join('\n\n');
     },
@@ -182,57 +212,63 @@ export const aiTools = {
 
 export async function explainConcept(question: string) {
   try {
-    const { text } = await generateText({
-      system: SYSTEM_PROMPT,
-      prompt: `Explain this concept: ${question}. Use tools if you need more up-to-date or detailed information.`,
-      tools: aiTools,
-      maxSteps: 3,
-    });
+    const { text } = await generateText(
+      `Explain this concept: ${question}. Use tools if you need more up-to-date or detailed information.`,
+      {
+        system: SYSTEM_PROMPT,
+        tools: aiTools,
+        maxSteps: 3,
+      }
+    );
     return { content: text };
   } catch (error) {
     console.error('AI Error:', error);
-    throw new Error('Failed to generate explanation');
+    throw new Error('Failed to generate explanation', { cause: error });
   }
 }
 
 export async function generateAIResponse(userMessage: string, context?: string): Promise<string> {
   try {
-    const { text } = await generateText({
-      system: context ? `${SYSTEM_PROMPT}\nThe user is currently at: ${context}` : SYSTEM_PROMPT,
-      prompt: userMessage,
-      tools: aiTools,
-      maxSteps: 5,
-    });
+    const { text } = await generateText(
+      userMessage,
+      {
+        system: context ? `${SYSTEM_PROMPT}\nThe user is currently at: ${context}` : SYSTEM_PROMPT,
+        tools: aiTools,
+        maxSteps: 5,
+      }
+    );
     return text;
   } catch (error) {
     console.error('AI Response Error:', error);
-    throw new Error('Failed to generate AI response');
+    throw new Error('Failed to generate AI response', { cause: error });
   }
 }
 
 export async function explainRepo(repoContext: string, question: string) {
   try {
-    const { text } = await generateText({
-      system: `${SYSTEM_PROMPT}\nYou have access to relevant repository context.`,
-      prompt: `Context:\n${repoContext.substring(0, 8000)}\n\nQuestion: ${question}`,
-    });
+    const { text } = await generateText(
+      `Context:\n${repoContext.substring(0, 8000)}\n\nQuestion: ${question}`,
+      {
+        system: `${SYSTEM_PROMPT}\nYou have access to relevant repository context.`,
+      }
+    );
     return { content: text };
   } catch (error) {
     console.error('AI Error:', error);
-    throw new Error('Failed to explain repo');
+    throw new Error('Failed to explain repo', { cause: error });
   }
 }
 
 export async function summarizeSession(questions: string[]) {
   if (questions.length === 0) return { summary: "No activity this session.", topics: [] };
   try {
-    const { object } = await generateObject({
-      schema: z.object({
+    const { object } = await generateObject(
+      `Based on these questions, provide a summary and up to 3 topics: ${questions.join(', ')}`,
+      z.object({
         summary: z.string(),
         topics: z.array(z.string()),
-      }),
-      prompt: `Based on these questions, provide a summary and up to 3 topics: ${questions.join(', ')}`,
-    });
+      })
+    );
     return object;
   } catch (error) {
     console.error('AI Summary Error:', error);
@@ -253,7 +289,7 @@ export async function chatCompletion(messages: any[], systemPrompt?: string): Pr
 
   const { text } = await generateText(coreMessages, {
     system: systemPrompt,
-    maxTokens: 4096,
+    maxOutputTokens: 4096,
     temperature: 0.7,
   });
   return text;

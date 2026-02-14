@@ -40,8 +40,11 @@ export default function DemoDashboard() {
       localStorage.setItem('demo_session', 'demo-session-token')
       demoUser = JSON.stringify(defaultUser)
     }
-    setUser(JSON.parse(demoUser))
-    setData(getDemoData())
+    const parsedUser = JSON.parse(demoUser);
+    setTimeout(() => {
+      setUser(parsedUser);
+      setData(getDemoData());
+    }, 0);
   }, [])
 
   const handleLogout = () => {
@@ -231,7 +234,7 @@ export default function DemoDashboard() {
             ) : (
               data.alerts.map(alert => (
                 <Card key={alert.id} className={`border-l-4 ${alert.severity === 'critical' ? 'border-l-destructive' :
-                    alert.severity === 'warning' ? 'border-l-yellow-500' : 'border-l-blue-500'
+                  alert.severity === 'warning' ? 'border-l-yellow-500' : 'border-l-blue-500'
                   }`}>
                   <CardHeader className="flex flex-row items-center justify-between pb-2">
                     <div className="flex items-center gap-2">

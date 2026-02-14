@@ -172,12 +172,9 @@ export function DashboardDock() {
                 transition={{ type: 'spring', stiffness: 220, damping: 22, delay: 0.05 }}
             >
                 {navigation.map((item) => {
-                    let isActive = false;
-                    if (item.href === '/dashboard') {
-                        isActive = pathname === '/dashboard';
-                    } else {
-                        isActive = pathname.startsWith(item.href);
-                    }
+                    const isActive = item.href === '/dashboard'
+                        ? pathname === '/dashboard'
+                        : pathname.startsWith(item.href);
 
                     return (
                         <DockIcon

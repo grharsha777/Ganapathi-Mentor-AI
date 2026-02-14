@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
         const token = req.cookies.get('token')?.value;
         if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-        const decoded = (await verifyToken(token)) as any;
+        const decoded = (await verifyToken(token)) as { userId: string } | null;
         if (!decoded) return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
 
         const { role, repoUrl, focusAreas } = await req.json();
@@ -73,13 +73,13 @@ export async function POST(req: NextRequest) {
                     description: roadmap.description,
                     role: roleStr,
                     generated_from_repo_url: repoUrl,
-                    milestones: roadmap.milestones.map((m: any, idx: number) => ({
+                    milestones: roadmap.milestones.map((m: { title: string; description: string; week: number; resources: { title: string; url: string; type: string; is_completed?: boolean }[] }, idx: number) => ({
                         title: m.title,
                         description: m.description,
                         week: m.week,
                         order_index: idx,
                         due_date: new Date(Date.now() + m.week * 7 * 24 * 60 * 60 * 1000),
-                        resources: (m.resources || []).map((r: any) => ({ ...r, is_completed: r.is_completed ?? false })),
+                        resources: (m.resources || []).map((r: { title: string; url: string; type: string; is_completed?: boolean }) => ({ ...r, is_completed: r.is_completed ?? false })),
                     })),
                 });
             } catch (e) {

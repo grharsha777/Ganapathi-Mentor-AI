@@ -1,0 +1,97 @@
+
+> ganapathi-mentor-ai@0.1.0 build
+> next build
+
+ΓÜá `eslint` configuration in next.config.mjs is no longer supported. See more info here: https://nextjs.org/docs/app/api-reference/cli/next#next-lint-options
+ΓÜá Invalid next.config.mjs options detected: 
+ΓÜá     Unrecognized key(s) in object: 'eslint'
+ΓÜá See more info here: https://nextjs.org/docs/messages/invalid-next-config
+Γû▓ Next.js 16.1.6 (Turbopack)
+- Environments: .env.local
+
+ΓÜá The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+Γ£ô Compiled successfully in 8.6s
+  Running TypeScript ...
+  Collecting page data using 15 workers ...
+  Generating static pages using 15 workers (0/67) ...
+  Generating static pages using 15 workers (16/67) 
+  Generating static pages using 15 workers (33/67) 
+  Generating static pages using 15 workers (50/67) 
+Γ£ô Generating static pages using 15 workers (67/67) in 824.3ms
+  Finalizing page optimization ...
+
+Route (app)
+Γöî Γùï /
+Γö£ Γùï /_not-found
+Γö£ ╞Æ /api/alerts
+Γö£ ╞Æ /api/analytics/anomalies
+Γö£ ╞Æ /api/analytics/performance
+Γö£ ╞Æ /api/ask
+Γö£ ╞Æ /api/auth/login
+Γö£ ╞Æ /api/auth/logout
+Γö£ ╞Æ /api/auth/me
+Γö£ ╞Æ /api/auth/oauth
+Γö£ ╞Æ /api/auth/oauth/callback
+Γö£ ╞Æ /api/auth/signup
+Γö£ ╞Æ /api/branding/generate
+Γö£ ╞Æ /api/chat
+Γö£ ╞Æ /api/code-review/analyze
+Γö£ ╞Æ /api/concepts
+Γö£ ╞Æ /api/content
+Γö£ ╞Æ /api/docs/generate
+Γö£ ╞Æ /api/explain-concept
+Γö£ ╞Æ /api/generate-image
+Γö£ ╞Æ /api/generate-video
+Γö£ ╞Æ /api/learning-path/generate
+Γö£ ╞Æ /api/media
+Γö£ ╞Æ /api/metrics
+Γö£ ╞Æ /api/music
+Γö£ ╞Æ /api/productivity
+Γö£ ╞Æ /api/session/end
+Γö£ ╞Æ /api/session/github
+Γö£ ╞Æ /api/session/github/repos
+Γö£ ╞Æ /api/session/start
+Γö£ ╞Æ /api/sessions/recent
+Γö£ ╞Æ /api/specialized
+Γö£ ╞Æ /api/studio/generate
+Γö£ ╞Æ /api/team/analytics
+Γö£ ╞Æ /api/teams
+Γö£ ╞Æ /api/teams/members
+Γö£ ╞Æ /api/tts
+Γö£ ╞Æ /api/youtube/search
+Γö£ ╞Æ /auth/error
+Γö£ Γùï /auth/login
+Γö£ Γùï /auth/sign-up
+Γö£ Γùï /auth/sign-up-success
+Γö£ ╞Æ /dashboard
+Γö£ Γùï /dashboard-demo
+Γö£ ╞Æ /dashboard/alerts
+Γö£ ╞Æ /dashboard/analytics/anomalies
+Γö£ ╞Æ /dashboard/analytics/performance
+Γö£ ╞Æ /dashboard/branding
+Γö£ ╞Æ /dashboard/code-review
+Γö£ ╞Æ /dashboard/collaboration
+Γö£ ╞Æ /dashboard/concepts
+Γö£ ╞Æ /dashboard/github
+Γö£ ╞Æ /dashboard/last-minute
+Γö£ ╞Æ /dashboard/last-minute/voice-studio
+Γö£ ╞Æ /dashboard/learning
+Γö£ ╞Æ /dashboard/media/studio
+Γö£ ╞Æ /dashboard/research
+Γö£ ╞Æ /dashboard/settings
+Γö£ ╞Æ /dashboard/settings/integrations
+Γö£ ╞Æ /dashboard/specialized
+Γö£ ╞Æ /dashboard/team
+Γö£ ╞Æ /dashboard/tools/docs
+Γö£ ╞Æ /dashboard/tools/productivity
+Γö£ Γùï /protected
+Γö£ Γùï /rate-limit-info
+Γöö Γùï /test
+
+
+╞Æ Proxy (Middleware)
+
+Γùï  (Static)   prerendered as static content
+╞Æ  (Dynamic)  server-rendered on demand
+

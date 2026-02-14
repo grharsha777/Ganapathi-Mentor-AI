@@ -1,0 +1,702 @@
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\actions\image.ts
+  11:9  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\actions\research.ts
+  47:9  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\actions\stack-exchange.ts
+  10:9  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\actions\voice.ts
+  14:9  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\alerts\route.ts
+  28:5  warning  Unexpected console statement  no-console
+  59:5  warning  Unexpected console statement  no-console
+  92:5  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\analytics\anomalies\route.ts
+  36:43  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  44:9   warning  Unexpected console statement              no-console
+  58:5   warning  Unexpected console statement              no-console
+  93:5   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\analytics\performance\route.ts
+  34:9   error    'skillData' is never reassigned. Use 'const' instead  prefer-const
+  43:31  error    Unexpected any. Specify a different type              @typescript-eslint/no-explicit-any
+  53:9   warning  Unexpected console statement                          no-console
+  63:5   warning  Unexpected console statement                          no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\ask\route.ts
+  11:53  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  33:27  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  34:13  warning  Unexpected console statement              no-console
+  52:13  warning  Unexpected console statement              no-console
+  60:21  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  61:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\auth\login\route.ts
+  49:19  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  50:5   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\auth\logout\route.ts
+  3:28  warning  'req' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\auth\me\route.ts
+  10:49  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\auth\oauth\callback\route.ts
+  14:3   warning  Unexpected console statement              no-console
+  17:5   warning  Unexpected console statement              no-console
+  22:5   warning  Unexpected console statement              no-console
+  28:5   warning  Unexpected console statement              no-console
+  32:7   warning  Unexpected console statement              no-console
+  37:5   warning  Unexpected console statement              no-console
+  40:5   warning  Unexpected console statement              no-console
+  44:7   warning  Unexpected console statement              no-console
+  54:9   warning  Unexpected console statement              no-console
+  55:25  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  56:9   warning  Unexpected console statement              no-console
+  60:7   warning  Unexpected console statement              no-console
+  68:5   warning  Unexpected console statement              no-console
+  78:5   warning  Unexpected console statement              no-console
+  81:15  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  82:5   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\auth\oauth\route.ts
+   9:3  warning  Unexpected console statement  no-console
+  12:5  warning  Unexpected console statement  no-console
+  19:5  warning  Unexpected console statement  no-console
+  29:7  warning  Unexpected console statement  no-console
+  34:7  warning  Unexpected console statement  no-console
+  38:5  warning  Unexpected console statement  no-console
+  41:5  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\auth\signup\route.ts
+  56:19  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  57:5   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\branding\generate\route.ts
+  30:36  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  38:21  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  39:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\chat\route.ts
+  162:49  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  182:53  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  201:39  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  207:50  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  208:50  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  217:44  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  218:44  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  228:13  warning  Unexpected console statement              no-console
+  301:13  warning  Unexpected console statement              no-console
+  309:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\code-review\analyze\route.ts
+  126:9  warning  Unexpected console statement  no-console
+  132:5  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\concepts\route.ts
+  21:53  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  41:33  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  47:13  warning  Unexpected console statement              no-console
+  66:21  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  67:9   warning  Unexpected console statement              no-console
+  76:53  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  83:21  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\content\route.ts
+   12:50  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   43:21  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   44:9   warning  Unexpected console statement              no-console
+   79:38  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   89:21  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   90:9   warning  Unexpected console statement              no-console
+  115:21  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  116:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\docs\generate\route.ts
+  16:55  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  47:17  warning  Unexpected console statement              no-console
+  53:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\explain-concept\route.ts
+  47:33  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  51:57  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  58:33  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  89:21  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  90:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\generate-image\route.ts
+  36:21  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  37:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\generate-video\route.ts
+  33:21  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  34:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\learning-path\generate\route.ts
+  45:55  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  60:17  warning  Unexpected console statement              no-console
+  76:60  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  82:64  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  86:17  warning  Unexpected console statement              no-console
+  92:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\media\route.ts
+  15:53  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  26:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  35:53  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  41:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\metrics\route.ts
+  28:5  warning  Unexpected console statement  no-console
+  59:5  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\music\route.ts
+  31:21  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  32:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\productivity\route.ts
+  55:52  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  89:21  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  90:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\session\end\route.ts
+   5:10  warning  'summarizeSession' is defined but never used  @typescript-eslint/no-unused-vars
+  12:47  error    Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+  39:9   warning  Unexpected console statement                  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\session\github\repos\route.ts
+  12:53  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  42:51  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  55:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\session\github\route.ts
+  12:53  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  28:9   warning  Unexpected console statement              no-console
+  37:53  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  79:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\session\start\route.ts
+  11:53  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  43:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\sessions\recent\route.ts
+  10:53  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  26:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\specialized\route.ts
+  37:53  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  47:33  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  77:33  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  87:21  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  88:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\studio\generate\route.ts
+   37:5  warning  Unexpected console statement  no-console
+   66:5  warning  Unexpected console statement  no-console
+  101:9  warning  Unexpected console statement  no-console
+  124:5  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\team\analytics\route.ts
+  55:9  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\teams\members\route.ts
+  39:21  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  40:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\teams\route.ts
+   4:8   warning  'User' is defined but never used          @typescript-eslint/no-unused-vars
+  12:49  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  25:5   warning  Unexpected console statement              no-console
+  35:49  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  58:5   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\tts\route.ts
+  34:21  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  35:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\youtube\search\route.ts
+  23:21  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  24:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\auth\login\page.tsx
+  12:10  warning  'cn' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\auth\sign-up\page.tsx
+  26:9  warning  'router' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard-demo\page.tsx
+   9:10  warning  'Label' is defined but never used         @typescript-eslint/no-unused-vars
+  13:18  warning  'Legend' is defined but never used        @typescript-eslint/no-unused-vars
+  16:35  warning  'Settings' is defined but never used      @typescript-eslint/no-unused-vars
+  22:36  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\alerts\page.tsx
+    4:29  warning  'CardDescription' is defined but never used  @typescript-eslint/no-unused-vars
+    4:46  warning  'CardHeader' is defined but never used       @typescript-eslint/no-unused-vars
+    4:58  warning  'CardTitle' is defined but never used        @typescript-eslint/no-unused-vars
+   55:9   warning  Unexpected console statement                 no-console
+   87:7   warning  Unexpected console statement                 no-console
+  105:7   warning  Unexpected console statement                 no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\layout.tsx
+  19:44  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\settings\integrations\page.tsx
+  9:50  warning  'Check' is defined but never used  @typescript-eslint/no-unused-vars
+  9:57  warning  'X' is defined but never used      @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\settings\page.tsx
+   4:69  warning  'CardFooter' is defined but never used               @typescript-eslint/no-unused-vars
+  20:10  warning  'githubUsername' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  30:9   warning  Unexpected console statement                         no-console
+  60:21  error    Unexpected any. Specify a different type             @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\team\page.tsx
+   4:29  warning  'CardDescription' is defined but never used   @typescript-eslint/no-unused-vars
+  39:10  warning  'loading' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  65:9   warning  Unexpected console statement                  no-console
+  93:7   warning  Unexpected console statement                  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\page.tsx
+   6:21  warning  'Zap' is defined but never used           @typescript-eslint/no-unused-vars
+   7:3   warning  'BarChart2' is defined but never used     @typescript-eslint/no-unused-vars
+   7:14  warning  'Users' is defined but never used         @typescript-eslint/no-unused-vars
+   7:33  warning  'CheckCircle2' is defined but never used  @typescript-eslint/no-unused-vars
+   7:47  warning  'Shield' is defined but never used        @typescript-eslint/no-unused-vars
+   7:55  warning  'Cpu' is defined but never used           @typescript-eslint/no-unused-vars
+   9:51  warning  'Clock' is defined but never used         @typescript-eslint/no-unused-vars
+  11:39  warning  'useCallback' is defined but never used   @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\protected\page.tsx
+  10:10  warning  'user' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  10:36  error    Unexpected any. Specify a different type   @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ChatPanel.tsx
+  81:13  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\analytics\anomaly-detector.tsx
+    5:10  warning  'Badge' is defined but never used         @typescript-eslint/no-unused-vars
+    8:51  warning  'Users' is defined but never used         @typescript-eslint/no-unused-vars
+    9:10  warning  'toast' is defined but never used         @typescript-eslint/no-unused-vars
+   12:38  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   22:13  warning  Unexpected console statement              no-console
+   94:40  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  116:46  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\chat\global-chatbot.tsx
+  274:35  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  291:46  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  291:83  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  297:44  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  377:13  warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\collaboration\team-collab.tsx
+  3:52  warning  'CardDescription' is defined but never used  @typescript-eslint/no-unused-vars
+  4:34  warning  'AvatarImage' is defined but never used      @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\dashboard\alerts-list.tsx
+  20:3  warning  'teamId' is defined but never used  @typescript-eslint/no-unused-vars
+  41:7  warning  Unexpected console statement        no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\dashboard\branding-generator.tsx
+    7:38  warning  'Copy' is defined but never used          @typescript-eslint/no-unused-vars
+    9:10  warning  'cn' is defined but never used            @typescript-eslint/no-unused-vars
+   15:42  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   35:18  warning  'error' is defined but never used         @typescript-eslint/no-unused-vars
+   75:13  warning  Unexpected console statement              no-console
+  146:65  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\dashboard\chat-panel.tsx
+  47:18  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\dashboard\dock.tsx
+  175:25  error  This assigned value is not used in subsequent statements  no-useless-assignment
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\dashboard\github-dashboard.tsx
+   8:24  warning  'GitFork' is defined but never used       @typescript-eslint/no-unused-vars
+   9:10  warning  'toast' is defined but never used         @typescript-eslint/no-unused-vars
+  81:23  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  82:13  warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\dashboard\metrics-chart.tsx
+  45:13  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\dashboard\personal-dashboard.tsx
+   41:11  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  134:17  warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\dashboard\sidebar.tsx
+  6:3  warning  'BarChart3' is defined but never used  @typescript-eslint/no-unused-vars
+  7:3  warning  'Bell' is defined but never used       @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\dashboard\team-selector.tsx
+  52:9  warning  Unexpected console statement  no-console
+  79:7  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\dev\stack-exchange-search.tsx
+  11:18  warning  'ExternalLink' is defined but never used  @typescript-eslint/no-unused-vars
+  28:13  warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\last-minute\last-minute-panel.tsx
+  7:18  warning  'Filter' is defined but never used  @typescript-eslint/no-unused-vars
+  7:36  warning  'X' is defined but never used       @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\last-minute\tool-card.tsx
+  4:31  warning  'Star' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\last-minute\voice-studio.tsx
+   8:24  warning  'Play' is defined but never used  @typescript-eslint/no-unused-vars
+  42:13  warning  Unexpected console statement      no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\learning\code-review-panel.tsx
+  13:85  warning  'SearchIcon' is defined but never used                           @typescript-eslint/no-unused-vars
+  37:20  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  44:9   error    Definition for rule 'react-hooks/exhaustive-deps' was not found  react-hooks/exhaustive-deps
+  67:25  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\learning\concept-explainer.tsx
+   13:13  warning  'BookOpen' is defined but never used                             @typescript-eslint/no-unused-vars
+   13:23  warning  'Code' is defined but never used                                 @typescript-eslint/no-unused-vars
+   15:5   warning  'FileText' is defined but never used                             @typescript-eslint/no-unused-vars
+   72:20  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+   82:9   error    Definition for rule 'react-hooks/exhaustive-deps' was not found  react-hooks/exhaustive-deps
+  103:29  warning  Unexpected console statement                                     no-console
+  118:29  warning  Unexpected console statement                                     no-console
+  122:21  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  160:18  warning  'e' is defined but never used                                    @typescript-eslint/no-unused-vars
+  160:21  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  187:18  warning  'e' is defined but never used                                    @typescript-eslint/no-unused-vars
+  187:21  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\learning\roadmap-view.tsx
+  12:5   warning  'Calendar' is defined but never used                             @typescript-eslint/no-unused-vars
+  13:5   warning  'CheckCircle2' is defined but never used                         @typescript-eslint/no-unused-vars
+  14:5   warning  'ChevronRight' is defined but never used                         @typescript-eslint/no-unused-vars
+  15:5   warning  'Clock' is defined but never used                                @typescript-eslint/no-unused-vars
+  17:5   warning  'GraduationCap' is defined but never used                        @typescript-eslint/no-unused-vars
+  20:5   warning  'Plus' is defined but never used                                 @typescript-eslint/no-unused-vars
+  21:5   warning  'Trophy' is defined but never used                               @typescript-eslint/no-unused-vars
+  23:5   warning  'Video' is defined but never used                                @typescript-eslint/no-unused-vars
+  24:5   warning  'FileText' is defined but never used                             @typescript-eslint/no-unused-vars
+  62:20  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  68:9   error    Definition for rule 'react-hooks/exhaustive-deps' was not found  react-hooks/exhaustive-deps
+  89:25  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  96:35  warning  'resourceId' is defined but never used                           @typescript-eslint/no-unused-vars
+  96:55  warning  'currentStatus' is defined but never used                        @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\media\image-generator.tsx
+   7:69  warning  'CardFooter' is defined but never used                           @typescript-eslint/no-unused-vars
+  19:20  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  25:9   error    Definition for rule 'react-hooks/exhaustive-deps' was not found  react-hooks/exhaustive-deps
+  54:13  warning  Unexpected console statement                                     no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\research\research-hub.tsx
+   14:18  warning  'BookOpen' is defined but never used      @typescript-eslint/no-unused-vars
+   14:28  warning  'ExternalLink' is defined but never used  @typescript-eslint/no-unused-vars
+   14:82  warning  'Library' is defined but never used       @typescript-eslint/no-unused-vars
+   39:13  warning  Unexpected console statement              no-console
+  172:13  warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\specialized\code-walkthrough.tsx
+  19:40  error  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  27:20  error  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  34:9   error  Definition for rule 'react-hooks/exhaustive-deps' was not found  react-hooks/exhaustive-deps
+  56:47  error  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  65:21  error  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\specialized\interview-prep.tsx
+    9:58  warning  'XCircle' is defined but never used                              @typescript-eslint/no-unused-vars
+   31:51  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+   37:31  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+   37:68  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+   40:20  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+   46:9   error    Definition for rule 'react-hooks/exhaustive-deps' was not found  react-hooks/exhaustive-deps
+   64:28  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+   71:21  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+   72:13  warning  Unexpected console statement                                     no-console
+   98:31  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+   98:68  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  106:40  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  121:39  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  122:13  warning  Unexpected console statement                                     no-console
+  176:21  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  177:13  warning  Unexpected console statement                                     no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\tools\doc-generator.tsx
+  29:20  error  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  36:9   error  Definition for rule 'react-hooks/exhaustive-deps' was not found  react-hooks/exhaustive-deps
+  56:21  error  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\tools\productivity-hub.tsx
+   10:56  warning  'CheckCircle2' is defined but never used                         @typescript-eslint/no-unused-vars
+   17:62  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+   18:42  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+   23:20  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+   31:9   error    Definition for rule 'react-hooks/exhaustive-deps' was not found  react-hooks/exhaustive-deps
+   53:21  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+   75:21  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  111:67  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  159:76  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\calendar.tsx
+  57:25  warning  'props' is defined but never used  @typescript-eslint/no-unused-vars
+  58:26  warning  'props' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\chart.tsx
+  72:7  warning  '_' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\use-toast.ts
+  18:7  warning  'actionTypes' is assigned a value but only used as a type  @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\hooks\use-toast.ts
+  18:7  warning  'actionTypes' is assigned a value but only used as a type  @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\hooks\useAuth.tsx
+  44:18  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\hooks\useSession.ts
+  15:12  warning  'history' is assigned a value but never used     @typescript-eslint/no-unused-vars
+  15:21  warning  'setHistory' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  29:13  warning  Unexpected console statement                     no-console
+  48:18  warning  'error' is defined but never used                @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\ai.ts
+   20:18  error    Unexpected any. Specify a different type                        @typescript-eslint/no-explicit-any
+   67:56  error    Unexpected any. Specify a different type                        @typescript-eslint/no-explicit-any
+   70:54  error    Unexpected any. Specify a different type                        @typescript-eslint/no-explicit-any
+  102:54  error    Unexpected any. Specify a different type                        @typescript-eslint/no-explicit-any
+  128:56  error    Unexpected any. Specify a different type                        @typescript-eslint/no-explicit-any
+  128:80  error    Unexpected any. Specify a different type                        @typescript-eslint/no-explicit-any
+  131:54  error    Unexpected any. Specify a different type                        @typescript-eslint/no-explicit-any
+  225:5   warning  Unexpected console statement                                    no-console
+  226:5   error    There is no `cause` attached to the symptom error being thrown  preserve-caught-error
+  242:5   warning  Unexpected console statement                                    no-console
+  243:5   error    There is no `cause` attached to the symptom error being thrown  preserve-caught-error
+  257:5   warning  Unexpected console statement                                    no-console
+  258:5   error    There is no `cause` attached to the symptom error being thrown  preserve-caught-error
+  274:5   warning  Unexpected console statement                                    no-console
+  284:48  error    Unexpected any. Specify a different type                        @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\auth.ts
+   6:42  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  20:14  warning  'error' is defined but never used         @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\client-db.ts
+   25:36  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  143:35  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\content-store.ts
+  14:64  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\demo-store.ts
+  42:73  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\freepik.ts
+  41:45  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\github.ts
+  59:9  warning  Unexpected console statement  no-console
+  89:9  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\integrations\arxiv.ts
+  25:9  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\integrations\elevenlabs.ts
+  23:36  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  29:9   warning  Unexpected console statement              no-console
+  56:13  warning  Unexpected console statement              no-console
+  62:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\integrations\semantic-scholar.ts
+  27:13  warning  Unexpected console statement  no-console
+  33:13  warning  Unexpected console statement  no-console
+  41:9   warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\integrations\serp.ts
+  27:56  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  35:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\integrations\stability.ts
+  16:9  warning  Unexpected console statement  no-console
+  59:9  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\integrations\stack-exchange.ts
+  47:9  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\integrations\tavily.ts
+  33:40  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  41:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\integrations\tmdb.ts
+  17:9   warning  Unexpected console statement              no-console
+  29:48  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  39:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\integrations\wikipedia-python.ts
+  21:21  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  22:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\integrations\wikipedia.ts
+  30:45  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  38:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\mongodb.ts
+  13:1  error  Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free  @typescript-eslint/ban-ts-comment
+  17:3  error  Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free  @typescript-eslint/ban-ts-comment
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\mongoose.ts
+  10:1  error    Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free  @typescript-eslint/ban-ts-comment
+  14:5  error    Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free  @typescript-eslint/ban-ts-comment
+  38:9  warning  Unexpected console statement                                                                                         no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\serp.ts
+  33:35  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\supabase\server.ts
+  10:5   warning  Unexpected console statement  no-console
+  25:11  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\youtube.ts
+  18:5   warning  Unexpected console statement              no-console
+  20:9   warning  Unexpected console statement              no-console
+  44:42  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\models\Anomaly.ts
+  1:8  warning  'mongoose' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\models\Concept.ts
+  1:8  warning  'mongoose' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\models\Documentation.ts
+  1:8  warning  'mongoose' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\models\Interview.ts
+  1:8  warning  'mongoose' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\models\LearningPath.ts
+  1:8  warning  'mongoose' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\models\MediaProject.ts
+  1:8  warning  'mongoose' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\models\Session.ts
+  1:8  warning  'mongoose' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\models\Team.ts
+  1:8  warning  'mongoose' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\models\User.ts
+  1:8  warning  'mongoose' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\scripts\check-db.js
+   1:26  error    A `require()` style import is forbidden    @typescript-eslint/no-require-imports
+   2:1   error    A `require()` style import is forbidden    @typescript-eslint/no-require-imports
+   9:9   warning  Unexpected console statement               no-console
+  15:13  warning  'data' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  19:13  warning  Unexpected console statement               no-console
+  21:13  warning  Unexpected console statement               no-console
+  24:9   warning  Unexpected console statement               no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\scripts\final-migrate.js
+   1:26  error    A `require()` style import is forbidden        @typescript-eslint/no-require-imports
+   2:12  error    A `require()` style import is forbidden        @typescript-eslint/no-require-imports
+   3:14  error    A `require()` style import is forbidden        @typescript-eslint/no-require-imports
+  11:43  error    Unnecessary escape character: \.               no-useless-escape
+  11:45  error    Unnecessary escape character: \-               no-useless-escape
+  27:9   warning  Unexpected console statement                   no-console
+  31:11  warning  'supabase' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  34:11  warning  'sql' is assigned a value but never used       @typescript-eslint/no-unused-vars
+  36:5   warning  Unexpected console statement                   no-console
+  40:5   warning  Unexpected console statement                   no-console
+  41:5   warning  Unexpected console statement                   no-console
+  42:5   warning  Unexpected console statement                   no-console
+  43:5   warning  Unexpected console statement                   no-console
+  44:5   warning  Unexpected console statement                   no-console
+  45:5   warning  Unexpected console statement                   no-console
+  46:5   warning  Unexpected console statement                   no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\scripts\migrate-supabase-to-mongo.js
+    1:26  error    A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+    2:18  error    A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+    3:1   error    A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+   11:5   warning  Unexpected console statement             no-console
+   22:1   warning  Unexpected console statement             no-console
+   23:1   warning  Unexpected console statement             no-console
+   24:1   warning  Unexpected console statement             no-console
+   25:1   warning  Unexpected console statement             no-console
+   71:5   warning  Unexpected console statement             no-console
+   73:5   warning  Unexpected console statement             no-console
+   76:5   warning  Unexpected console statement             no-console
+   79:5   warning  Unexpected console statement             no-console
+   82:9   warning  Unexpected console statement             no-console
+   87:9   warning  Unexpected console statement             no-console
+   91:5   warning  Unexpected console statement             no-console
+   97:9   warning  Unexpected console statement             no-console
+  108:5   warning  Unexpected console statement             no-console
+  122:9   warning  Unexpected console statement             no-console
+  126:5   warning  Unexpected console statement             no-console
+  138:9   warning  Unexpected console statement             no-console
+  141:5   warning  Unexpected console statement             no-console
+  146:5   warning  Unexpected console statement             no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\scripts\migrate.js
+   1:26  error    A `require()` style import is forbidden        @typescript-eslint/no-require-imports
+   2:12  error    A `require()` style import is forbidden        @typescript-eslint/no-require-imports
+   3:14  error    A `require()` style import is forbidden        @typescript-eslint/no-require-imports
+   4:1   error    A `require()` style import is forbidden        @typescript-eslint/no-require-imports
+  11:9   warning  Unexpected console statement                   no-console
+  15:11  warning  'supabase' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  18:11  warning  'sql' is assigned a value but never used       @typescript-eslint/no-unused-vars
+  20:5   warning  Unexpected console statement                   no-console
+  29:5   warning  Unexpected console statement                   no-console
+  30:5   warning  Unexpected console statement                   no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\scripts\test-integrations.ts
+  13:5   warning  Unexpected console statement              no-console
+  23:5   warning  Unexpected console statement              no-console
+  24:5   warning  Unexpected console statement              no-console
+  34:17  warning  Unexpected console statement              no-console
+  36:45  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  40:17  warning  Unexpected console statement              no-console
+  41:17  warning  Unexpected console statement              no-console
+  43:17  warning  Unexpected console statement              no-console
+  45:25  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  46:13  warning  Unexpected console statement              no-console
+  47:13  warning  Unexpected console statement              no-console
+  52:17  warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\scripts\test-mongo.js
+   1:18  error    A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+   2:16  error    A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+   8:1   warning  Unexpected console statement             no-console
+   9:1   warning  Unexpected console statement             no-console
+  14:9   warning  Unexpected console statement             no-console
+  17:9   warning  Unexpected console statement             no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\scripts\verify-ai-keys.mjs
+  16:24  error  'process' is not defined  no-undef
+  16:54  error  'process' is not defined  no-undef
+  17:27  error  'process' is not defined  no-undef
+  21:5   error  'console' is not defined  no-undef
+  30:5   error  'console' is not defined  no-undef
+  35:7   error  'console' is not defined  no-undef
+  38:5   error  'console' is not defined  no-undef
+  45:5   error  'console' is not defined  no-undef
+  54:5   error  'console' is not defined  no-undef
+  59:7   error  'console' is not defined  no-undef
+  62:5   error  'console' is not defined  no-undef
+  68:3   error  'console' is not defined  no-undef
+  71:3   error  'console' is not defined  no-undef
+  72:3   error  'process' is not defined  no-undef
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\tailwind.config.ts
+  94:13  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+Γ£û 456 problems (183 errors, 273 warnings)
+  1 error and 0 warnings potentially fixable with the `--fix` option.
+

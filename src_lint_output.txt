@@ -1,0 +1,674 @@
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\actions\image.ts
+  5:49  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\actions\research.ts
+  10:49  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\actions\stack-exchange.ts
+  5:54  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\actions\voice.ts
+  5:46  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\alerts\route.ts
+  6:34  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\analytics\anomalies\route.ts
+  21:30  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\analytics\performance\route.ts
+  26:30  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\ask\route.ts
+  7:31  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\auth\login\route.ts
+  7:31  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\auth\logout\route.ts
+  3:31  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\auth\me\route.ts
+  6:30  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\auth\oauth\callback\route.ts
+  7:30  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\auth\oauth\route.ts
+  4:30  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\auth\signup\route.ts
+  7:31  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\branding\generate\route.ts
+  17:31  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\chat\route.ts
+  15:30  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\code-review\analyze\route.ts
+  29:32  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\concepts\route.ts
+  17:31  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\content\route.ts
+  7:27  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\docs\generate\route.ts
+  12:31  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\explain-concept\route.ts
+  29:31  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\generate-image\route.ts
+  6:31  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\generate-video\route.ts
+  5:31  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\learning-path\generate\route.ts
+  29:31  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\media\route.ts
+  11:31  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\metrics\route.ts
+  6:34  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\music\route.ts
+  5:31  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\productivity\route.ts
+  32:31  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\session\end\route.ts
+  7:31  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\session\github\repos\route.ts
+  8:30  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\session\github\route.ts
+  8:30  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\session\start\route.ts
+  6:31  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\sessions\recent\route.ts
+  6:30  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\specialized\route.ts
+  33:31  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\studio\generate\route.ts
+  12:44  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\team\analytics\route.ts
+  7:30  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\teams\members\route.ts
+  7:31  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\teams\route.ts
+  7:30  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\tts\route.ts
+  5:31  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\youtube\search\route.ts
+  5:30  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\auth\actions.ts
+  18:35  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\auth\error\page.tsx
+  5:2  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\auth\login\page.tsx
+  22:31  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\auth\sign-up-success\page.tsx
+  11:5  error  Parsing error: Unexpected token <
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\auth\sign-up\page.tsx
+  28:32  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard-demo\page.tsx
+  24:25  error  Parsing error: Unexpected token ]
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\alerts\page.tsx
+  29:1  error  Parsing error: The keyword 'interface' is reserved
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\analytics\anomalies\page.tsx
+  15:9  error  Parsing error: Unexpected token <
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\analytics\performance\page.tsx
+  15:9  error  Parsing error: Unexpected token <
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\branding\page.tsx
+  8:9  error  Parsing error: Unexpected token <
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\code-review\page.tsx
+  15:9  error  Parsing error: Unexpected token <
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\collaboration\page.tsx
+  15:9  error  Parsing error: Unexpected token <
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\concepts\page.tsx
+  15:9  error  Parsing error: Unexpected token <
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\github\page.tsx
+  15:9  error  Parsing error: Unexpected token <
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\last-minute\page.tsx
+  8:9  error  Parsing error: Unexpected token <
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\last-minute\voice-studio\page.tsx
+  8:9  error  Parsing error: Unexpected token <
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\layout.tsx
+  9:2  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\learning\page.tsx
+  15:9  error  Parsing error: Unexpected token <
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\media\studio\page.tsx
+  8:9  error  Parsing error: Unexpected token <
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\page.tsx
+  14:5  error  Parsing error: Unexpected token <
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\research\page.tsx
+  8:9  error  Parsing error: Unexpected token <
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\settings\integrations\page.tsx
+  21:9  error  Parsing error: Unexpected token <
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\settings\page.tsx
+  60:19  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\specialized\page.tsx
+  17:9  error  Parsing error: Unexpected token <
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\team\page.tsx
+  29:1  error  Parsing error: The keyword 'interface' is reserved
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\tools\docs\page.tsx
+  15:9  error  Parsing error: Unexpected token <
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\tools\productivity\page.tsx
+  15:9  error  Parsing error: Unexpected token <
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\layout.tsx
+  1:13  error  Parsing error: Unexpected token {
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\not-found.tsx
+  7:5  error  Parsing error: Unexpected token <
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\page.tsx
+  14:55  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\protected\page.tsx
+  30:7  error  Parsing error: Unexpected token <
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\rate-limit-info\page.tsx
+  3:5  error  Parsing error: Unexpected token <
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\test\page.tsx
+  3:5  error  Parsing error: Unexpected token <
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ChatPanel.tsx
+  18:6  error  Parsing error: Unexpected token Message
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\analytics\analytics-dashboard.tsx
+  42:9  error  Parsing error: Unexpected token <
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\analytics\anomaly-detector.tsx
+  42:13  error  Parsing error: Unexpected token <
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\chat\global-chatbot.tsx
+  19:1  error  Parsing error: The keyword 'interface' is reserved
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\collaboration\team-collab.tsx
+  11:9  error  Parsing error: Unexpected token <
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\dashboard\alerts-list.tsx
+  9:1  error  Parsing error: The keyword 'interface' is reserved
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\dashboard\branding-generator.tsx
+  81:34  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\dashboard\chat-panel.tsx
+  11:1  error  Parsing error: The keyword 'interface' is reserved
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\dashboard\dock.tsx
+  12:10  error  Parsing error: Unexpected token MotionValue
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\dashboard\github-dashboard.tsx
+  11:1  error  Parsing error: The keyword 'interface' is reserved
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\dashboard\metrics-chart.tsx
+  15:1  error  Parsing error: The keyword 'interface' is reserved
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\dashboard\nav.tsx
+  15:38  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\dashboard\personal-dashboard.tsx
+  13:1  error  Parsing error: The keyword 'interface' is reserved
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\dashboard\sidebar.tsx
+  67:5  error  Parsing error: Unexpected token <
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\dashboard\team-selector.tsx
+  23:1  error  Parsing error: The keyword 'interface' is reserved
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\dev\stack-exchange-search.tsx
+  14:58  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\last-minute\data.ts
+  4:8  error  Parsing error: Unexpected token type
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\last-minute\last-minute-panel.tsx
+  23:55  error  Parsing error: Unexpected token ]
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\last-minute\tool-card.tsx
+  7:1  error  Parsing error: The keyword 'interface' is reserved
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\last-minute\voice-studio.tsx
+  50:9  error  Parsing error: Unexpected token <
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\last-minute\workflow-generator.tsx
+  8:1  error  Parsing error: The keyword 'interface' is reserved
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\layout\GridContainer.tsx
+  3:1  error  Parsing error: The keyword 'interface' is reserved
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\layout\PageHeader.tsx
+  4:1  error  Parsing error: The keyword 'interface' is reserved
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\layout\PageShell.tsx
+  3:1  error  Parsing error: The keyword 'interface' is reserved
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\layout\Section.tsx
+  3:1  error  Parsing error: The keyword 'interface' is reserved
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\learning\code-review-panel.tsx
+  17:1  error  Parsing error: The keyword 'interface' is reserved
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\learning\concept-explainer.tsx
+  18:15  error  Parsing error: Unexpected token YouTubeVideo
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\learning\roadmap-view.tsx
+  28:1  error  Parsing error: The keyword 'interface' is reserved
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\media\image-generator.tsx
+  62:9  error  Parsing error: Unexpected token <
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\research\research-hub.tsx
+  21:65  error  Parsing error: Unexpected token ]
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\specialized\code-walkthrough.tsx
+  12:1  error  Parsing error: The keyword 'interface' is reserved
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\specialized\interview-prep.tsx
+  13:1  error  Parsing error: The keyword 'interface' is reserved
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\theme-provider.tsx
+  6:8  error  Parsing error: Unexpected token ThemeProviderProps
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\tools\doc-generator.tsx
+  14:1  error  Parsing error: The keyword 'interface' is reserved
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\tools\productivity-hub.tsx
+  17:66  error  Parsing error: Unexpected token ]
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\accordion.tsx
+  12:51  error  Parsing error: Unexpected token ,
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\alert-dialog.tsx
+  16:56  error  Parsing error: Unexpected token ,
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\alert.tsx
+  2:20  error  Parsing error: Unexpected token VariantProps
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\avatar.tsx
+  9:48  error  Parsing error: Unexpected token ,
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\badge.tsx
+  2:20  error  Parsing error: Unexpected token VariantProps
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\breadcrumb.tsx
+  9:3  error  Parsing error: Identifier 'React' has already been declared
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\button.tsx
+  3:20  error  Parsing error: Unexpected token VariantProps
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\calendar.tsx
+  10:8  error  Parsing error: Unexpected token type
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\card.tsx
+  7:3  error  Parsing error: Identifier 'React' has already been declared
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\carousel.tsx
+  5:8  error  Parsing error: Unexpected token UseEmblaCarouselType
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\chart.tsx
+  9:45  error  Parsing error: Unexpected token as
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\checkbox.tsx
+  10:50  error  Parsing error: Unexpected token ,
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\command.tsx
+  4:15  error  Parsing error: Unexpected token DialogProps
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\context-menu.tsx
+  22:59  error  Parsing error: Unexpected token ,
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\dialog.tsx
+  18:51  error  Parsing error: Unexpected token ,
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\drawer.tsx
+  11:2  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\dropdown-menu.tsx
+  22:60  error  Parsing error: Unexpected token ,
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\form.tsx
+  20:6  error  Parsing error: Unexpected token FormFieldContextValue
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\hover-card.tsx
+  13:54  error  Parsing error: Unexpected token ,
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\input-otp.tsx
+  10:36  error  Parsing error: Unexpected token ,
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\input.tsx
+  5:50  error  Parsing error: Identifier 'React' has already been declared
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\label.tsx
+  5:20  error  Parsing error: Unexpected token VariantProps
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\menubar.tsx
+  20:49  error  Parsing error: Unexpected token ,
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\navigation-menu.tsx
+  9:56  error  Parsing error: Unexpected token ,
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\pagination.tsx
+  7:44  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\popover.tsx
+  13:52  error  Parsing error: Unexpected token ,
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\progress.tsx
+  9:50  error  Parsing error: Unexpected token ,
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\radio-group.tsx
+  10:52  error  Parsing error: Unexpected token ,
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\resizable.tsx
+  11:2  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\scroll-area.tsx
+  9:52  error  Parsing error: Unexpected token ,
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\select.tsx
+  16:51  error  Parsing error: Unexpected token ,
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\separator.tsx
+  9:51  error  Parsing error: Unexpected token ,
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\sheet.tsx
+  5:20  error  Parsing error: Unexpected token VariantProps
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\sidebar.tsx
+  29:6  error  Parsing error: Unexpected token SidebarContext
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\skeleton.tsx
+  6:2  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\slider.tsx
+  9:48  error  Parsing error: Unexpected token ,
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\sonner.tsx
+  6:6  error  Parsing error: Unexpected token ToasterProps
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\switch.tsx
+  9:49  error  Parsing error: Unexpected token ,
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\table.tsx
+  7:3  error  Parsing error: Identifier 'React' has already been declared
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\tabs.tsx
+  11:46  error  Parsing error: Unexpected token ,
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\textarea.tsx
+  7:3  error  Parsing error: Identifier 'React' has already been declared
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\toast.tsx
+  5:20  error  Parsing error: Unexpected token VariantProps
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\toaster.tsx
+  17:5  error  Parsing error: Unexpected token <
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\toggle-group.tsx
+  5:15  error  Parsing error: Unexpected token VariantProps
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\toggle.tsx
+  5:20  error  Parsing error: Unexpected token VariantProps
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\tooltip.tsx
+  15:52  error  Parsing error: Unexpected token ,
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\use-toast.ts
+  6:13  error  Parsing error: Unexpected token {
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\hooks\use-toast.ts
+  6:13  error  Parsing error: Unexpected token {
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\hooks\useAuth.tsx
+  6:1  error  Parsing error: The keyword 'interface' is reserved
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\hooks\useSession.ts
+  5:8  error  Parsing error: Unexpected token type
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\ai.ts
+  16:6  error  Parsing error: Unexpected token Role
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\aiml.ts
+  9:8  error  Parsing error: Unexpected token type
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\auth.ts
+  6:40  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\client-db.ts
+  21:3  error  Parsing error: Unexpected token as
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\content-store.ts
+  11:6  error  Parsing error: Unexpected token FeatureStore
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\demo-store.ts
+  3:8  error  Parsing error: Unexpected token interface
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\encryption.ts
+  21:29  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\freepik.ts
+  4:8  error  Parsing error: Unexpected token interface
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\github.ts
+  7:44  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\heygen.ts
+  4:8  error  Parsing error: Unexpected token interface
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\integrations\arxiv.ts
+  2:8  error  Parsing error: Unexpected token interface
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\integrations\elevenlabs.ts
+  5:8  error  Parsing error: Unexpected token interface
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\integrations\semantic-scholar.ts
+  2:8  error  Parsing error: Unexpected token interface
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\integrations\serp.ts
+  2:8  error  Parsing error: Unexpected token interface
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\integrations\stability.ts
+  2:1  error  Parsing error: The keyword 'interface' is reserved
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\integrations\stack-exchange.ts
+  2:8  error  Parsing error: Unexpected token interface
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\integrations\tavily.ts
+  2:8  error  Parsing error: Unexpected token interface
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\integrations\tmdb.ts
+  2:8  error  Parsing error: Unexpected token interface
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\integrations\wikipedia-python.ts
+  7:8  error  Parsing error: Unexpected token interface
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\integrations\wikipedia.ts
+  2:8  error  Parsing error: Unexpected token interface
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\mongodb.ts
+  9:36  error  Parsing error: Unexpected token :
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\mongoose.ts
+  38:9  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\murf.ts
+  4:8  error  Parsing error: Unexpected token interface
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\picsart.ts
+  4:8  error  Parsing error: Unexpected token interface
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\serp.ts
+  4:8  error  Parsing error: Unexpected token interface
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\suno.ts
+  4:8  error  Parsing error: Unexpected token interface
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\supabase\server.ts
+  10:5   warning  Unexpected console statement  no-console
+  25:11  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\utils.ts
+  1:21  error  Parsing error: Unexpected token ClassValue
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\youtube.ts
+  4:8  error  Parsing error: Unexpected token interface
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\middleware.ts
+  2:13  error  Parsing error: Unexpected token {
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\models\Anomaly.ts
+  1:8  warning  'mongoose' is defined but never used  no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\models\Concept.ts
+  1:8  warning  'mongoose' is defined but never used  no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\models\Documentation.ts
+  1:8  warning  'mongoose' is defined but never used  no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\models\Interview.ts
+  1:8  warning  'mongoose' is defined but never used  no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\models\LearningPath.ts
+  1:8  warning  'mongoose' is defined but never used  no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\models\MediaProject.ts
+  1:8  warning  'mongoose' is defined but never used  no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\models\Session.ts
+  1:8  warning  'mongoose' is defined but never used  no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\models\Team.ts
+  1:8  warning  'mongoose' is defined but never used  no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\models\User.ts
+  1:8  warning  'mongoose' is defined but never used  no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\scripts\check-db.js
+   9:9   warning  Unexpected console statement               no-console
+  15:13  warning  'data' is assigned a value but never used  no-unused-vars
+  19:13  warning  Unexpected console statement               no-console
+  21:13  warning  Unexpected console statement               no-console
+  24:9   warning  Unexpected console statement               no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\scripts\final-migrate.js
+  11:43  error    Unnecessary escape character: \.               no-useless-escape
+  11:45  error    Unnecessary escape character: \-               no-useless-escape
+  27:9   warning  Unexpected console statement                   no-console
+  31:11  warning  'supabase' is assigned a value but never used  no-unused-vars
+  34:11  warning  'sql' is assigned a value but never used       no-unused-vars
+  36:5   warning  Unexpected console statement                   no-console
+  40:5   warning  Unexpected console statement                   no-console
+  41:5   warning  Unexpected console statement                   no-console
+  42:5   warning  Unexpected console statement                   no-console
+  43:5   warning  Unexpected console statement                   no-console
+  44:5   warning  Unexpected console statement                   no-console
+  45:5   warning  Unexpected console statement                   no-console
+  46:5   warning  Unexpected console statement                   no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\scripts\migrate-supabase-to-mongo.js
+   11:5  warning  Unexpected console statement  no-console
+   22:1  warning  Unexpected console statement  no-console
+   23:1  warning  Unexpected console statement  no-console
+   24:1  warning  Unexpected console statement  no-console
+   25:1  warning  Unexpected console statement  no-console
+   71:5  warning  Unexpected console statement  no-console
+   73:5  warning  Unexpected console statement  no-console
+   76:5  warning  Unexpected console statement  no-console
+   79:5  warning  Unexpected console statement  no-console
+   82:9  warning  Unexpected console statement  no-console
+   87:9  warning  Unexpected console statement  no-console
+   91:5  warning  Unexpected console statement  no-console
+   97:9  warning  Unexpected console statement  no-console
+  108:5  warning  Unexpected console statement  no-console
+  122:9  warning  Unexpected console statement  no-console
+  126:5  warning  Unexpected console statement  no-console
+  138:9  warning  Unexpected console statement  no-console
+  141:5  warning  Unexpected console statement  no-console
+  146:5  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\scripts\migrate.js
+  11:9   warning  Unexpected console statement                   no-console
+  15:11  warning  'supabase' is assigned a value but never used  no-unused-vars
+  18:11  warning  'sql' is assigned a value but never used       no-unused-vars
+  20:5   warning  Unexpected console statement                   no-console
+  29:5   warning  Unexpected console statement                   no-console
+  30:5   warning  Unexpected console statement                   no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\scripts\test-integrations.ts
+  36:42  error  Parsing error: Unexpected token as
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\scripts\test-mongo.js
+   8:1  warning  Unexpected console statement  no-console
+   9:1  warning  Unexpected console statement  no-console
+  14:9  warning  Unexpected console statement  no-console
+  17:9  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\scripts\verify-ai-keys.mjs
+  16:24  error  'process' is not defined  no-undef
+  16:54  error  'process' is not defined  no-undef
+  17:27  error  'process' is not defined  no-undef
+  21:5   error  'console' is not defined  no-undef
+  30:5   error  'console' is not defined  no-undef
+  35:7   error  'console' is not defined  no-undef
+  38:5   error  'console' is not defined  no-undef
+  45:5   error  'console' is not defined  no-undef
+  54:5   error  'console' is not defined  no-undef
+  59:7   error  'console' is not defined  no-undef
+  62:5   error  'console' is not defined  no-undef
+  68:3   error  'console' is not defined  no-undef
+  71:3   error  'console' is not defined  no-undef
+  72:3   error  'process' is not defined  no-undef
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\tailwind.config.ts
+  1:13  error  Parsing error: Unexpected token {
+
+Γ£û 261 problems (204 errors, 57 warnings)
+

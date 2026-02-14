@@ -1,43 +1,44 @@
-# Ganapathi Mentor AI 🐘
+# Ganapathi Mentor AI 🐘 The Future of AI Learning
 
-**A Next-Generation AI-Powered Learning Ecosystem for Developers.**
+**Built with ❤️ by [G R Harsha](https://github.com/grharsha777)**
 
-Ganapathi Mentor AI is a comprehensive platform designed to accelerate developer growth through personalized, multi-modal learning experiences. It combines advanced RAG (Retrieval-Augmented Generation), real-time code analysis, and interactive tools to serve as a 24/7 senior engineering mentor.
+![Status](https://img.shields.io/badge/Status-Production_Ready-success) ![Stack](https://img.shields.io/badge/Tech-Next.js_15_|_MongoDB_|_AI_SDK-blue)
 
-![Banner](/public/banner.png) 
-*(Note: Replace with actual banner if available)*
+**Ganapathi Mentor AI** is a state-of-the-art, AI-powered learning ecosystem designed to be your 24/7 senior engineering mentor. It leverages **Custom RAG (Retrieval-Augmented Generation)**, **Multi-Modal AI**, and **Premium Animated UI** to provide a deeply personalized coding education experience.
 
 ---
 
 ## 🚀 Key Features
 
+### 🤖 **Ganapathi AI Chatbot (Custom RAG)**
+- **Context-Aware**: Understands your learning history, current page, and code context.
+- **RAG-Powered**: Fetches real-time answers from documentation, StackOverflow, and trusted sources.
+- **Multi-Model Intelligence**: Switches between **Google Gemini**, **Mistral**, **Claude**, and **Groq** for optimal performance.
+- **Interactive Tools**: Can generate images, write code, search the web, and even compose study music.
+
 ### 🧠 **Neural Concept Engine**
-- **Multi-Modal Explanations**: Breaks down complex topics (e.g., "Event Loop", "Closures") into beginner/intermediate/advanced tiers.
-- **RAG-Powered**: Retrieves up-to-date context from trusted documentation and community sources (StackOverflow, MDN).
-- **Curated Media**: Fetches relevant YouTube tutorials and research papers automatically.
+- **Adaptive Explanations**: Explains concepts like "System Design" or "React Hooks" at Beginner, Intermediate, and Advanced levels.
+- **Visual Learning**: Auto-generates mermaid diagrams and flowcharts to visualize complex logic.
 
-### 🔍 **Intelligent Code Review**
-- **Deep Static Analysis**: Identifies anti-patterns, security vulnerabilities, and performance bottlenecks.
-- **Architectural Insights**: Suggests design patterns (Singleton, Factory, Observer) appropriate for the code context.
-- **Auto-Documentation**: Generates comprehensive documentation and usage examples.
+### 🎨 **Premium UI & Animations**
+- **Framer Motion Powered**: Silky smooth page transitions, floating interaction elements, and micro-interactions.
+- **Animated FAB**: A custom-designed, interactive floating action button with a robot mascot that reacts to user state.
+- **Glassmorphism Design**: Modern, clean, and accessible dark-mode-first aesthetic.
 
-### 🗺️ **Adaptive Learning Roadmaps**
-- **Dynamic Curriculum**: Generates personalized learning paths based on current role and target goals.
-- **Progress Tracking**: Persists progress across sessions using a dual-layer storage system.
-- **Resource Integration**: Direct links to GitHub repositories and interactive tutorials.
+### 🗺️ **Personalized Learning Paths**
+- **Role-Based Roadmaps**: Generates custom curriculums for Frontend, Backend, DevOps, or Full Stack roles.
+- **Dynamic Progress Tracking**: Persists your journey using a hybrid MongoDB + IndexedDB architecture.
 
-### 🎤 **Voice-First Interview Prep**
-- **Real-Time Simulation**: AI interviewer conducts technical, behavioral, and system design rounds.
-- **Speech-to-Text**: Transcribes user answers and provides instant feedback on clarity, technical accuracy, and tone.
-- **Role-Specific Scenarios**: Tailored questions for Frontend, Backend, DevOps, and Full Stack roles.
+### 🎥 **AI Media Studio**
+- **Image Generation**: Integrated **Picsart** & **Freepik** APIs for creating project assets.
+- **Video & Avatar**: **HeyGen** integration for AI-generated mentor videos.
+- **Voice Synthesis**: **ElevenLabs** & **Murf.ai** for realistic text-to-speech explanations.
+- **Music Generator**: **Suno AI** integration to create focus music for coding sessions.
 
-### 🎨 **Creative Studio**
-- **Image Generation**: Create assets for projects using specialized prompts.
-- **Diagramming**: Auto-generate Mermaid.js architecture diagrams from code snippets.
-
-### ⚡ **Productivity Hub**
-- **Eisenhower Matrix AI**: Automatically prioritizes tasks based on urgency and impact.
-- **Smart Agenda Builder**: Converts unstructured notes into structured meeting agendas.
+### 🛠️ **Developer Productivity Tools**
+- **Code Reviewer**: Static analysis + AI insight to refactor code and detect anti-patterns.
+- **Doc Generator**: Instantly creates comprehensive documentation from raw code.
+- **Eisenhower Matrix**: AI-driven task prioritization.
 
 ---
 
@@ -45,130 +46,83 @@ Ganapathi Mentor AI is a comprehensive platform designed to accelerate developer
 
 ### **Frontend**
 - **Framework**: [Next.js 15 (App Router)](https://nextjs.org/)
-- **Language**: TypeScript
-- **UI Architecture**: React 19 (Server Components + Client Hooks)
-- **Styling**: TailwindCSS v4, Shadcn/UI, Framer Motion (Animations)
-- **State Management**: React Hooks + Custom Persistence Layer
+- **Core**: React 19 (Server Components + Actions)
+- **Language**: TypeScript (Strict Mode)
+- **Styling**: TailwindCSS v4, Shadcn/UI
+- **Animations**: **Framer Motion** (Complex gestures & layout animations)
+- **Icons**: Lucide React
 
-### **Backend & AI**
-- **AI Runtime**: [Vercel AI SDK](https://sdk.vercel.ai/docs)
+### **Backend & Infrastructure**
+- **Runtime**: Vercel Edge Functions & Serverless
+- **Database**: **MongoDB Atlas** (Primary), **IndexedDB** (Offline Caching)
+- **Auth**: JWT-based Secure Authentication with Supabase reference integration.
+- **Validation**: Zod & React Hook Form
+
+### **AI & ML Layer**
+- **Orchestration**: **Vercel AI SDK** (Unified API for all LLMs)
+- **Search & RAG**: Tavily API, Serper API, Semantic Scholar
 - **Video Intelligence**: YouTube Data API v3
-- **Knowledge Sources**: StackExchange API, Wikipedia API
-- **Database**: 
-  - **MongoDB** (Atlas): Durable user data and content history.
-  - **IndexedDB** (Dexie-like wrapper): Offline-first local caching for instant load times.
-
-### **Infrastructure**
-- **Authentication**: JWT-based secure auth system.
-- **Deployment**: Vercel (Edge Functions + Serverless).
-
----
-
-## 🏗️ Architecture
-
-The application follows a **Hybrid Persistence Architecture** to ensure zero data loss and offline capability.
-
-```mermaid
-graph TD
-    User[User] -->|Interacts| Client[Next.js Client]
-    
-    subgraph "Frontend Layer"
-        Client -->|Auto-Save| IDB[(IndexedDB)]
-        Client -->|Sync| API[Next.js API Routes]
-    end
-    
-    subgraph "Backend Layer"
-        API -->|Auth| Middleware[JWT Middleware]
-        API -->|Persist| Mongo[(MongoDB Atlas)]
-        
-        API -->|LLM Request| AISDK[Vercel AI SDK]
-        API -->|External Data| Tools[External APIs]
-    end
-    
-    subgraph "AI & External Services"
-        AISDK --> OpenAI[OpenAI GPT-4o]
-        AISDK --> Mistral[Mistral Large]
-        AISDK --> Gemini[Google Gemini]
-        
-        Tools --> YouTube[YouTube Data API]
-        Tools --> Stack[StackOverflow API]
-    end
-    
-    IDB -.->|Hydrate on Load| Client
-```
 
 ---
 
 ## 🔌 API Integrations
 
-| Service | Usage | Key |
+The platform orchestrates a symphony of top-tier AI APIs:
+
+| Category | Service | Key Function |
 |---|---|---|
-| **OpenAI / Mistral / Gemini** | Core reasoning, code generation, RAG synthesis | `OPENAI_API_KEY` etc. |
-| **YouTube Data API** | Fetching curated video tutorials | `YOUTUBE_API_KEY` |
-| **StackExchange API** | Real-time community solutions | No Key (Public) |
-| **MongoDB Atlas** | User persistence and history | `MONGODB_URI` |
+| **LLMs** | **Google Gemini, Mistral, Anthropic, Groq** | Core reasoning, coding, chat |
+| **Search** | **Tavily, Serper, Semantic Scholar** | Real-time web knowledge retrieval |
+| **Video** | **YouTube Data API** | Curated tutorial fetching |
+| **Media Gen** | **HeyGen, Picsart, Freepik, Suno** | Video, Image, and Music generation |
+| **Voice** | **ElevenLabs, Murf.ai** | Premium Text-to-Speech |
+| **Data** | **TMDB, TVDB** | Media metadata for project examples |
 
 ---
 
-## ⚡ Getting Started
-
-### 1. Clone the Repository
-```bash
-git clone https://github.com/grharsha777/ganapathi-mentor-ai.git
-cd ganapathi-mentor-ai
-```
-
-### 2. Install Dependencies
-```bash
-npm install
-# or
-pnpm install
-```
-
-### 3. Environment Setup
-Create a `.env.local` file in the root directory:
-
-```env
-# Database
-MONGODB_URI=mongodb+srv://...
-
-# Auth
-JWT_SECRET=your_super_secret_key
-
-# AI Services (Add at least one)
-OPENAI_API_KEY=sk-...
-MISTRAL_API_KEY=...
-GOOGLE_GENERATIVE_AI_API_KEY=...
-
-# External Data
-YOUTUBE_API_KEY=...
-GITHUB_ACCESS_TOKEN=...
-```
-
-### 4. Run Locally
-```bash
-npm run dev
-```
-Open [http://localhost:3000](http://localhost:3000) to see the app.
+## 🔒 Security & Performance
+- **Hybrid Storage**: Critical data in MongoDB, transient state in IndexedDB for instant load times.
+- **Secure Handling**: Server-side API key management; no keys exposed to client.
+- **Edge Caching**: Vercel Edge Network for low-latency global access.
 
 ---
 
-## 🤝 Contributing
+## 🏗️ Architecture
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+```mermaid
+graph TD
+    User((User)) -->|Interacts| UI[Next.js Client + Framer Motion]
+    
+    subgraph "Frontend Layer"
+        UI -->|Cache| IDB[(IndexedDB)]
+        UI -->|Action| Server[Server Actions]
+    end
+    
+    subgraph "Intelligence Layer"
+        Server -->|Orchestrate| AISDK[Vercel AI SDK]
+        AISDK --> Gemini[Google Gemini]
+        AISDK --> Mistral[Mistral]
+        AISDK --> RAG[RAG Engine]
+    end
+    
+    subgraph "Data Layer"
+        Server -->|Persist| Mongo[(MongoDB Atlas)]
+        RAG -->|Fetch| Tavily[Tavily Search]
+        RAG -->|Fetch| YT[YouTube API]
+    end
+```
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+---
+
+## 👨‍💻 Author
+
+**G R Harsha**
+- [GitHub](https://github.com/grharsha777)
+- [LinkedIn](https://www.linkedin.com/in/grharsha777/)
+- [Email](mailto:grharsha777@gmail.com)
 
 ---
 
 ## 📄 License
 
-Distributed under the MIT License. See `LICENSE` for more information.
-
----
-
-**Built with ❤️ by [G R Harsha](https://github.com/grharsha777)**
+Distributed under the MIT License.

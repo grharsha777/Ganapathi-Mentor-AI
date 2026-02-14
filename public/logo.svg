@@ -1,0 +1,17 @@
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Simplified Artistic Ganesha Logo based on User Image -->
+  <path d="M20 5C18 5 16 6 15 7.5C14 6 12 5 10 5" stroke="#8B4513" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M20 9C22 9 24 10 25 12C26 14 26 17 24 20C22 23 18 25 15 22" stroke="#8B4513" stroke-width="2" stroke-linecap="round"/>
+  <path d="M15 12C14 10 12 9 10 9C8 9 6 10 5 12C4 14 4 17 6 20C8 23 12 25 15 22" stroke="#8B4513" stroke-width="2" stroke-linecap="round"/>
+  <!-- Trunk -->
+  <path d="M20 12C20 15 21 17 23 18C25 19 24 22 21 23C18 24 15 22 14 20" stroke="#8B4513" stroke-width="2" stroke-linecap="round"/>
+  <!-- Eyes -->
+  <circle cx="16" cy="14" r="1" fill="#8B4513"/>
+  <circle cx="24" cy="14" r="1" fill="#8B4513"/>
+  <!-- Tilak -->
+  <path d="M20 10V13" stroke="#D4AF37" stroke-width="1.5"/>
+  <path d="M19 11H21" stroke="#D4AF37" stroke-width="1"/>
+  <!-- Ears Detail -->
+  <path d="M8 15C7 16 7 18 8 19" stroke="#D4AF37" stroke-width="1" stroke-dasharray="2 2"/>
+  <path d="M32 15C33 16 33 18 32 19" stroke="#D4AF37" stroke-width="1" stroke-dasharray="2 2"/>
+</svg>

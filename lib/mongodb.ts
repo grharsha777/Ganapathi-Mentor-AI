@@ -10,12 +10,12 @@ export function isMongoConfigured(): boolean {
   return !!MONGODB_URI;
 }
 
-// @ts-ignore
-let cached = global.mongoSafe;
+// Use type assertion for global property access
+let cached = (global as any).mongoSafe;
 
 if (!cached) {
-  // @ts-ignore
-  cached = global.mongoSafe = { conn: null, promise: null };
+  // Use type assertion for global property access
+  cached = (global as any).mongoSafe = { conn: null, promise: null };
 }
 
 /**

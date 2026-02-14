@@ -14,15 +14,17 @@ export default function ProtectedPage() {
   useEffect(() => {
     // Check if user is logged in (demo mode)
     const demoUser = localStorage.getItem('demo_user')
-    if (demoUser) {
-      setUser(JSON.parse(demoUser))
-      // Redirect to dashboard
-      router.push('/dashboard')
-    } else {
-      // Not logged in, redirect to login
-      router.push('/auth/login')
-    }
-    setLoading(false)
+    setTimeout(() => {
+      if (demoUser) {
+        setUser(JSON.parse(demoUser))
+        // Redirect to dashboard
+        router.push('/dashboard')
+      } else {
+        // Not logged in, redirect to login
+        router.push('/auth/login')
+      }
+      setLoading(false)
+    }, 0)
   }, [router])
 
   if (loading) {

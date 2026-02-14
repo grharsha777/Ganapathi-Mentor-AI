@@ -14,8 +14,14 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://ganapathi-mentor-ai.vercel.app'),
   title: 'Ganapathi Mentor AI',
   description: 'Your AI-powered learning companion for coding, concepts, and career growth',
+  icons: {
+    icon: '/logo.png',
+    shortcut: '/logo.png',
+    apple: '/logo.png',
+  },
 }
 
 import { AuthProvider } from '@/hooks/useAuth'

@@ -35,7 +35,19 @@ export default function AnalyticsDashboard() {
                     setUseMock(d.useMockData ?? false);
                 }
             })
-            .catch(() => {});
+            .catch(() => { });
+    }, []);
+
+    const [categoryStats, setCategoryStats] = useState<{ name: string, width: string, experts: number }[]>([]);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setCategoryStats(['Frontend', 'Backend', 'DevOps', 'Mobile', 'AI/ML', 'Security', 'Cloud', 'Data'].map((cat) => ({
+                name: cat,
+                width: `${Math.floor(Math.random() * 60) + 30}%`,
+                experts: Math.floor(Math.random() * 20) + 1
+            })));
+        }, 0);
     }, []);
 
     return (
@@ -93,13 +105,13 @@ export default function AnalyticsDashboard() {
                 </CardHeader>
                 <CardContent>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        {['Frontend', 'Backend', 'DevOps', 'Mobile', 'AI/ML', 'Security', 'Cloud', 'Data'].map((cat) => (
-                            <div key={cat} className="p-4 border rounded bg-muted/20">
-                                <div className="font-semibold mb-2">{cat}</div>
+                        {categoryStats.map((stat) => (
+                            <div key={stat.name} className="p-4 border rounded bg-muted/20">
+                                <div className="font-semibold mb-2">{stat.name}</div>
                                 <div className="h-2 bg-secondary rounded overflow-hidden">
-                                    <div className="h-full bg-indigo-500" style={{ width: `${Math.random() * 100}%` }} />
+                                    <div className="h-full bg-indigo-500" style={{ width: stat.width }} />
                                 </div>
-                                <div className="text-xs text-right mt-1 text-muted-foreground">{Math.floor(Math.random() * 20) + 1} Experts</div>
+                                <div className="text-xs text-right mt-1 text-muted-foreground">{stat.experts} Experts</div>
                             </div>
                         ))}
                     </div>

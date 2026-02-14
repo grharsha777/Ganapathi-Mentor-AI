@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
     if (!decoded) return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
 
     const conn = await connectSafe();
-    let skillData = MOCK_SKILL_DATA;
+    const skillData = MOCK_SKILL_DATA;
     let roiData = MOCK_ROI_DATA;
     let useMock = true;
 
@@ -40,7 +40,7 @@ export async function GET(req: NextRequest) {
         const metrics = await Metric.find({}).sort({ timestamp: -1 }).limit(50).lean();
         if (metrics.length > 0) {
           const byWeek: Record<string, { trainingHours: number; prReviewTime: number }> = {};
-          metrics.forEach((m: any) => {
+          metrics.forEach((m: { timestamp?: string | Date; name?: string; value?: number }) => {
             const week = m.timestamp ? new Date(m.timestamp).toISOString().slice(0, 10) : 'Week 1';
             if (!byWeek[week]) byWeek[week] = { trainingHours: 0, prReviewTime: 0 };
             if (m.name?.toLowerCase().includes('training')) byWeek[week].trainingHours += m.value || 0;

@@ -53,7 +53,8 @@ export function DashboardSidebar() {
   useEffect(() => {
     const saved = localStorage.getItem('sidebar-collapsed')
     if (saved !== null) {
-      setIsCollapsed(saved === 'true')
+      const isTrue = saved === 'true';
+      setTimeout(() => setIsCollapsed(isTrue), 0);
     }
   }, [])
 

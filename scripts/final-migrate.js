@@ -8,7 +8,7 @@ function getEnv() {
     const content = fs.readFileSync(envPath, 'utf8');
     const env = {};
     content.split('\n').forEach(line => {
-        const match = line.match(/^\s*([\w\.\-]+)\s*=\s*(.*)?\s*$/);
+        const match = line.match(/^\s*([\w.-]+)\s*=\s*(.*)?\s*$/);
         if (match) {
             let value = match[2] || '';
             if (value.startsWith('"') && value.endsWith('"')) value = value.slice(1, -1);

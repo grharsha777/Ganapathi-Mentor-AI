@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef, FormEvent, useCallback, memo } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -10,7 +10,8 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
     X, Send, Minus, Maximize2, Minimize2, Sparkles, Loader2,
-    Copy, Check, Mic, MicOff, Volume2, VolumeX, Music, ImageIcon, Code, Youtube
+    Copy, Check, Mic, MicOff, Volume2, VolumeX, Music, ImageIcon, Code, Youtube,
+    ExternalLink, ArrowRight
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -20,8 +21,34 @@ interface Message {
     content: string;
 }
 
+const APP_DOMAIN = 'ganapathi-mentor-ai.vercel.app';
+
 // ─── Markdown Renderer (memoized) ───────────────────────────────────────
-const MarkdownContent = memo(function MarkdownContent({ content }: { content: string }) {
+// Pre-process content to fix broken markdown links the AI sometimes outputs
+function fixBrokenMarkdownLinks(text: string): string {
+    // Normalize line endings — strip all \r so we only deal with \n
+    let fixed = text.replace(/\r/g, '');
+    // Fix links split across lines: [text]\n(url) → [text](url)
+    fixed = fixed.replace(/\]\s*\n+\s*\(/g, '](');
+    // Fix links with spaces between ] and ( on same line: [text] (url) → [text](url)
+    fixed = fixed.replace(/\]\s+\(/g, '](');
+    // Fix bare URLs next to bracketed text: [text] https://url → [text](https://url)
+    fixed = fixed.replace(/\[([^\]]+)\]\s*\n*\s*\(?(https?:\/\/[^\s)]+)\)?/g, '[$1]($2)');
+    return fixed;
+}
+
+// Convert plain text (with \n) to React elements, inserting <br> for newlines
+function textToElements(text: string, keyPrefix: string): React.ReactElement[] {
+    const result: React.ReactElement[] = [];
+    const lines = text.split('\n');
+    lines.forEach((line, i) => {
+        if (i > 0) result.push(<br key={`${keyPrefix}-br-${i}`} />);
+        if (line) result.push(<span key={`${keyPrefix}-t-${i}`}>{line}</span>);
+    });
+    return result;
+}
+
+const MarkdownContent = memo(function MarkdownContent({ content, onNavigate }: { content: string; onNavigate: (path: string) => void }) {
     const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
     const copyCode = useCallback((code: string, index: number) => {
@@ -33,20 +60,23 @@ const MarkdownContent = memo(function MarkdownContent({ content }: { content: st
 
     const parts: React.ReactElement[] = [];
     let codeBlockIndex = 0;
+    // Pre-process: normalize \r and fix broken markdown links
+    const processedContent = fixBrokenMarkdownLinks(content);
+
     const codeBlockRegex = /```(\w*)\n?([\s\S]*?)```/g;
     let lastIndex = 0;
     let match;
     const rawSegments: { type: 'text' | 'code'; content: string; lang?: string }[] = [];
 
-    while ((match = codeBlockRegex.exec(content)) !== null) {
+    while ((match = codeBlockRegex.exec(processedContent)) !== null) {
         if (match.index > lastIndex) {
-            rawSegments.push({ type: 'text', content: content.slice(lastIndex, match.index) });
+            rawSegments.push({ type: 'text', content: processedContent.slice(lastIndex, match.index) });
         }
         rawSegments.push({ type: 'code', content: match[2].trim(), lang: match[1] || 'code' });
         lastIndex = match.index + match[0].length;
     }
-    if (lastIndex < content.length) {
-        rawSegments.push({ type: 'text', content: content.slice(lastIndex) });
+    if (lastIndex < processedContent.length) {
+        rawSegments.push({ type: 'text', content: processedContent.slice(lastIndex) });
     }
 
     rawSegments.forEach((segment, segIdx) => {
@@ -68,13 +98,9 @@ const MarkdownContent = memo(function MarkdownContent({ content }: { content: st
                 </div>
             );
         } else {
-            const lines = segment.content.split('\n');
-            const inlineElements: React.ReactElement[] = [];
-            lines.forEach((line, lineIdx) => {
-                if (lineIdx > 0) inlineElements.push(<br key={`br-${segIdx}-${lineIdx}`} />);
-                const processed = processInline(line, `${segIdx}-${lineIdx}`);
-                inlineElements.push(<span key={`line-${segIdx}-${lineIdx}`}>{processed}</span>);
-            });
+            // Process the ENTIRE text segment at once (not line-by-line)
+            // so that links spanning line boundaries are properly matched
+            const inlineElements = processInlineFullText(segment.content, `seg-${segIdx}`, onNavigate);
             parts.push(<span key={`text-${segIdx}`} className="leading-relaxed block">{inlineElements}</span>);
         }
     });
@@ -82,27 +108,91 @@ const MarkdownContent = memo(function MarkdownContent({ content }: { content: st
     return <div className="space-y-2">{parts}</div>;
 });
 
-function processInline(text: string, keyPrefix: string): React.ReactElement[] {
+// Process the entire text block at once — finds links, bold, code, headings
+// across the full content (not line-by-line), so links that span line breaks
+// are properly detected. Newlines in unmatched text become <br> elements.
+function processInlineFullText(text: string, keyPrefix: string, onNavigate: (path: string) => void): React.ReactElement[] {
     const elements: React.ReactElement[] = [];
-    const inlineRegex = /!\[([^\]]*)\]\(([^)]+)\)|\[([^\]]+)\]\(([^)]+)\)|\*\*(.+?)\*\*|`([^`]+)`|^(#{1,3})\s+(.+)/g;
+    // This regex uses [\s\S] for multi-line matching inside link text/URL
+    const inlineRegex = /!\[([^\]]*)\]\(([^)]+)\)|\[([^\]]+)\]\(([^)\s]+)\)|\*\*(.+?)\*\*|`([^`]+)`|(?:^|\n)(#{1,3})\s+(.+)/g;
     let lastIdx = 0;
     let m;
 
     while ((m = inlineRegex.exec(text)) !== null) {
         if (m.index > lastIdx) {
-            elements.push(<span key={`${keyPrefix}-t-${lastIdx}`}>{text.slice(lastIdx, m.index)}</span>);
+            // Use textToElements so \n in unmatched text become <br>
+            elements.push(...textToElements(text.slice(lastIdx, m.index), `${keyPrefix}-t-${lastIdx}`));
         }
         if (m[1] !== undefined && m[2]) {
+            // Image
             elements.push(<img key={`${keyPrefix}-img-${m.index}`} src={m[2]} alt={m[1]} className="max-w-full rounded-xl my-3 max-h-64 shadow-lg border border-white/10" />);
         } else if (m[3] && m[4]) {
-            const isYouTube = m[4].includes('youtube.com') || m[4].includes('youtu.be');
-            elements.push(
-                <a key={`${keyPrefix}-a-${m.index}`} href={m[4]} target="_blank" rel="noreferrer"
-                    className={cn("inline-flex items-center gap-1 underline underline-offset-4 font-semibold transition-colors", isYouTube ? "text-red-400 hover:text-red-300" : "text-primary hover:text-primary/80")}>
-                    {isYouTube && <Youtube className="h-3.5 w-3.5 inline" />}
-                    {m[3]}
-                </a>
-            );
+            // Link — determine if internal or external
+            const url = m[4];
+            const linkText = m[3];
+            const isInternal = url.includes(APP_DOMAIN) || (url.startsWith('/') && !url.startsWith('//'));
+            const isYouTube = url.includes('youtube.com') || url.includes('youtu.be');
+            const isLinkedIn = url.includes('linkedin.com');
+            const isGitHubLink = url.includes('github.com');
+            const isEmail = url.startsWith('mailto:');
+
+            if (isInternal) {
+                // Internal app link — navigate within the same page (no new tab)
+                const path = url.includes(APP_DOMAIN) ? url.split(APP_DOMAIN)[1] || '/dashboard' : url;
+                elements.push(
+                    <button
+                        key={`${keyPrefix}-nav-${m.index}`}
+                        onClick={() => onNavigate(path)}
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-violet-500/15 border border-violet-500/30 text-violet-300 hover:bg-violet-500/25 hover:text-violet-200 hover:border-violet-400/50 transition-all duration-200 font-semibold text-sm cursor-pointer group"
+                    >
+                        <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />
+                        {linkText}
+                    </button>
+                );
+            } else if (isYouTube) {
+                elements.push(
+                    <a key={`${keyPrefix}-a-${m.index}`} href={url} target="_blank" rel="noreferrer"
+                        className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 hover:text-red-300 transition-all duration-200 font-semibold text-sm">
+                        <Youtube className="h-3.5 w-3.5" />
+                        {linkText}
+                        <ExternalLink className="h-3 w-3 opacity-50" />
+                    </a>
+                );
+            } else if (isLinkedIn) {
+                elements.push(
+                    <a key={`${keyPrefix}-a-${m.index}`} href={url} target="_blank" rel="noreferrer"
+                        className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400 hover:bg-blue-500/20 hover:text-blue-300 transition-all duration-200 font-semibold text-sm">
+                        <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg>
+                        {linkText}
+                        <ExternalLink className="h-3 w-3 opacity-50" />
+                    </a>
+                );
+            } else if (isGitHubLink) {
+                elements.push(
+                    <a key={`${keyPrefix}-a-${m.index}`} href={url} target="_blank" rel="noreferrer"
+                        className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-gray-500/10 border border-gray-500/20 text-gray-300 hover:bg-gray-500/20 hover:text-gray-200 transition-all duration-200 font-semibold text-sm">
+                        <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" /></svg>
+                        {linkText}
+                        <ExternalLink className="h-3 w-3 opacity-50" />
+                    </a>
+                );
+            } else if (isEmail) {
+                elements.push(
+                    <a key={`${keyPrefix}-a-${m.index}`} href={url}
+                        className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/20 hover:text-emerald-300 transition-all duration-200 font-semibold text-sm">
+                        <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
+                        {linkText}
+                    </a>
+                );
+            } else {
+                elements.push(
+                    <a key={`${keyPrefix}-a-${m.index}`} href={url} target="_blank" rel="noreferrer"
+                        className="inline-flex items-center gap-1 underline underline-offset-4 font-semibold text-primary hover:text-primary/80 transition-colors">
+                        {linkText}
+                        <ExternalLink className="h-3 w-3 opacity-50" />
+                    </a>
+                );
+            }
         } else if (m[5]) {
             elements.push(<strong key={`${keyPrefix}-b-${m.index}`} className="font-bold text-foreground">{m[5]}</strong>);
         } else if (m[6]) {
@@ -115,7 +205,7 @@ function processInline(text: string, keyPrefix: string): React.ReactElement[] {
         lastIdx = m.index + m[0].length;
     }
     if (lastIdx < text.length) {
-        elements.push(<span key={`${keyPrefix}-t-end`}>{text.slice(lastIdx)}</span>);
+        elements.push(...textToElements(text.slice(lastIdx), `${keyPrefix}-t-end`));
     }
     return elements;
 }
@@ -127,6 +217,43 @@ const suggestions = [
     { text: "Generate an image", icon: ImageIcon, color: "from-purple-500/20 to-fuchsia-500/20 border-purple-500/30 hover:border-purple-400" },
     { text: "Generate a song", icon: Music, color: "from-emerald-500/20 to-green-500/20 border-emerald-500/30 hover:border-emerald-400" },
 ];
+
+// ─── Animated FAB Styles ────────────────────────────────────────────────
+const fabKeyframes = `
+@keyframes fabFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes fabGlowPulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.15); }
+}
+@keyframes fabOrbit1 {
+  0% { transform: rotate(0deg) translateX(32px) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(32px) rotate(-360deg); }
+}
+@keyframes fabOrbit2 {
+  0% { transform: rotate(120deg) translateX(36px) rotate(-120deg); }
+  100% { transform: rotate(480deg) translateX(36px) rotate(-480deg); }
+}
+@keyframes fabOrbit3 {
+  0% { transform: rotate(240deg) translateX(30px) rotate(-240deg); }
+  100% { transform: rotate(600deg) translateX(30px) rotate(-600deg); }
+}
+@keyframes fabRingRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes fabWave {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(20deg); }
+  75% { transform: rotate(-15deg); }
+}
+@keyframes fabSparkle {
+  0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+  50% { opacity: 1; transform: scale(1) rotate(180deg); }
+}
+`;
 
 // ─── Main Component ─────────────────────────────────────────────────────
 export default function GlobalChatbot() {
@@ -140,7 +267,9 @@ export default function GlobalChatbot() {
     const [isListening, setIsListening] = useState(false);
     const [isSpeaking, setIsSpeaking] = useState(false);
     const [voiceEnabled, setVoiceEnabled] = useState(true);
+    const [fabHovered, setFabHovered] = useState(false);
     const pathname = usePathname();
+    const router = useRouter();
     const scrollRef = useRef<HTMLDivElement>(null);
     const recognitionRef = useRef<any>(null);
 
@@ -208,6 +337,12 @@ export default function GlobalChatbot() {
         setIsSpeaking(false);
     }, []);
 
+    // Navigate within the app (same tab)
+    const handleInternalNavigate = useCallback((path: string) => {
+        router.push(path);
+        toast.success(`Navigating to ${path}`);
+    }, [router]);
+
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         if (!input.trim() || isLoading) return;
@@ -251,23 +386,130 @@ export default function GlobalChatbot() {
     // Don't render until mounted to avoid hydration mismatch
     if (!mounted) return null;
 
-    // ─── FAB (Floating Action Button) ───────────────────────────────────
+    // ─── Premium Animated FAB ───────────────────────────────────────────
     if (!isOpen) {
         return (
-            <button
-                onClick={() => setIsOpen(true)}
-                className="fixed bottom-24 right-6 z-[9999] h-16 w-16 rounded-2xl shadow-2xl shadow-violet-500/40 bg-gradient-to-br from-violet-600 via-purple-600 to-indigo-700 hover:scale-110 active:scale-95 transition-all duration-200 border border-white/20 flex items-center justify-center overflow-hidden group cursor-pointer"
-                aria-label="Open Ganapathi AI Chat"
-            >
-                {/* Glossy overlay */}
-                <div className="absolute inset-x-0 top-0 h-[45%] bg-gradient-to-b from-white/25 to-transparent rounded-t-2xl" />
-                <div className="relative z-10 flex flex-col items-center gap-0.5">
-                    <Sparkles className="h-6 w-6 text-white drop-shadow-md" />
-                    <span className="text-[8px] font-bold text-white/90 tracking-wide uppercase">AI</span>
-                </div>
-                {/* Pulse ring */}
-                <span className="absolute inset-0 rounded-2xl ring-2 ring-violet-400/50 animate-ping opacity-20 pointer-events-none" />
-            </button>
+            <>
+                <style>{fabKeyframes}</style>
+                <button
+                    onClick={() => setIsOpen(true)}
+                    onMouseEnter={() => setFabHovered(true)}
+                    onMouseLeave={() => setFabHovered(false)}
+                    className="fixed bottom-24 right-6 z-[9999] group cursor-pointer"
+                    style={{ animation: 'fabFloat 3s ease-in-out infinite' }}
+                    aria-label="Open Ganapathi AI Chat"
+                >
+                    {/* Glow effect behind the button */}
+                    <div
+                        className="absolute inset-0 rounded-2xl bg-gradient-to-br from-violet-500 via-purple-500 to-indigo-600 blur-xl"
+                        style={{ animation: 'fabGlowPulse 2.5s ease-in-out infinite' }}
+                    />
+
+                    {/* Rotating gradient ring */}
+                    <div
+                        className="absolute -inset-1.5 rounded-[22px] opacity-70"
+                        style={{
+                            background: 'conic-gradient(from 0deg, #8b5cf6, #6366f1, #a78bfa, #818cf8, #7c3aed, #8b5cf6)',
+                            animation: 'fabRingRotate 4s linear infinite',
+                        }}
+                    />
+
+                    {/* Orbiting particles */}
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                        <div
+                            className="absolute h-2 w-2 rounded-full bg-violet-400 shadow-lg shadow-violet-400/50"
+                            style={{ animation: 'fabOrbit1 3s linear infinite' }}
+                        />
+                        <div
+                            className="absolute h-1.5 w-1.5 rounded-full bg-indigo-300 shadow-lg shadow-indigo-300/50"
+                            style={{ animation: 'fabOrbit2 4s linear infinite' }}
+                        />
+                        <div
+                            className="absolute h-1 w-1 rounded-full bg-purple-300 shadow-lg shadow-purple-300/50"
+                            style={{ animation: 'fabOrbit3 3.5s linear infinite' }}
+                        />
+                    </div>
+
+                    {/* Main button body */}
+                    <div className={cn(
+                        "relative h-16 w-16 rounded-2xl bg-gradient-to-br from-violet-600 via-purple-600 to-indigo-700 flex items-center justify-center shadow-2xl shadow-violet-500/40 border border-white/20 overflow-hidden transition-all duration-300",
+                        fabHovered && "scale-110 shadow-violet-500/60"
+                    )}>
+                        {/* Glossy top overlay */}
+                        <div className="absolute inset-x-0 top-0 h-[45%] bg-gradient-to-b from-white/25 to-transparent rounded-t-2xl" />
+
+                        {/* Inner shimmer effect */}
+                        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                        </div>
+
+                        {/* AI Mascot Icon */}
+                        <div className="relative z-10 flex flex-col items-center gap-0.5">
+                            <div style={{ animation: fabHovered ? 'fabWave 0.5s ease-in-out infinite' : 'none' }}>
+                                <svg width="28" height="28" viewBox="0 0 32 32" fill="none" className="drop-shadow-lg">
+                                    {/* Robot head */}
+                                    <rect x="6" y="8" width="20" height="16" rx="4" fill="white" fillOpacity="0.95" />
+                                    {/* Eyes */}
+                                    <circle cx="12" cy="16" r="2.5" fill="#7c3aed">
+                                        <animate attributeName="r" values="2.5;2;2.5" dur="2s" repeatCount="indefinite" />
+                                    </circle>
+                                    <circle cx="20" cy="16" r="2.5" fill="#6366f1">
+                                        <animate attributeName="r" values="2.5;2;2.5" dur="2s" repeatCount="indefinite" begin="0.3s" />
+                                    </circle>
+                                    {/* Eye sparkle */}
+                                    <circle cx="13" cy="15" r="0.8" fill="white" />
+                                    <circle cx="21" cy="15" r="0.8" fill="white" />
+                                    {/* Smile */}
+                                    <path d="M12 20 Q16 23 20 20" stroke="#7c3aed" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+                                    {/* Antenna */}
+                                    <line x1="16" y1="8" x2="16" y2="4" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+                                    <circle cx="16" cy="3" r="2" fill="#a78bfa">
+                                        <animate attributeName="fill" values="#a78bfa;#c4b5fd;#a78bfa" dur="1.5s" repeatCount="indefinite" />
+                                    </circle>
+                                    {/* Side decoration */}
+                                    <rect x="3" y="14" width="3" height="4" rx="1.5" fill="white" fillOpacity="0.7" />
+                                    <rect x="26" y="14" width="3" height="4" rx="1.5" fill="white" fillOpacity="0.7" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        {/* Sparkle particles on hover */}
+                        {fabHovered && (
+                            <>
+                                <div className="absolute top-1 right-1" style={{ animation: 'fabSparkle 0.8s ease-in-out infinite' }}>
+                                    <Sparkles className="h-3 w-3 text-yellow-300" />
+                                </div>
+                                <div className="absolute bottom-2 left-1" style={{ animation: 'fabSparkle 0.8s ease-in-out infinite 0.4s' }}>
+                                    <Sparkles className="h-2.5 w-2.5 text-cyan-300" />
+                                </div>
+                            </>
+                        )}
+                    </div>
+
+                    {/* Tooltip on hover */}
+                    <AnimatePresence>
+                        {fabHovered && (
+                            <motion.div
+                                initial={{ opacity: 0, x: 10, scale: 0.9 }}
+                                animate={{ opacity: 1, x: 0, scale: 1 }}
+                                exit={{ opacity: 0, x: 10, scale: 0.9 }}
+                                className="absolute right-full mr-3 top-1/2 -translate-y-1/2 whitespace-nowrap"
+                            >
+                                <div className="px-3 py-2 rounded-xl bg-background/95 backdrop-blur-xl border border-white/15 shadow-2xl shadow-black/30">
+                                    <span className="text-sm font-bold bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-indigo-400">
+                                        ✨ Chat with Ganapathi AI
+                                    </span>
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+
+                    {/* Notification dot */}
+                    <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-green-500 border-2 border-background flex items-center justify-center">
+                        <span className="h-2 w-2 rounded-full bg-green-300 animate-ping" />
+                    </span>
+                </button>
+            </>
         );
     }
 
@@ -361,7 +603,7 @@ export default function GlobalChatbot() {
                                                     Hi! I&apos;m Ganapathi AI 👋
                                                 </h3>
                                                 <p className="text-sm text-muted-foreground max-w-sm mx-auto mb-8">
-                                                    Your personal coding mentor built by G R Harsha. I can help with code, generate images, find videos, create songs & more!
+                                                    Your personal coding mentor built by G R Harsha. I can help with code, generate images, find videos, navigate the app &amp; more!
                                                 </p>
                                                 <div className="grid grid-cols-2 gap-2.5 max-w-md w-full">
                                                     {suggestions.map((s, i) => (
@@ -388,7 +630,7 @@ export default function GlobalChatbot() {
                                                 )}>
                                                     {m.role === 'assistant' ? (
                                                         <div className="space-y-1">
-                                                            <MarkdownContent content={m.content} />
+                                                            <MarkdownContent content={m.content} onNavigate={handleInternalNavigate} />
                                                             <button onClick={() => isSpeaking ? stopSpeaking() : speakText(m.content)}
                                                                 className="mt-2 inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-primary transition-colors">
                                                                 {isSpeaking ? <VolumeX className="h-3 w-3" /> : <Volume2 className="h-3 w-3" />}

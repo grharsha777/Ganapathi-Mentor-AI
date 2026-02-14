@@ -1,4 +1,4 @@
-import mongoose, { Schema, model, models } from 'mongoose';
+import { Schema, model, models } from 'mongoose';
 
 const SessionSchema = new Schema({
     user_id: { type: String, ref: 'User', required: true },

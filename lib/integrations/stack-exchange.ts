@@ -14,6 +14,7 @@ export interface StackQuestion {
     link: string
     is_answered: boolean
     view_count: number
+    answer_count: number
     score: number
     tags: string[]
     creation_date: number

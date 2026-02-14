@@ -7,12 +7,12 @@ const MONGODB_URI = process.env.MONGODB_URI;
  * in development. This prevents connections growing exponentially
  * during API Route usage.
  */
-// @ts-ignore
-let cached = global.mongoose;
+// Use type assertion for global property access
+let cached = (global as any).mongoose;
 
 if (!cached) {
-    // @ts-ignore
-    cached = global.mongoose = { conn: null, promise: null };
+    // Use type assertion for global property access
+    cached = (global as any).mongoose = { conn: null, promise: null };
 }
 
 async function connectToDatabase() {

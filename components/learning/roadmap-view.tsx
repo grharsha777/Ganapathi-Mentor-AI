@@ -57,12 +57,26 @@ export default function RoadmapView() {
     const [roadmap, setRoadmap] = useState<Roadmap | null>(null);
     const store = useContentStore('roadmaps');
 
+    // Helper to ensure all resources have unique IDs
+    const ensureIds = (rm: Roadmap): Roadmap => {
+        return {
+            ...rm,
+            milestones: rm.milestones.map(m => ({
+                ...m,
+                resources: m.resources.map(r => ({
+                    ...r,
+                    id: r.id || Math.random().toString(36).substring(7)
+                }))
+            }))
+        };
+    };
+
     // Auto-load last roadmap on mount
     useEffect(() => {
         store.load<any>('last_roadmap').then(data => {
             if (data) {
                 if (data.role) setRole(data.role);
-                if (data.roadmap) setRoadmap(data.roadmap);
+                if (data.roadmap) setRoadmap(ensureIds(data.roadmap));
             }
         }).catch(() => { });
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -80,7 +94,7 @@ export default function RoadmapView() {
             const data = await res.json();
             if (!res.ok) throw new Error(data.error);
             if (data.roadmap) {
-                const rm = { ...data.roadmap, id: 'generated' };
+                const rm = ensureIds({ ...data.roadmap, id: 'generated' });
                 setRoadmap(rm);
                 // Auto-save
                 store.save('last_roadmap', { role, repoUrl, roadmap: rm }, role).catch(() => { });
@@ -94,11 +108,25 @@ export default function RoadmapView() {
     };
 
     const toggleResource = async (resourceId: string, currentStatus: boolean) => {
-        toast.info("Toggling resource status...");
+        if (!roadmap) return;
+
+        const updatedRoadmap = {
+            ...roadmap,
+            milestones: roadmap.milestones.map(m => ({
+                ...m,
+                resources: m.resources.map(r => {
+                    if (r.id === resourceId) {
+                        return { ...r, is_completed: !currentStatus };
+                    }
+                    return r;
+                })
+            }))
+        };
+
+        setRoadmap(updatedRoadmap);
         // Save updated roadmap state
-        if (roadmap) {
-            store.save('last_roadmap', { role, repoUrl, roadmap }, role).catch(() => { });
-        }
+        store.save('last_roadmap', { role, repoUrl, roadmap: updatedRoadmap }, role).catch(() => { });
+        toast.success(currentStatus ? "Marked as incomplete" : "Marked as completed");
     };
 
     return (
