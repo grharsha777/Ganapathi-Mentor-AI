@@ -9,14 +9,29 @@ export async function POST(req: NextRequest) {
         const decoded = await verifyToken(token);
         if (!decoded) return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
 
-        if (!isMurfConfigured()) {
-            return NextResponse.json({ error: 'Text-to-speech is not configured. Add MURF_API_KEY to .env.local' }, { status: 503 });
-        }
-
         const { text, voiceId } = await req.json();
 
         if (!text) {
             return NextResponse.json({ error: 'Text is required' }, { status: 400 });
+        }
+
+        // Try Hugging Face Kokoro if Murf is absent
+        if (!isMurfConfigured()) {
+            try {
+                const { generateSpeechHuggingFace, isHuggingFaceConfigured, blobToBase64 } = await import('@/lib/huggingface');
+                if (isHuggingFaceConfigured()) {
+                    const audioBlob = await generateSpeechHuggingFace(text.substring(0, 1000));
+                    const base64 = await blobToBase64(audioBlob);
+
+                    return NextResponse.json({
+                        audioFile: `data:audio/wav;base64,${base64}`
+                    });
+                }
+            } catch (hfError) {
+                console.warn("HF TTS fallback failed:", hfError);
+                return NextResponse.json({ error: 'TTS is not configured properly or HF failed.' }, { status: 503 });
+            }
+            return NextResponse.json({ error: 'Text-to-speech is not configured. Add MURF_API_KEY or HUGGINGFACE_API_KEY' }, { status: 503 });
         }
 
         // Truncate to 5000 chars to avoid API limits

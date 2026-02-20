@@ -1,8 +1,8 @@
 # Ganapathi Mentor AI — Product Requirements Specifications (PRS)
 > **Product Name**: Ganapathi Mentor AI (Neural Code Symbiosis)  
 > **Target Audience**: Developers, Students, Engineering Teams, Tech Educators  
-> **Release**: 2.0 (Production Ready)  
-> **Last Updated**: February 14, 2026  
+> **Release**: 3.0 (Production Ready — Fully Responsive)  
+> **Last Updated**: February 21, 2026  
 > **Document Owner**: G R Harsha
 
 ---
@@ -34,11 +34,15 @@ Integrated productivity tools automate mundane tasks, allowing developers to foc
 
 ### 2.3 🎨 Premium Developer Experience (DX)
 Developer tools should be beautiful and inspiring. The interface features:
-- Premium animations powered by Framer Motion (60fps, physics-based)
+- Premium animations powered by Framer Motion on desktop (60fps, physics-based)
+- CSS-only transitions on mobile/tablet for zero-lag performance
+- **Dual Navigation System**: Mobile sidebar drawer (hamburger menu) + desktop macOS dock
 - Glassmorphism aesthetic with aurora gradient backgrounds
 - Dark mode optimized for reduced eye strain during night coding
-- Responsive design from mobile to 4K displays
-- Accessibility-first approach (WCAG 2.1 AA compliant)
+- **Fully Responsive**: Fluid typography (`clamp()`), safe-area insets for notched phones
+- **Touch-Optimized**: All tap targets ≥ 44px, `touch-action: manipulation`
+- Responsive from 320px mobile to 4K TV displays
+- Accessibility-first: `prefers-reduced-motion` support, WCAG 2.1 AA
 - Zero-latency interactions with optimistic UI updates
 
 ### 2.4 🤝 Collaborative Intelligence
@@ -67,14 +71,15 @@ Team features enable collective learning and knowledge sharing:
 ### Module 2: The Neural Chatbot (Ganapathi AI)
 | ID | Requirement | Priority | Implementation Details |
 |----|-------------|----------|------------------------|
-| **FR-2.1** | **Multi-Model Orchestration** | P0 | System dynamically routes queries to optimal AI model: Mistral Large (primary), Groq Llama 3.3 (fast inference), Google Gemini 1.5 Pro (complex reasoning), Claude 3.5 Sonnet (coding tasks). |
-| **FR-2.2** | **Contextual RAG (Retrieval-Augmented Generation)** | P0 | Chatbot retrieves answers from multiple sources: Wikipedia, Tavily Web Search, arXiv, Semantic Scholar, TMDB. All responses cite sources. |
-| **FR-2.3** | **Streaming Responses** | P0 | Real-time token streaming for conversational feel. Time-to-first-token < 1 second. |
-| **FR-2.4** | **Tool Calling** | P0 | AI can invoke tools: search_wikipedia, search_web, search_arxiv, search_semantic_scholar, search_tmdb. |
-| **FR-2.5** | **Context Awareness** | P1 | Chatbot understands current page context (e.g., "I'm on the analytics page") for relevant responses. |
-| **FR-2.6** | **Rich Media Responses** | P1 | Responses support markdown, syntax-highlighted code blocks, embedded links, and inline images. |
-| **FR-2.7** | **Global Accessibility** | P0 | Chatbot accessible from any page via floating button. Keyboard shortcut support (Cmd/Ctrl + K). |
-| **FR-2.8** | **Conversation History** | P1 | Persist chat history in IndexedDB for offline access and continuity across sessions. |
+| **FR-2.1** | **Multi-Model Orchestration** | P0 | System dynamically routes queries to optimal AI model: Mistral Large (primary), Groq Llama 3.3 (fast inference), HuggingFace (media generation). Automatic failover between providers. |
+| **FR-2.2** | **Contextual RAG** | P0 | Chatbot retrieves answers from multiple sources: YouTube Data API, Tavily Web Search, SERP API. All responses enriched with external data. |
+| **FR-2.3** | **Best Friend Personality** | P0 | AI speaks like a helpful friend, not a robot. Uses casual language, emojis, encouragement. Identity: Ganapathi AI by G R Harsha. |
+| **FR-2.4** | **YouTube Thumbnail Embeds** | P0 | Videos rendered as rich embedded cards with thumbnail, play button overlay, and title bar. Format: `{{youtube:VIDEO_ID\|Title}}`. |
+| **FR-2.5** | **Tool Calling** | P0 | AI invokes tools: `searchYouTubeVideos`, `searchWeb` (Tavily/SERP), `generateImage`, `generateVideo`. |
+| **FR-2.6** | **Context Awareness** | P1 | Chatbot understands current page context and user profile for relevant responses. |
+| **FR-2.7** | **Rich Markdown** | P0 | Code blocks with copy button, styled links (internal/YouTube/LinkedIn/GitHub/email), bold, headings, images. |
+| **FR-2.8** | **Global Accessibility** | P0 | Chatbot accessible from any page via responsive FAB. Full-width panel on mobile, fixed-width on desktop. |
+| **FR-2.9** | **Responsive Chatbot** | P0 | FAB: 56px on mobile, 64px on desktop. Panel: full-width + 70vh on mobile, 560-620px + 720px on desktop. |
 
 ### Module 3: The Neural Concept Engine
 | ID | Requirement | Priority | Implementation Details |
@@ -241,8 +246,12 @@ Team features enable collective learning and knowledge sharing:
 - **Color Contrast**: Minimum 4.5:1 contrast ratio for normal text, 3:1 for large text
 - **Dark Mode**: Native efficient dark mode implementation for reduced eye strain
 - **Responsive Design**: Mobile-first design supporting 320px to 4K displays
-- **Font Scaling**: Support browser font size preferences (rem units)
-- **Motion Preferences**: Respect prefers-reduced-motion for animations
+- **Dual Navigation**: Mobile sidebar drawer (< 1024px) + desktop macOS dock (≥ 1024px)
+- **Touch Targets**: All interactive elements ≥ 44px on touch devices
+- **Font Scaling**: Fluid typography with `clamp()` respects browser preferences
+- **Motion Preferences**: Respects `prefers-reduced-motion` — disables all animations
+- **Safe Area**: `env(safe-area-inset-*)` support for notched phones (iPhone, Galaxy)
+- **No Horizontal Overflow**: `overflow-x: hidden` on body prevents accidental scrolling
 
 ### NFR-6: Maintainability & Code Quality
 - **TypeScript**: 100% TypeScript codebase with strict mode enabled
@@ -458,5 +467,5 @@ Team features enable collective learning and knowledge sharing:
 
 **End of Requirements Specification**  
 *Document Owner: G R Harsha*  
-*Last Updated: February 14, 2026*  
-*Version: 2.0.0*
+*Last Updated: February 21, 2026*  
+*Version: 3.0.0*

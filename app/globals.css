@@ -5,20 +5,24 @@
 @layer base {
   * {
     @apply border-border;
+    -webkit-tap-highlight-color: transparent;
+    box-sizing: border-box;
   }
 
   html {
     scroll-behavior: smooth;
     font-size: 16px;
-    /* Base font size increase */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 
   body {
     font-feature-settings: "rlig" 1, "calt" 1;
     @apply bg-background text-foreground antialiased;
-    font-size: 1.125rem;
-    /* 18px default body text */
+    font-size: clamp(0.875rem, 2vw, 1.125rem);
     line-height: 1.6;
+    overflow-x: hidden;
+    overscroll-behavior: none;
   }
 
   h1,
@@ -31,19 +35,38 @@
   }
 
   h1 {
-    @apply text-5xl md:text-6xl;
+    @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl;
   }
 
   h2 {
-    @apply text-4xl md:text-5xl;
+    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl;
   }
 
   h3 {
-    @apply text-3xl md:text-4xl;
+    @apply text-xl sm:text-2xl md:text-3xl lg:text-4xl;
   }
 
   h4 {
-    @apply text-2xl md:text-3xl;
+    @apply text-lg sm:text-xl md:text-2xl lg:text-3xl;
+  }
+
+  /* Touch-friendly minimum sizes */
+  button,
+  a,
+  [role="button"],
+  input,
+  select,
+  textarea {
+    touch-action: manipulation;
+  }
+
+  /* Ensure images and media scale */
+  img,
+  video,
+  canvas,
+  svg {
+    max-width: 100%;
+    height: auto;
   }
 }
 
@@ -52,7 +75,7 @@
     text-wrap: balance;
   }
 
-  /* Optimized Glass Effect - Reduced blur for performance */
+  /* Glass Effect */
   .glass {
     @apply bg-background/70 backdrop-blur-xl border border-white/5 shadow-2xl;
   }
@@ -61,7 +84,7 @@
     @apply bg-card/50 backdrop-blur-lg border border-white/5 shadow-xl transition-all duration-200 ease-out hover:shadow-2xl hover:border-primary/50 hover:bg-card/70;
   }
 
-  /* Enhanced Neon Text - Sharper glow */
+  /* Neon Text */
   .neon-text {
     text-shadow: 0 0 5px theme('colors.primary.DEFAULT'), 0 0 15px theme('colors.primary.DEFAULT');
   }
@@ -96,19 +119,18 @@
     }
   }
 
-  /* Performance Optimizations */
+  /* Performance */
   .will-change-transform {
     will-change: transform;
     transform: translateZ(0);
-    /* Hardware acceleration hack */
   }
 
   .gpu-accelerated {
     transform: translate3d(0, 0, 0);
     backface-visibility: hidden;
-    perspective: 1000px;
   }
 
+  /* Scrollbar */
   .scrollbar-none {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -118,7 +140,7 @@
     display: none;
   }
 
-  /* Infinite Scroll Animation */
+  /* Infinite Scroll */
   @keyframes scroll-x {
     0% {
       transform: translateX(0);
@@ -137,9 +159,84 @@
     animation-play-state: paused;
   }
 
-  /* Smooth snap for mobile carousel */
+  /* Touch-friendly scrolling */
   .snap-x {
     -webkit-overflow-scrolling: touch;
+  }
+
+  /* Safe area for notched phones (bottom dock) */
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .pt-safe {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+
+  /* Touch-friendly minimum tap target */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Responsive container that works on all screens */
+  .responsive-container {
+    width: 100%;
+    max-width: 100%;
+    padding-left: max(1rem, env(safe-area-inset-left, 1rem));
+    padding-right: max(1rem, env(safe-area-inset-right, 1rem));
+  }
+
+  @media (min-width: 640px) {
+    .responsive-container {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+
+  @media (min-width: 1536px) {
+    .responsive-container {
+      max-width: 1536px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  @media (min-width: 2000px) {
+    .responsive-container {
+      max-width: 1800px;
+    }
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Mobile-specific optimizations */
+@media (max-width: 640px) {
+  .glass-card {
+    backdrop-filter: blur(8px);
+  }
+
+  .glass {
+    backdrop-filter: blur(10px);
   }
 }
 

@@ -20,7 +20,15 @@ export async function GET(req: NextRequest) {
             id: user._id,
             email: user.email,
             full_name: user.full_name,
-            role: user.role
+            role: user.role,
+            metrics: user.metrics || {
+                total_sessions: 0,
+                practice_points: 0,
+                completed_lessons: 0,
+                current_streak: 0,
+                longest_streak: 0,
+                last_active: new Date()
+            }
         }
     });
 }

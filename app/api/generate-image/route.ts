@@ -19,10 +19,26 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'Prompt is required' }, { status: 400 });
         }
 
-        // Try Freepik first (verified working), fallback to Picsart
+        // Try Freepik first (verified working), fallback to Picsart/HF
         if (isFreepikConfigured()) {
             const result = await freepikGenerate({ prompt });
             return NextResponse.json(result);
+        }
+
+        // Try Hugging Face next
+        try {
+            const { generateImageHuggingFace, isHuggingFaceConfigured, blobToBase64 } = await import('@/lib/huggingface');
+            if (isHuggingFaceConfigured()) {
+                const imageBlob = await generateImageHuggingFace(prompt, width, height);
+                const base64 = await blobToBase64(imageBlob);
+                return NextResponse.json({
+                    data: [
+                        { url: `data:${imageBlob.type || 'image/png'};base64,${base64}` }
+                    ]
+                });
+            }
+        } catch (e) {
+            console.warn("HF Image fallback failed, trying Picsart", e);
         }
 
         // Fallback to Picsart

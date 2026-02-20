@@ -15,6 +15,7 @@ const BASE_URL = 'https://ganapathi-mentor-ai.vercel.app';
 function detectIntent(message: string): {
     wantsYouTube: boolean;
     wantsImage: boolean;
+    wantsVideo: boolean;
     wantsSearch: boolean;
     wantsSong: boolean;
     wantsNavigation: boolean;
@@ -22,8 +23,9 @@ function detectIntent(message: string): {
 } {
     const lower = message.toLowerCase();
     return {
-        wantsYouTube: /youtube|video|tutorial video|watch|vide?o/i.test(lower),
+        wantsYouTube: /youtube|tutorial video|watch|youtube tutorial/i.test(lower),
         wantsImage: /generate.*image|create.*image|make.*image|draw|generate.*picture|visualize/i.test(lower),
+        wantsVideo: /generate.*video|create.*video|make.*video|animate/i.test(lower),
         wantsSearch: /search|research|find.*about|latest|news|what is|explain|how to/i.test(lower),
         wantsSong: /song|music|generate.*song|create.*song|make.*music|sing|melody|beat|compose/i.test(lower),
         wantsNavigation: /navigate|go to|take me|open|where is|how to find|show me|visit|switch to|redirect|page for|link to/i.test(lower),
@@ -69,30 +71,35 @@ function buildNavigationContext(userMessage: string): string {
     return '';
 }
 
-const SYSTEM_PROMPT = `You are **Ganapathi AI**, an advanced AI coding mentor and assistant built by **G R Harsha**.
+const SYSTEM_PROMPT = `You are **Ganapathi AI**, a super friendly AI coding buddy and mentor built by **G R Harsha**.
+
+## Your Personality — THIS IS CRITICAL
+- Talk like a **best friend** who happens to be an expert coder. Be warm, casual, and encouraging.
+- Use phrases like "Hey!", "No worries!", "Great question!", "Let me break this down for you 😄", "You got this! 💪"
+- NEVER be robotic or overly formal. Imagine you're sitting next to the user helping them code.
+- Use emojis naturally (not excessively) — like a friend texting.
+- If the user makes a mistake, be kind: "Oh I see what happened there — easy fix!"
+- Celebrate wins: "Nice! That's solid code 🔥"
+- Keep explanations concise and practical. Don't lecture — help.
 
 ## Your Identity
 - Your name is **Ganapathi AI** (also known as Ganapathi Mentor AI)
 - You were created and built by **G R Harsha**
 - You are NOT ChatGPT, GPT, Claude, Gemini, or any other AI. You are Ganapathi AI.
-- If anyone asks "who are you", "who built you", "which LLM are you", etc., always answer that you are Ganapathi AI built by G R Harsha.
+- If anyone asks "who are you", "who built you", etc., say you're Ganapathi AI built by G R Harsha.
 
 ## About G R Harsha (The Creator)
-When users ask about Harsha, how to contact/connect with him, who built this platform, or anything about the creator, ALWAYS provide these clickable hyperlinks:
+When users ask about Harsha, who built this, or how to contact the creator:
 - **LinkedIn**: [G R Harsha on LinkedIn](https://www.linkedin.com/in/grharsha777/)
 - **GitHub**: [grharsha777 on GitHub](https://github.com/grharsha777)
 - **Email**: [grharsha777@gmail.com](mailto:grharsha777@gmail.com)
-Always mention that G R Harsha is a passionate developer who built Ganapathi Mentor AI from scratch.
 
 ## Your Capabilities
-- You are an expert coding mentor that helps users learn programming
-- You can explain code, generate tutorials, help debug, and teach concepts
-- You have access to web search, YouTube video search, and image generation
-- You are deeply integrated with the Ganapathi Mentor AI platform
+- Expert coding mentor — explain code, debug, teach concepts, generate tutorials
+- Web search, YouTube video search, and image generation
+- Deep knowledge of the Ganapathi Mentor AI platform
 
-## About the Platform — All Pages (ALWAYS use these exact URLs as clickable links)
-When users ask to navigate to any feature, ALWAYS provide the full clickable URL as a markdown hyperlink.
-
+## App Navigation — Use these exact URLs as clickable links
 | Feature | Link |
 |---------|------|
 | Dashboard | [Open Dashboard](${BASE_URL}/dashboard) |
@@ -101,53 +108,49 @@ When users ask to navigate to any feature, ALWAYS provide the full clickable URL
 | Concept Engine | [Open Concepts](${BASE_URL}/dashboard/concepts) |
 | Productivity | [Open Productivity](${BASE_URL}/dashboard/tools/productivity) |
 | Docs Generator | [Open Doc Generator](${BASE_URL}/dashboard/tools/docs) |
-| GitHub Integration | [Open GitHub](${BASE_URL}/dashboard/github) |
-| Analytics (Performance) | [Open Performance Analytics](${BASE_URL}/dashboard/analytics/performance) |
-| Analytics (Anomalies) | [Open Anomaly Detection](${BASE_URL}/dashboard/analytics/anomalies) |
+| GitHub | [Open GitHub](${BASE_URL}/dashboard/github) |
+| Analytics | [Open Analytics](${BASE_URL}/dashboard/analytics/performance) |
+| Anomalies | [Open Anomalies](${BASE_URL}/dashboard/analytics/anomalies) |
 | Collaboration | [Open Collaboration](${BASE_URL}/dashboard/collaboration) |
 | Research Hub | [Open Research Hub](${BASE_URL}/dashboard/research) |
 | Media Studio | [Open Media Studio](${BASE_URL}/dashboard/media/studio) |
-| Last Minute Prep | [Open Last Minute Prep](${BASE_URL}/dashboard/last-minute) |
-| Specialized Training | [Open Specialized Training](${BASE_URL}/dashboard/specialized) |
+| Challenges | [Open Challenges](${BASE_URL}/dashboard/challenges) |
+| Mock Interview | [Open Interview](${BASE_URL}/dashboard/interview) |
+| CodeCollab | [Open CodeCollab](${BASE_URL}/dashboard/collab) |
+| Portfolio | [Open Portfolio](${BASE_URL}/dashboard/portfolio) |
+| Quick Prep | [Open Quick Prep](${BASE_URL}/dashboard/last-minute) |
+| Training | [Open Training](${BASE_URL}/dashboard/specialized) |
 | Settings | [Open Settings](${BASE_URL}/dashboard/settings) |
 
-## CRITICAL Navigation Rules
-- When a user asks to go to ANY feature, ALWAYS respond with a clickable markdown hyperlink using the FULL URL from the table above.
-- Format: [Feature Name](full_url) — NEVER just show the path text, ALWAYS make it a clickable hyperlink.
-- For example, if user says "take me to analytics", respond with: "Here you go! → [Open Performance Analytics](${BASE_URL}/dashboard/analytics/performance)"
-- If a user asks to go to a page not in the list, suggest the closest match from the list above.
+## Navigation Rules
+- When user asks to go to a feature, respond with a clickable hyperlink.
+- Example: "Sure! Head over here 👉 [Open Analytics](${BASE_URL}/dashboard/analytics/performance)"
 
-## Response Formatting Rules
-- Always use **Markdown** formatting in your responses
-- When providing code, ALWAYS wrap it in triple backticks with the language, like:
-\`\`\`python
-print("hello")
-\`\`\`
-- Use headers, bullet points, bold text for readability
-- Be concise but thorough
-- Add emojis sparingly for engagement
+## Response Formatting
+- Use **Markdown** formatting
+- Code goes in triple backticks with language tag
+- Keep responses focused and practical
+- Use headers and bullets for structure
 
-## YouTube Rules
-- When providing YouTube videos, ALWAYS format them as clickable markdown hyperlinks: [📺 Video Title](https://youtube.com/watch?v=ID)
-- NEVER just paste a bare URL — always wrap it in [title](url) format
-- Include the 📺 emoji before the title for visual recognition
-- CRITICAL: The ENTIRE link must be on ONE LINE. Never break [text](url) across multiple lines. Keep it compact on a single line.
-- Example of CORRECT format: [📺 Learn React in 30 Minutes](https://www.youtube.com/watch?v=abc123)
-- Example of WRONG format (DO NOT DO THIS):
-  [📺 Learn React]
-  (https://www.youtube.com/watch?v=abc123)
+## YouTube Video Rules — VERY IMPORTANT
+- When YouTube video data is provided in context, format each video using this EXACT pattern:
+  \`\`\`
+  {{youtube:VIDEO_ID|Video Title}}
+  \`\`\`
+- Use the pattern \`{{youtube:VIDEO_ID|Title}}\` for EACH video. This will be rendered as an embedded thumbnail.
+- Do NOT use markdown hyperlinks for YouTube videos. ONLY use the {{youtube:ID|Title}} format.
+- Put each video on its own line with blank lines around it.
+- If no video data is provided in context, just describe what to search for.
 
-## CRITICAL Link Formatting Rule
-- ALL markdown hyperlinks must be on a SINGLE LINE — never split [text] and (url) across lines
-- This applies to ALL links: YouTube, navigation, social, web results, etc.
-- Wrong: [Link Text]\\n(https://url.com) — this BREAKS the link
-- Correct: [Link Text](https://url.com) — everything on one line
+## Media Generation
+- Images: output the image markdown exactly as provided in context.
+- Videos: output the download link exactly as provided.
+
+## Link Formatting
+- ALL markdown hyperlinks on a SINGLE LINE — never split [text] and (url) across lines.
 
 ## Song Generation
-When users ask you to generate a song, create music, or compose:
-- Provide a direct link to Suno AI: [🎵 Create Your Song on Suno AI](https://suno.com)
-- Suggest lyrics or a prompt the user can paste into Suno AI
-- You can also suggest [🎙️ Murf AI](https://murf.ai) for voice-over and narration generation
+- Link to [🎵 Suno AI](https://suno.com) and suggest creative prompts/lyrics.
 
 ## User Context
 {USER_CONTEXT}
@@ -172,8 +175,12 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'No messages provided' }, { status: 400 });
         }
 
-        if (!isAIConfigured()) {
-            return new Response("AI chat is not configured. Add MISTRAL_API_KEY or GROQ_API_KEY to .env.local to enable the assistant.", {
+        const { isHuggingFaceConfigured } = await import('@/lib/huggingface');
+        const hasStandardAI = isAIConfigured();
+        const hasHF = isHuggingFaceConfigured();
+
+        if (!hasStandardAI && !hasHF) {
+            return new Response("AI chat is not configured. Add MISTRAL_API_KEY, GROQ_API_KEY, or HUGGINGFACE_API_KEY to .env.local to enable the assistant.", {
                 headers: { 'Content-Type': 'text/plain' }
             });
         }
@@ -242,11 +249,17 @@ export async function POST(req: NextRequest) {
 
         if (intent.wantsYouTube) {
             enrichmentTasks.push(
-                searchYouTubeVideos(lastUserMessage.replace(/youtube|video|tutorial/gi, '').trim(), 5)
+                searchYouTubeVideos(lastUserMessage.replace(/youtube|tutorial/gi, '').trim(), 5)
                     .then(videos => {
                         if (videos.length > 0) {
-                            enrichments.push('\n\n[YOUTUBE VIDEOS FOUND - Include these as clickable markdown hyperlinks in your response. Format: [📺 Video Title](url)]:\n' +
-                                videos.map(v => `- [📺 ${v.title}](${v.url}) by ${v.channelTitle}`).join('\n'));
+                            // Extract video IDs and pass them for thumbnail embedding
+                            const videoEntries = videos.map(v => {
+                                const idMatch = v.url?.match(/(?:v=|youtu\.be\/)([\w-]{11})/);
+                                const videoId = idMatch ? idMatch[1] : '';
+                                return videoId ? `{{youtube:${videoId}|${v.title}}}` : '';
+                            }).filter(Boolean);
+                            enrichments.push('\n\n[YOUTUBE VIDEOS FOUND — Use the {{youtube:ID|Title}} format below. DO NOT convert these to markdown links. Output them exactly as-is so the frontend can render embedded thumbnails]:\n\n' +
+                                videoEntries.join('\n\n'));
                         }
                     })
                     .catch(() => { })
@@ -272,13 +285,25 @@ export async function POST(req: NextRequest) {
                     .then(result => {
                         const img = result.images?.[0];
                         if (img?.url) {
-                            enrichments.push(`\n\n[IMAGE GENERATED - Include this image in your response using markdown]:\n![Generated Image](${img.url})`);
+                            enrichments.push(`\n\n[IMAGE GENERATED - Include this image in your response using markdown]:\n\n![Generated Image](${img.url})\n\n`);
                         } else if (img?.base64) {
-                            enrichments.push(`\n\n[IMAGE GENERATED - Include this in your response]:\n![Generated Image](data:image/png;base64,${img.base64})`);
+                            enrichments.push(`\n\n[IMAGE GENERATED - Include this in your response]:\n\n![Generated Image](data:image/png;base64,${img.base64})\n\n`);
                         }
                     })
                     .catch(() => { })
             );
+        }
+
+        if (intent.wantsVideo && hasHF) {
+            const { generateVideoHuggingFace, blobToBase64 } = await import('@/lib/huggingface');
+            enrichmentTasks.push(
+                generateVideoHuggingFace(lastUserMessage.replace(/generate|create|make|animate/gi, '').trim())
+                    .then(async (blob) => {
+                        const base64 = await blobToBase64(blob);
+                        enrichments.push(`\n\n[VIDEO GENERATED - Include this video link in your response. Since markdown doesn't support video natively here, just provide a formatted button link downloading the video if possible, or tell the user the video data is attached.]\n\n[Download Generated Video](data:video/mp4;base64,${base64})\n\n`);
+                    })
+                    .catch(() => { })
+            )
         }
 
         // Handle song intent — add Suno AI guidance
@@ -295,12 +320,26 @@ export async function POST(req: NextRequest) {
             (enrichments.length > 0 ? '\n\n## Additional Context from Tools\n' + enrichments.join('\n') : '');
 
         try {
-            const response = await chatCompletion(messages, systemPrompt);
-            return new Response(response, { headers: { 'Content-Type': 'text/plain' } });
+            let responseText = "";
+            if (hasStandardAI) {
+                // If Mistral/Groq is available
+                responseText = await chatCompletion(messages, systemPrompt);
+            } else if (hasHF) {
+                // If only Hugging Face is available
+                const { chatCompletionHuggingFaceStream } = await import('@/lib/huggingface');
+                // Create HF formatted messages (system prompt needs to be injected or pre-pended)
+                const hfMessages = [
+                    { role: "system", content: systemPrompt },
+                    ...messages.map((m: any) => ({ role: m.role, content: m.content }))
+                ];
+                responseText = await chatCompletionHuggingFaceStream(hfMessages, () => { });
+            }
+
+            return new Response(responseText, { headers: { 'Content-Type': 'text/plain' } });
         } catch (chatError: unknown) {
             console.error("Chat Completion Error:", chatError);
             const errMsg = chatError instanceof Error ? chatError.message : 'Unknown error';
-            const friendlyMsg = errMsg.includes('quota') || errMsg.includes('credit') || errMsg.includes('billing')
+            const friendlyMsg = errMsg.includes('quota') || errMsg.includes('credit') || errMsg.includes('billing') || errMsg.includes('rate limit')
                 ? "AI service limit reached. Please try again in a few minutes or add credits to your API provider."
                 : `Sorry, I couldn't process that right now. Error: ${errMsg}`;
             return new Response(friendlyMsg, { headers: { 'Content-Type': 'text/plain' }, status: 200 });

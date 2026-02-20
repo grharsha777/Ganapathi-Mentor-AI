@@ -54,7 +54,7 @@ export const TOOLS: Tool[] = [
     {
         id: 'gamma',
         name: 'Gamma.app',
-        url: 'https://gamma.app',
+        url: 'https://gamma.app/signup?r=irt8vkl7gwvm2wd',
         description: 'AI-powered presentation generator. Paste your topic and get a polished PPT in seconds.',
         category: 'ppt-slides',
         pricing: 'Freemium',

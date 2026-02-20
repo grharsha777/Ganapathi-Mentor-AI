@@ -98,37 +98,37 @@ export default function PersonalDashboard() {
     const [currentUserId, setCurrentUserId] = useState<string>('');
 
     useEffect(() => {
-        // Simulate fetching real user data (in production, this would be API calls)
         const fetchData = async () => {
             try {
-                // Simulate API delay
-                await new Promise(resolve => setTimeout(resolve, 500));
+                // Fetch personal stats
+                const meRes = await fetch('/api/auth/me');
+                if (meRes.ok) {
+                    const meData = await meRes.json();
+                    if (meData.user) {
+                        setCurrentUserId(meData.user.id);
+                        const m = meData.user.metrics || {};
+                        setStats({
+                            streak: m.current_streak || 0,
+                            skillsMastered: Math.floor((m.completed_lessons || 0) / 3), // mock a formula for skills
+                            weeklyGoal: Math.min(100, (m.total_sessions || 0) * 10), // Example logic
+                            xpPoints: m.practice_points || 0,
+                            level: 'Senior Architect I'
+                        });
+                    }
+                }
 
-                // In production, these would be real API calls:
-                setStats({
-                    streak: 12,
-                    skillsMastered: 8,
-                    weeklyGoal: 85,
-                    xpPoints: 2450,
-                    level: 'Senior Architect I'
-                });
+                // Fetch leaderboard
+                const lbRes = await fetch('/api/leaderboard');
+                if (lbRes.ok) {
+                    const lbData = await lbRes.json();
+                    setLeaderboard(lbData.leaderboard || []);
+                }
 
-                // Weekly leaderboard data
-                setLeaderboard([
-                    { id: 'user1', name: 'G R Harsha', xp: 2450, rank: 1 },
-                    { id: 'user2', name: 'Priya Sharma', xp: 2280, rank: 2 },
-                    { id: 'user3', name: 'Rahul Kumar', xp: 2100, rank: 3 },
-                    { id: 'user4', name: 'Sneha Patel', xp: 1950, rank: 4 },
-                    { id: 'user5', name: 'Arjun Reddy', xp: 1820, rank: 5 },
-                ]);
-
+                // Activities Mock (leave as is for UI structure unless db schema supports activities)
                 setActivities([
-                    { id: '1', title: 'Completed "Advanced TypeScript Patterns"', type: 'Milestone 2', xpEarned: 50, timeAgo: '2 hours ago' },
-                    { id: '2', title: 'Solved React Hooks Challenge', type: 'Challenge', xpEarned: 30, timeAgo: '5 hours ago' },
-                    { id: '3', title: 'Completed Code Review Session', type: 'Review', xpEarned: 25, timeAgo: 'Yesterday' },
+                    { id: '1', title: 'Completed "Advanced TypeScript Patterns"', type: 'Milestone', xpEarned: 50, timeAgo: 'Recent' },
+                    { id: '2', title: 'Practice Session', type: 'Session', xpEarned: 30, timeAgo: 'Recent' },
                 ]);
-
-                setCurrentUserId('user1'); // Current logged in user
 
             } catch (error) {
                 console.error('Failed to fetch dashboard data:', error);
@@ -138,6 +138,10 @@ export default function PersonalDashboard() {
         };
 
         fetchData();
+
+        // Polling for live updates (optional but good for 'real-time' feel)
+        const interval = setInterval(fetchData, 30000);
+        return () => clearInterval(interval);
     }, []);
 
     if (loading) {
@@ -256,13 +260,21 @@ export default function PersonalDashboard() {
                     >
                         <Card className="h-[600px] glass border-0 shadow-2xl flex flex-col">
                             <CardContent className="flex-1 space-y-3 pt-6 overflow-y-auto custom-scrollbar p-6">
-                                {leaderboard.map((user) => (
-                                    <LeaderboardItem
-                                        key={user.id}
-                                        user={user}
-                                        currentUserId={currentUserId}
-                                    />
-                                ))}
+                                {leaderboard.length === 0 ? (
+                                    <div className="flex flex-col items-center justify-center h-full text-center space-y-4 opacity-70">
+                                        <Trophy className="h-12 w-12 text-muted-foreground mb-2" />
+                                        <p className="text-lg font-bold">No Rankings Yet</p>
+                                        <p className="text-sm text-muted-foreground w-3/4">Complete your first session or practice to get on the leaderboard!</p>
+                                    </div>
+                                ) : (
+                                    leaderboard.map((user) => (
+                                        <LeaderboardItem
+                                            key={user.id}
+                                            user={user}
+                                            currentUserId={currentUserId}
+                                        />
+                                    ))
+                                )}
                             </CardContent>
                             <div className="p-6 border-t border-white/10 mt-auto bg-black/20">
                                 <Button variant="default" className="w-full text-lg h-12 shadow-neon transition-all hover:scale-[1.02]">

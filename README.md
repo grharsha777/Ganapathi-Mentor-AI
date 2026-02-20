@@ -1,128 +1,307 @@
-# Ganapathi Mentor AI 🐘 The Future of AI Learning
+# 🐘 Ganapathi Mentor AI — The Future of AI-Powered Developer Learning
 
-**Built with ❤️ by [G R Harsha](https://github.com/grharsha777)**
+<p align="center">
+  <strong>Built with ❤️ by <a href="https://github.com/grharsha777">G R Harsha</a></strong>
+</p>
 
-![Status](https://img.shields.io/badge/Status-Production_Ready-success) ![Stack](https://img.shields.io/badge/Tech-Next.js_15_|_MongoDB_|_AI_SDK-blue)
-
-**Ganapathi Mentor AI** is a state-of-the-art, AI-powered learning ecosystem designed to be your 24/7 senior engineering mentor. It leverages **Custom RAG (Retrieval-Augmented Generation)**, **Multi-Modal AI**, and **Premium Animated UI** to provide a deeply personalized coding education experience.
-
----
-
-## 🚀 Key Features
-
-### 🤖 **Ganapathi AI Chatbot (Custom RAG)**
-- **Context-Aware**: Understands your learning history, current page, and code context.
-- **RAG-Powered**: Fetches real-time answers from documentation, StackOverflow, and trusted sources.
-- **Multi-Model Intelligence**: Switches between **Google Gemini**, **Mistral**, **Claude**, and **Groq** for optimal performance.
-- **Interactive Tools**: Can generate images, write code, search the web, and even compose study music.
-
-### 🧠 **Neural Concept Engine**
-- **Adaptive Explanations**: Explains concepts like "System Design" or "React Hooks" at Beginner, Intermediate, and Advanced levels.
-- **Visual Learning**: Auto-generates mermaid diagrams and flowcharts to visualize complex logic.
-
-### 🎨 **Premium UI & Animations**
-- **Framer Motion Powered**: Silky smooth page transitions, floating interaction elements, and micro-interactions.
-- **Animated FAB**: A custom-designed, interactive floating action button with a robot mascot that reacts to user state.
-- **Glassmorphism Design**: Modern, clean, and accessible dark-mode-first aesthetic.
-
-### 🗺️ **Personalized Learning Paths**
-- **Role-Based Roadmaps**: Generates custom curriculums for Frontend, Backend, DevOps, or Full Stack roles.
-- **Dynamic Progress Tracking**: Persists your journey using a hybrid MongoDB + IndexedDB architecture.
-
-### 🎥 **AI Media Studio**
-- **Image Generation**: Integrated **Picsart** & **Freepik** APIs for creating project assets.
-- **Video & Avatar**: **HeyGen** integration for AI-generated mentor videos.
-- **Voice Synthesis**: **ElevenLabs** & **Murf.ai** for realistic text-to-speech explanations.
-- **Music Generator**: **Suno AI** integration to create focus music for coding sessions.
-
-### 🛠️ **Developer Productivity Tools**
-- **Code Reviewer**: Static analysis + AI insight to refactor code and detect anti-patterns.
-- **Doc Generator**: Instantly creates comprehensive documentation from raw code.
-- **Eisenhower Matrix**: AI-driven task prioritization.
+<p align="center">
+  <img src="https://img.shields.io/badge/Status-Production_Ready-success?style=for-the-badge" alt="Status" />
+  <img src="https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js" alt="Next.js" />
+  <img src="https://img.shields.io/badge/TypeScript-5.7-blue?style=for-the-badge&logo=typescript" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/MongoDB-Atlas-green?style=for-the-badge&logo=mongodb" alt="MongoDB" />
+  <img src="https://img.shields.io/badge/AI-Multi--Model-purple?style=for-the-badge" alt="AI" />
+  <img src="https://img.shields.io/badge/Responsive-Mobile_to_TV-orange?style=for-the-badge" alt="Responsive" />
+</p>
 
 ---
 
-## 🛠️ Tech Stack
+**Ganapathi Mentor AI** is a state-of-the-art, AI-powered **Symbiotic Intelligence Platform** for developer education and productivity. It acts like a **best friend who's also a senior engineer** — warm, helpful, and always available. The platform combines **Custom RAG**, **Multi-Modal AI**, **Premium Animated UI**, and **Full Responsiveness** across every device from mobile phones to large TV screens.
 
-### **Frontend**
-- **Framework**: [Next.js 15 (App Router)](https://nextjs.org/)
-- **Core**: React 19 (Server Components + Actions)
-- **Language**: TypeScript (Strict Mode)
-- **Styling**: TailwindCSS v4, Shadcn/UI
-- **Animations**: **Framer Motion** (Complex gestures & layout animations)
-- **Icons**: Lucide React
-
-### **Backend & Infrastructure**
-- **Runtime**: Vercel Edge Functions & Serverless
-- **Database**: **MongoDB Atlas** (Primary), **IndexedDB** (Offline Caching)
-- **Auth**: JWT-based Secure Authentication with Supabase reference integration.
-- **Validation**: Zod & React Hook Form
-
-### **AI & ML Layer**
-- **Orchestration**: **Vercel AI SDK** (Unified API for all LLMs)
-- **Search & RAG**: Tavily API, Serper API, Semantic Scholar
-- **Video Intelligence**: YouTube Data API v3
+> 🎯 **Mission**: Democratize elite-level mentorship so every developer can accelerate from junior to expert.
 
 ---
 
-## 🔌 API Integrations
+## 🚀 Core Features
 
-The platform orchestrates a symphony of top-tier AI APIs:
+### 🤖 Ganapathi AI Chatbot — Your Coding Buddy
+- **Best Friend Personality** — Talks like a helpful friend, not a robot. Uses casual, encouraging language.
+- **Context-Aware RAG** — Understands your page, learning history, and code context.
+- **Multi-Model Intelligence** — Routes to **Mistral**, **Groq**, or **Hugging Face** for optimal response.
+- **YouTube Thumbnail Embeds** — Videos shown as rich embedded cards with play buttons (not plain links).
+- **Built-in Tools** — Web search, YouTube search, image generation, and in-app navigation.
+- **Markdown Rendering** — Code blocks with copy-to-clipboard, styled links, bold/headings, inline code.
+- **Identity**: Always identifies as **Ganapathi AI** built by **G R Harsha**.
 
-| Category | Service | Key Function |
-|---|---|---|
-| **LLMs** | **Google Gemini, Mistral, Anthropic, Groq** | Core reasoning, coding, chat |
-| **Search** | **Tavily, Serper, Semantic Scholar** | Real-time web knowledge retrieval |
-| **Video** | **YouTube Data API** | Curated tutorial fetching |
-| **Media Gen** | **HeyGen, Picsart, Freepik, Suno** | Video, Image, and Music generation |
-| **Voice** | **ElevenLabs, Murf.ai** | Premium Text-to-Speech |
-| **Data** | **TMDB, TVDB** | Media metadata for project examples |
+### 📱 Fully Responsive Design — Mobile to TV
+- **Mobile Sidebar Navigation** — Slide-out drawer with hamburger menu (no lag!)
+- **Desktop macOS Dock** — Spring-animated magnification dock with iOS-style gradient icons
+- **Touch-Optimized** — All interactive elements use `touch-action: manipulation`, `active:scale` effects
+- **Fluid Typography** — `clamp()` CSS for text that scales from 320px phones to 4K screens
+- **Safe Area Support** — Proper `env(safe-area-inset-*)` for notched phones (iPhone, Galaxy)
+- **Reduced Motion** — Respects `prefers-reduced-motion` for accessibility
 
----
+### 🧠 Neural Concept Engine
+- **Adaptive Explanations** — ELI5 (Beginner) → Professional → Research-grade depth
+- **Visual Learning** — Auto-generated Mermaid diagrams and flowcharts
+- **Mastery Tracking** — Concepts stored in MongoDB with skill vectors
 
-## 🔒 Security & Performance
-- **Hybrid Storage**: Critical data in MongoDB, transient state in IndexedDB for instant load times.
-- **Secure Handling**: Server-side API key management; no keys exposed to client.
-- **Edge Caching**: Vercel Edge Network for low-latency global access.
+### 🗺️ Personalized Learning Paths
+- **Role-Based Roadmaps** — Frontend, Backend, Full Stack, DevOps, and more
+- **AI-Generated Curriculum** — 4-week milestones with curated resources
+- **Dynamic Progress Tracking** — Hybrid MongoDB + IndexedDB persistence
+- **Session Completion Handling** — Pages update correctly when all sessions complete
+
+### 🎥 AI Media Studio
+- **Image Generation** — Freepik & HuggingFace integrations
+- **Video Generation** — HuggingFace text-to-video models
+- **Music** — Suno AI integration for focus music
+- **Branding Generator** — AI-powered logos, color palettes, typography
+
+### 🛠️ Developer Productivity Suite
+- **Code Reviewer** — AI + static analysis for bugs, security, anti-patterns
+- **Doc Generator** — Auto-generate JSDoc, Python docstrings, READMEs
+- **Eisenhower Matrix** — AI-driven task prioritization
+- **GitHub Integration** — OAuth + repo analytics, commit history, language breakdown
+
+### 🏆 Interview & Challenges
+- **Mock Interviews** — Voice-first AI interviews with real-time feedback
+- **Coding Challenges** — Timed challenges with scoring
+- **Performance Scoring** — Technical depth, communication, problem-solving metrics
+
+### 🔬 Research Hub
+- **Unified Search** — Wikipedia, arXiv, Semantic Scholar, Tavily web search
+- **Stack Exchange** — Programming Q&A integration
+- **Citation Management** — Save and organize research findings
+
+### 👥 Team Collaboration
+- **Team Workspaces** — Create teams with role-based access (owner/admin/member/viewer)
+- **Shared Learning Paths** — Team-wide roadmaps and progress tracking
+- **Leaderboards** — Weekly XP rankings for motivation
+- **CodeCollab** — Collaborative coding environment
+
+### 📊 Analytics & Anomaly Detection
+- **Personal Dashboard** — Streak, XP, level, weekly goals
+- **Performance Charts** — Learning velocity, skill distribution
+- **Anomaly Detection** — AI detects unusual patterns in learning behavior
 
 ---
 
 ## 🏗️ Architecture
 
 ```mermaid
-graph TD
-    User((User)) -->|Interacts| UI[Next.js Client + Framer Motion]
-    
-    subgraph "Frontend Layer"
-        UI -->|Cache| IDB[(IndexedDB)]
-        UI -->|Action| Server[Server Actions]
+graph TB
+    subgraph "Client Layer"
+        Browser[Web Browser]
+        Mobile[Mobile / Tablet]
     end
-    
-    subgraph "Intelligence Layer"
-        Server -->|Orchestrate| AISDK[Vercel AI SDK]
-        AISDK --> Gemini[Google Gemini]
-        AISDK --> Mistral[Mistral]
-        AISDK --> RAG[RAG Engine]
+
+    subgraph "UI Layer"
+        Sidebar[Mobile Sidebar<br/>Hamburger + Drawer]
+        Dock[Desktop macOS Dock<br/>Spring Magnification]
+        Chatbot[AI Chatbot FAB<br/>YouTube Embeds]
     end
-    
+
+    subgraph "Edge Layer — Vercel"
+        CDN[Global CDN<br/>150+ Locations]
+        Middleware[Next.js Middleware<br/>JWT Auth + RBAC]
+        API[API Routes<br/>Serverless Functions]
+    end
+
+    subgraph "AI Intelligence Layer"
+        Router[Model Router<br/>Intent Detection]
+        Mistral[Mistral Large<br/>Primary LLM]
+        Groq[Groq Llama 3.3<br/>Fast Inference]
+        HF[HuggingFace<br/>Media Generation]
+    end
+
+    subgraph "RAG & Search"
+        YouTube[YouTube Data API<br/>Thumbnail Embeds]
+        Tavily[Tavily Web Search]
+        SERP[SERP API]
+    end
+
     subgraph "Data Layer"
-        Server -->|Persist| Mongo[(MongoDB Atlas)]
-        RAG -->|Fetch| Tavily[Tavily Search]
-        RAG -->|Fetch| YT[YouTube API]
+        MongoDB[(MongoDB Atlas<br/>Primary DB)]
+        IDB[(IndexedDB<br/>Offline Cache)]
     end
+
+    Browser --> CDN
+    Mobile --> CDN
+    CDN --> Middleware --> API
+    API --> Router
+    Router --> Mistral
+    Router --> Groq
+    Router --> HF
+    API --> YouTube
+    API --> Tavily
+    API --> SERP
+    API --> MongoDB
+    Browser -.-> IDB
+    IDB -.-> MongoDB
+
+    style Router fill:#6366f1
+    style MongoDB fill:#00ed64
+    style CDN fill:#f59e0b
+    style Sidebar fill:#7C3AED
+    style Dock fill:#7C3AED
+```
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technologies |
+|-------|-------------|
+| **Framework** | Next.js 15 (App Router), React 19, TypeScript 5.7 |
+| **Styling** | TailwindCSS, Shadcn/UI, CSS Variables |
+| **Animations** | Framer Motion 12 (desktop dock), CSS transitions (mobile) |
+| **Icons** | Lucide React |
+| **Database** | MongoDB Atlas (primary), IndexedDB (offline cache) |
+| **Auth** | JWT (jose), bcryptjs, HTTP-only cookies |
+| **AI Models** | Mistral Large, Groq Llama 3.3, HuggingFace |
+| **Search** | YouTube Data API, Tavily, SERP API |
+| **Media** | Freepik, HuggingFace (image/video gen) |
+| **Hosting** | Vercel Edge Network |
+| **Analytics** | Vercel Analytics |
+
+---
+
+## 🔌 API Integrations
+
+| Category | Service | Function |
+|----------|---------|----------|
+| **LLMs** | Mistral, Groq, HuggingFace | Chat, code review, concept explanation |
+| **Search** | Tavily, SERP, YouTube Data API | Web search, video discovery |
+| **Media** | Freepik, HuggingFace | Image & video generation |
+| **Code** | GitHub (Octokit) | Repo analytics, commit history |
+| **Research** | Semantic Scholar, arXiv, Wikipedia | Academic paper search |
+| **Music** | Suno AI | Focus music generation |
+
+---
+
+## 📱 Responsive Design Strategy
+
+| Screen | Navigation | Optimizations |
+|--------|------------|---------------|
+| **Mobile** (< 640px) | Hamburger → Slide-out Sidebar | Zero framer-motion, CSS-only animations, reduced `backdrop-blur`, safe-area insets |
+| **Tablet** (640-1024px) | Hamburger → Slide-out Sidebar | Touch-friendly 44px tap targets, fluid typography |
+| **Desktop** (1024-1536px) | macOS Magnification Dock | Spring-animated icons, hover tooltips, active glow rings |
+| **Large/TV** (1536px+) | macOS Magnification Dock | Max-width container (1600-1800px), centered layout |
+
+---
+
+## 🔒 Security
+
+- **JWT Authentication** — Stateless, HTTP-only cookies, 7-day expiration
+- **Password Hashing** — bcrypt with salt rounds
+- **Server-Side Secrets** — All API keys on server only, never exposed to client
+- **Input Validation** — Zod schemas for runtime validation
+- **XSS Protection** — React built-in + Content Security Policy
+- **Rate Limiting** — API rate limits to prevent abuse
+- **Encryption** — MongoDB Atlas AES-256 at rest, TLS 1.3 in transit
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js 18+
+- MongoDB Atlas account
+- At least one AI API key (Mistral or Groq)
+
+### Setup
+```bash
+# Clone the repository
+git clone https://github.com/grharsha777/ganapathi-mentor-ai.git
+cd ganapathi-mentor-ai
+
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.example .env.local
+# Fill in your API keys
+
+# Run development server
+npm run dev
+```
+
+### Environment Variables
+```env
+MONGODB_URI=mongodb+srv://...
+JWT_SECRET=your-secret-key
+MISTRAL_API_KEY=your-key
+GROQ_API_KEY=your-key
+HUGGINGFACE_API_KEY=your-key
+YOUTUBE_API_KEY=your-key
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+```
+
+---
+
+## 📁 Project Structure
+
+```
+neural-code-symbiosis/
+├── app/                          # Next.js App Router
+│   ├── api/                      # API Routes
+│   │   ├── chat/route.ts         # AI Chatbot (RAG + multi-model)
+│   │   ├── auth/                 # Login, Register, OAuth
+│   │   ├── learning/             # Learning path CRUD
+│   │   ├── concepts/             # Concept engine
+│   │   └── media/                # Image/video generation
+│   ├── dashboard/                # Dashboard pages
+│   │   ├── layout.tsx            # Responsive layout + dock
+│   │   ├── page.tsx              # Main dashboard
+│   │   ├── learning/             # Learning paths
+│   │   ├── code-review/          # Code reviewer
+│   │   ├── concepts/             # Concept engine
+│   │   ├── analytics/            # Performance + anomalies
+│   │   ├── collaboration/        # Team features
+│   │   ├── research/             # Research hub
+│   │   ├── media/studio/         # Media studio
+│   │   ├── challenges/           # Coding challenges
+│   │   ├── interview/            # Mock interviews
+│   │   ├── collab/               # CodeCollab
+│   │   ├── portfolio/            # Portfolio builder
+│   │   └── settings/             # User settings
+│   ├── layout.tsx                # Root layout + viewport
+│   └── globals.css               # Responsive CSS + utilities
+├── components/
+│   ├── chat/global-chatbot.tsx   # AI chatbot (YouTube embeds)
+│   ├── dashboard/
+│   │   ├── dock.tsx              # Dual-render dock/sidebar
+│   │   └── nav.tsx               # Responsive nav bar
+│   └── layout/
+│       ├── PageShell.tsx         # Responsive page wrapper
+│       └── PageHeader.tsx        # Responsive page header
+├── lib/                          # Utilities & services
+│   ├── ai.ts                     # AI model orchestration
+│   ├── auth.ts                   # JWT + bcrypt
+│   ├── mongoose.ts               # MongoDB connection
+│   └── youtube.ts                # YouTube search
+├── models/                       # Mongoose schemas
+└── .kiro/specs/                  # Design & requirements docs
 ```
 
 ---
 
 ## 👨‍💻 Author
 
-**G R Harsha**
-- [GitHub](https://github.com/grharsha777)
-- [LinkedIn](https://www.linkedin.com/in/grharsha777/)
-- [Email](mailto:grharsha777@gmail.com)
+**G R Harsha** — Creator & Full-Stack Developer
+
+- 🔗 [GitHub](https://github.com/grharsha777)
+- 💼 [LinkedIn](https://www.linkedin.com/in/grharsha777/)
+- 📧 [grharsha777@gmail.com](mailto:grharsha777@gmail.com)
 
 ---
 
 ## 📄 License
 
-Distributed under the MIT License.
+Distributed under the **MIT License**. See `LICENSE` for more information.
+
+---
+
+<p align="center">
+  <strong>⭐ Star this repo if Ganapathi Mentor AI helped you learn something new! ⭐</strong>
+</p>

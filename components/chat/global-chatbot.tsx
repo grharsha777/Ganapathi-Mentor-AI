@@ -94,18 +94,18 @@ const MarkdownContent = memo(function MarkdownContent({ content, onNavigate }: {
                             {copiedIndex === idx ? 'Copied!' : 'Copy'}
                         </Button>
                     </div>
-                    <pre className="p-4 bg-black/90 text-zinc-100 text-sm font-mono overflow-x-auto leading-relaxed"><code>{segment.content}</code></pre>
+                    <pre className="p-4 bg-black/90 text-zinc-100 text-[13px] font-mono overflow-x-auto leading-relaxed whitespace-pre"><code>{segment.content}</code></pre>
                 </div>
             );
         } else {
             // Process the ENTIRE text segment at once (not line-by-line)
             // so that links spanning line boundaries are properly matched
             const inlineElements = processInlineFullText(segment.content, `seg-${segIdx}`, onNavigate);
-            parts.push(<span key={`text-${segIdx}`} className="leading-relaxed block">{inlineElements}</span>);
+            parts.push(<span key={`text-${segIdx}`} className="leading-relaxed block break-words">{inlineElements}</span>);
         }
     });
 
-    return <div className="space-y-2">{parts}</div>;
+    return <div className="space-y-2 break-words overflow-hidden">{parts}</div>;
 });
 
 // Process the entire text block at once — finds links, bold, code, headings
@@ -113,23 +113,54 @@ const MarkdownContent = memo(function MarkdownContent({ content, onNavigate }: {
 // are properly detected. Newlines in unmatched text become <br> elements.
 function processInlineFullText(text: string, keyPrefix: string, onNavigate: (path: string) => void): React.ReactElement[] {
     const elements: React.ReactElement[] = [];
-    // This regex uses [\s\S] for multi-line matching inside link text/URL
-    const inlineRegex = /!\[([^\]]*)\]\(([^)]+)\)|\[([^\]]+)\]\(([^)\s]+)\)|\*\*(.+?)\*\*|`([^`]+)`|(?:^|\n)(#{1,3})\s+(.+)/g;
+    // Match {{youtube:VIDEO_ID|Title}} pattern, plus images, links, bold, code, headings
+    const inlineRegex = /\{\{youtube:([\w-]+)\|([^}]+)\}\}|!\[([^\]]*)\]\(([^)]+)\)|\[([^\]]+)\]\(([^)\s]+)\)|\*\*(.+?)\*\*|`([^`]+)`|(?:^|\n)(#{1,3})\s+(.+)/g;
     let lastIdx = 0;
     let m;
 
     while ((m = inlineRegex.exec(text)) !== null) {
         if (m.index > lastIdx) {
-            // Use textToElements so \n in unmatched text become <br>
             elements.push(...textToElements(text.slice(lastIdx, m.index), `${keyPrefix}-t-${lastIdx}`));
         }
-        if (m[1] !== undefined && m[2]) {
+        if (m[1] && m[2]) {
+            // YouTube embed thumbnail — {{youtube:ID|Title}}
+            const videoId = m[1];
+            const videoTitle = m[2];
+            elements.push(
+                <a
+                    key={`${keyPrefix}-yt-${m.index}`}
+                    href={`https://www.youtube.com/watch?v=${videoId}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="block my-3 rounded-xl overflow-hidden border border-white/10 shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] group"
+                >
+                    <div className="relative">
+                        <img
+                            src={`https://img.youtube.com/vi/${videoId}/mqdefault.jpg`}
+                            alt={videoTitle}
+                            className="w-full h-auto object-cover"
+                            loading="lazy"
+                        />
+                        {/* Play button overlay */}
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors">
+                            <div className="h-12 w-12 rounded-full bg-red-600 flex items-center justify-center shadow-lg shadow-red-600/40 group-hover:scale-110 transition-transform">
+                                <svg className="h-5 w-5 text-white ml-0.5" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="px-3 py-2.5 bg-zinc-900/95 flex items-center gap-2">
+                        <Youtube className="h-4 w-4 text-red-500 shrink-0" />
+                        <span className="text-sm font-medium text-white truncate">{videoTitle}</span>
+                    </div>
+                </a>
+            );
+        } else if (m[3] !== undefined && m[4]) {
             // Image
-            elements.push(<img key={`${keyPrefix}-img-${m.index}`} src={m[2]} alt={m[1]} className="max-w-full rounded-xl my-3 max-h-64 shadow-lg border border-white/10" />);
-        } else if (m[3] && m[4]) {
+            elements.push(<img key={`${keyPrefix}-img-${m.index}`} src={m[4]} alt={m[3]} className="max-w-full rounded-xl my-3 max-h-64 shadow-lg border border-white/10" />);
+        } else if (m[5] && m[6]) {
             // Link — determine if internal or external
-            const url = m[4];
-            const linkText = m[3];
+            const url = m[6];
+            const linkText = m[5];
             const isInternal = url.includes(APP_DOMAIN) || (url.startsWith('/') && !url.startsWith('//'));
             const isYouTube = url.includes('youtube.com') || url.includes('youtu.be');
             const isLinkedIn = url.includes('linkedin.com');
@@ -137,70 +168,92 @@ function processInlineFullText(text: string, keyPrefix: string, onNavigate: (pat
             const isEmail = url.startsWith('mailto:');
 
             if (isInternal) {
-                // Internal app link — navigate within the same page (no new tab)
                 const path = url.includes(APP_DOMAIN) ? url.split(APP_DOMAIN)[1] || '/dashboard' : url;
                 elements.push(
                     <button
                         key={`${keyPrefix}-nav-${m.index}`}
                         onClick={() => onNavigate(path)}
-                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-violet-500/15 border border-violet-500/30 text-violet-300 hover:bg-violet-500/25 hover:text-violet-200 hover:border-violet-400/50 transition-all duration-200 font-semibold text-sm cursor-pointer group"
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-violet-500/15 border border-violet-500/30 text-violet-300 hover:bg-violet-500/25 hover:text-violet-200 hover:border-violet-400/50 transition-all duration-200 font-semibold text-sm cursor-pointer group max-w-full"
                     >
-                        <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />
-                        {linkText}
+                        <ArrowRight className="h-3.5 w-3.5 shrink-0 group-hover:translate-x-0.5 transition-transform" />
+                        <span className="truncate">{linkText}</span>
                     </button>
                 );
             } else if (isYouTube) {
-                elements.push(
-                    <a key={`${keyPrefix}-a-${m.index}`} href={url} target="_blank" rel="noreferrer"
-                        className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 hover:text-red-300 transition-all duration-200 font-semibold text-sm">
-                        <Youtube className="h-3.5 w-3.5" />
-                        {linkText}
-                        <ExternalLink className="h-3 w-3 opacity-50" />
-                    </a>
-                );
+                // Extract video ID from URL for thumbnail embed
+                const ytIdMatch = url.match(/(?:v=|youtu\.be\/)([\w-]{11})/);
+                if (ytIdMatch) {
+                    const ytId = ytIdMatch[1];
+                    elements.push(
+                        <a key={`${keyPrefix}-yt-${m.index}`} href={url} target="_blank" rel="noreferrer"
+                            className="block my-3 rounded-xl overflow-hidden border border-white/10 shadow-lg hover:shadow-xl transition-all hover:scale-[1.01] group">
+                            <div className="relative">
+                                <img src={`https://img.youtube.com/vi/${ytId}/mqdefault.jpg`} alt={linkText} className="w-full h-auto object-cover" loading="lazy" />
+                                <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors">
+                                    <div className="h-12 w-12 rounded-full bg-red-600 flex items-center justify-center shadow-lg shadow-red-600/40 group-hover:scale-110 transition-transform">
+                                        <svg className="h-5 w-5 text-white ml-0.5" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="px-3 py-2 bg-zinc-900/95 flex items-center gap-2">
+                                <Youtube className="h-4 w-4 text-red-500 shrink-0" />
+                                <span className="text-sm font-medium text-white truncate">{linkText}</span>
+                            </div>
+                        </a>
+                    );
+                } else {
+                    elements.push(
+                        <a key={`${keyPrefix}-a-${m.index}`} href={url} target="_blank" rel="noreferrer"
+                            className="flex w-full items-center gap-2 px-3 py-2.5 my-2 rounded-xl bg-gradient-to-r from-red-600/20 to-rose-600/20 border border-red-500/30 text-red-300 hover:from-red-600/30 hover:to-rose-600/30 hover:text-red-200 transition-all duration-300 font-bold text-sm shadow-lg group">
+                            <Youtube className="h-4 w-4 shrink-0 group-hover:scale-110 transition-transform" />
+                            <span className="truncate flex-1 text-left">{linkText}</span>
+                            <ExternalLink className="h-3 w-3 shrink-0 opacity-50" />
+                        </a>
+                    );
+                }
             } else if (isLinkedIn) {
                 elements.push(
                     <a key={`${keyPrefix}-a-${m.index}`} href={url} target="_blank" rel="noreferrer"
                         className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400 hover:bg-blue-500/20 hover:text-blue-300 transition-all duration-200 font-semibold text-sm">
-                        <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg>
-                        {linkText}
-                        <ExternalLink className="h-3 w-3 opacity-50" />
+                        <svg className="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg>
+                        <span className="truncate">{linkText}</span>
+                        <ExternalLink className="h-3 w-3 shrink-0 opacity-50" />
                     </a>
                 );
             } else if (isGitHubLink) {
                 elements.push(
                     <a key={`${keyPrefix}-a-${m.index}`} href={url} target="_blank" rel="noreferrer"
                         className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-gray-500/10 border border-gray-500/20 text-gray-300 hover:bg-gray-500/20 hover:text-gray-200 transition-all duration-200 font-semibold text-sm">
-                        <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" /></svg>
-                        {linkText}
-                        <ExternalLink className="h-3 w-3 opacity-50" />
+                        <svg className="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" /></svg>
+                        <span className="truncate">{linkText}</span>
+                        <ExternalLink className="h-3 w-3 shrink-0 opacity-50" />
                     </a>
                 );
             } else if (isEmail) {
                 elements.push(
                     <a key={`${keyPrefix}-a-${m.index}`} href={url}
                         className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/20 hover:text-emerald-300 transition-all duration-200 font-semibold text-sm">
-                        <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
-                        {linkText}
+                        <svg className="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
+                        <span className="truncate">{linkText}</span>
                     </a>
                 );
             } else {
                 elements.push(
                     <a key={`${keyPrefix}-a-${m.index}`} href={url} target="_blank" rel="noreferrer"
-                        className="inline-flex items-center gap-1 underline underline-offset-4 font-semibold text-primary hover:text-primary/80 transition-colors">
-                        {linkText}
-                        <ExternalLink className="h-3 w-3 opacity-50" />
+                        className="inline-flex items-center gap-1 underline underline-offset-4 font-semibold text-primary hover:text-primary/80 transition-colors break-all">
+                        <span>{linkText}</span>
+                        <ExternalLink className="h-3 w-3 shrink-0 opacity-50" />
                     </a>
                 );
             }
-        } else if (m[5]) {
-            elements.push(<strong key={`${keyPrefix}-b-${m.index}`} className="font-bold text-foreground">{m[5]}</strong>);
-        } else if (m[6]) {
-            elements.push(<code key={`${keyPrefix}-c-${m.index}`} className="px-1.5 py-0.5 bg-primary/15 text-primary rounded-md text-[0.9em] font-mono border border-primary/20">{m[6]}</code>);
-        } else if (m[7] && m[8]) {
-            const level = m[7].length;
+        } else if (m[7]) {
+            elements.push(<strong key={`${keyPrefix}-b-${m.index}`} className="font-bold text-foreground">{m[7]}</strong>);
+        } else if (m[8]) {
+            elements.push(<code key={`${keyPrefix}-c-${m.index}`} className="px-1.5 py-0.5 bg-primary/15 text-primary rounded-md text-[0.9em] font-mono border border-primary/20">{m[8]}</code>);
+        } else if (m[9] && m[10]) {
+            const level = m[9].length;
             const cls = level === 1 ? 'text-2xl font-bold mt-4 mb-2 text-primary' : level === 2 ? 'text-xl font-bold mt-3 mb-1' : 'text-lg font-semibold mt-2';
-            elements.push(<span key={`${keyPrefix}-h-${m.index}`} className={`block ${cls}`}>{m[8]}</span>);
+            elements.push(<span key={`${keyPrefix}-h-${m.index}`} className={`block ${cls}`}>{m[10]}</span>);
         }
         lastIdx = m.index + m[0].length;
     }
@@ -395,7 +448,7 @@ export default function GlobalChatbot() {
                     onClick={() => setIsOpen(true)}
                     onMouseEnter={() => setFabHovered(true)}
                     onMouseLeave={() => setFabHovered(false)}
-                    className="fixed bottom-24 right-6 z-[9999] group cursor-pointer"
+                    className="fixed bottom-4 sm:bottom-6 lg:bottom-24 right-4 sm:right-6 z-[9999] group cursor-pointer"
                     style={{ animation: 'fabFloat 3s ease-in-out infinite' }}
                     aria-label="Open Ganapathi AI Chat"
                 >
@@ -432,7 +485,7 @@ export default function GlobalChatbot() {
 
                     {/* Main button body */}
                     <div className={cn(
-                        "relative h-16 w-16 rounded-2xl bg-gradient-to-br from-violet-600 via-purple-600 to-indigo-700 flex items-center justify-center shadow-2xl shadow-violet-500/40 border border-white/20 overflow-hidden transition-all duration-300",
+                        "relative h-14 w-14 sm:h-16 sm:w-16 rounded-2xl bg-gradient-to-br from-violet-600 via-purple-600 to-indigo-700 flex items-center justify-center shadow-2xl shadow-violet-500/40 border border-white/20 overflow-hidden transition-all duration-300",
                         fabHovered && "scale-110 shadow-violet-500/60"
                     )}>
                         {/* Glossy top overlay */}
@@ -524,15 +577,15 @@ export default function GlobalChatbot() {
                 className={cn(
                     "fixed z-[9999]",
                     isFullScreen
-                        ? "inset-0 p-4 md:p-8 bg-background/80 backdrop-blur-sm"
-                        : "bottom-24 right-4 md:right-6"
+                        ? "inset-0 p-2 sm:p-4 md:p-8 bg-background/80 backdrop-blur-sm"
+                        : "bottom-2 sm:bottom-4 lg:bottom-24 right-2 sm:right-4 md:right-6 left-2 sm:left-auto"
                 )}
             >
                 <Card className={cn(
                     "shadow-2xl transition-all duration-200 flex flex-col overflow-hidden border-white/10",
                     "bg-background/95 backdrop-blur-xl",
-                    isFullScreen ? "w-full h-full rounded-3xl" : "w-[360px] md:w-[420px]",
-                    !isFullScreen && (isMinimized ? "h-16" : "h-[580px]")
+                    isFullScreen ? "w-full h-full rounded-2xl sm:rounded-3xl" : "w-full sm:w-[420px] md:w-[560px] lg:w-[620px] max-w-full",
+                    !isFullScreen && (isMinimized ? "h-16" : "h-[70vh] sm:h-[650px] md:h-[720px] max-h-[calc(100vh-140px)]")
                 )}>
                     {/* Header */}
                     <CardHeader className={cn(
@@ -623,10 +676,10 @@ export default function GlobalChatbot() {
                                                         {m.role === 'user' ? "ME" : "GA"}
                                                     </AvatarFallback>
                                                 </Avatar>
-                                                <div className={cn("max-w-[85%] p-4 rounded-2xl text-sm shadow-md overflow-hidden min-w-0",
+                                                <div className={cn("p-4 rounded-2xl text-sm shadow-md min-w-0",
                                                     m.role === 'user'
-                                                        ? "bg-gradient-to-r from-primary to-violet-600 text-primary-foreground rounded-tr-sm"
-                                                        : "bg-card/80 border border-white/8 rounded-tl-sm"
+                                                        ? "max-w-[80%] bg-gradient-to-r from-primary to-violet-600 text-primary-foreground rounded-tr-sm"
+                                                        : "max-w-[92%] bg-card/80 border border-white/8 rounded-tl-sm overflow-hidden break-words"
                                                 )}>
                                                     {m.role === 'assistant' ? (
                                                         <div className="space-y-1">

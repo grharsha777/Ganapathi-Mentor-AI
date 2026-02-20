@@ -1,9 +1,9 @@
 # Ganapathi Mentor AI — System Design & Architecture
 > **Project Codename**: Neural Code Symbiosis  
-> **Version**: 2.0.0 (Production Ready)  
+> **Version**: 3.0.0 (Production Ready — Fully Responsive)  
 > **System Architect**: G R Harsha  
-> **Last Updated**: February 14, 2026  
-> **Status**: Active Development
+> **Last Updated**: February 21, 2026  
+> **Status**: Production • All Platforms (Mobile / Tablet / Desktop / TV)
 
 ---
 
@@ -14,10 +14,14 @@
 The system is built on a **Serverless, Edge-First Architecture** designed for zero-latency interactions, massive scalability, and enterprise-grade security. The platform combines cutting-edge AI orchestration with premium user experience, creating an immersive environment that enhances developer productivity and learning outcomes.
 
 ### Key Differentiators
-- **Multi-Model AI Orchestration**: Dynamically routes queries to optimal AI models (Mistral, Groq, Gemini, Claude)
+- **Multi-Model AI Orchestration**: Dynamically routes queries to optimal AI models (Mistral, Groq, HuggingFace)
+- **Best Friend AI Personality**: Chatbot speaks like a helpful friend, not a corporate robot
+- **Fully Responsive**: Dual-rendering UI — mobile sidebar drawer + desktop macOS dock
+- **YouTube Thumbnail Embeds**: Videos rendered as rich cards with play button overlays
+- **Touch-Optimized**: All interactions work with touch, mouse, and keyboard
 - **Offline-First Architecture**: IndexedDB caching ensures functionality without internet
-- **Premium UX**: Framer Motion animations, glassmorphism, aurora gradients create flow state
-- **Comprehensive Feature Set**: 12+ integrated modules from code review to team collaboration
+- **Premium UX**: Framer Motion (desktop), CSS transitions (mobile), glassmorphism
+- **19 Integrated Modules**: Dashboard, Learning, Review, Concepts, Tasks, Docs, GitHub, Analytics, Anomalies, Collab, Research, Studio, Challenges, Interview, CodeCollab, Portfolio, Quick Prep, Training, Settings
 - **Enterprise-Ready**: Security, scalability, and compliance built-in from day one
 
 ---
@@ -45,11 +49,17 @@ Core logic is driven by probabilistic AI models rather than deterministic rules.
 The user experience is designed to be invisible. **Framer Motion** powers a physics-based, gesture-driven interface that feels alive. Transitions are seamless, protecting flow state. The **Glassmorphism** aesthetic reduces cognitive load, focusing attention purely on content.
 
 **UX Principles**:
-- 60fps animations with GPU acceleration
+- 60fps animations with GPU acceleration (Framer Motion on desktop only)
+- Mobile: CSS-only transitions — zero framer-motion for instant response
+- Dual navigation: Mobile sidebar drawer (< 1024px) vs desktop macOS dock (≥ 1024px)
+- Touch-friendly: All tap targets ≥ 44px, `touch-action: manipulation`
+- Fluid typography: `clamp()` CSS scales from 320px phones to 4K TVs
+- Safe area support: `env(safe-area-inset-*)` for notched phones
 - Optimistic UI updates (show changes immediately, sync later)
 - Skeleton loaders for perceived performance
 - Micro-interactions provide feedback for every action
 - Dark mode optimized for night coding sessions
+- Respects `prefers-reduced-motion` for accessibility
 
 ### 2.4 Offline-First Resilience
 **IndexedDB** (via Dexie.js) provides client-side persistence. Users can continue working without internet: view roadmaps, read saved content, draft code reviews. Changes sync automatically when connection restored.
@@ -245,53 +255,55 @@ interface User {
 
 ### 5.2 The Neural Chatbot Module
 
-**Purpose**: Conversational AI interface accessible from any page
+**Purpose**: Conversational AI interface accessible from any page — acts like a best friend who's also an expert coder
 
 **Architecture**:
 - **Global Component**: `<GlobalChatbot />` rendered in root layout
-- **Floating UI**: Fixed position button, expands to chat panel
-- **Streaming Responses**: Server-Sent Events (SSE) for real-time AI output
+- **Floating UI**: Responsive FAB — `bottom-4` on mobile, `bottom-24` on desktop (above dock)
+- **Chat Panel**: Full-width on mobile (`left-2 right-2`), fixed-width on desktop (`560-620px`)
+- **Streaming Responses**: Plain text responses with markdown rendering
 - **Context Injection**: Current page URL and user activity passed to AI
+- **Best Friend Personality**: Casual, warm, encouraging tone with emojis
 
-**AI Model Selection Logic**:
+**AI Personality (System Prompt)**:
+```
+- Talk like a best friend who happens to be an expert coder
+- Use phrases like "Hey!", "No worries!", "You got this! 💪"
+- Never be robotic — imagine sitting next to the user helping them
+- If user makes a mistake: "Oh I see what happened — easy fix!"
+- Celebrate wins: "Nice! That's solid code 🔥"
+```
+
+**YouTube Video Rendering**:
 ```typescript
-function selectModel(query: string, context: string): AIModel {
-  const complexity = analyzeComplexity(query);
-  const requiresCoding = /code|function|class|debug/.test(query);
-  
-  if (requiresCoding) return 'claude-3.5-sonnet';
-  if (complexity > 0.8) return 'gemini-1.5-pro';
-  if (complexity < 0.3) return 'groq-llama-3.3';
-  return 'mistral-large'; // Default
-}
+// AI outputs: {{youtube:VIDEO_ID|Video Title}}
+// Frontend renders as embedded thumbnail with:
+// - YouTube thumbnail image (mqdefault.jpg)
+// - Red play button overlay
+// - Video title bar at bottom
+// - Click opens YouTube in new tab
 ```
 
 **Tool Calling**:
-The chatbot can invoke external tools for enhanced responses:
-- `search_wikipedia`: Quick facts and definitions
-- `search_web`: Real-time information via Tavily
-- `search_arxiv`: Academic papers and research
-- `search_semantic_scholar`: Scientific papers with citations
-- `search_tmdb`: Movie/TV show information (demo feature)
+The chatbot enriches responses with external data:
+- `searchYouTubeVideos`: Fetches video IDs for thumbnail embedding
+- `searchWeb` (Tavily/SERP): Real-time information retrieval
+- `generateImage` (HuggingFace/Freepik): On-demand image generation
+- `generateVideo` (HuggingFace): AI video generation
 
-**Response Format**:
-```typescript
-interface ChatMessage {
-  role: 'user' | 'assistant' | 'system';
-  content: string;
-  timestamp: Date;
-  sources?: Array<{
-    title: string;
-    url: string;
-    snippet: string;
-  }>;
-}
-```
+**Markdown Rendering** (`MarkdownContent` component):
+- `{{youtube:ID|Title}}` → Embedded thumbnail card
+- `[text](url)` → Styled link (internal navigation, YouTube, LinkedIn, GitHub, email)
+- Triple backtick code blocks with syntax highlighting + copy button
+- `**bold**`, `` `inline code` ``, `# headings`
+- Images: `![alt](src)` → Rounded, shadowed images
 
-**Persistence**:
-- Chat history stored in IndexedDB (client-side)
-- Session summaries saved to MongoDB
-- Automatic cleanup of old conversations (30 days)
+**Responsive Behavior**:
+| Screen | FAB Position | Panel Size |
+|--------|-------------|------------|
+| Mobile | `bottom-4 right-4` | Full-width, `70vh` height |
+| Tablet | `bottom-6 right-6` | `420px` width |
+| Desktop | `bottom-24 right-6` | `560-620px` width, `720px` height |
 
 ---
 
