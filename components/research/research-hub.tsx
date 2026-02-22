@@ -1,11 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { searchResearchPapers } from '@/app/actions/research'
 import { ArxivPaper } from '@/lib/integrations/arxiv'
 import { SemanticPaper } from '@/lib/integrations/semantic-scholar'
 import { WikiResult } from '@/lib/integrations/wikipedia'
 import { SearchResult } from '@/lib/integrations/tavily'
+import { useContentStore } from '@/lib/content-store'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -23,6 +24,22 @@ export function ResearchHub() {
     const [wikiResults, setWikiResults] = useState<WikiResult[]>([])
     const [webResults, setWebResults] = useState<SearchResult[]>([])
     const [apiKeys, setApiKeys] = useState({ tavily: true, serp: true, semanticScholar: true })
+    const store = useContentStore('research')
+
+    // Auto-load last research query
+    useEffect(() => {
+        store.load<any>('last_search').then(data => {
+            if (data) {
+                if (data.query) setQuery(data.query)
+                if (data.arxiv) setArxivResults(data.arxiv)
+                if (data.semantic) setSemanticResults(data.semantic)
+                if (data.wiki) setWikiResults(data.wiki)
+                if (data.web) setWebResults(data.web)
+                if (data.keys) setApiKeys(data.keys)
+            }
+        }).catch(() => { })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const handleSearch = async () => {
         if (!query.trim()) return
@@ -35,6 +52,8 @@ export function ResearchHub() {
             setWikiResults(wiki)
             setWebResults(web)
             if (keys) setApiKeys(keys)
+            // Auto-save
+            store.save('last_search', { query, arxiv, semantic, wiki, web, keys }, query).catch(() => { })
         } catch (error) {
             console.error("Search failed", error)
         } finally {

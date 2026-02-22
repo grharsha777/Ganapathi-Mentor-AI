@@ -12,7 +12,8 @@ export interface YouTubeVideo {
 }
 
 /**
- * Search YouTube for relevant tutorial/educational videos
+ * Search YouTube for relevant tutorial/educational videos.
+ * Filters to recent videos (last 3 years) that are embeddable & publicly accessible.
  */
 export async function searchYouTubeVideos(query: string, maxResults: number = 5): Promise<YouTubeVideo[]> {
     console.log(`[YouTube] Searching for: ${query}, Key configured: ${!!YOUTUBE_API_KEY}, Key length: ${YOUTUBE_API_KEY?.length}`);
@@ -21,14 +22,22 @@ export async function searchYouTubeVideos(query: string, maxResults: number = 5)
         throw new Error('YOUTUBE_API_KEY is not configured');
     }
 
+    // Only return videos published in the last 3 years
+    const threeYearsAgo = new Date();
+    threeYearsAgo.setFullYear(threeYearsAgo.getFullYear() - 3);
+    const publishedAfter = threeYearsAgo.toISOString();
+
     const params = new URLSearchParams({
         part: 'snippet',
-        q: `${query} tutorial programming`,
+        q: `${query} tutorial 2024`,
         maxResults: maxResults.toString(),
         type: 'video',
+        order: 'relevance',
         relevanceLanguage: 'en',
         safeSearch: 'strict',
         videoDuration: 'medium',
+        videoEmbeddable: 'true',
+        publishedAfter,
         key: YOUTUBE_API_KEY,
     });
 

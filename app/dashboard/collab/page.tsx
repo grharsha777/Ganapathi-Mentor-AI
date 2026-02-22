@@ -10,13 +10,14 @@ import { PageShell } from '@/components/layout/PageShell';
 import { PageHeader } from '@/components/layout/PageHeader';
 import {
     Users2, Plus, Copy, LogIn, LogOut, Send, Loader2,
-    MessageSquare, Code, Check
+    MessageSquare, Code, Check, Play, Bot, TerminalSquare, X
 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
 const MonacoEditor = dynamic(() => import('@monaco-editor/react'), { ssr: false });
 
 const LANG_MAP: Record<string, string> = { python: 'python', javascript: 'javascript', cpp: 'cpp', java: 'java' };
+const JUDGE0_LANG_MAP: Record<string, number> = { python: 71, javascript: 63, cpp: 54, java: 62 };
 
 type RoomState = 'lobby' | 'active';
 
@@ -38,8 +39,21 @@ export default function CollabPage() {
     const [participants, setParticipants] = useState<any[]>([]);
     const [copied, setCopied] = useState(false);
 
+    // Execution state
+    const [executing, setExecuting] = useState(false);
+    const [execOutput, setExecOutput] = useState<{ stdout: string; stderr: string; status: string } | null>(null);
+    const [showOutput, setShowOutput] = useState(true);
+
+    // AI Chat state
+    const [activeTab, setActiveTab] = useState<'chat' | 'ai'>('chat');
+    const [aiInput, setAiInput] = useState('');
+    const [aiMessages, setAiMessages] = useState<any[]>([{ role: 'system', content: 'Hi there! I am Ganapathi AI. How can I help you with this code?' }]);
+    const [aiLoading, setAiLoading] = useState(false);
+    const aiChatEndRef = useRef<HTMLDivElement>(null);
+
     const syncRef = useRef<any>(null);
     const chatEndRef = useRef<HTMLDivElement>(null);
+    const lastTypedRef = useRef<number>(0);
 
     // Fetch rooms for lobby
     const fetchRooms = async () => {
@@ -54,9 +68,19 @@ export default function CollabPage() {
     useEffect(() => { fetchRooms(); }, []);
 
     // Auto-scroll chat
+    const prevMessageCountRef = useRef(0);
     useEffect(() => {
-        chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+        if (chatMessages.length > prevMessageCountRef.current) {
+            chatEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            prevMessageCountRef.current = chatMessages.length;
+        }
     }, [chatMessages]);
+
+    useEffect(() => {
+        if (activeTab === 'ai') {
+            aiChatEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    }, [aiMessages, activeTab]);
 
     // Create room
     const createRoom = async () => {
@@ -111,19 +135,35 @@ export default function CollabPage() {
                 const data = await res.json();
                 if (data.participants) setParticipants(data.participants);
                 if (data.chat_messages) setChatMessages(data.chat_messages);
-                // Only update code if it differs (to avoid cursor jump)
+
+                if (data.code !== undefined) {
+                    setCode(prevCode => {
+                        if (Date.now() - lastTypedRef.current > 1500 && data.code !== prevCode) {
+                            return data.code;
+                        }
+                        return prevCode;
+                    });
+                }
+                if (data.language) {
+                    setLanguage(prevLang => {
+                        if (Date.now() - lastTypedRef.current > 1500 && data.language !== prevLang) {
+                            return data.language;
+                        }
+                        return prevLang;
+                    });
+                }
             } catch { }
-        }, 3000);
+        }, 1000);
     };
 
     // Sync code to server on change (debounced)
-    const syncCode = useCallback(async (newCode: string) => {
+    const syncCode = useCallback(async (newCode: string, forceLanguage?: string) => {
         if (!room) return;
         try {
             await fetch('/api/rooms', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ action: 'sync', roomSlug: room.slug, code: newCode, language }),
+                body: JSON.stringify({ action: 'sync', roomSlug: room.slug, code: newCode, language: forceLanguage || language }),
             });
         } catch { }
     }, [room, language]);
@@ -132,8 +172,15 @@ export default function CollabPage() {
     const handleCodeChange = (val: string | undefined) => {
         const v = val || '';
         setCode(v);
+        lastTypedRef.current = Date.now();
         if (syncTimerRef.current) clearTimeout(syncTimerRef.current);
-        syncTimerRef.current = setTimeout(() => syncCode(v), 1000);
+        syncTimerRef.current = setTimeout(() => syncCode(v), 400);
+    };
+
+    const handleLanguageChange = (val: string) => {
+        setLanguage(val);
+        lastTypedRef.current = Date.now();
+        syncCode(code, val);
     };
 
     // Send chat
@@ -147,6 +194,65 @@ export default function CollabPage() {
             });
             setChatInput('');
         } catch { }
+    };
+
+    // Execute Code
+    const runCode = async () => {
+        if (!code.trim()) return;
+        setExecuting(true);
+        setShowOutput(true);
+        setExecOutput(null);
+        try {
+            const langId = JUDGE0_LANG_MAP[language] || 71;
+            const res = await fetch('/api/execute', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ code, lang: langId }),
+            });
+            const data = await res.json();
+            setExecOutput({
+                stdout: data.stdout || '',
+                stderr: data.stderr || '',
+                status: data.status || (data.success ? 'Accepted' : 'Error')
+            });
+        } catch (e) {
+            setExecOutput({ stdout: '', stderr: 'Execution failed.', status: 'Error' });
+        } finally {
+            setExecuting(false);
+        }
+    };
+
+    // Send AI Chat
+    const sendAiChat = async () => {
+        if (!aiInput.trim()) return;
+        const msg = aiInput;
+        setAiInput('');
+        setAiMessages(prev => [...prev, { role: 'user', content: msg }]);
+        setAiLoading(true);
+
+        try {
+            const contextMsg = msg + `\n\n[Context: The user is currently looking at this ${language} code:\n\`\`\`${language}\n${code}\n\`\`\`]`;
+            const formattedMessages = [
+                ...aiMessages.filter(m => m.role !== 'system').map(m => ({ role: m.role, content: m.content })),
+                { role: 'user', content: contextMsg }
+            ];
+
+            const res = await fetch('/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    messages: formattedMessages,
+                    context: 'Collab Code Editor'
+                }),
+            });
+
+            const text = await res.text();
+            setAiMessages(prev => [...prev, { role: 'assistant', content: text }]);
+        } catch (e) {
+            setAiMessages(prev => [...prev, { role: 'assistant', content: "Sorry, I couldn't reach the AI server right now." }]);
+        } finally {
+            setAiLoading(false);
+        }
     };
 
     // Leave room
@@ -295,7 +401,7 @@ export default function CollabPage() {
                 {/* Editor */}
                 <div className="flex flex-col gap-3 min-h-0">
                     <div className="flex items-center gap-2">
-                        <Select value={language} onValueChange={setLanguage}>
+                        <Select value={language} onValueChange={handleLanguageChange}>
                             <SelectTrigger className="w-[140px] bg-background/50 border-white/10">
                                 <SelectValue />
                             </SelectTrigger>
@@ -306,6 +412,16 @@ export default function CollabPage() {
                                 <SelectItem value="java">Java</SelectItem>
                             </SelectContent>
                         </Select>
+                        <Button
+                            variant="default"
+                            size="sm"
+                            className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold h-9"
+                            onClick={runCode}
+                            disabled={executing}
+                        >
+                            {executing ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Play className="h-4 w-4 mr-2" />}
+                            Run Code
+                        </Button>
                         <div className="flex-1" />
                         <div className="flex -space-x-2">
                             {participants.slice(0, 5).map((p: any, i: number) => (
@@ -332,52 +448,137 @@ export default function CollabPage() {
                             }}
                         />
                     </Card>
+
+                    {/* Output Panel */}
+                    {execOutput && showOutput && (
+                        <Card className="border-white/10 bg-black/60 overflow-hidden h-48 shrink-0 flex flex-col">
+                            <div className="flex items-center justify-between p-2 border-b border-white/10 bg-white/5">
+                                <div className="flex items-center gap-2 text-xs font-semibold">
+                                    <TerminalSquare className="h-4 w-4 text-emerald-400" />
+                                    Execution Output
+                                    <Badge variant="outline" className={`ml-2 text-[10px] ${execOutput.status === 'Accepted' ? 'border-emerald-500/50 text-emerald-400' : 'border-red-500/50 text-red-400'}`}>
+                                        {execOutput.status}
+                                    </Badge>
+                                </div>
+                                <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setShowOutput(false)}>
+                                    <X className="h-4 w-4" />
+                                </Button>
+                            </div>
+                            <div className="p-3 overflow-y-auto text-xs font-mono flex-1">
+                                {execOutput.stdout && (
+                                    <div className="mb-3">
+                                        <div className="text-white/50 mb-1">STDOUT:</div>
+                                        <div className="text-emerald-300 whitespace-pre-wrap">{execOutput.stdout}</div>
+                                    </div>
+                                )}
+                                {execOutput.stderr && (
+                                    <div>
+                                        <div className="text-white/50 mb-1">STDERR:</div>
+                                        <div className="text-red-400 whitespace-pre-wrap">{execOutput.stderr}</div>
+                                    </div>
+                                )}
+                                {!execOutput.stdout && !execOutput.stderr && (
+                                    <div className="text-muted-foreground italic">No output</div>
+                                )}
+                            </div>
+                        </Card>
+                    )}
                 </div>
 
-                {/* Sidebar: Participants + Chat */}
+                {/* Sidebar: AI + Room Chat */}
                 <Card className="border-white/10 bg-background/40 flex flex-col overflow-hidden">
-                    {/* Participants */}
-                    <div className="p-3 border-b border-white/5">
-                        <h4 className="text-xs font-semibold text-muted-foreground mb-2">PARTICIPANTS ({participants.length})</h4>
-                        <div className="space-y-1.5">
-                            {participants.map((p: any, i: number) => (
-                                <div key={i} className="flex items-center gap-2 text-sm">
-                                    <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                                    <span className="truncate">{p.username}</span>
-                                </div>
-                            ))}
-                        </div>
+                    {/* Header Tabs */}
+                    <div className="flex border-b border-white/5">
+                        <button
+                            className={`flex-1 p-3 text-xs font-semibold flex items-center justify-center gap-2 transition-colors ${activeTab === 'chat' ? 'bg-white/5 text-emerald-400 border-b-2 border-emerald-400' : 'text-muted-foreground hover:bg-white/5 hover:text-white'}`}
+                            onClick={() => setActiveTab('chat')}
+                        >
+                            <MessageSquare className="h-3 w-3" /> ROOM
+                        </button>
+                        <button
+                            className={`flex-1 p-3 text-xs font-semibold flex items-center justify-center gap-2 transition-colors ${activeTab === 'ai' ? 'bg-white/5 text-purple-400 border-b-2 border-purple-400' : 'text-muted-foreground hover:bg-white/5 hover:text-white'}`}
+                            onClick={() => setActiveTab('ai')}
+                        >
+                            <Bot className="h-3 w-3" /> AI ASSIST
+                        </button>
                     </div>
 
-                    {/* Chat */}
-                    <div className="flex-1 flex flex-col min-h-0">
-                        <div className="p-3 border-b border-white/5">
-                            <h4 className="text-xs font-semibold text-muted-foreground flex items-center gap-1">
-                                <MessageSquare className="h-3 w-3" /> CHAT
-                            </h4>
-                        </div>
-                        <div className="flex-1 overflow-y-auto p-3 space-y-2">
-                            {chatMessages.map((m: any, i: number) => (
-                                <div key={i} className="text-xs">
-                                    <span className="font-bold text-primary">{m.username}: </span>
-                                    <span className="text-muted-foreground">{m.message}</span>
+                    {activeTab === 'chat' ? (
+                        <>
+                            {/* Participants */}
+                            <div className="p-3 border-b border-white/5 bg-black/20">
+                                <h4 className="text-[10px] font-bold text-muted-foreground tracking-wider mb-2">PARTICIPANTS ({participants.length})</h4>
+                                <div className="space-y-1.5 max-h-[100px] overflow-y-auto">
+                                    {participants.map((p: any, i: number) => (
+                                        <div key={i} className="flex items-center gap-2 text-sm">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)] animate-pulse" />
+                                            <span className="truncate">{p.username}</span>
+                                        </div>
+                                    ))}
                                 </div>
-                            ))}
-                            <div ref={chatEndRef} />
+                            </div>
+
+                            {/* Chat */}
+                            <div className="flex-1 flex flex-col min-h-0">
+                                <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                                    {chatMessages.map((m: any, i: number) => (
+                                        <div key={i} className="text-sm bg-black/20 p-2.5 rounded-lg border border-white/5">
+                                            <span className="font-bold text-emerald-400 mr-2">{m.username}:</span>
+                                            <span className="text-white/90">{m.message}</span>
+                                        </div>
+                                    ))}
+                                    <div ref={chatEndRef} />
+                                </div>
+                                <div className="p-3 border-t border-white/5 flex gap-2 bg-black/20">
+                                    <Input
+                                        placeholder="Message room..."
+                                        value={chatInput}
+                                        onChange={(e) => setChatInput(e.target.value)}
+                                        onKeyDown={(e) => e.key === 'Enter' && sendChat()}
+                                        className="bg-background/50 border-white/10 text-sm h-9"
+                                    />
+                                    <Button size="icon" className="h-9 w-9 shrink-0 bg-emerald-600 hover:bg-emerald-700" onClick={sendChat} disabled={!chatInput.trim()}>
+                                        <Send className="h-4 w-4" />
+                                    </Button>
+                                </div>
+                            </div>
+                        </>
+                    ) : (
+                        <div className="flex-1 flex flex-col min-h-0 bg-gradient-to-b from-purple-900/10 to-background/40">
+                            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                                {aiMessages.map((m: any, i: number) => (
+                                    <div key={i} className={`text-sm p-3.5 rounded-xl shadow-lg border ${m.role === 'user' ? 'bg-white/5 border-white/10 ml-6 rounded-tr-sm' : 'bg-purple-500/10 border-purple-500/20 mr-6 rounded-tl-sm'}`}>
+                                        <div className={`font-bold mb-1.5 text-[10px] uppercase tracking-wider flex items-center gap-1.5 ${m.role === 'user' ? 'text-muted-foreground' : 'text-purple-400'}`}>
+                                            {m.role === 'user' ? 'You' : <><Bot className="h-3 w-3" /> Ganapathi AI</>}
+                                        </div>
+                                        <div className="whitespace-pre-wrap text-white/90 leading-relaxed font-medium">
+                                            {m.role === 'system' ? m.content : m.content}
+                                        </div>
+                                    </div>
+                                ))}
+                                {aiLoading && (
+                                    <div className="text-sm p-3.5 rounded-xl bg-purple-500/10 border border-purple-500/20 mr-6 flex items-center gap-3 w-fit rounded-tl-sm">
+                                        <Loader2 className="h-4 w-4 animate-spin text-purple-400" />
+                                        <span className="text-purple-200/70 font-medium animate-pulse">Analyzing code...</span>
+                                    </div>
+                                )}
+                                <div ref={aiChatEndRef} />
+                            </div>
+                            <div className="p-3 border-t border-purple-500/20 flex gap-2 bg-black/40 backdrop-blur-md">
+                                <Input
+                                    placeholder="Ask AI to explain or debug this code..."
+                                    value={aiInput}
+                                    onChange={(e) => setAiInput(e.target.value)}
+                                    onKeyDown={(e) => e.key === 'Enter' && sendAiChat()}
+                                    className="bg-background/50 border-purple-500/30 focus-visible:ring-purple-500/50 text-sm h-9"
+                                    disabled={aiLoading}
+                                />
+                                <Button size="icon" className="h-9 w-9 shrink-0 bg-purple-600 hover:bg-purple-700 shadow-[0_0_15px_rgba(147,51,234,0.3)] transition-all" onClick={sendAiChat} disabled={!aiInput.trim() || aiLoading}>
+                                    <Send className="h-4 w-4" />
+                                </Button>
+                            </div>
                         </div>
-                        <div className="p-2 border-t border-white/5 flex gap-1.5">
-                            <Input
-                                placeholder="Type a message..."
-                                value={chatInput}
-                                onChange={(e) => setChatInput(e.target.value)}
-                                onKeyDown={(e) => e.key === 'Enter' && sendChat()}
-                                className="bg-background/50 border-white/10 text-xs h-8"
-                            />
-                            <Button size="icon" className="h-8 w-8 shrink-0" onClick={sendChat} disabled={!chatInput.trim()}>
-                                <Send className="h-3 w-3" />
-                            </Button>
-                        </div>
-                    </div>
+                    )}
                 </Card>
             </div>
         </div>

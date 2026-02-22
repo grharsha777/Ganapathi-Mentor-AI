@@ -76,8 +76,12 @@ export default function InterviewPage() {
     }, [timerActive, timer]);
 
     // Auto-scroll chat
+    const prevMessageCountRef = useRef(0);
     useEffect(() => {
-        chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+        if (messages.length > prevMessageCountRef.current) {
+            chatEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            prevMessageCountRef.current = messages.length;
+        }
     }, [messages]);
 
     const startInterview = async () => {
@@ -282,8 +286,8 @@ export default function InterviewPage() {
                         {messages.map((m, i) => (
                             <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                                 <div className={`max-w-[85%] p-3 rounded-xl text-sm ${m.role === 'user'
-                                        ? 'bg-primary/15 border border-primary/20 text-foreground'
-                                        : 'bg-violet-500/10 border border-violet-500/20 text-foreground'
+                                    ? 'bg-primary/15 border border-primary/20 text-foreground'
+                                    : 'bg-violet-500/10 border border-violet-500/20 text-foreground'
                                     }`}>
                                     {m.role === 'assistant' ? <RenderMarkdown content={m.content} /> : (
                                         <pre className="whitespace-pre-wrap font-sans text-sm">{m.content}</pre>

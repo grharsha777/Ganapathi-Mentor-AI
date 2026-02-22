@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { searchStackOverflowAction } from '@/app/actions/stack-exchange'
 import { StackQuestion } from '@/lib/integrations/stack-exchange'
+import { useContentStore } from '@/lib/content-store'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
@@ -16,6 +17,21 @@ export function StackExchangeSearch({ initialQuery = '' }: { initialQuery?: stri
     const [loading, setLoading] = useState(false)
     const [results, setResults] = useState<StackQuestion[]>([])
     const [searched, setSearched] = useState(false)
+    const store = useContentStore('stackoverflow')
+
+    // Auto-load last search
+    useEffect(() => {
+        store.load<any>('last_search').then(data => {
+            if (data) {
+                if (data.query) setQuery(data.query)
+                if (data.results) {
+                    setResults(data.results)
+                    setSearched(true)
+                }
+            }
+        }).catch(() => { })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const handleSearch = async () => {
         if (!query.trim()) return
@@ -24,6 +40,8 @@ export function StackExchangeSearch({ initialQuery = '' }: { initialQuery?: stri
         try {
             const res = await searchStackOverflowAction(query)
             setResults(res.results)
+            // Auto-save
+            store.save('last_search', { query, results: res.results }, query).catch(() => { })
         } catch (error) {
             console.error(error)
         } finally {

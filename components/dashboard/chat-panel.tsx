@@ -21,7 +21,7 @@ export function ChatPanel({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
 
     useEffect(() => {
         if (scrollRef.current) {
-            scrollRef.current.scrollIntoView({ behavior: 'smooth' })
+            scrollRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
         }
     }, [messages])
 

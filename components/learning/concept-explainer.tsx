@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useContentStore } from '@/lib/content-store';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -66,9 +66,11 @@ export default function ConceptExplainer() {
     const [ttsLoading, setTtsLoading] = useState(false);
     const [activeTab, setActiveTab] = useState('beginner');
     const store = useContentStore('concepts');
+    const skipSaveRef = useRef(true); // Don't auto-save on initial load
 
     // Auto-load last saved concept on mount
     useEffect(() => {
+        skipSaveRef.current = true; // Prevent auto-save from triggering during load
         store.load<any>('last_concept').then(data => {
             if (data) {
                 setConcept(data.concept || '');
@@ -78,9 +80,28 @@ export default function ConceptExplainer() {
                 if (data.papers) setPapers(data.papers);
                 if (data.conceptImage) setConceptImage(data.conceptImage);
             }
-        }).catch(() => { });
+            // Allow auto-saving after load completes
+            setTimeout(() => { skipSaveRef.current = false; }, 1000);
+        }).catch(() => {
+            skipSaveRef.current = false;
+        });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    // Auto-save when concept data changes (after initial load)
+    useEffect(() => {
+        if (skipSaveRef.current) return;
+        if (!concept || !explanation) return;
+        store.save('last_concept', {
+            concept,
+            explanation,
+            videos,
+            webSources,
+            papers,
+            conceptImage,
+        }, concept).catch(() => { });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [concept, explanation, videos, webSources, papers, conceptImage]);
 
     const explain = async () => {
         if (!concept.trim()) return;
@@ -123,17 +144,6 @@ export default function ConceptExplainer() {
             toast.error(e.message);
         } finally {
             setLoading(false);
-            // Auto-save after generation completes
-            setTimeout(() => {
-                store.save('last_concept', {
-                    concept,
-                    explanation,
-                    videos,
-                    webSources,
-                    papers,
-                    conceptImage,
-                }, concept).catch(() => { });
-            }, 500);
         }
     };
 

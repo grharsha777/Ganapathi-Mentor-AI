@@ -1,8 +1,8 @@
 # Ganapathi Mentor AI — Product Requirements Specifications (PRS)
 > **Product Name**: Ganapathi Mentor AI (Neural Code Symbiosis)  
 > **Target Audience**: Developers, Students, Engineering Teams, Tech Educators  
-> **Release**: 3.0 (Production Ready — Fully Responsive)  
-> **Last Updated**: February 21, 2026  
+> **Release**: 4.0 (Production + Feedback, Onboarding, Challenges, YouTube Intelligence)  
+> **Last Updated**: February 22, 2026  
 > **Document Owner**: G R Harsha
 
 ---
@@ -192,6 +192,52 @@ Team features enable collective learning and knowledge sharing:
 | **FR-12.3** | **Alert History** | P1 | View past alerts with timestamps and resolution status. |
 | **FR-12.4** | **Email Notifications** | P2 | Optional email notifications for critical alerts and weekly summaries. |
 | **FR-12.5** | **Push Notifications** | P2 | Browser push notifications for real-time updates (with user permission). |
+
+### Module 13: Feedback System
+| ID | Requirement | Priority | Implementation Details |
+|----|-------------|----------|------------------------|
+| **FR-13.1** | **Feedback Form** | P0 | In-app feedback form on Settings page with 5 category pills (Suggestion, Compliment, Bug, Feature, Other), 5-star interactive rating, and free-text message. |
+| **FR-13.2** | **Email Delivery** | P0 | Submit feedback to `grharsha777@gmail.com` via Web3Forms API with formatted payload (category, rating, user info, message). |
+| **FR-13.3** | **Database Persistence** | P0 | Save all feedback to MongoDB `Feedback` collection with `status` field (new/reviewed/resolved) for admin triage. |
+| **FR-13.4** | **Success Confirmation** | P1 | Animated success state after submission with "Send Another" option. |
+| **FR-13.5** | **Graceful Fallback** | P1 | If email delivery fails, feedback is still saved to MongoDB. No data loss. |
+
+### Module 14: Onboarding Tutorial
+| ID | Requirement | Priority | Implementation Details |
+|----|-------------|----------|------------------------|
+| **FR-14.1** | **First-Time Only** | P0 | Show animated tutorial modal only on first login per user account. Uses localStorage key scoped by user email. |
+| **FR-14.2** | **6-Slide Walkthrough** | P0 | Slides: Welcome, Learn & Grow, Code Like a Pro, Research & Create, Track & Compete, You're All Set. Each slide has icon, title, description, feature grid. |
+| **FR-14.3** | **Animated UI** | P1 | Framer Motion spring transitions, progress dots, glassmorphic dark modal with neon-glow icons. |
+| **FR-14.4** | **Skip & Dismiss** | P0 | X button to skip at any time. Dismissal is permanent (stored in localStorage per user email). |
+| **FR-14.5** | **Per-User Scoping** | P0 | Different accounts on same browser each get their own onboarding experience. Key: `ganapathi_onboarding_seen_{email}`. |
+
+### Module 15: Coding Challenges
+| ID | Requirement | Priority | Implementation Details |
+|----|-------------|----------|------------------------|
+| **FR-15.1** | **Challenge Library** | P0 | Browse challenges by difficulty (easy/medium/hard) and category (arrays, strings, trees, etc.). |
+| **FR-15.2** | **In-Browser Editor** | P0 | Monaco Editor with boilerplate code, syntax highlighting, and language selection. |
+| **FR-15.3** | **Auto-Grading** | P0 | Submit code → test against visible + hidden test cases → show pass/fail results. |
+| **FR-15.4** | **XP Rewards** | P0 | Earn XP per accepted submission: 10 (easy), 25 (medium), 50 (hard). Updates User.metrics.total_xp. |
+| **FR-15.5** | **Leaderboard** | P1 | Global ranking by total XP. Weekly and all-time views. |
+| **FR-15.6** | **Submission History** | P1 | View past submissions with code, status, and XP earned per challenge. |
+
+### Module 16: YouTube Intelligence
+| ID | Requirement | Priority | Implementation Details |
+|----|-------------|----------|------------------------|
+| **FR-16.1** | **Recency Filter** | P0 | YouTube Data API v3 search uses `publishedAfter` parameter (3 years ago) to exclude outdated videos. |
+| **FR-16.2** | **Embeddable Only** | P0 | `videoEmbeddable: true` filters out deleted, private, and region-locked videos. |
+| **FR-16.3** | **Relevance Ordering** | P0 | `order: relevance` ensures YouTube’s algorithm prioritizes best matches. |
+| **FR-16.4** | **Publish Year Display** | P1 | AI chatbot displays the publish year alongside each video recommendation. |
+| **FR-16.5** | **No Hallucinated IDs** | P0 | System prompt instructs AI to never generate fake video IDs. Only IDs from API results are used. |
+
+### Module 17: Per-User Data Isolation
+| ID | Requirement | Priority | Implementation Details |
+|----|-------------|----------|------------------------|
+| **FR-17.1** | **Email-Prefixed Keys** | P0 | All IndexedDB keys prefixed with `{user.email}:` via `useContentStore` hook. |
+| **FR-17.2** | **12 Scoped Stores** | P0 | Concepts, code_reviews, roadmaps, docs, productivity, interviews, media, chat_history, stackoverflow, research, walkthroughs, user_data. |
+| **FR-17.3** | **Account Switching** | P0 | When a different user logs in on the same browser, they see their own data — not the previous user’s. |
+| **FR-17.4** | **Guest Fallback** | P1 | If no user is authenticated, keys use `guest:` prefix. |
+| **FR-17.5** | **Dual-Write Sync** | P0 | Data saved to IndexedDB (instant) + synced to MongoDB (durable via `/api/content`). Load prioritizes IndexedDB for speed. |
 
 ---
 
@@ -467,5 +513,5 @@ Team features enable collective learning and knowledge sharing:
 
 **End of Requirements Specification**  
 *Document Owner: G R Harsha*  
-*Last Updated: February 21, 2026*  
-*Version: 3.0.0*
+*Last Updated: February 22, 2026*  
+*Version: 4.0.0*

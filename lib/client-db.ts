@@ -4,7 +4,7 @@
  */
 
 const DB_NAME = 'GanapathiGenAI_DB';
-const DB_VERSION = 2;
+const DB_VERSION = 3;
 
 // All stores used in the app
 const STORES = [
@@ -18,6 +18,8 @@ const STORES = [
     'walkthroughs',    // code walkthrough steps
     'media',           // generated images/media
     'chat_history',    // chatbot conversations
+    'stackoverflow',   // stack overflow search history
+    'research',        // research hub history
 ] as const;
 
 type StoreName = typeof STORES[number];

@@ -9,9 +9,9 @@ import {
   Users,
   Zap,
   LayoutDashboard,
-  BookOpen,
+  Compass,
   Code,
-  Lightbulb,
+  Brain,
   CheckCircle,
   FileText,
   Activity,
@@ -20,7 +20,8 @@ import {
   Github,
   ChevronLeft,
   ChevronRight,
-  Image as ImageIcon
+  Telescope,
+  Clapperboard
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
@@ -29,17 +30,17 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-  { name: 'Learning Path', href: '/dashboard/learning', icon: BookOpen },
+  { name: 'Learning Path', href: '/dashboard/learning', icon: Compass },
   { name: 'Code Review', href: '/dashboard/code-review', icon: Code },
-  { name: 'Concepts', href: '/dashboard/concepts', icon: Lightbulb },
+  { name: 'Concepts', href: '/dashboard/concepts', icon: Brain },
   { name: 'Productivity', href: '/dashboard/tools/productivity', icon: CheckCircle },
   { name: 'Doc Gen', href: '/dashboard/tools/docs', icon: FileText },
   { name: 'GitHub', href: '/dashboard/github', icon: Github },
   { name: 'Analytics', href: '/dashboard/analytics/performance', icon: Activity },
   { name: 'Anomalies', href: '/dashboard/analytics/anomalies', icon: AlertTriangle },
   { name: 'Collaboration', href: '/dashboard/collaboration', icon: Users },
-  { name: 'Research', href: '/dashboard/research', icon: BookOpen },
-  { name: 'Studio', href: '/dashboard/media/studio', icon: ImageIcon },
+  { name: 'Research', href: '/dashboard/research', icon: Telescope },
+  { name: 'Studio', href: '/dashboard/media/studio', icon: Clapperboard },
   { name: 'Last Minute', href: '/dashboard/last-minute', icon: Zap },
   { name: 'Training', href: '/dashboard/specialized', icon: GraduationCap },
   { name: 'Settings', href: '/dashboard/settings', icon: Settings },
@@ -114,7 +115,8 @@ export function DashboardSidebar() {
                 variant={isActive ? 'secondary' : 'ghost'}
                 className={cn(
                   "w-full transition-all duration-200",
-                  isCollapsed ? "justify-center px-2" : "justify-start px-3"
+                  isCollapsed ? "justify-center px-2" : "justify-start px-3",
+                  isActive && "bg-primary/10 text-primary hover:bg-primary/20 shadow-[0_0_12px_rgba(124,58,237,0.3)] border border-primary/30"
                 )}
                 asChild
               >

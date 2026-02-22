@@ -50,6 +50,14 @@ export async function GET(req: NextRequest) {
           avatar_url: user.user_metadata?.avatar_url || user.user_metadata?.picture,
           password_hash: null,
           role: 'viewer',
+          metrics: {
+            total_sessions: 0,
+            practice_points: 0,
+            completed_lessons: 0,
+            current_streak: 0,
+            longest_streak: 0,
+            last_active: new Date()
+          }
         });
         console.log('[Auth Callback] User created successfully');
       } catch (dbError: any) {

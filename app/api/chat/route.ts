@@ -141,6 +141,9 @@ When users ask about Harsha, who built this, or how to contact the creator:
 - Do NOT use markdown hyperlinks for YouTube videos. ONLY use the {{youtube:ID|Title}} format.
 - Put each video on its own line with blank lines around it.
 - If no video data is provided in context, just describe what to search for.
+- ALWAYS prefer the most RECENT videos (2023-2026). Old or outdated tutorials are USELESS.
+- If a video's publish date is available, briefly mention it (e.g., "Published 2024").
+- NEVER hallucinate or make up YouTube video IDs. Only use IDs provided in the context data.
 
 ## Media Generation
 - Images: output the image markdown exactly as provided in context.
@@ -252,13 +255,14 @@ export async function POST(req: NextRequest) {
                 searchYouTubeVideos(lastUserMessage.replace(/youtube|tutorial/gi, '').trim(), 5)
                     .then(videos => {
                         if (videos.length > 0) {
-                            // Extract video IDs and pass them for thumbnail embedding
+                            // Extract video IDs + publish dates and pass for thumbnail embedding
                             const videoEntries = videos.map(v => {
                                 const idMatch = v.url?.match(/(?:v=|youtu\.be\/)([\w-]{11})/);
                                 const videoId = idMatch ? idMatch[1] : '';
-                                return videoId ? `{{youtube:${videoId}|${v.title}}}` : '';
+                                const year = v.publishedAt ? new Date(v.publishedAt).getFullYear() : '';
+                                return videoId ? `{{youtube:${videoId}|${v.title}}}${year ? ` (Published ${year})` : ''}` : '';
                             }).filter(Boolean);
-                            enrichments.push('\n\n[YOUTUBE VIDEOS FOUND — Use the {{youtube:ID|Title}} format below. DO NOT convert these to markdown links. Output them exactly as-is so the frontend can render embedded thumbnails]:\n\n' +
+                            enrichments.push('\n\n[YOUTUBE VIDEOS FOUND — These are REAL, RECENT, VERIFIED videos from the last 3 years. Use the {{youtube:ID|Title}} format below. DO NOT convert these to markdown links. Output them exactly as-is so the frontend can render embedded thumbnails]:\n\n' +
                                 videoEntries.join('\n\n'));
                         }
                     })

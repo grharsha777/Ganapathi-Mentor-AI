@@ -3,6 +3,7 @@ import { cookies } from 'next/headers'
 import { verifyToken } from '@/lib/auth'
 import { DashboardNav } from '@/components/dashboard/nav'
 import { DashboardDock } from '@/components/dashboard/dock'
+import { OnboardingTutorial } from '@/components/onboarding/onboarding-tutorial'
 
 export default async function DashboardLayout({
   children,
@@ -31,6 +32,7 @@ export default async function DashboardLayout({
         </div>
       </main>
       <DashboardDock />
+      <OnboardingTutorial />
     </div>
   )
 }

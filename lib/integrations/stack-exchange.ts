@@ -31,7 +31,7 @@ export async function searchStackOverflow(query: string, tag?: string): Promise<
         sort: 'relevance',
         site: 'stackoverflow',
         q: query,
-        filter: '!nNPvSNp63x' // Custom filter to include body/answers potentially, or just use default wrapper
+        filter: 'withbody' // Use standard built-in filter
     })
 
     if (tag) params.append('tagged', tag)

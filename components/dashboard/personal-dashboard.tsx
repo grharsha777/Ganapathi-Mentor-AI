@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, memo } from 'react';
+import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -107,12 +108,19 @@ export default function PersonalDashboard() {
                     if (meData.user) {
                         setCurrentUserId(meData.user.id);
                         const m = meData.user.metrics || {};
+                        const xp = m.practice_points || 0;
+                        const level = xp >= 1000 ? 'Architect III' :
+                            xp >= 500 ? 'Architect II' :
+                                xp >= 200 ? 'Architect I' :
+                                    xp >= 100 ? 'Senior Developer' :
+                                        xp >= 50 ? 'Intermediate' : 'Junior Developer';
+
                         setStats({
                             streak: m.current_streak || 0,
-                            skillsMastered: Math.floor((m.completed_lessons || 0) / 3), // mock a formula for skills
-                            weeklyGoal: Math.min(100, (m.total_sessions || 0) * 10), // Example logic
-                            xpPoints: m.practice_points || 0,
-                            level: 'Senior Architect I'
+                            skillsMastered: m.completed_lessons || 0,
+                            weeklyGoal: Math.min(100, (m.completed_lessons || 0) * 10 + (m.total_sessions || 0) * 5),
+                            xpPoints: xp,
+                            level: level
                         });
                     }
                 }
@@ -194,9 +202,11 @@ export default function PersonalDashboard() {
                                     <CardDescription className="text-lg mt-2">Explain the difference to a junior dev.</CardDescription>
                                 </CardHeader>
                                 <CardContent>
-                                    <Button size="lg" className="w-full group-hover:bg-primary/90 text-lg h-12 rounded-xl shadow-lg shadow-indigo-500/10">
-                                        Start Challenge
-                                        <ArrowUpRight className="ml-2 h-5 w-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                                    <Button size="lg" className="w-full group-hover:bg-primary/90 text-lg h-12 rounded-xl shadow-lg shadow-indigo-500/10" asChild>
+                                        <Link href="/dashboard/challenges">
+                                            Start Challenge
+                                            <ArrowUpRight className="ml-2 h-5 w-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                                        </Link>
                                     </Button>
                                 </CardContent>
                             </Card>
@@ -212,9 +222,11 @@ export default function PersonalDashboard() {
                                     <CardDescription className="text-lg mt-2">Sketch out a distributed rate limiting algorithm.</CardDescription>
                                 </CardHeader>
                                 <CardContent>
-                                    <Button size="lg" variant="secondary" className="w-full hover:bg-yellow-500/10 hover:text-yellow-500 text-lg h-12 rounded-xl border border-yellow-500/20">
-                                        Start Challenge
-                                        <ArrowUpRight className="ml-2 h-5 w-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                                    <Button size="lg" variant="secondary" className="w-full hover:bg-yellow-500/10 hover:text-yellow-500 text-lg h-12 rounded-xl border border-yellow-500/20" asChild>
+                                        <Link href="/dashboard/challenges">
+                                            Start Challenge
+                                            <ArrowUpRight className="ml-2 h-5 w-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                                        </Link>
                                     </Button>
                                 </CardContent>
                             </Card>

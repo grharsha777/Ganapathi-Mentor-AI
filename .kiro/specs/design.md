@@ -1,8 +1,8 @@
 # Ganapathi Mentor AI — System Design & Architecture
 > **Project Codename**: Neural Code Symbiosis  
-> **Version**: 3.0.0 (Production Ready — Fully Responsive)  
+> **Version**: 4.0.0 (Production + Feedback, Onboarding, Challenges, YouTube Intelligence)  
 > **System Architect**: G R Harsha  
-> **Last Updated**: February 21, 2026  
+> **Last Updated**: February 22, 2026  
 > **Status**: Production • All Platforms (Mobile / Tablet / Desktop / TV)
 
 ---
@@ -22,6 +22,11 @@ The system is built on a **Serverless, Edge-First Architecture** designed for ze
 - **Offline-First Architecture**: IndexedDB caching ensures functionality without internet
 - **Premium UX**: Framer Motion (desktop), CSS transitions (mobile), glassmorphism
 - **19 Integrated Modules**: Dashboard, Learning, Review, Concepts, Tasks, Docs, GitHub, Analytics, Anomalies, Collab, Research, Studio, Challenges, Interview, CodeCollab, Portfolio, Quick Prep, Training, Settings
+- **Feedback System**: In-app feedback form with category pills, star rating, email delivery via Web3Forms
+- **Onboarding Tutorial**: First-time animated walkthrough with 6 feature slides, per-user dismissal
+- **Coding Challenges**: XP-rewarding coding problems with difficulty levels, leaderboard, and auto-grading
+- **YouTube Intelligence**: Recency-filtered search (last 3 years), embeddable-only, relevance-ordered
+- **Per-User Data Isolation**: All IndexedDB keys scoped by user email — account switching shows different data
 - **Enterprise-Ready**: Security, scalability, and compliance built-in from day one
 
 ---
@@ -1702,6 +1707,207 @@ graph LR
 
 ---
 
+## 5.13 Feedback System Module
+
+**Purpose**: Collect user suggestions, compliments, bug reports, and feature requests with email notifications
+
+**Architecture**:
+- **Frontend** (`settings/page.tsx`): Feedback card with 5 category pills, 5-star interactive rating, textarea
+- **API Route** (`/api/feedback`): Saves to MongoDB + sends email via Web3Forms
+- **Database**: `Feedback` model in MongoDB with status tracking
+
+**Data Model**:
+```typescript
+interface Feedback {
+  _id: ObjectId;
+  user_id: ObjectId;        // References User
+  user_email: string;
+  user_name: string;
+  category: 'suggestion' | 'compliment' | 'bug' | 'feature' | 'other';
+  rating: number;           // 0-5 stars
+  message: string;
+  status: 'new' | 'reviewed' | 'resolved';
+  created_at: Date;
+}
+```
+
+**Submission Flow**:
+1. User selects category pill (💡 Suggestion, ❤️ Compliment, 🐛 Bug, ✨ Feature, 📝 Other)
+2. Optional: 5-star rating with hover labels ("Needs Work" → "Amazing!")
+3. User writes message and clicks Send
+4. API saves to MongoDB (permanent record)
+5. API sends formatted email to `grharsha777@gmail.com` via Web3Forms
+6. Success animation with "Thank you!" state
+
+**Email Delivery**:
+- Uses Web3Forms API with access key
+- FormData payload with category, rating, user info, message
+- Graceful fallback: if email fails, feedback is still saved in MongoDB
+
+---
+
+## 5.14 Onboarding Tutorial Module
+
+**Purpose**: Guide first-time users through all platform features with an animated walkthrough
+
+**Architecture**:
+- **Component**: `OnboardingTutorial` rendered in dashboard layout
+- **Storage**: Per-user localStorage key (`ganapathi_onboarding_seen_{email}`)
+- **Animation**: Framer Motion spring physics with slide transitions
+
+**Slide Content** (6 slides):
+| Slide | Title | Features Covered |
+|-------|-------|------------------|
+| 1 | Welcome to Ganapathi AI | Platform intro, built by G R Harsha |
+| 2 | Learn & Grow | Learning Paths, Concept Engine, Training |
+| 3 | Code Like a Pro | Code Review, Doc Generator, Productivity |
+| 4 | Research & Create | Research Hub, Media Studio, Mock Interview |
+| 5 | Track & Compete | Analytics, Challenges, Portfolio |
+| 6 | You're All Set! | CTA to explore |
+
+**Per-User Behavior**:
+```typescript
+// Key is scoped by user email
+const onboardingKey = `ganapathi_onboarding_seen_${user.email}`;
+// Only shows if key doesn't exist in localStorage
+if (!localStorage.getItem(onboardingKey)) showTutorial();
+// On dismiss, sets the key permanently
+localStorage.setItem(onboardingKey, 'true');
+```
+
+**UI Design**:
+- Dark glassmorphic modal with `blur(12px)` backdrop
+- Neon-glowing squircle icons (matching dock style)
+- Progress dots with animated width transitions
+- Features grid showing 3 key capabilities per slide
+- Skip (X) button in top-right corner
+- Back/Next navigation with slide counter
+
+---
+
+## 5.15 Coding Challenges Module
+
+**Purpose**: Gamified coding problems with XP rewards and leaderboard ranking
+
+**Data Model**:
+```typescript
+interface Challenge {
+  _id: ObjectId;
+  title: string;
+  description: string;
+  difficulty: 'easy' | 'medium' | 'hard';
+  category: string;           // 'arrays', 'strings', 'trees', etc.
+  boilerplate_code: string;   // Starting template
+  test_cases: [{ input: string; expected_output: string; is_hidden: boolean }];
+  xp_reward: number;          // 10 (easy), 25 (medium), 50 (hard)
+  time_limit_minutes: number;
+  created_at: Date;
+}
+
+interface Submission {
+  _id: ObjectId;
+  user_id: ObjectId;
+  challenge_id: ObjectId;
+  code: string;
+  language: string;
+  status: 'pending' | 'accepted' | 'wrong_answer' | 'error';
+  test_results: [{ passed: boolean; input: string; expected: string; actual: string }];
+  xp_earned: number;
+  submitted_at: Date;
+}
+```
+
+**Challenge Flow**:
+1. User browses challenges filtered by difficulty/category
+2. Selects challenge, sees description and boilerplate code
+3. Writes solution in Monaco Editor
+4. Submits → code tested against visible + hidden test cases
+5. Results displayed with pass/fail per test case
+6. XP awarded for accepted solutions → updates User.metrics.total_xp
+7. Leaderboard updated in real-time
+
+---
+
+## 5.16 YouTube Intelligence Module
+
+**Purpose**: Ensure all YouTube video recommendations are recent, real, and relevant
+
+**Search Parameters**:
+```typescript
+const params = {
+  part: 'snippet',
+  q: `${query} tutorial 2024`,
+  type: 'video',
+  order: 'relevance',
+  publishedAfter: threeYearsAgo.toISOString(), // Only last 3 years
+  videoEmbeddable: 'true',                     // Filter deleted/private
+  videoDuration: 'medium',                     // 4-20 min tutorials
+  relevanceLanguage: 'en',
+  safeSearch: 'strict',
+};
+```
+
+**Key Filters**:
+| Filter | Value | Purpose |
+|--------|-------|---------|
+| `publishedAfter` | 3 years ago (dynamic) | No old/outdated content |
+| `videoEmbeddable` | `true` | Filters deleted, private, region-locked |
+| `order` | `relevance` | YouTube's relevance algorithm |
+| `videoDuration` | `medium` | Tutorial-length videos (4-20 min) |
+| `safeSearch` | `strict` | Family-safe content only |
+
+**Consumers**:
+- Chat AI: Embeds videos as `{{youtube:ID|Title}}` with publish year
+- Concept Explainer: Shows 8 videos in Videos tab
+- Learning Paths: Includes video resources in roadmap sessions
+
+---
+
+## 5.17 Per-User Data Isolation Module
+
+**Purpose**: Ensure each user account has its own isolated data in client-side storage
+
+**Architecture**:
+```typescript
+// useContentStore hook — all keys prefixed with user email
+function useContentStore(feature: FeatureStore) {
+  const { user } = useAuth();
+  const userPrefix = user?.email ? `${user.email}:` : 'guest:';
+
+  const save = async (key, data) => {
+    const localKey = `${userPrefix}${key}`;
+    await ClientDB.saveContent(feature, localKey, data); // IndexedDB
+    syncToMongo(feature, key, data);                     // MongoDB
+  };
+
+  const load = async (key) => {
+    const localKey = `${userPrefix}${key}`;
+    return ClientDB.loadContent(feature, localKey)  // IndexedDB first
+      || loadFromMongo(feature, key);                // MongoDB fallback
+  };
+}
+```
+
+**Scoped Stores** (12 IndexedDB object stores):
+| Store | Data |
+|-------|------|
+| `concepts` | Concept explanations + videos |
+| `code_reviews` | Code review analyses |
+| `roadmaps` | Learning path data |
+| `docs` | Generated documentation |
+| `productivity` | Tasks and productivity data |
+| `interviews` | Interview prep sessions |
+| `media` | Generated images/videos |
+| `chat_history` | Chatbot conversations |
+| `stackoverflow` | StackOverflow search results |
+| `research` | Research hub findings |
+| `walkthroughs` | Code walkthrough steps |
+| `user_data` | GitHub tokens (legacy) |
+
+**Behavior**: When User A searches for "React Hooks" in Concepts, then User B logs in on the same browser, User B sees a clean Concepts page — not User A's data.
+
+---
+
 ## 13. Future Enhancements
 
 ### Phase 3: Advanced Features (Q2 2026)
@@ -1755,16 +1961,17 @@ Ganapathi Mentor AI represents a comprehensive, production-ready platform for de
 
 - **Scalability**: Serverless infrastructure scales to 10k+ users
 - **Performance**: Sub-second response times with edge computing
-- **Security**: Enterprise-grade authentication and encryption
+- **Security**: Enterprise-grade authentication, encryption, and per-user data isolation
 - **Reliability**: 99.9% uptime with automatic failover
 - **Extensibility**: Modular design allows easy feature additions
+- **User Engagement**: Gamification, onboarding, and feedback loops
 
-The platform successfully integrates 12+ major modules, from AI-powered code review to team collaboration, creating a unified ecosystem that enhances developer productivity and accelerates learning outcomes.
+The platform successfully integrates 19+ major modules — from AI-powered code review to coding challenges, feedback systems, first-time onboarding, and YouTube-powered video intelligence — creating a unified ecosystem that enhances developer productivity and accelerates learning outcomes.
 
 ---
 
 **End of Design Specification**  
 *System Architect: G R Harsha*  
-*Last Updated: February 14, 2026*  
-*Version: 2.0.0*  
-*Status: Production Ready*
+*Last Updated: February 22, 2026*  
+*Version: 4.0.0*  
+*Status: Production Ready + Feedback + Onboarding + Challenges*

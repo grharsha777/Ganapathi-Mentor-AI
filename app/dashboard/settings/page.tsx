@@ -7,7 +7,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { Badge } from '@/components/ui/badge'
-import { Settings, Bell, Lock, User, Github, ExternalLink, Heart, CheckCircle, Loader2 } from 'lucide-react'
+import { Textarea } from '@/components/ui/textarea'
+import { Settings, Bell, Lock, User, Github, ExternalLink, Heart, CheckCircle, Loader2, MessageSquare, Star, Send } from 'lucide-react'
 import { signOut } from '@/app/auth/actions'
 import { toast } from 'sonner'
 import { PageShell } from '@/components/layout/PageShell';
@@ -18,6 +19,13 @@ export default function SettingsPage() {
   const [isSaving, setIsSaving] = useState(false)
   const [isConnected, setIsConnected] = useState(false)
   const [githubUsername, setGithubUsername] = useState('')
+  // Feedback state
+  const [feedbackCategory, setFeedbackCategory] = useState('suggestion')
+  const [feedbackMessage, setFeedbackMessage] = useState('')
+  const [feedbackRating, setFeedbackRating] = useState(0)
+  const [feedbackHover, setFeedbackHover] = useState(0)
+  const [feedbackSending, setFeedbackSending] = useState(false)
+  const [feedbackSent, setFeedbackSent] = useState(false)
 
   // Check if already connected
   useEffect(() => {
@@ -211,6 +219,151 @@ export default function SettingsPage() {
           </CardHeader>
           <CardContent>
             <Button variant="outline">Change Password</Button>
+          </CardContent>
+        </Card>
+
+        {/* Feedback Form Card */}
+        <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-purple-500/5">
+          <CardHeader>
+            <div className="flex items-center space-x-2">
+              <MessageSquare className="w-5 h-5 text-primary" />
+              <div>
+                <CardTitle>Send us Feedback</CardTitle>
+                <CardDescription>Suggestions, compliments, bug reports — we read everything!</CardDescription>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            {feedbackSent ? (
+              <div className="text-center py-8 space-y-3">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-500/10 border border-green-500/30">
+                  <CheckCircle className="w-8 h-8 text-green-500" />
+                </div>
+                <h3 className="text-lg font-semibold text-green-600">Thank you for your feedback! 🎉</h3>
+                <p className="text-sm text-muted-foreground">We'll review your message and get back to you if needed.</p>
+                <Button variant="outline" size="sm" onClick={() => { setFeedbackSent(false); setFeedbackMessage(''); setFeedbackRating(0); }}>
+                  Send Another
+                </Button>
+              </div>
+            ) : (
+              <div className="space-y-5">
+                {/* Category Selection */}
+                <div className="space-y-2">
+                  <Label>Category</Label>
+                  <div className="flex flex-wrap gap-2">
+                    {[
+                      { value: 'suggestion', label: '💡 Suggestion', color: 'bg-blue-500/10 border-blue-500/30 text-blue-600 hover:bg-blue-500/20' },
+                      { value: 'compliment', label: '❤️ Compliment', color: 'bg-pink-500/10 border-pink-500/30 text-pink-600 hover:bg-pink-500/20' },
+                      { value: 'bug', label: '🐛 Bug Report', color: 'bg-red-500/10 border-red-500/30 text-red-600 hover:bg-red-500/20' },
+                      { value: 'feature', label: '✨ Feature Request', color: 'bg-purple-500/10 border-purple-500/30 text-purple-600 hover:bg-purple-500/20' },
+                      { value: 'other', label: '📝 Other', color: 'bg-gray-500/10 border-gray-500/30 text-gray-600 hover:bg-gray-500/20' },
+                    ].map(cat => (
+                      <button
+                        key={cat.value}
+                        onClick={() => setFeedbackCategory(cat.value)}
+                        className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all duration-200 ${feedbackCategory === cat.value
+                          ? `${cat.color} ring-2 ring-offset-1 ring-primary/30 scale-105`
+                          : 'bg-muted/50 border-border text-muted-foreground hover:bg-muted'
+                          }`}
+                      >
+                        {cat.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Star Rating */}
+                <div className="space-y-2">
+                  <Label>How's your experience? (optional)</Label>
+                  <div className="flex gap-1">
+                    {[1, 2, 3, 4, 5].map(star => (
+                      <button
+                        key={star}
+                        onClick={() => setFeedbackRating(star)}
+                        onMouseEnter={() => setFeedbackHover(star)}
+                        onMouseLeave={() => setFeedbackHover(0)}
+                        className="p-0.5 transition-transform duration-150 hover:scale-125"
+                      >
+                        <Star
+                          className={`w-6 h-6 transition-colors duration-150 ${star <= (feedbackHover || feedbackRating)
+                            ? 'text-yellow-400 fill-yellow-400'
+                            : 'text-muted-foreground/30'
+                            }`}
+                        />
+                      </button>
+                    ))}
+                    {feedbackRating > 0 && (
+                      <span className="text-xs text-muted-foreground ml-2 self-center">
+                        {['', 'Needs Work', 'Could be Better', 'Good', 'Great', 'Amazing!'][feedbackRating]}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Message */}
+                <div className="space-y-2">
+                  <Label htmlFor="feedback-msg">Your Message</Label>
+                  <Textarea
+                    id="feedback-msg"
+                    placeholder="Tell us what you think... What do you love? What can we improve?"
+                    value={feedbackMessage}
+                    onChange={e => setFeedbackMessage(e.target.value)}
+                    rows={4}
+                    className="resize-none"
+                  />
+                </div>
+
+                {/* Send Button */}
+                <Button
+                  className="w-full"
+                  disabled={!feedbackMessage.trim() || feedbackSending}
+                  onClick={async () => {
+                    setFeedbackSending(true);
+                    try {
+                      // 1. Send to Web3Forms directly from the client
+                      const formData = new FormData();
+                      formData.append('access_key', 'f119865c-01dd-43f0-bcc6-6e5439c7f000');
+                      formData.append('subject', 'Ganapathi AI Feedback Form Submission');
+                      formData.append('category', feedbackCategory);
+                      formData.append('rating', feedbackRating ? `${feedbackRating} Stars` : 'Not rated');
+                      formData.append('message', feedbackMessage);
+
+                      // Using the HTML form submission method as requested, but via JS fetch
+                      await fetch('https://api.web3forms.com/submit', {
+                        method: 'POST',
+                        body: formData
+                      });
+
+                      // 2. Save to our database for persistence
+                      const res = await fetch('/api/feedback', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        credentials: 'include',
+                        body: JSON.stringify({ category: feedbackCategory, message: feedbackMessage, rating: feedbackRating }),
+                      });
+
+                      if (!res.ok) {
+                        const data = await res.json();
+                        throw new Error(data.error);
+                      }
+
+                      setFeedbackSent(true);
+                      toast.success('Feedback sent! Thank you 💜');
+                    } catch (e: any) {
+                      toast.error(e.message || 'Failed to send feedback');
+                    } finally {
+                      setFeedbackSending(false);
+                    }
+                  }}
+                >
+                  {feedbackSending ? (
+                    <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Sending...</>
+                  ) : (
+                    <><Send className="mr-2 h-4 w-4" /> Send Feedback</>
+                  )}
+                </Button>
+              </div>
+            )}
           </CardContent>
         </Card>
 

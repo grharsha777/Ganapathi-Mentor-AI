@@ -1,204 +1,193 @@
-# 🐘 Ganapathi Mentor AI — The Future of AI-Powered Developer Learning
+# 🧠 Ganapathi Mentor AI
 
-<p align="center">
-  <strong>Built with ❤️ by <a href="https://github.com/grharsha777">G R Harsha</a></strong>
-</p>
+> **Your AI-Powered Coding Mentor** — Built by [G R Harsha](https://www.linkedin.com/in/grharsha777/)
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Status-Production_Ready-success?style=for-the-badge" alt="Status" />
-  <img src="https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js" alt="Next.js" />
-  <img src="https://img.shields.io/badge/TypeScript-5.7-blue?style=for-the-badge&logo=typescript" alt="TypeScript" />
-  <img src="https://img.shields.io/badge/MongoDB-Atlas-green?style=for-the-badge&logo=mongodb" alt="MongoDB" />
-  <img src="https://img.shields.io/badge/AI-Multi--Model-purple?style=for-the-badge" alt="AI" />
-  <img src="https://img.shields.io/badge/Responsive-Mobile_to_TV-orange?style=for-the-badge" alt="Responsive" />
-</p>
+An enterprise-grade, full-stack AI coding mentor platform that combines 20+ cutting-edge AI services, real-time collaboration, adaptive learning paths, and gamified challenges into a single, premium dashboard experience.
+
+🌐 **Live Demo**: [ganapathi-mentor-ai.vercel.app](https://ganapathi-mentor-ai.vercel.app)
 
 ---
 
-**Ganapathi Mentor AI** is a state-of-the-art, AI-powered **Symbiotic Intelligence Platform** for developer education and productivity. It acts like a **best friend who's also a senior engineer** — warm, helpful, and always available. The platform combines **Custom RAG**, **Multi-Modal AI**, **Premium Animated UI**, and **Full Responsiveness** across every device from mobile phones to large TV screens.
+## ✨ Key Features
 
-> 🎯 **Mission**: Democratize elite-level mentorship so every developer can accelerate from junior to expert.
+### 🎓 Learning & Education
+| Feature | Description |
+|---------|-------------|
+| **AI Learning Paths** | AI-generated personalized roadmaps with sessions, resources, and progress tracking |
+| **Concept Engine** | Search any tech concept for multi-level explanations (Beginner → Advanced), with YouTube videos, web sources, research papers, and AI-generated visualizations |
+| **Last-Minute Prep** | Quick revision sheets, formula banks, flashcards, and practice questions for exam preparation |
+| **Specialized Training** | Interview prep modules and code-to-learn tutorials |
 
----
+### 💻 Developer Tools
+| Feature | Description |
+|---------|-------------|
+| **AI Code Review** | Paste code and get AI-powered quality analysis with best practice recommendations |
+| **Documentation Generator** | Auto-generate API docs, README files, and technical documentation from code |
+| **Productivity Hub** | Task management with AI-suggested priorities and time tracking |
+| **GitHub Integration** | Connect your GitHub for repo analytics, contribution heatmaps, and language breakdowns |
 
-## 🚀 Core Features
+### 🔬 Research & Creation
+| Feature | Description |
+|---------|-------------|
+| **Research Hub** | Multi-source search engine (Web, StackOverflow, Wikipedia, arXiv, Semantic Scholar) with AI synthesis |
+| **Media Studio** | AI image generation using Freepik/Stability AI with prompt engineering |
+| **AI Video Generation** | Text-to-video using HuggingFace models |
+| **Music Generation** | Integration with Suno AI for music/song creation |
 
-### 🤖 Ganapathi AI Chatbot — Your Coding Buddy
-- **Best Friend Personality** — Talks like a helpful friend, not a robot. Uses casual, encouraging language.
-- **Context-Aware RAG** — Understands your page, learning history, and code context.
-- **Multi-Model Intelligence** — Routes to **Mistral**, **Groq**, or **Hugging Face** for optimal response.
-- **YouTube Thumbnail Embeds** — Videos shown as rich embedded cards with play buttons (not plain links).
-- **Built-in Tools** — Web search, YouTube search, image generation, and in-app navigation.
-- **Markdown Rendering** — Code blocks with copy-to-clipboard, styled links, bold/headings, inline code.
-- **Identity**: Always identifies as **Ganapathi AI** built by **G R Harsha**.
+### 🏆 Gamification & Social
+| Feature | Description |
+|---------|-------------|
+| **Coding Challenges** | Solve problems, earn XP, climb the leaderboard — with multiple difficulty levels |
+| **Mock Interview** | Practice technical interviews with an AI interviewer |
+| **CodeCollab** | Real-time collaborative coding rooms with live cursors |
+| **Portfolio Generator** | Auto-generated developer portfolio from your activity |
+| **Collaboration Intelligence** | Team knowledge silo detection and skill gap recommendations |
 
-### 📱 Fully Responsive Design — Mobile to TV
-- **Mobile Sidebar Navigation** — Slide-out drawer with hamburger menu (no lag!)
-- **Desktop macOS Dock** — Spring-animated magnification dock with iOS-style gradient icons
-- **Touch-Optimized** — All interactive elements use `touch-action: manipulation`, `active:scale` effects
-- **Fluid Typography** — `clamp()` CSS for text that scales from 320px phones to 4K screens
-- **Safe Area Support** — Proper `env(safe-area-inset-*)` for notched phones (iPhone, Galaxy)
-- **Reduced Motion** — Respects `prefers-reduced-motion` for accessibility
+### 🤖 AI Assistant
+| Feature | Description |
+|---------|-------------|
+| **Ganapathi AI Chatbot** | Full-featured AI chatbot with web search, YouTube integration, image generation, navigation, and a friendly personality |
+| **Text-to-Speech** | Listen to explanations via AI-generated audio |
+| **Onboarding Tutorial** | First-time interactive feature walkthrough for new users |
 
-### 🧠 Neural Concept Engine
-- **Adaptive Explanations** — ELI5 (Beginner) → Professional → Research-grade depth
-- **Visual Learning** — Auto-generated Mermaid diagrams and flowcharts
-- **Mastery Tracking** — Concepts stored in MongoDB with skill vectors
+### 📊 Analytics & Monitoring
+| Feature | Description |
+|---------|-------------|
+| **Performance Analytics** | Track learning progress, coding metrics, streaks, and XP |
+| **Anomaly Detection** | AI-powered detection of unusual patterns in coding behavior |
+| **Smart Alerts** | Configurable notifications for milestones and anomalies |
 
-### 🗺️ Personalized Learning Paths
-- **Role-Based Roadmaps** — Frontend, Backend, Full Stack, DevOps, and more
-- **AI-Generated Curriculum** — 4-week milestones with curated resources
-- **Dynamic Progress Tracking** — Hybrid MongoDB + IndexedDB persistence
-- **Session Completion Handling** — Pages update correctly when all sessions complete
-
-### 🎥 AI Media Studio
-- **Image Generation** — Freepik & HuggingFace integrations
-- **Video Generation** — HuggingFace text-to-video models
-- **Music** — Suno AI integration for focus music
-- **Branding Generator** — AI-powered logos, color palettes, typography
-
-### 🛠️ Developer Productivity Suite
-- **Code Reviewer** — AI + static analysis for bugs, security, anti-patterns
-- **Doc Generator** — Auto-generate JSDoc, Python docstrings, READMEs
-- **Eisenhower Matrix** — AI-driven task prioritization
-- **GitHub Integration** — OAuth + repo analytics, commit history, language breakdown
-
-### 🏆 Interview & Challenges
-- **Mock Interviews** — Voice-first AI interviews with real-time feedback
-- **Coding Challenges** — Timed challenges with scoring
-- **Performance Scoring** — Technical depth, communication, problem-solving metrics
-
-### 🔬 Research Hub
-- **Unified Search** — Wikipedia, arXiv, Semantic Scholar, Tavily web search
-- **Stack Exchange** — Programming Q&A integration
-- **Citation Management** — Save and organize research findings
-
-### 👥 Team Collaboration
-- **Team Workspaces** — Create teams with role-based access (owner/admin/member/viewer)
-- **Shared Learning Paths** — Team-wide roadmaps and progress tracking
-- **Leaderboards** — Weekly XP rankings for motivation
-- **CodeCollab** — Collaborative coding environment
-
-### 📊 Analytics & Anomaly Detection
-- **Personal Dashboard** — Streak, XP, level, weekly goals
-- **Performance Charts** — Learning velocity, skill distribution
-- **Anomaly Detection** — AI detects unusual patterns in learning behavior
-
----
-
-## 🏗️ Architecture
-
-```mermaid
-graph TB
-    subgraph "Client Layer"
-        Browser[Web Browser]
-        Mobile[Mobile / Tablet]
-    end
-
-    subgraph "UI Layer"
-        Sidebar[Mobile Sidebar<br/>Hamburger + Drawer]
-        Dock[Desktop macOS Dock<br/>Spring Magnification]
-        Chatbot[AI Chatbot FAB<br/>YouTube Embeds]
-    end
-
-    subgraph "Edge Layer — Vercel"
-        CDN[Global CDN<br/>150+ Locations]
-        Middleware[Next.js Middleware<br/>JWT Auth + RBAC]
-        API[API Routes<br/>Serverless Functions]
-    end
-
-    subgraph "AI Intelligence Layer"
-        Router[Model Router<br/>Intent Detection]
-        Mistral[Mistral Large<br/>Primary LLM]
-        Groq[Groq Llama 3.3<br/>Fast Inference]
-        HF[HuggingFace<br/>Media Generation]
-    end
-
-    subgraph "RAG & Search"
-        YouTube[YouTube Data API<br/>Thumbnail Embeds]
-        Tavily[Tavily Web Search]
-        SERP[SERP API]
-    end
-
-    subgraph "Data Layer"
-        MongoDB[(MongoDB Atlas<br/>Primary DB)]
-        IDB[(IndexedDB<br/>Offline Cache)]
-    end
-
-    Browser --> CDN
-    Mobile --> CDN
-    CDN --> Middleware --> API
-    API --> Router
-    Router --> Mistral
-    Router --> Groq
-    Router --> HF
-    API --> YouTube
-    API --> Tavily
-    API --> SERP
-    API --> MongoDB
-    Browser -.-> IDB
-    IDB -.-> MongoDB
-
-    style Router fill:#6366f1
-    style MongoDB fill:#00ed64
-    style CDN fill:#f59e0b
-    style Sidebar fill:#7C3AED
-    style Dock fill:#7C3AED
-```
+### ⚙️ Settings & Feedback
+| Feature | Description |
+|---------|-------------|
+| **Feedback System** | In-app feedback form with category selection, star rating — emails delivered to admin |
+| **GitHub Token Management** | Encrypted token storage with session-based security |
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Layer | Technologies |
+### Frontend
+| Technology | Purpose |
+|-----------|---------|
+| **Next.js 16** | React framework with App Router, Server & Client Components |
+| **React 18** | UI library with hooks, suspense, and concurrent features |
+| **TypeScript 5.7** | Type-safe development |
+| **Tailwind CSS 3.4** | Utility-first styling |
+| **Framer Motion 12** | Animations, page transitions, dock magnification |
+| **Radix UI** | 25+ accessible, unstyled primitives (Dialog, Tabs, Tooltip, etc.) |
+| **Recharts 2.15** | Data visualization charts |
+| **Monaco Editor** | VS Code-quality in-browser code editor |
+| **Lucide React** | Modern icon library |
+| **Sonner** | Toast notifications |
+
+### Backend
+| Technology | Purpose |
+|-----------|---------|
+| **Next.js API Routes** | 36+ RESTful API endpoints |
+| **MongoDB + Mongoose 9** | Primary database with 20 models |
+| **IndexedDB (Client)** | Offline-first client-side persistence with per-user scoping |
+| **JWT (Jose/jsonwebtoken)** | Token-based authentication |
+| **bcryptjs** | Password hashing |
+| **Nodemailer** | Transactional email delivery |
+| **Zod** | Runtime schema validation |
+
+### AI & ML Services
+| Provider | Usage |
+|---------|-------|
+| **Mistral AI** | Primary chat completion & code analysis |
+| **Groq** | Fast inference for real-time interactions |
+| **OpenAI** | Advanced reasoning and generation |
+| **HuggingFace Inference** | Video generation, fallback chat completion |
+| **Freepik AI** | Concept visualization image generation |
+| **Stability AI** | Alternative image generation |
+| **Sarvam AI** | Indian language TTS |
+| **ElevenLabs** | High-quality text-to-speech |
+| **Murf AI** | Voice-over generation |
+
+### External APIs & Integrations
+| Service | Purpose |
+|---------|---------|
+| **YouTube Data API v3** | Tutorial video search (filtered to last 3 years, embeddable only) |
+| **SerpAPI** | Web search results |
+| **StackExchange API** | StackOverflow Q&A search |
+| **Wikipedia API** | Encyclopedia lookups |
+| **arXiv API** | Research paper search |
+| **Semantic Scholar** | Academic citation data |
+| **Tavily** | AI-optimized web search |
+| **GitHub REST API** | Repository analytics via Octokit |
+| **Web3Forms** | Feedback email delivery |
+| **Supabase** | Authentication provider |
+| **Vercel** | Deployment & analytics |
+
+---
+
+## 🗄️ Database Schema (MongoDB)
+
+### Core Models
+| Model | Description |
 |-------|-------------|
-| **Framework** | Next.js 15 (App Router), React 19, TypeScript 5.7 |
-| **Styling** | TailwindCSS, Shadcn/UI, CSS Variables |
-| **Animations** | Framer Motion 12 (desktop dock), CSS transitions (mobile) |
-| **Icons** | Lucide React |
-| **Database** | MongoDB Atlas (primary), IndexedDB (offline cache) |
-| **Auth** | JWT (jose), bcryptjs, HTTP-only cookies |
-| **AI Models** | Mistral Large, Groq Llama 3.3, HuggingFace |
-| **Search** | YouTube Data API, Tavily, SERP API |
-| **Media** | Freepik, HuggingFace (image/video gen) |
-| **Hosting** | Vercel Edge Network |
-| **Analytics** | Vercel Analytics |
+| `User` | User profiles, metrics (XP, streaks, sessions), roles, avatars |
+| `LearningPath` | AI-generated roadmaps with sessions, topics, and progress |
+| `Session` | Individual learning sessions within paths |
+| `Concept` | Explored concepts with difficulty and mastery tracking |
+| `CodeReview` | Saved code review analyses |
+
+### Gamification
+| Model | Description |
+|-------|-------------|
+| `Challenge` | Coding challenge definitions with difficulty, test cases |
+| `Submission` | User submissions with code, status, XP earned |
+| `Question` | Quiz/assessment questions |
+
+### Collaboration
+| Model | Description |
+|-------|-------------|
+| `Team` | Team definitions for collaboration |
+| `TeamMember` | Team membership and roles |
+| `Room` | Live collaborative coding rooms |
+
+### Content & Media
+| Model | Description |
+|-------|-------------|
+| `Documentation` | Generated documentation records |
+| `MediaProject` | AI-generated images and videos |
+| `UserContent` | Generic content persistence (per-feature, per-user) |
+| `Interview` | Mock interview sessions and transcripts |
+
+### Analytics & System
+| Model | Description |
+|-------|-------------|
+| `Metric` | Performance metrics snapshots |
+| `Anomaly` | Detected behavioral anomalies |
+| `Alert` | User notification/alert preferences |
+| `Feedback` | User feedback with category, rating, and message |
+| `UserIntegration` | Encrypted third-party tokens (GitHub) |
 
 ---
 
-## 🔌 API Integrations
+## 🔒 Authentication & Security
 
-| Category | Service | Function |
-|----------|---------|----------|
-| **LLMs** | Mistral, Groq, HuggingFace | Chat, code review, concept explanation |
-| **Search** | Tavily, SERP, YouTube Data API | Web search, video discovery |
-| **Media** | Freepik, HuggingFace | Image & video generation |
-| **Code** | GitHub (Octokit) | Repo analytics, commit history |
-| **Research** | Semantic Scholar, arXiv, Wikipedia | Academic paper search |
-| **Music** | Suno AI | Focus music generation |
-
----
-
-## 📱 Responsive Design Strategy
-
-| Screen | Navigation | Optimizations |
-|--------|------------|---------------|
-| **Mobile** (< 640px) | Hamburger → Slide-out Sidebar | Zero framer-motion, CSS-only animations, reduced `backdrop-blur`, safe-area insets |
-| **Tablet** (640-1024px) | Hamburger → Slide-out Sidebar | Touch-friendly 44px tap targets, fluid typography |
-| **Desktop** (1024-1536px) | macOS Magnification Dock | Spring-animated icons, hover tooltips, active glow rings |
-| **Large/TV** (1536px+) | macOS Magnification Dock | Max-width container (1600-1800px), centered layout |
+| Layer | Implementation |
+|-------|---------------|
+| **Auth Provider** | Supabase Auth (Google OAuth, GitHub OAuth, Email/Password) |
+| **Session Tokens** | JWT with `jose` library, stored as HTTP-only cookies |
+| **Password Hashing** | bcryptjs with salt rounds |
+| **Token Encryption** | AES-256-CBC encryption for stored GitHub tokens |
+| **API Protection** | All API routes verify JWT tokens before processing |
+| **Data Isolation** | IndexedDB keys prefixed with user email for per-user scoping |
+| **Rate Limiting** | Provider-level rate limit handling with graceful fallbacks |
+| **Input Validation** | Zod schema validation on all form inputs |
 
 ---
 
-## 🔒 Security
+## 📱 Responsive Design
 
-- **JWT Authentication** — Stateless, HTTP-only cookies, 7-day expiration
-- **Password Hashing** — bcrypt with salt rounds
-- **Server-Side Secrets** — All API keys on server only, never exposed to client
-- **Input Validation** — Zod schemas for runtime validation
-- **XSS Protection** — React built-in + Content Security Policy
-- **Rate Limiting** — API rate limits to prevent abuse
-- **Encryption** — MongoDB Atlas AES-256 at rest, TLS 1.3 in transit
+| Breakpoint | UI Component |
+|-----------|-------------|
+| **Desktop (1024px+)** | macOS-style bottom dock with icon magnification physics |
+| **Tablet/Mobile (<1024px)** | Slide-out sidebar with hamburger menu |
+| **All Sizes** | Responsive grid layouts, adaptive padding, touch-optimized |
 
 ---
 
@@ -206,102 +195,110 @@ graph TB
 
 ### Prerequisites
 - Node.js 18+
-- MongoDB Atlas account
-- At least one AI API key (Mistral or Groq)
+- MongoDB Atlas account (or local MongoDB)
+- API keys for AI providers
 
-### Setup
+### Installation
+
 ```bash
-# Clone the repository
-git clone https://github.com/grharsha777/ganapathi-mentor-ai.git
-cd ganapathi-mentor-ai
-
-# Install dependencies
+git clone https://github.com/grharsha777/neural-code-symbiosis.git
+cd neural-code-symbiosis
 npm install
-
-# Set up environment variables
-cp .env.example .env.local
-# Fill in your API keys
-
-# Run development server
-npm run dev
 ```
 
 ### Environment Variables
+
+Create `.env.local` with the following:
+
 ```env
+# Database
 MONGODB_URI=mongodb+srv://...
-JWT_SECRET=your-secret-key
-MISTRAL_API_KEY=your-key
-GROQ_API_KEY=your-key
-HUGGINGFACE_API_KEY=your-key
-YOUTUBE_API_KEY=your-key
-NEXT_PUBLIC_BASE_URL=http://localhost:3000
+
+# Authentication
+JWT_SECRET=your-jwt-secret
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+ENCRYPTION_KEY=32-character-hex-key
+
+# AI Providers (use at least one)
+MISTRAL_API_KEY=your-mistral-key
+GROQ_API_KEY=your-groq-key
+OPENAI_API_KEY=your-openai-key
+HUGGINGFACE_API_KEY=your-hf-key
+
+# Media & Search
+FREEPIK_API_KEY=your-freepik-key
+YOUTUBE_API_KEY=your-youtube-key
+SERPAPI_KEY=your-serpapi-key
+
+# Optional
+SARVAM_API_KEY=your-sarvam-key
+ELEVENLABS_API_KEY=your-elevenlabs-key
+```
+
+### Run Development Server
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### Deploy to Vercel
+
+```bash
+vercel --prod
 ```
 
 ---
 
-## 📁 Project Structure
+## 📂 Project Structure
 
 ```
 neural-code-symbiosis/
-├── app/                          # Next.js App Router
-│   ├── api/                      # API Routes
-│   │   ├── chat/route.ts         # AI Chatbot (RAG + multi-model)
-│   │   ├── auth/                 # Login, Register, OAuth
-│   │   ├── learning/             # Learning path CRUD
-│   │   ├── concepts/             # Concept engine
-│   │   └── media/                # Image/video generation
-│   ├── dashboard/                # Dashboard pages
-│   │   ├── layout.tsx            # Responsive layout + dock
-│   │   ├── page.tsx              # Main dashboard
-│   │   ├── learning/             # Learning paths
-│   │   ├── code-review/          # Code reviewer
-│   │   ├── concepts/             # Concept engine
-│   │   ├── analytics/            # Performance + anomalies
-│   │   ├── collaboration/        # Team features
-│   │   ├── research/             # Research hub
-│   │   ├── media/studio/         # Media studio
-│   │   ├── challenges/           # Coding challenges
-│   │   ├── interview/            # Mock interviews
-│   │   ├── collab/               # CodeCollab
-│   │   ├── portfolio/            # Portfolio builder
-│   │   └── settings/             # User settings
-│   ├── layout.tsx                # Root layout + viewport
-│   └── globals.css               # Responsive CSS + utilities
+├── app/
+│   ├── api/                  # 36+ API routes
+│   │   ├── auth/             # Login, register, OAuth callbacks
+│   │   ├── chat/             # AI chatbot endpoint
+│   │   ├── challenges/       # Challenge CRUD + submissions
+│   │   ├── feedback/         # User feedback + email
+│   │   ├── youtube/          # YouTube video search
+│   │   └── ...               # 30+ more routes
+│   ├── auth/                 # Login/Register pages
+│   └── dashboard/            # 19+ feature pages
 ├── components/
-│   ├── chat/global-chatbot.tsx   # AI chatbot (YouTube embeds)
-│   ├── dashboard/
-│   │   ├── dock.tsx              # Dual-render dock/sidebar
-│   │   └── nav.tsx               # Responsive nav bar
-│   └── layout/
-│       ├── PageShell.tsx         # Responsive page wrapper
-│       └── PageHeader.tsx        # Responsive page header
-├── lib/                          # Utilities & services
-│   ├── ai.ts                     # AI model orchestration
-│   ├── auth.ts                   # JWT + bcrypt
-│   ├── mongoose.ts               # MongoDB connection
-│   └── youtube.ts                # YouTube search
-├── models/                       # Mongoose schemas
-└── .kiro/specs/                  # Design & requirements docs
+│   ├── dashboard/            # Sidebar, Dock, Nav
+│   ├── onboarding/           # First-time tutorial
+│   ├── learning/             # Concept Explainer, Roadmap
+│   ├── challenges/           # Challenge UI
+│   ├── chat/                 # Global chatbot
+│   ├── media/                # Studio, Video generator
+│   ├── research/             # Research Hub
+│   └── ui/                   # 50+ Radix-based UI primitives
+├── lib/
+│   ├── ai.ts                 # Multi-provider AI gateway
+│   ├── auth.ts               # JWT verification
+│   ├── client-db.ts          # IndexedDB wrapper
+│   ├── content-store.ts      # Per-user content persistence hook
+│   ├── youtube.ts            # YouTube Data API (filtered)
+│   ├── integrations/         # 10 external API clients
+│   └── ...                   # 10+ utility modules
+├── models/                   # 20 Mongoose schemas
+├── hooks/                    # Custom React hooks
+└── public/                   # Static assets
 ```
 
 ---
 
 ## 👨‍💻 Author
 
-**G R Harsha** — Creator & Full-Stack Developer
-
-- 🔗 [GitHub](https://github.com/grharsha777)
-- 💼 [LinkedIn](https://www.linkedin.com/in/grharsha777/)
+**G R Harsha**
+- 🌐 [LinkedIn](https://www.linkedin.com/in/grharsha777/)
+- 💻 [GitHub](https://github.com/grharsha777)
 - 📧 [grharsha777@gmail.com](mailto:grharsha777@gmail.com)
 
 ---
 
 ## 📄 License
 
-Distributed under the **MIT License**. See `LICENSE` for more information.
-
----
-
-<p align="center">
-  <strong>⭐ Star this repo if Ganapathi Mentor AI helped you learn something new! ⭐</strong>
-</p>
+This project is private and proprietary. All rights reserved © 2026 G R Harsha.

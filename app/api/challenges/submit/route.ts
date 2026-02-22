@@ -3,63 +3,54 @@ import { connectSafe } from '@/lib/mongodb';
 import { verifyToken } from '@/lib/auth';
 import Challenge from '@/models/Challenge';
 import Submission from '@/models/Submission';
+import { wrapCode } from '../../../../lib/execution-wrapper';
 
-// Judge0 language IDs
-const LANGUAGE_MAP: Record<string, number> = {
-    python: 71,      // Python 3
-    javascript: 63,  // Node.js
-    cpp: 54,         // C++ (GCC)
-    java: 62,        // Java
+// Wandbox API configuration
+const WANDBOX_API_URL = 'https://wandbox.org/api/compile.json';
+
+// Mapping language name -> Wandbox compiler name
+const LANGUAGE_MAP: Record<string, string> = {
+    python: 'cpython-3.14.0',
+    javascript: 'nodejs-20.17.0',
+    cpp: 'gcc-13.2.0',
+    java: 'openjdk-jdk-22+36',
 };
 
-const JUDGE0_URL = process.env.JUDGE0_URL || 'https://judge0-ce.p.rapidapi.com';
-const JUDGE0_KEY = process.env.JUDGE0_API_KEY || '';
-
-async function executeCode(sourceCode: string, languageId: number, stdin: string): Promise<{
+async function executeCode(sourceCode: string, language: string, stdin: string): Promise<{
     stdout: string; stderr: string; status: string; time: string; memory: number;
 }> {
-    // If no Judge0 key, do a simple local comparison (mock execution)
-    if (!JUDGE0_KEY) {
-        return {
-            stdout: '⚠ Judge0 API key not configured. Code was not executed.\nPlease add JUDGE0_API_KEY to .env.local',
-            stderr: '',
-            status: 'Pending',
-            time: '0',
-            memory: 0
-        };
+    const compiler = LANGUAGE_MAP[language];
+
+    if (!compiler) {
+        throw new Error(`Unsupported language: ${language}`);
     }
 
-    const headers: Record<string, string> = {
-        'Content-Type': 'application/json',
-        'X-RapidAPI-Key': JUDGE0_KEY,
-        'X-RapidAPI-Host': 'judge0-ce.p.rapidapi.com'
-    };
-
-    // Submit code
-    const submitRes = await fetch(`${JUDGE0_URL}/submissions?base64_encoded=false&wait=true`, {
+    const response = await fetch(WANDBOX_API_URL, {
         method: 'POST',
-        headers,
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            source_code: sourceCode,
-            language_id: languageId,
-            stdin: stdin,
-            cpu_time_limit: 5,
-            memory_limit: 128000,
+            code: sourceCode,
+            compiler: compiler,
+            stdin: stdin
         })
     });
 
-    if (!submitRes.ok) {
-        const err = await submitRes.text();
-        throw new Error(`Judge0 submission failed: ${err}`);
+    if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Wandbox API failed: ${errorText}`);
     }
 
-    const result = await submitRes.json();
+    const result = await response.json();
+
+    // Wandbox returns status "0" for success, non-zero for error
+    const isError = result.status !== "0";
+
     return {
-        stdout: (result.stdout || '').trim(),
-        stderr: (result.stderr || result.compile_output || '').trim(),
-        status: result.status?.description || 'Unknown',
-        time: result.time || '0',
-        memory: result.memory || 0,
+        stdout: (result.program_message || '').trim(),
+        stderr: (result.program_error || result.compiler_error || '').trim(),
+        status: isError ? (result.compiler_error ? 'Compilation Error' : 'Runtime Error') : 'Accepted',
+        time: '0',
+        memory: 0,
     };
 }
 
@@ -84,11 +75,6 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'Challenge not found' }, { status: 404 });
         }
 
-        const languageId = LANGUAGE_MAP[language];
-        if (!languageId) {
-            return NextResponse.json({ error: `Unsupported language: ${language}` }, { status: 400 });
-        }
-
         const testCases = challenge.testCases || [];
         let passedTests = 0;
         let totalTests = testCases.length;
@@ -99,7 +85,8 @@ export async function POST(req: NextRequest) {
 
         for (const tc of testCases) {
             try {
-                const result = await executeCode(code, languageId, tc.input);
+                const wrappedCode = wrapCode(challenge.slug, language, code);
+                const result = await executeCode(wrappedCode, language, tc.input);
 
                 if (result.status === 'Pending') {
                     overallStatus = 'Pending';
@@ -141,8 +128,10 @@ export async function POST(req: NextRequest) {
             overallStatus = 'Accepted';
         }
 
+        const userId = decoded.userId || decoded.id;
+
         const submission = await Submission.create({
-            user_id: decoded.userId || decoded.id,
+            user_id: userId,
             challenge_id: challengeId,
             language,
             code,
@@ -153,6 +142,30 @@ export async function POST(req: NextRequest) {
             total_tests: totalTests,
             output: lastOutput,
         });
+
+        // Award XP and update metrics if Accepted
+        if (overallStatus === 'Accepted') {
+            try {
+                const { awardChallengeXP, updateUserMetrics } = await import('@/lib/metrics');
+
+                // Check if this is the first time the user solves this specific challenge
+                const previousAccepted = await Submission.findOne({
+                    user_id: userId,
+                    challenge_id: challengeId,
+                    status: 'Accepted',
+                    _id: { $ne: submission._id }
+                });
+
+                if (!previousAccepted) {
+                    await awardChallengeXP(userId, challenge.difficulty);
+                }
+
+                // Always update streak/last_active
+                await updateUserMetrics(userId);
+            } catch (metricsErr) {
+                console.error('Failed to update metrics:', metricsErr);
+            }
+        }
 
         return NextResponse.json({
             submission: {

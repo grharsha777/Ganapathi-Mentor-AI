@@ -37,7 +37,7 @@ export function ChatPanel({ sessionId, open, onOpenChange }: ChatPanelProps) {
 
     React.useEffect(() => {
         if (scrollRef.current) {
-            scrollRef.current.scrollIntoView({ behavior: "smooth" });
+            scrollRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
         }
     }, [messages]);
 

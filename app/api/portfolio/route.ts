@@ -79,7 +79,7 @@ export async function GET(req: NextRequest) {
                 difficulty: c.difficulty,
                 category: c.category,
             })),
-            xp: user.xp || 0,
+            xp: user.metrics?.practice_points || user.xp || 0,
             level: user.level || 1,
         };
 

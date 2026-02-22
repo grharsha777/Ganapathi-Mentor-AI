@@ -12,9 +12,9 @@ import {
     type MotionValue,
 } from 'framer-motion'
 import {
-    LayoutDashboard, BookOpen, Code, Lightbulb, CheckCircle, FileText,
-    Github, Activity, AlertTriangle, Users, Search, Image as ImageIcon,
-    Zap, GraduationCap, Trophy, Mic, Users2, ScrollText, Settings,
+    LayoutDashboard, Compass, Code, Brain, CheckCircle, FileText,
+    Github, Activity, AlertTriangle, Users, Telescope, Clapperboard,
+    Zap, GraduationCap, Trophy, Mic, MonitorPlay, Briefcase, Settings,
     Menu, X, ChevronRight,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -22,21 +22,21 @@ import { cn } from '@/lib/utils'
 // Navigation items with gradients
 const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard, bg: 'linear-gradient(135deg, #7C3AED 0%, #4F46E5 50%, #6366F1 100%)', shadow: '#7C3AED', color: '#7C3AED' },
-    { name: 'Learning', href: '/dashboard/learning', icon: BookOpen, bg: 'linear-gradient(135deg, #F97316 0%, #EA580C 50%, #FB923C 100%)', shadow: '#F97316', color: '#F97316' },
+    { name: 'Learning', href: '/dashboard/learning', icon: Compass, bg: 'linear-gradient(135deg, #F97316 0%, #EA580C 50%, #FB923C 100%)', shadow: '#F97316', color: '#F97316' },
     { name: 'Review', href: '/dashboard/code-review', icon: Code, bg: 'linear-gradient(135deg, #0EA5E9 0%, #0284C7 50%, #38BDF8 100%)', shadow: '#0EA5E9', color: '#0EA5E9' },
-    { name: 'Concepts', href: '/dashboard/concepts', icon: Lightbulb, bg: 'linear-gradient(135deg, #FBBF24 0%, #F59E0B 50%, #FCD34D 100%)', shadow: '#F59E0B', color: '#FBBF24' },
+    { name: 'Concepts', href: '/dashboard/concepts', icon: Brain, bg: 'linear-gradient(135deg, #FBBF24 0%, #F59E0B 50%, #FCD34D 100%)', shadow: '#F59E0B', color: '#FBBF24' },
     { name: 'Tasks', href: '/dashboard/tools/productivity', icon: CheckCircle, bg: 'linear-gradient(135deg, #10B981 0%, #059669 50%, #34D399 100%)', shadow: '#10B981', color: '#10B981' },
     { name: 'Docs', href: '/dashboard/tools/docs', icon: FileText, bg: 'linear-gradient(135deg, #EC4899 0%, #DB2777 50%, #F472B6 100%)', shadow: '#EC4899', color: '#EC4899' },
     { name: 'GitHub', href: '/dashboard/github', icon: Github, bg: 'linear-gradient(135deg, #374151 0%, #111827 50%, #4B5563 100%)', shadow: '#374151', color: '#9CA3AF' },
     { name: 'Analytics', href: '/dashboard/analytics/performance', icon: Activity, bg: 'linear-gradient(135deg, #3B82F6 0%, #1D4ED8 50%, #60A5FA 100%)', shadow: '#3B82F6', color: '#3B82F6' },
     { name: 'Anomalies', href: '/dashboard/analytics/anomalies', icon: AlertTriangle, bg: 'linear-gradient(135deg, #EF4444 0%, #B91C1C 50%, #F87171 100%)', shadow: '#EF4444', color: '#EF4444' },
     { name: 'Collab', href: '/dashboard/collaboration', icon: Users, bg: 'linear-gradient(135deg, #A855F7 0%, #7C3AED 50%, #C084FC 100%)', shadow: '#A855F7', color: '#A855F7' },
-    { name: 'Research', href: '/dashboard/research', icon: Search, bg: 'linear-gradient(135deg, #14B8A6 0%, #0D9488 50%, #2DD4BF 100%)', shadow: '#14B8A6', color: '#14B8A6' },
-    { name: 'Studio', href: '/dashboard/media/studio', icon: ImageIcon, bg: 'linear-gradient(135deg, #D946EF 0%, #A21CAF 50%, #E879F9 100%)', shadow: '#D946EF', color: '#D946EF' },
+    { name: 'Research', href: '/dashboard/research', icon: Telescope, bg: 'linear-gradient(135deg, #14B8A6 0%, #0D9488 50%, #2DD4BF 100%)', shadow: '#14B8A6', color: '#14B8A6' },
+    { name: 'Studio', href: '/dashboard/media/studio', icon: Clapperboard, bg: 'linear-gradient(135deg, #D946EF 0%, #A21CAF 50%, #E879F9 100%)', shadow: '#D946EF', color: '#D946EF' },
     { name: 'Challenges', href: '/dashboard/challenges', icon: Trophy, bg: 'linear-gradient(135deg, #F59E0B 0%, #D97706 50%, #FBBF24 100%)', shadow: '#F59E0B', color: '#F59E0B' },
     { name: 'Interview', href: '/dashboard/interview', icon: Mic, bg: 'linear-gradient(135deg, #8B5CF6 0%, #6D28D9 50%, #A78BFA 100%)', shadow: '#8B5CF6', color: '#8B5CF6' },
-    { name: 'CodeCollab', href: '/dashboard/collab', icon: Users2, bg: 'linear-gradient(135deg, #06B6D4 0%, #0891B2 50%, #22D3EE 100%)', shadow: '#06B6D4', color: '#06B6D4' },
-    { name: 'Portfolio', href: '/dashboard/portfolio', icon: ScrollText, bg: 'linear-gradient(135deg, #F43F5E 0%, #E11D48 50%, #FB7185 100%)', shadow: '#F43F5E', color: '#F43F5E' },
+    { name: 'CodeCollab', href: '/dashboard/collab', icon: MonitorPlay, bg: 'linear-gradient(135deg, #06B6D4 0%, #0891B2 50%, #22D3EE 100%)', shadow: '#06B6D4', color: '#06B6D4' },
+    { name: 'Portfolio', href: '/dashboard/portfolio', icon: Briefcase, bg: 'linear-gradient(135deg, #F43F5E 0%, #E11D48 50%, #FB7185 100%)', shadow: '#F43F5E', color: '#F43F5E' },
     { name: 'Quick Prep', href: '/dashboard/last-minute', icon: Zap, bg: 'linear-gradient(135deg, #EAB308 0%, #CA8A04 50%, #FDE047 100%)', shadow: '#EAB308', color: '#EAB308' },
     { name: 'Training', href: '/dashboard/specialized', icon: GraduationCap, bg: 'linear-gradient(135deg, #0284C7 0%, #0369A1 50%, #38BDF8 100%)', shadow: '#0284C7', color: '#0284C7' },
     { name: 'Settings', href: '/dashboard/settings', icon: Settings, bg: 'linear-gradient(135deg, #6B7280 0%, #4B5563 50%, #9CA3AF 100%)', shadow: '#6B7280', color: '#9CA3AF' },
@@ -83,20 +83,19 @@ const DesktopDockIcon = memo(function DesktopDockIcon({
                 )}
                 whileTap={{ scale: 0.88 }} layout={false}>
                 <div className="absolute inset-0" style={{ background: item.bg, opacity: isActive ? 1 : 0.92 }} />
-                <div className="absolute inset-x-0 top-0 h-[48%] pointer-events-none"
-                    style={{ background: 'linear-gradient(to bottom, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 50%, transparent 100%)' }} />
+                <div className="absolute inset-x-0 top-0 h-[50%] pointer-events-none"
+                    style={{ background: 'linear-gradient(to bottom, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.05) 100%)' }} />
                 <div className="absolute inset-x-0 bottom-0 h-[30%] pointer-events-none"
-                    style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.15) 0%, transparent 100%)' }} />
-                {isActive && <div className="absolute inset-0 rounded-[22%] pointer-events-none"
-                    style={{ boxShadow: `0 0 20px 4px ${item.shadow}60, inset 0 0 8px 1px rgba(255,255,255,0.15)` }} />}
-                <div className="absolute inset-0 pointer-events-none"
+                    style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.3) 0%, transparent 100%)' }} />
+                <div className="absolute inset-0 rounded-[22%] pointer-events-none transition-all duration-300"
                     style={{
-                        boxShadow: isActive
-                            ? `0 8px 24px -4px ${item.shadow}50, 0 4px 10px -2px ${item.shadow}30`
-                            : `0 4px 14px -3px ${item.shadow}35, 0 2px 6px -2px rgba(0,0,0,0.25)`
+                        boxShadow: isActive || isHovered
+                            ? `0 0 25px 5px ${item.shadow}90, inset 0 0 15px 2px rgba(255,255,255,0.6)`
+                            : `inset 0 0 5px 1px rgba(255,255,255,0.15)`
                     }} />
-                <Icon className="relative z-10 w-[46%] h-[46%] text-white" strokeWidth={2}
-                    style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.3))' }} />
+
+                <Icon className={cn("relative z-10 w-[48%] h-[48%] text-white transition-all duration-300 ease-out", (isActive || isHovered) ? "scale-110" : "")} strokeWidth={2.5}
+                    style={{ filter: (isActive || isHovered) ? `drop-shadow(0 0 8px #ffffff) drop-shadow(0 0 16px ${item.shadow})` : `drop-shadow(0 2px 3px rgba(0,0,0,0.4))` }} />
             </motion.div>
             <AnimatePresence>
                 {isHovered && (
@@ -238,14 +237,20 @@ function MobileSidebar({ pathname }: { pathname: string }) {
                                             {/* Icon with gradient */}
                                             <div
                                                 className={cn(
-                                                    'flex items-center justify-center w-9 h-9 rounded-xl flex-shrink-0 relative overflow-hidden',
-                                                    isActive ? 'shadow-md' : 'opacity-80 group-hover:opacity-100 group-active:opacity-100'
+                                                    'flex items-center justify-center w-10 h-10 rounded-[22%] flex-shrink-0 relative overflow-hidden transition-all duration-300',
+                                                    isActive ? 'shadow-lg ring-1 ring-white/30 scale-105' : 'opacity-85 group-hover:opacity-100'
                                                 )}
-                                                style={{ background: item.bg }}
+                                                style={{
+                                                    background: item.bg,
+                                                    boxShadow: isActive ? `0 0 20px ${item.shadow}90, inset 0 0 10px rgba(255,255,255,0.4)` : `inset 0 0 5px rgba(255,255,255,0.15)`
+                                                }}
                                             >
-                                                <div className="absolute inset-x-0 top-0 h-[48%] pointer-events-none"
-                                                    style={{ background: 'linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, transparent 100%)' }} />
-                                                <Icon className="relative z-10 w-4 h-4 text-white" strokeWidth={2} />
+                                                <div className="absolute inset-x-0 top-0 h-[50%] pointer-events-none"
+                                                    style={{ background: 'linear-gradient(to bottom, rgba(255,255,255,0.45) 0%, transparent 100%)' }} />
+                                                <div className="absolute inset-x-0 bottom-0 h-[30%] pointer-events-none"
+                                                    style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.2) 0%, transparent 100%)' }} />
+                                                <Icon className={cn("relative z-10 w-5 h-5 text-white transition-transform duration-300", isActive && "scale-110")} strokeWidth={2.5}
+                                                    style={{ filter: isActive ? `drop-shadow(0 0 6px #fff) drop-shadow(0 0 12px ${item.shadow})` : `drop-shadow(0 2px 3px rgba(0,0,0,0.4))` }} />
                                             </div>
 
                                             {/* Label */}
