@@ -1,37 +1,37 @@
+'use client';
+
 import { Suspense } from 'react';
-import InterviewPrep from '@/components/specialized/interview-prep';
+import InterviewSimulator from '@/components/specialized/interview-simulator';
 import CodeWalkthrough from '@/components/specialized/code-walkthrough';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
 import { PageShell } from '@/components/layout/PageShell';
-import { PageHeader } from '@/components/layout/PageHeader';
-import { GraduationCap } from 'lucide-react';
-
-export const metadata = {
-    title: 'Specialized Training | Neural Code Symbiosis',
-    description: 'Interview Prep and Interactive Code Walkthroughs.',
-};
+import { Bot, Code2 } from 'lucide-react';
 
 export default function SpecializedPage() {
     return (
         <PageShell>
-            <PageHeader
-                title="Advanced Training Modules"
-                description="Prepare for interviews or interactively learn complex codebases."
-                icon={GraduationCap}
-            />
-
             <Tabs defaultValue="interview" className="w-full">
                 <TabsList className="grid w-full grid-cols-2 max-w-sm mb-6">
-                    <TabsTrigger value="interview">Interview Prep</TabsTrigger>
-                    <TabsTrigger value="walkthrough">Code-to-Learn</TabsTrigger>
+                    <TabsTrigger value="interview" className="gap-2">
+                        <Bot className="w-4 h-4" />
+                        Interview Sim
+                    </TabsTrigger>
+                    <TabsTrigger value="walkthrough" className="gap-2">
+                        <Code2 className="w-4 h-4" />
+                        Code-to-Learn
+                    </TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="interview">
-                    <Suspense fallback={<Skeleton className="h-[400px]" />}><InterviewPrep /></Suspense>
+                    <Suspense fallback={<Skeleton className="h-[600px] rounded-2xl" />}>
+                        <InterviewSimulator />
+                    </Suspense>
                 </TabsContent>
                 <TabsContent value="walkthrough">
-                    <Suspense fallback={<Skeleton className="h-[600px]" />}><CodeWalkthrough /></Suspense>
+                    <Suspense fallback={<Skeleton className="h-[600px] rounded-2xl" />}>
+                        <CodeWalkthrough />
+                    </Suspense>
                 </TabsContent>
             </Tabs>
         </PageShell>

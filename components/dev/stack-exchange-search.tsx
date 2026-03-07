@@ -75,7 +75,7 @@ export function StackExchangeSearch({ initialQuery = '' }: { initialQuery?: stri
                         {searched && results.length === 0 && !loading && (
                             <div className="text-center py-8 text-muted-foreground">
                                 <AlertCircle className="h-8 w-8 mx-auto mb-2 opacity-50" />
-                                <p>No results found for "{query}"</p>
+                                <p>No results found for &quot;{query}&quot;</p>
                             </div>
                         )}
 

@@ -37,10 +37,25 @@ export async function POST(req: NextRequest) {
         const decoded = await verifyToken(token) as any;
 
         await connectToDatabase();
-        const { type, context } = await req.json();
+        const body = await req.json();
+        const { type, context, topic, difficulty, questionCount: rawQC } = body;
 
         if (type === 'interview') {
-            const prompt = `Generate 5 interview questions for a ${context} role.`;
+            const topicName = topic || context || 'General Software Engineering';
+            const diffLevel = difficulty || 'Medium';
+            const qCount = Math.min(20, Math.max(3, rawQC || 5));
+
+            const prompt = `You are an expert technical interviewer. Generate ${qCount} interview questions for a ${topicName} interview at ${diffLevel} difficulty level.
+
+Requirements:
+- Questions should be practical and commonly asked in real interviews
+- Include a mix of conceptual and problem-solving questions
+- For ${diffLevel} difficulty: ${diffLevel === 'Easy' ? 'focus on fundamentals and basic concepts' : diffLevel === 'Hard' ? 'include system design, edge cases, and advanced patterns' : 'balance between concepts and practical application'}
+- Each question should have a helpful hint
+- Include an ideal brief answer for each question
+- Topics must be specifically about ${topicName}
+- Generate exactly ${qCount} diverse, non-repeating questions`;
+
             const model = getAIModel();
 
             const { object } = await generateObject({
@@ -49,15 +64,19 @@ export async function POST(req: NextRequest) {
                 prompt: prompt
             });
 
-            const interviewSession = await Interview.create({
-                user_id: decoded.userId,
-                topic: context,
-                questions: object.questions.map(q => ({
-                    question: q.question,
-                }))
-            });
+            try {
+                await Interview.create({
+                    user_id: decoded.userId,
+                    topic: topicName,
+                    questions: object.questions.map(q => ({
+                        question: q.question,
+                    }))
+                });
+            } catch (saveErr) {
+                console.warn('Could not save interview session:', saveErr);
+            }
 
-            return NextResponse.json({ success: true, result: object, sessionId: interviewSession._id });
+            return NextResponse.json({ success: true, result: object });
         }
 
         if (type === 'walkthrough') {

@@ -68,7 +68,7 @@ export default function IntegrationsPage() {
                         </div>
                         <div className="flex items-center space-x-2">
                             <Switch id="slack-nudge" disabled />
-                            <Label htmlFor="slack-nudge">Daily "Micro-Learning" Nudges</Label>
+                            <Label htmlFor="slack-nudge">Daily &quot;Micro-Learning&quot; Nudges</Label>
                         </div>
                     </CardContent>
                 </Card>

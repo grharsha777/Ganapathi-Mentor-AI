@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
         }
 
         try {
-            let users = await User.find({ 'metrics.total_sessions': { $gt: 0 } })
+            const users = await User.find({ 'metrics.total_sessions': { $gt: 0 } })
                 .sort({ 'metrics.practice_points': -1 })
                 .limit(10)
                 .select('full_name avatar_url metrics')

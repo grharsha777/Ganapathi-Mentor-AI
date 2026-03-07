@@ -49,7 +49,7 @@ export default function TeamCollaboration() {
                         <Alert variant="destructive" className="bg-destructive/5 border-destructive/20 text-destructive">
                             <AlertTriangle className="h-4 w-4" />
                             <AlertTitle className="font-semibold tracking-tight">
-                                Critical Risk: Only 1 person knows "{data.silo.riskTopic}"
+                                Critical Risk: Only 1 person knows &quot;{data.silo.riskTopic}&quot;
                             </AlertTitle>
                             <AlertDescription className="mt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                                 <span className="text-sm opacity-90">{data.silo.message}</span>

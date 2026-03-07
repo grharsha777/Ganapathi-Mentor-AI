@@ -240,7 +240,7 @@ export default function SettingsPage() {
                   <CheckCircle className="w-8 h-8 text-green-500" />
                 </div>
                 <h3 className="text-lg font-semibold text-green-600">Thank you for your feedback! 🎉</h3>
-                <p className="text-sm text-muted-foreground">We'll review your message and get back to you if needed.</p>
+                <p className="text-sm text-muted-foreground">We&apos;ll review your message and get back to you if needed.</p>
                 <Button variant="outline" size="sm" onClick={() => { setFeedbackSent(false); setFeedbackMessage(''); setFeedbackRating(0); }}>
                   Send Another
                 </Button>
@@ -274,7 +274,7 @@ export default function SettingsPage() {
 
                 {/* Star Rating */}
                 <div className="space-y-2">
-                  <Label>How's your experience? (optional)</Label>
+                  <Label>How&apos;s your experience? (optional)</Label>
                   <div className="flex gap-1">
                     {[1, 2, 3, 4, 5].map(star => (
                       <button
@@ -334,21 +334,11 @@ export default function SettingsPage() {
                         body: formData
                       });
 
-                      // 2. Save to our database for persistence
-                      const res = await fetch('/api/feedback', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        credentials: 'include',
-                        body: JSON.stringify({ category: feedbackCategory, message: feedbackMessage, rating: feedbackRating }),
-                      });
-
-                      if (!res.ok) {
-                        const data = await res.json();
-                        throw new Error(data.error);
-                      }
+                      // Removed database save as requested to prevent errors
+                      // Only using Web3Forms for feedback submission
 
                       setFeedbackSent(true);
-                      toast.success('Feedback sent! Thank you 💜');
+                      toast.success('Feedback sent successfully! Thank you for submitting. 💜');
                     } catch (e: any) {
                       toast.error(e.message || 'Failed to send feedback');
                     } finally {

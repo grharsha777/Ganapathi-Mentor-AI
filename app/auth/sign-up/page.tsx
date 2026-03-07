@@ -57,6 +57,28 @@ export default function Page() {
               <CardDescription>Create a new account</CardDescription>
             </CardHeader>
             <CardContent>
+              <div className="grid gap-3 mb-6">
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full h-11 font-medium"
+                  onClick={() => window.location.href = '/api/auth/oauth?provider=google'}
+                  disabled={isLoading}
+                >
+                  <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" className="mr-2 h-4 w-4" />
+                  Continue with Google
+                </Button>
+              </div>
+
+              <div className="relative mb-6">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-card px-2 text-muted-foreground">Or continue with email</span>
+                </div>
+              </div>
+
               <form onSubmit={handleSignUp}>
                 <div className="flex flex-col gap-6">
                   <div className="grid gap-2">

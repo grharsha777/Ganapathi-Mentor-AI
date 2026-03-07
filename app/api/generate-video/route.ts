@@ -1,5 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { generateVideo, getVideoStatus, listAvatars } from '@/lib/heygen';
+import {
+    generateVideo,
+    checkVideoStatus,
+    isVideoGenerationConfigured,
+    getVideoProvider
+} from '@/lib/video-generation';
 import { verifyToken } from '@/lib/auth';
 
 export async function POST(req: NextRequest) {
@@ -9,74 +14,59 @@ export async function POST(req: NextRequest) {
         const decoded = await verifyToken(token);
         if (!decoded) return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
 
-        const { action, text, avatarId, voiceId, title, videoId, provider } = await req.json();
+        const { action, text, style, provider, videoId, aspect_ratio } = await req.json();
 
+        // Check if generation is configured
         if (action === 'generate') {
             if (!text) return NextResponse.json({ error: 'Text is required' }, { status: 400 });
 
-            // If user explicitly asks for advanced HF model, skip HeyGen
-            if (provider === 'huggingface') {
-                try {
-                    const { generateVideoHuggingFace, isHuggingFaceConfigured, blobToBase64 } = await import('@/lib/huggingface');
-                    if (isHuggingFaceConfigured()) {
-                        const videoBlob = await generateVideoHuggingFace(text);
-                        const base64 = await blobToBase64(videoBlob);
-                        return NextResponse.json({
-                            video_id: `hf-${Date.now()}`,
-                            status: "completed",
-                            video_url: `data:${videoBlob.type || 'video/mp4'};base64,${base64}`
-                        });
-                    } else {
-                        return NextResponse.json({ error: 'Hugging Face API key not configured' }, { status: 400 });
-                    }
-                } catch (hfError: any) {
-                    console.error("HF Video failed:", hfError);
-                    return NextResponse.json({ error: hfError.message || 'Failed to generate video using Hugging Face' }, { status: 500 });
-                }
+            if (!isVideoGenerationConfigured()) {
+                return NextResponse.json(
+                    { error: 'Video generation not configured. Set KLING_ACCESS_KEY or RUNWAY_API_KEY' },
+                    { status: 503 }
+                );
             }
 
             try {
-                // Primary: HeyGen
-                const result = await generateVideo({ text, avatarId, voiceId, title });
-                return NextResponse.json(result);
-            } catch (heyGenError) {
-                console.warn("HeyGen Video failed, trying Hugging Face Wan-AI", heyGenError);
-                try {
-                    const { generateVideoHuggingFace, isHuggingFaceConfigured, blobToBase64 } = await import('@/lib/huggingface');
-                    if (isHuggingFaceConfigured()) {
-                        const videoBlob = await generateVideoHuggingFace(text);
-                        const base64 = await blobToBase64(videoBlob);
+                const result = await generateVideo({
+                    text,
+                    style: style || 'cinematic',
+                    provider: provider as any,
+                    aspect_ratio: aspect_ratio as any
+                });
 
-                        return NextResponse.json({
-                            // Returning base64 video matching standard response types or a custom one the frontend handles
-                            video_id: `hf-${Date.now()}`,
-                            status: "completed", // HF is synchronous in this SDK call usually, or returns early
-                            video_url: `data:${videoBlob.type || 'video/mp4'};base64,${base64}`
-                        });
-                    }
-                } catch (hfError) {
-                    console.error("HF Video fallback failed:", hfError);
-                }
-
-                return NextResponse.json({ error: 'Failed to generate video using any provider.' }, { status: 500 });
+                return NextResponse.json({
+                    video_id: result.videoId,
+                    status: result.status,
+                    video_url: result.videoUrl,
+                    provider: result.provider,
+                    message: result.status === 'processing' ? 'Generation started' : 'Generation complete'
+                });
+            } catch (error: any) {
+                console.error('Video generation failed:', error);
+                return NextResponse.json({ error: error.message || 'Failed to generate video' }, { status: 500 });
             }
         }
 
+        // Handle Polling Status
         if (action === 'status') {
-            if (!videoId) return NextResponse.json({ error: 'Video ID is required' }, { status: 400 });
-            const result = await getVideoStatus(videoId);
-            return NextResponse.json(result);
+            if (!videoId || !provider) {
+                return NextResponse.json({ error: 'videoId and provider required for status check' }, { status: 400 });
+            }
+
+            try {
+                const result = await checkVideoStatus(videoId, provider);
+                return NextResponse.json(result);
+            } catch (error: any) {
+                console.error('Status check failed:', error);
+                return NextResponse.json({ error: 'Failed to check status' }, { status: 500 });
+            }
         }
 
-        if (action === 'avatars') {
-            const avatars = await listAvatars();
-            return NextResponse.json({ avatars });
-        }
-
-        return NextResponse.json({ error: 'Invalid action. Use "generate", "status", or "avatars"' }, { status: 400 });
+        return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
 
     } catch (error: any) {
         console.error('Video Generation Error:', error);
-        return NextResponse.json({ error: error.message || 'Failed to process video request' }, { status: 500 });
+        return NextResponse.json({ error: error.message || 'Server error' }, { status: 500 });
     }
 }

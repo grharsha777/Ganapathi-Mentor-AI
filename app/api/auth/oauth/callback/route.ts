@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
 import connectToDatabase from '@/lib/mongoose';
 import User from '@/models/User';
 import { signToken } from '@/lib/auth';
@@ -7,87 +6,77 @@ import { signToken } from '@/lib/auth';
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const code = searchParams.get('code');
-  const next = searchParams.get('next') ?? '/dashboard';
-  const errorParam = searchParams.get('error');
-  const errorDescription = searchParams.get('error_description');
+  const stateParams = searchParams.get('state');
 
-  console.log(`[Auth Callback] Start. Code present: ${!!code}, Error: ${errorParam}, Desc: ${errorDescription}`);
-
-  if (errorParam) {
-    console.error(`[Auth Callback Error] Provider returned error: ${errorParam} - ${errorDescription}`);
-    return NextResponse.redirect(new URL(`/auth/error?message=${encodeURIComponent(errorDescription || errorParam)}`, req.url));
+  let nextUrl = '/dashboard';
+  if (stateParams) {
+    try {
+      const decodedState = JSON.parse(decodeURIComponent(stateParams));
+      if (decodedState.next) nextUrl = decodedState.next;
+    } catch (e) {
+      console.error('Failed to parse OAuth state parameter:', e);
+    }
   }
 
   if (!code) {
-    console.error('[Auth Callback Error] No code provided');
-    return NextResponse.redirect(new URL('/auth/error?message=No code provided', req.url));
+    return NextResponse.redirect(new URL('/auth/error?message=Authorization code missing', req.url));
   }
 
+  const clientId = process.env.GOOGLE_CLIENT_ID;
+  const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+  const redirectUri = `${req.nextUrl.origin}/api/auth/oauth/callback`;
+
   try {
-    const supabase = await createClient();
-    console.log('[Auth Callback] Exchanging code for session...');
-    const { data: { user }, error } = await supabase.auth.exchangeCodeForSession(code);
+    const tokenRes = await fetch('https://oauth2.googleapis.com/token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        client_id: clientId!,
+        client_secret: clientSecret!,
+        code,
+        grant_type: 'authorization_code',
+        redirect_uri: redirectUri,
+      })
+    });
+    const tokenData = await tokenRes.json();
+    if (!tokenRes.ok) throw new Error(tokenData.error_description || 'Failed to fetch tokens');
 
-    if (error || !user?.email) {
-      console.error('[Auth Callback Error] Code exchange failed:', error);
-      const errorMsg = error?.message || 'Authentication failed during code exchange';
-      return NextResponse.redirect(new URL('/auth/error?message=' + encodeURIComponent(errorMsg), req.url));
-    }
-
-    console.log(`[Auth Callback] User authenticated: ${user.email}`);
+    const userRes = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
+      headers: { Authorization: `Bearer ${tokenData.access_token}` }
+    });
+    const userData = await userRes.json();
+    if (!userRes.ok) throw new Error('Failed to get user profile');
 
     await connectToDatabase();
-    console.log('[Auth Callback] Connected to MongoDB');
 
-    let dbUser = await User.findOne({ email: user.email });
-    if (!dbUser) {
-      console.log('[Auth Callback] Creating new user in MongoDB...');
-      try {
-        dbUser = await User.create({
-          _id: crypto.randomUUID(),
-          email: user.email,
-          full_name: user.user_metadata?.full_name || user.user_metadata?.name || user.email.split('@')[0],
-          avatar_url: user.user_metadata?.avatar_url || user.user_metadata?.picture,
-          password_hash: null,
-          role: 'viewer',
-          metrics: {
-            total_sessions: 0,
-            practice_points: 0,
-            completed_lessons: 0,
-            current_streak: 0,
-            longest_streak: 0,
-            last_active: new Date()
-          }
-        });
-        console.log('[Auth Callback] User created successfully');
-      } catch (dbError: any) {
-        console.error('[Auth Callback Error] Failed to create user in DB:', dbError);
-        return NextResponse.redirect(new URL('/auth/error?message=' + encodeURIComponent('Database error: ' + dbError.message), req.url));
-      }
-    } else {
-      console.log('[Auth Callback] Existing user found');
+    let user = await User.findOne({ email: userData.email });
+    if (!user) {
+      user = await User.create({
+        _id: crypto.randomUUID(),
+        email: userData.email,
+        full_name: userData.name,
+        avatar_url: userData.picture,
+        role: 'viewer'
+      });
+    } else if (!user.avatar_url && userData.picture) {
+      user.avatar_url = userData.picture;
+      await user.save();
     }
 
-    const token = await signToken({
-      userId: dbUser._id,
-      email: dbUser.email,
-      role: dbUser.role,
-    }); // Consider wrapping this in try/catch or assume it throws
-    console.log('[Auth Callback] JWT signed');
+    const token = await signToken({ userId: user._id, email: user.email, role: user.role });
 
-    const response = NextResponse.redirect(new URL(next, req.nextUrl.origin));
+    const response = NextResponse.redirect(new URL(nextUrl, req.url));
     response.cookies.set('token', token, {
       httpOnly: true,
-      secure: true,
-      sameSite: 'lax',
-      maxAge: 7 * 24 * 60 * 60,
-      path: '/',
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 // 7 days
     });
-    console.log('[Auth Callback] Token cookie set, redirecting to:', next);
 
     return response;
-  } catch (e: any) {
-    console.error('[Auth Callback Critical Error]', e);
-    return NextResponse.redirect(new URL('/auth/error?message=' + encodeURIComponent(e.message || 'Callback failed'), req.url));
+
+  } catch (error: any) {
+    console.error('OAuth Callback Error:', error);
+    return NextResponse.redirect(new URL(`/auth/error?message=${encodeURIComponent(error.message)}`, req.url));
   }
 }

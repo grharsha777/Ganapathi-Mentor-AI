@@ -25,6 +25,7 @@ const LANGUAGES = [
 export default function IndicStudio() {
     const [prompt, setPrompt] = useState('');
     const [targetLang, setTargetLang] = useState('hi-IN');
+    const [provider, setProvider] = useState<'sarvam' | 'murf'>('sarvam');
     const [speaker, setSpeaker] = useState('aditya');
 
     const [isTranslating, setIsTranslating] = useState(false);
@@ -66,23 +67,32 @@ export default function IndicStudio() {
         setAudioUrl('');
 
         try {
-            const res = await fetch('/api/sarvam', {
+            const endpoint = provider === 'murf' ? '/api/studio/murf' : '/api/sarvam';
+            const payload = provider === 'murf'
+                ? { text: textToSpeak, voiceId: speaker }
+                : { action: 'tts', text: textToSpeak, targetLanguage: targetLang, speaker: speaker };
+
+            const res = await fetch(endpoint, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    action: 'tts',
-                    text: textToSpeak,
-                    targetLanguage: targetLang,
-                    speaker: speaker,
-                })
+                body: JSON.stringify(payload)
             });
             const data = await res.json();
             if (data.error) throw new Error(data.error);
 
-            // Convert base64 to blob URL for audio player
-            const audioData = `data:audio/wav;base64,${data.audio_base64}`;
-            setAudioUrl(audioData);
-            toast.success("Audio generated successfully!");
+            if (provider === 'murf') {
+                if (data.audioFile) {
+                    setAudioUrl(data.audioFile);
+                    toast.success("Murf Premium Audio generated!");
+                } else {
+                    throw new Error("No audio file returned from Murf");
+                }
+            } else {
+                // Convert base64 to blob URL for audio player
+                const audioData = `data:audio/wav;base64,${data.audio_base64}`;
+                setAudioUrl(audioData);
+                toast.success("Sarvam Audio generated successfully!");
+            }
         } catch (e: any) {
             toast.error(e.message || "Failed to generate audio.");
         } finally {
@@ -99,7 +109,7 @@ export default function IndicStudio() {
                         Indic Translation & TTS
                     </CardTitle>
                     <CardDescription className="text-base text-muted-foreground">
-                        Powered by Sarvam AI. Translate English text into 10+ regional Indian languages and synthesize native audio.
+                        Translate English text into regional languages (Sarvam) or generate High-Fidelity voices (Murf AI).
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
@@ -115,8 +125,27 @@ export default function IndicStudio() {
 
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
+                            <Label>AI Engine / Provider</Label>
+                            <Select value={provider} onValueChange={(v: any) => {
+                                setProvider(v);
+                                setSpeaker(v === 'murf' ? 'en-US-natalie' : 'aditya');
+                            }}>
+                                <SelectTrigger className="bg-background/50 border-white/20">
+                                    <SelectValue placeholder="Select Engine" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="sarvam">Sarvam AI (Regional)</SelectItem>
+                                    <SelectItem value="murf">Murf AI (Premium)</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
+                        <div className="space-y-2">
                             <Label>Target Language</Label>
-                            <Select value={targetLang} onValueChange={setTargetLang}>
+                            <Select
+                                value={targetLang}
+                                onValueChange={setTargetLang}
+                                disabled={provider === 'murf'}
+                            >
                                 <SelectTrigger className="bg-background/50 border-white/20">
                                     <SelectValue placeholder="Select Language" />
                                 </SelectTrigger>
@@ -127,22 +156,35 @@ export default function IndicStudio() {
                                 </SelectContent>
                             </Select>
                         </div>
-                        <div className="space-y-2">
-                            <Label>Speaker Voice</Label>
-                            <Select value={speaker} onValueChange={setSpeaker}>
-                                <SelectTrigger className="bg-background/50 border-white/20">
-                                    <SelectValue placeholder="Select Speaker" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="aditya">Aditya (Male)</SelectItem>
-                                    <SelectItem value="ritu">Ritu (Female)</SelectItem>
-                                    <SelectItem value="priya">Priya (Female)</SelectItem>
-                                    <SelectItem value="kabir">Kabir (Male)</SelectItem>
-                                    <SelectItem value="kavya">Kavya (Female)</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
                     </div>
+
+                    <div className="space-y-2">
+                        <Label>Speaker Voice</Label>
+                        <Select value={speaker} onValueChange={setSpeaker}>
+                            <SelectTrigger className="bg-background/50 border-white/20">
+                                <SelectValue placeholder="Select Speaker" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {provider === 'sarvam' ? (
+                                    <>
+                                        <SelectItem value="aditya">Aditya (Male)</SelectItem>
+                                        <SelectItem value="ritu">Ritu (Female)</SelectItem>
+                                        <SelectItem value="priya">Priya (Female)</SelectItem>
+                                        <SelectItem value="kabir">Kabir (Male)</SelectItem>
+                                        <SelectItem value="kavya">Kavya (Female)</SelectItem>
+                                    </>
+                                ) : (
+                                    <>
+                                        <SelectItem value="en-US-natalie">Natalie (Conversational)</SelectItem>
+                                        <SelectItem value="en-US-marcus">Marcus (Professional)</SelectItem>
+                                        <SelectItem value="en-UK-charles">Charles (British Male)</SelectItem>
+                                        <SelectItem value="en-AU-terri">Terri (Australian Female)</SelectItem>
+                                    </>
+                                )}
+                            </SelectContent>
+                        </Select>
+                    </div>
+
 
                     <div className="flex gap-4 pt-4">
                         <Button

@@ -77,7 +77,7 @@ export async function POST(req: NextRequest) {
 
         const testCases = challenge.testCases || [];
         let passedTests = 0;
-        let totalTests = testCases.length;
+        const totalTests = testCases.length;
         let lastOutput = '';
         let overallStatus = 'Accepted';
         let totalTime = 0;

@@ -69,25 +69,46 @@ const config: Config = {
       },
       keyframes: {
         'accordion-down': {
-          from: {
-            height: '0',
-          },
-          to: {
-            height: 'var(--radix-accordion-content-height)',
-          },
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' },
         },
         'accordion-up': {
-          from: {
-            height: 'var(--radix-accordion-content-height)',
-          },
-          to: {
-            height: '0',
-          },
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' },
+        },
+        blink: {
+          '0%, 90%, 100%': { transform: 'scaleY(1)' },
+          '95%': { transform: 'scaleY(0.1)' },
+        },
+        talk: {
+          '0%, 100%': { transform: 'scaleY(0.4) scaleX(0.8)' },
+          '50%': { transform: 'scaleY(1) scaleX(1)' },
+        },
+        breathe: {
+          '0%, 100%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.015)' },
+        },
+        divineGlow: {
+          '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
+          '50%': { opacity: '0.8', transform: 'scale(1.12)' },
+        },
+        floatUp: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-4px)' },
+        },
+        wave: {
+          '0%, 100%': { height: '4px' },
+          '50%': { height: '20px' },
         },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        blink: 'blink 3.5s ease-in-out infinite',
+        talk: 'talk 0.35s ease-in-out infinite',
+        breathe: 'breathe 4s ease-in-out infinite',
+        'divine-glow': 'divineGlow 2s ease-in-out infinite',
+        'float-up': 'floatUp 3s ease-in-out infinite',
       },
     },
   },

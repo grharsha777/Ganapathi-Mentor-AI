@@ -188,7 +188,7 @@ export default function RoadmapView() {
                                 className="h-12"
                             />
                             <p className="text-xs text-muted-foreground">
-                                We'll analyze this code to detect skill gaps and tailor the roadmap.
+                                We&apos;ll analyze this code to detect skill gaps and tailor the roadmap.
                             </p>
                         </div>
                     </CardContent>
@@ -230,7 +230,7 @@ export default function RoadmapView() {
                                     Mastery Achieved!
                                 </h3>
                                 <p className="text-muted-foreground text-lg max-w-lg mb-8">
-                                    You have successfully completed the entire 4-week <strong className="text-foreground">{roadmap.title}</strong> learning path. You've earned a massive XP boost and mastered these skills!
+                                    You have successfully completed the entire 4-week <strong className="text-foreground">{roadmap.title}</strong> learning path. You&apos;ve earned a massive XP boost and mastered these skills!
                                 </p>
                                 <Button size="lg" className="bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 shadow-lg shadow-green-500/25 h-12 px-8 text-lg font-bold rounded-xl" onClick={() => setRoadmap(null)}>
                                     Generate Next Milestone <ArrowRight className="ml-2 h-5 w-5" />

@@ -1,0 +1,934 @@
+
+> ganapathi-mentor-ai@0.1.0 lint
+> eslint .
+
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\actions\image.ts
+  11:9  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\actions\research.ts
+  47:9  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\actions\stack-exchange.ts
+  10:9  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\actions\voice.ts
+  14:9  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\alerts\route.ts
+  28:5  warning  Unexpected console statement  no-console
+  59:5  warning  Unexpected console statement  no-console
+  92:5  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\analytics\anomalies\route.ts
+   47:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  111:7   warning  Unexpected console statement              no-console
+  116:5   warning  Unexpected console statement              no-console
+  151:5   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\analytics\performance\route.ts
+   7:8   warning  'Metric' is defined but never used        @typescript-eslint/no-unused-vars
+  52:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  59:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  75:59  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  76:74  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  92:7   warning  Unexpected console statement              no-console
+  97:5   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\ask\route.ts
+  11:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  33:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  34:13  warning  Unexpected console statement              no-console
+  52:13  warning  Unexpected console statement              no-console
+  60:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  61:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\auth\login\route.ts
+  49:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  50:5   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\auth\logout\route.ts
+  3:28  warning  '_req' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\auth\me\route.ts
+  10:49  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\auth\oauth\callback\route.ts
+  17:7   warning  Unexpected console statement              no-console
+  78:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  79:5   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\auth\oauth\route.ts
+   8:3  warning  Unexpected console statement  no-console
+  16:5  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\auth\signup\route.ts
+  56:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  57:5   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\branding\generate\route.ts
+  30:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  38:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  39:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\challenges\[slug]\route.ts
+  21:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  22:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\challenges\progress\route.ts
+    6:8    warning  'User' is defined but never used          @typescript-eslint/no-unused-vars
+   10:121  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   11:110  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   12:114  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   13:120  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   14:126  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   15:119  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   16:128  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   17:116  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   18:113  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   19:130  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   26:53   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   36:60   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   39:76   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   45:56   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   46:58   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   47:56   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   48:69   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   49:67   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   53:22   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   72:55   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  106:41   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  117:21   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  118:9    warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\challenges\review\route.ts
+  33:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  60:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  61:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\challenges\route.ts
+  15:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  31:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  32:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\challenges\seed\route.ts
+  211:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  212:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\challenges\submit\route.ts
+   61:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  120:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  166:17  warning  Unexpected console statement              no-console
+  182:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  183:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\chat\route.ts
+  238:13  warning  Unexpected console statement              no-console
+  337:41  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  344:13  warning  Unexpected console statement              no-console
+  352:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\code-review\analyze\route.ts
+  126:9  warning  Unexpected console statement  no-console
+  132:5  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\collaboration\route.ts
+  34:41  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  47:63  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  54:63  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  68:13  warning  Unexpected console statement              no-console
+  73:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\concepts\route.ts
+  21:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  41:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  47:13  warning  Unexpected console statement              no-console
+  66:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  67:9   warning  Unexpected console statement              no-console
+  76:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  83:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\content\route.ts
+   12:50  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   43:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   44:9   warning  Unexpected console statement              no-console
+   79:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   89:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   90:9   warning  Unexpected console statement              no-console
+  115:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  116:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\docs\generate\route.ts
+  16:55  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  47:17  warning  Unexpected console statement              no-console
+  53:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\execute\route.ts
+  55:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  56:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\explain-concept\route.ts
+  47:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  51:57  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  58:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  89:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  90:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\feedback\route.ts
+   6:7   warning  'WEB3FORMS_KEY' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  12:53  warning  Unexpected any. Specify a different type            @typescript-eslint/no-explicit-any
+  32:13  warning  Unexpected console statement                        no-console
+  35:13  warning  Unexpected console statement                        no-console
+  39:21  warning  Unexpected any. Specify a different type            @typescript-eslint/no-explicit-any
+  40:9   warning  Unexpected console statement                        no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\generate-image\route.ts
+  41:13  warning  Unexpected console statement              no-console
+  52:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  53:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\generate-video\route.ts
+   4:3   warning  'generateVideoHuggingFace' is defined but never used  @typescript-eslint/no-unused-vars
+   5:3   warning  'generateVideoRunway' is defined but never used       @typescript-eslint/no-unused-vars
+  18:38  warning  'provider' is assigned a value but never used         @typescript-eslint/no-unused-vars
+  45:29  warning  Unexpected any. Specify a different type              @typescript-eslint/no-explicit-any
+  46:17  warning  Unexpected console statement                          no-console
+  68:21  warning  Unexpected any. Specify a different type              @typescript-eslint/no-explicit-any
+  69:9   warning  Unexpected console statement                          no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\interview\route.ts
+   27:53  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   30:73  warning  'challengeId' is assigned a value but never used  @typescript-eslint/no-unused-vars
+   37:27  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+   66:47  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  154:21  warning  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  155:9   warning  Unexpected console statement                      no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\leaderboard\route.ts
+  24:49  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  43:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\learning-path\generate\route.ts
+  60:17  warning  Unexpected console statement  no-console
+  86:17  warning  Unexpected console statement  no-console
+  92:9   warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\media\route.ts
+  15:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  26:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  35:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  41:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\metrics\route.ts
+  28:5  warning  Unexpected console statement  no-console
+  59:5  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\music\route.ts
+  31:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  32:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\portfolio\route.ts
+  12:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  21:60  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  26:60  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  27:76  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  33:56  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  34:58  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  35:56  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  36:73  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  37:71  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  38:66  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  42:22  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  58:56  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  77:54  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  87:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  88:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\productivity\route.ts
+  55:52  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  89:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  90:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\rooms\route.ts
+   12:27  warning  'req' is defined but never used           @typescript-eslint/no-unused-vars
+   23:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   25:59  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   29:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   38:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   51:43  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   53:13  warning  Unexpected console statement              no-console
+   78:68  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   82:50  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   94:81  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  116:60  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  138:64  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  141:66  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  149:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  150:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\sarvam\route.ts
+  78:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  79:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\session\end\route.ts
+   6:10  warning  'summarizeSession' is defined but never used  @typescript-eslint/no-unused-vars
+  13:47  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+  76:9   warning  Unexpected console statement                  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\session\github\repos\route.ts
+  12:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  42:51  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  55:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\session\github\route.ts
+  12:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  28:9   warning  Unexpected console statement              no-console
+  37:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  79:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\session\start\route.ts
+  11:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  43:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\sessions\recent\route.ts
+  10:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  26:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\specialized\route.ts
+  37:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  47:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  77:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  87:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  88:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\studio\generate\route.ts
+   37:5  warning  Unexpected console statement  no-console
+   66:5  warning  Unexpected console statement  no-console
+  101:9  warning  Unexpected console statement  no-console
+  124:5  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\team\analytics\route.ts
+  55:9  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\teams\members\route.ts
+  39:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  40:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\teams\route.ts
+   4:8   warning  'User' is defined but never used          @typescript-eslint/no-unused-vars
+  12:49  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  25:5   warning  Unexpected console statement              no-console
+  35:49  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  58:5   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\tts\route.ts
+  31:17  warning  Unexpected console statement              no-console
+  49:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  50:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\youtube\search\route.ts
+  23:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  24:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\auth\login\page.tsx
+  12:10  warning  'cn' is defined but never used                                                                                                                                                                                                                                                           @typescript-eslint/no-unused-vars
+  45:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  64:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\auth\sign-up\page.tsx
+  26:9   warning  'router' is assigned a value but never used                                                                                                                                                                                                                                              @typescript-eslint/no-unused-vars
+  68:19  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard-demo\page.tsx
+   9:10  warning  'Label' is defined but never used         @typescript-eslint/no-unused-vars
+  13:18  warning  'Legend' is defined but never used        @typescript-eslint/no-unused-vars
+  16:35  warning  'Settings' is defined but never used      @typescript-eslint/no-unused-vars
+  22:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\alerts\page.tsx
+    4:29  warning  'CardDescription' is defined but never used  @typescript-eslint/no-unused-vars
+    4:46  warning  'CardHeader' is defined but never used       @typescript-eslint/no-unused-vars
+    4:58  warning  'CardTitle' is defined but never used        @typescript-eslint/no-unused-vars
+   55:9   warning  Unexpected console statement                 no-console
+   87:7   warning  Unexpected console statement                 no-console
+  105:7   warning  Unexpected console statement                 no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\challenges\[slug]\page.tsx
+    4:41  warning  'CardTitle' is defined but never used     @typescript-eslint/no-unused-vars
+   31:60  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   73:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   78:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   94:17  warning  Unexpected console statement              no-console
+  122:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  147:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  204:55  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\challenges\page.tsx
+   11:26  warning  'Filter' is defined but never used                                                                                  @typescript-eslint/no-unused-vars
+   20:40  warning  Unexpected any. Specify a different type                                                                            @typescript-eslint/no-explicit-any
+   27:50  warning  Unexpected any. Specify a different type                                                                            @typescript-eslint/no-explicit-any
+   43:13  warning  Unexpected console statement                                                                                        no-console
+   49:45  warning  React Hook useEffect has a missing dependency: 'fetchChallenges'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+   57:13  warning  Unexpected console statement                                                                                        no-console
+  149:52  warning  Unexpected any. Specify a different type                                                                            @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\collab\page.tsx
+   26:40  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   34:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   38:54  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   39:54  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   50:50  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   54:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   64:23  warning  Unexpected console statement              no-console
+   98:23  warning  Unexpected console statement              no-console
+  121:23  warning  Unexpected console statement              no-console
+  156:17  warning  Unexpected console statement              no-console
+  171:13  warning  Unexpected console statement              no-console
+  175:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  201:13  warning  Unexpected console statement              no-console
+  224:18  warning  'e' is defined but never used             @typescript-eslint/no-unused-vars
+  257:18  warning  'e' is defined but never used             @typescript-eslint/no-unused-vars
+  275:17  warning  Unexpected console statement              no-console
+  362:40  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  435:63  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  520:59  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  532:59  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  557:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\interview\page.tsx
+   13:27  warning  'Sparkles' is defined but never used      @typescript-eslint/no-unused-vars
+   13:37  warning  'ArrowRight' is defined but never used    @typescript-eslint/no-unused-vars
+   59:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  104:13  warning  Unexpected console statement              no-console
+  125:13  warning  Unexpected console statement              no-console
+  145:13  warning  Unexpected console statement              no-console
+  164:13  warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\layout.tsx
+  20:44  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\page.tsx
+  22:49  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  25:69  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\portfolio\page.tsx
+   11:5   warning  'ExternalLink' is defined but never used  @typescript-eslint/no-unused-vars
+   28:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   39:17  warning  Unexpected console statement              no-console
+   99:57  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  112:65  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  232:45  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  261:57  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\settings\integrations\page.tsx
+  9:50  warning  'Check' is defined but never used  @typescript-eslint/no-unused-vars
+  9:57  warning  'X' is defined but never used      @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\settings\page.tsx
+    4:69  warning  'CardFooter' is defined but never used               @typescript-eslint/no-unused-vars
+   21:10  warning  'githubUsername' is assigned a value but never used  @typescript-eslint/no-unused-vars
+   38:9   warning  Unexpected console statement                         no-console
+   68:21  warning  Unexpected any. Specify a different type             @typescript-eslint/no-explicit-any
+  352:33  warning  Unexpected any. Specify a different type             @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\team\page.tsx
+   4:29  warning  'CardDescription' is defined but never used   @typescript-eslint/no-unused-vars
+  39:10  warning  'loading' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  65:9   warning  Unexpected console statement                  no-console
+  93:7   warning  Unexpected console statement                  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\execute\page.tsx
+   9:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  24:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\page.tsx
+    6:21  warning  'Zap' is defined but never used                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+    7:3   warning  'BarChart2' is defined but never used                                                                                                                                                                                                                                                    @typescript-eslint/no-unused-vars
+    7:14  warning  'Users' is defined but never used                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+    7:33  warning  'CheckCircle2' is defined but never used                                                                                                                                                                                                                                                 @typescript-eslint/no-unused-vars
+    7:47  warning  'Shield' is defined but never used                                                                                                                                                                                                                                                       @typescript-eslint/no-unused-vars
+    7:55  warning  'Cpu' is defined but never used                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+    9:51  warning  'Clock' is defined but never used                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+   11:46  warning  'useCallback' is defined but never used                                                                                                                                                                                                                                                  @typescript-eslint/no-unused-vars
+  106:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\protected\page.tsx
+  10:10  warning  'user' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  10:36  warning  Unexpected any. Specify a different type   @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ChatPanel.tsx
+  81:13  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\analytics\anomaly-detector.tsx
+    5:10  warning  'Badge' is defined but never used         @typescript-eslint/no-unused-vars
+    8:51  warning  'Users' is defined but never used         @typescript-eslint/no-unused-vars
+    9:10  warning  'toast' is defined but never used         @typescript-eslint/no-unused-vars
+   12:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   22:13  warning  Unexpected console statement              no-console
+   94:40  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  116:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\challenges\progress-section.tsx
+    5:10  warning  'Badge' is defined but never used            @typescript-eslint/no-unused-vars
+   46:11  warning  'months' is assigned a value but never used  @typescript-eslint/no-unused-vars
+   77:38  warning  Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+   87:17  warning  Unexpected console statement                 no-console
+  203:48  warning  Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\chat\global-chatbot.tsx
+  138:25  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  159:27  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  191:33  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  327:35  warning  Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  344:46  warning  Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  344:83  warning  Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  350:44  warning  Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  430:13  warning  Unexpected console statement                                                                                                                                                                                                                                                             no-console
+  598:37  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  652:53  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\collaboration\team-collab.tsx
+    4:52  warning  'CardDescription' is defined but never used                      @typescript-eslint/no-unused-vars
+   13:38  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+   25:17  warning  Unexpected console statement                                     no-console
+   52:68  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   52:90  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   75:58  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  118:56  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\dashboard\alerts-list.tsx
+  20:3  warning  'teamId' is defined but never used  @typescript-eslint/no-unused-vars
+  41:7  warning  Unexpected console statement        no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\dashboard\branding-generator.tsx
+    7:38  warning  'Copy' is defined but never used                                                                                                                                                                                                                                                         @typescript-eslint/no-unused-vars
+    9:10  warning  'cn' is defined but never used                                                                                                                                                                                                                                                           @typescript-eslint/no-unused-vars
+   15:42  warning  Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   35:18  warning  'error' is defined but never used                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+   75:13  warning  Unexpected console statement                                                                                                                                                                                                                                                             no-console
+  146:65  warning  Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  185:33  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\dashboard\chat-panel.tsx
+  47:18  warning  'error' is defined but never used                                @typescript-eslint/no-unused-vars
+  79:41  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\dashboard\dock.tsx
+  138:9   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\dashboard\dock.tsx:138:9
+  136 |     // Close on route change
+  137 |     useEffect(() => {
+> 138 |         setIsOpen(false)
+      |         ^^^^^^^^^ Avoid calling setState() directly within an effect
+  139 |     }, [pathname])
+  140 |
+  141 |     // Prevent body scroll when sidebar is open  react-hooks/set-state-in-effect
+  199:37  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             @next/next/no-img-element
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\dashboard\github-dashboard.tsx
+   8:24  warning  'GitFork' is defined but never used       @typescript-eslint/no-unused-vars
+   9:10  warning  'toast' is defined but never used         @typescript-eslint/no-unused-vars
+  81:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  82:13  warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\dashboard\metrics-chart.tsx
+  45:13  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\dashboard\nav.tsx
+  21:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\dashboard\personal-dashboard.tsx
+   42:11  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  142:17  warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\dashboard\sidebar.tsx
+   6:3   warning  'BarChart3' is defined but never used                                                                                                                                                                                                                                                    @typescript-eslint/no-unused-vars
+   7:3   warning  'Bell' is defined but never used                                                                                                                                                                                                                                                         @typescript-eslint/no-unused-vars
+  96:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\dashboard\team-selector.tsx
+  52:9  warning  Unexpected console statement  no-console
+  79:7  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\dev\stack-exchange-search.tsx
+  12:18  warning  'ExternalLink' is defined but never used                                                                                                                                                                                                                                                 @typescript-eslint/no-unused-vars
+  24:20  warning  Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  46:13  warning  Unexpected console statement                                                                                                                                                                                                                                                             no-console
+  56:21  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\last-minute\last-minute-panel.tsx
+  7:18  warning  'Filter' is defined but never used  @typescript-eslint/no-unused-vars
+  7:36  warning  'X' is defined but never used       @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\last-minute\tool-card.tsx
+  4:31  warning  'Star' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\last-minute\voice-studio.tsx
+   8:24  warning  'Play' is defined but never used  @typescript-eslint/no-unused-vars
+  42:13  warning  Unexpected console statement      no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\learning\code-review-panel.tsx
+  13:85  warning  'SearchIcon' is defined but never used    @typescript-eslint/no-unused-vars
+  37:20  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  67:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\learning\concept-explainer.tsx
+   13:13  warning  'BookOpen' is defined but never used                                                                                                                                                                                                                                                     @typescript-eslint/no-unused-vars
+   13:23  warning  'Code' is defined but never used                                                                                                                                                                                                                                                         @typescript-eslint/no-unused-vars
+   15:5   warning  'FileText' is defined but never used                                                                                                                                                                                                                                                     @typescript-eslint/no-unused-vars
+   74:20  warning  Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  124:29  warning  Unexpected console statement                                                                                                                                                                                                                                                             no-console
+  139:29  warning  Unexpected console statement                                                                                                                                                                                                                                                             no-console
+  143:21  warning  Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  170:18  warning  'e' is defined but never used                                                                                                                                                                                                                                                            @typescript-eslint/no-unused-vars
+  170:21  warning  Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  197:18  warning  'e' is defined but never used                                                                                                                                                                                                                                                            @typescript-eslint/no-unused-vars
+  197:21  warning  Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  341:53  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  444:49  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\learning\roadmap-view.tsx
+   12:5    warning  'Calendar' is defined but never used                                                                                                                                                                                                                                                     @typescript-eslint/no-unused-vars
+   14:5    warning  'ChevronRight' is defined but never used                                                                                                                                                                                                                                                 @typescript-eslint/no-unused-vars
+   15:5    warning  'Clock' is defined but never used                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+   17:5    warning  'GraduationCap' is defined but never used                                                                                                                                                                                                                                                @typescript-eslint/no-unused-vars
+   20:5    warning  'Plus' is defined but never used                                                                                                                                                                                                                                                         @typescript-eslint/no-unused-vars
+   23:5    warning  'Video' is defined but never used                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+   24:5    warning  'FileText' is defined but never used                                                                                                                                                                                                                                                     @typescript-eslint/no-unused-vars
+   89:55   warning  Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   97:17   warning  Unexpected console statement                                                                                                                                                                                                                                                             no-console
+  124:25   warning  Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  191:35   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  233:166  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  287:61   warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\media\image-generator.tsx
+    7:69  warning  'CardFooter' is defined but never used                                                                                                                                                                                                                                                   @typescript-eslint/no-unused-vars
+   19:20  warning  Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   54:13  warning  Unexpected console statement                                                                                                                                                                                                                                                             no-console
+  106:29  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\media\indic-studio.tsx
+   9:49  warning  'Play' is defined but never used          @typescript-eslint/no-unused-vars
+  56:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  86:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\media\video-generator.tsx
+   8:36  warning  'Sparkles' is defined but never used      @typescript-eslint/no-unused-vars
+  19:20  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  58:13  warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\onboarding\onboarding-tutorial.tsx
+   6:5   warning  'LayoutDashboard' is defined but never used  @typescript-eslint/no-unused-vars
+   7:5   warning  'Github' is defined but never used           @typescript-eslint/no-unused-vars
+   8:5   warning  'Zap' is defined but never used              @typescript-eslint/no-unused-vars
+   8:36  warning  'MessageSquare' is defined but never used    @typescript-eslint/no-unused-vars
+  20:11  warning  Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+  22:24  warning  Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\research\research-hub.tsx
+   15:18  warning  'BookOpen' is defined but never used      @typescript-eslint/no-unused-vars
+   15:28  warning  'ExternalLink' is defined but never used  @typescript-eslint/no-unused-vars
+   15:82  warning  'Library' is defined but never used       @typescript-eslint/no-unused-vars
+   31:20  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   58:13  warning  Unexpected console statement              no-console
+  191:13  warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\specialized\code-walkthrough.tsx
+  19:40  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  27:20  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  56:47  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  65:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\specialized\interview-prep.tsx
+    9:58  warning  'XCircle' is defined but never used       @typescript-eslint/no-unused-vars
+   31:51  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   37:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   37:68  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   40:20  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   64:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   71:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   72:13  warning  Unexpected console statement              no-console
+   98:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   98:68  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  106:40  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  121:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  122:13  warning  Unexpected console statement              no-console
+  176:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  177:13  warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\tools\doc-generator.tsx
+   29:20  warning  Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   56:21  warning  Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  125:45  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\tools\productivity-hub.tsx
+   10:56  warning  'CheckCircle2' is defined but never used  @typescript-eslint/no-unused-vars
+   17:62  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   18:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   23:20  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   53:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   75:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  111:67  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  159:76  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\calendar.tsx
+  57:25  warning  'props' is defined but never used  @typescript-eslint/no-unused-vars
+  58:26  warning  'props' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\chart.tsx
+  72:7  warning  '_' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\command.tsx
+  42:52  error  Unknown property 'cmdk-input-wrapper' found  react/no-unknown-property
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\ui\use-toast.ts
+  18:7  warning  'actionTypes' is assigned a value but only used as a type  @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\hooks\use-toast.ts
+  18:7  warning  'actionTypes' is assigned a value but only used as a type  @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\hooks\useAuth.tsx
+  44:18  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\hooks\useSession.ts
+  15:12  warning  'history' is assigned a value but never used     @typescript-eslint/no-unused-vars
+  15:21  warning  'setHistory' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  29:13  warning  Unexpected console statement                     no-console
+  48:18  warning  'error' is defined but never used                @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\ai.ts
+   20:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   67:56  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   70:54  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  102:54  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  128:56  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  128:80  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  131:54  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  225:5   warning  Unexpected console statement              no-console
+  242:5   warning  Unexpected console statement              no-console
+  257:5   warning  Unexpected console statement              no-console
+  274:5   warning  Unexpected console statement              no-console
+  284:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\auth.ts
+   6:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  20:14  warning  'error' is defined but never used         @typescript-eslint/no-unused-vars
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\client-db.ts
+   27:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  145:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\content-store.ts
+  15:64  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\demo-store.ts
+  42:73  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\execution-wrapper.ts
+  7:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\freepik.ts
+  41:45  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\github.ts
+  59:9  warning  Unexpected console statement  no-console
+  89:9  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\huggingface.ts
+  17:64  warning  'width' is assigned a value but never used   @typescript-eslint/no-unused-vars
+  17:86  warning  'height' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  74:65  warning  Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\integrations\arxiv.ts
+  25:9  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\integrations\elevenlabs.ts
+  23:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  29:9   warning  Unexpected console statement              no-console
+  56:13  warning  Unexpected console statement              no-console
+  62:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\integrations\semantic-scholar.ts
+  27:13  warning  Unexpected console statement  no-console
+  33:13  warning  Unexpected console statement  no-console
+  41:9   warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\integrations\serp.ts
+  27:56  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  35:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\integrations\stability.ts
+  16:9  warning  Unexpected console statement  no-console
+  59:9  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\integrations\stack-exchange.ts
+  47:9  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\integrations\tavily.ts
+  33:40  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  41:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\integrations\tmdb.ts
+  17:9   warning  Unexpected console statement              no-console
+  29:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  39:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\integrations\wikipedia-python.ts
+  21:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  22:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\integrations\wikipedia.ts
+  30:45  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  38:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\metrics.ts
+  31:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\mongodb.ts
+  14:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  18:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\mongoose.ts
+  11:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  15:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  38:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\serp.ts
+  33:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\video-generation.ts
+   63:5  warning  Unexpected console statement         no-console
+  117:5  warning  Unexpected console statement         no-console
+  128:3  warning  'options' is defined but never used  @typescript-eslint/no-unused-vars
+  148:7  warning  Unexpected console statement         no-console
+  170:3  warning  Unexpected console statement         no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\lib\youtube.ts
+  19:5   warning  Unexpected console statement              no-console
+  21:9   warning  Unexpected console statement              no-console
+  53:42  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\scripts\backfill-stats.ts
+   55:9   warning  Unexpected console statement  no-console
+   58:9   warning  Unexpected console statement  no-console
+   71:17  warning  Unexpected console statement  no-console
+  129:13  warning  Unexpected console statement  no-console
+  132:9   warning  Unexpected console statement  no-console
+  134:9   warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\scripts\check-db.js
+   9:9   warning  Unexpected console statement               no-console
+  15:13  warning  'data' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  19:13  warning  Unexpected console statement               no-console
+  21:13  warning  Unexpected console statement               no-console
+  24:9   warning  Unexpected console statement               no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\scripts\check-users.ts
+  13:9  warning  Unexpected console statement  no-console
+  14:9  warning  Unexpected console statement  no-console
+  16:9  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\scripts\final-migrate.js
+  27:9   warning  Unexpected console statement                   no-console
+  31:11  warning  'supabase' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  34:11  warning  'sql' is assigned a value but never used       @typescript-eslint/no-unused-vars
+  36:5   warning  Unexpected console statement                   no-console
+  40:5   warning  Unexpected console statement                   no-console
+  41:5   warning  Unexpected console statement                   no-console
+  42:5   warning  Unexpected console statement                   no-console
+  43:5   warning  Unexpected console statement                   no-console
+  44:5   warning  Unexpected console statement                   no-console
+  45:5   warning  Unexpected console statement                   no-console
+  46:5   warning  Unexpected console statement                   no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\scripts\fix-user-metrics.ts
+  30:9  warning  Unexpected console statement  no-console
+  33:9  warning  Unexpected console statement  no-console
+  53:9  warning  Unexpected console statement  no-console
+  55:9  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\scripts\migrate-supabase-to-mongo.js
+   11:5  warning  Unexpected console statement  no-console
+   22:1  warning  Unexpected console statement  no-console
+   23:1  warning  Unexpected console statement  no-console
+   24:1  warning  Unexpected console statement  no-console
+   25:1  warning  Unexpected console statement  no-console
+   71:5  warning  Unexpected console statement  no-console
+   73:5  warning  Unexpected console statement  no-console
+   76:5  warning  Unexpected console statement  no-console
+   79:5  warning  Unexpected console statement  no-console
+   82:9  warning  Unexpected console statement  no-console
+   87:9  warning  Unexpected console statement  no-console
+   91:5  warning  Unexpected console statement  no-console
+   97:9  warning  Unexpected console statement  no-console
+  108:5  warning  Unexpected console statement  no-console
+  122:9  warning  Unexpected console statement  no-console
+  126:5  warning  Unexpected console statement  no-console
+  138:9  warning  Unexpected console statement  no-console
+  141:5  warning  Unexpected console statement  no-console
+  146:5  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\scripts\migrate.js
+  11:9   warning  Unexpected console statement                   no-console
+  15:11  warning  'supabase' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  18:11  warning  'sql' is assigned a value but never used       @typescript-eslint/no-unused-vars
+  20:5   warning  Unexpected console statement                   no-console
+  29:5   warning  Unexpected console statement                   no-console
+  30:5   warning  Unexpected console statement                   no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\scripts\test-hf.ts
+  11:9   warning  Unexpected console statement              no-console
+  15:5   warning  Unexpected console statement              no-console
+  19:9   warning  Unexpected console statement              no-console
+  29:9   warning  Unexpected console statement              no-console
+  30:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  31:9   warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\scripts\test-integrations.ts
+  13:5   warning  Unexpected console statement              no-console
+  23:5   warning  Unexpected console statement              no-console
+  24:5   warning  Unexpected console statement              no-console
+  34:17  warning  Unexpected console statement              no-console
+  36:45  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  40:17  warning  Unexpected console statement              no-console
+  41:17  warning  Unexpected console statement              no-console
+  43:17  warning  Unexpected console statement              no-console
+  45:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  46:13  warning  Unexpected console statement              no-console
+  47:13  warning  Unexpected console statement              no-console
+  52:17  warning  Unexpected console statement              no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\scripts\test-mongo.js
+   8:1  warning  Unexpected console statement  no-console
+   9:1  warning  Unexpected console statement  no-console
+  14:9  warning  Unexpected console statement  no-console
+  17:9  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\scripts\test-submission.ts
+  28:5  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\scripts\test-wandbox.ts
+  11:5  warning  Unexpected console statement  no-console
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\scripts\verify-ai-keys.mjs
+  21:5  warning  Unexpected console statement  no-console
+  30:5  warning  Unexpected console statement  no-console
+  35:7  warning  Unexpected console statement  no-console
+  38:5  warning  Unexpected console statement  no-console
+  45:5  warning  Unexpected console statement  no-console
+  54:5  warning  Unexpected console statement  no-console
+  59:7  warning  Unexpected console statement  no-console
+  62:5  warning  Unexpected console statement  no-console
+  68:3  warning  Unexpected console statement  no-console
+  71:3  warning  Unexpected console statement  no-console
+
+Γ£û 618 problems (7 errors, 611 warnings)
+

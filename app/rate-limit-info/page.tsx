@@ -2,11 +2,11 @@ export default function RateLimitInfo() {
   return (
     <div style={{ padding: '40px', fontFamily: 'Arial, sans-serif', background: 'white', color: 'black', maxWidth: '800px', margin: '0 auto' }}>
       <h1 style={{ color: 'black', fontSize: '28px', marginBottom: '20px' }}>Email Rate Limit Information</h1>
-      
+
       <section style={{ marginBottom: '30px', padding: '20px', background: '#f5f5f5', borderLeft: '4px solid #ff9800' }}>
         <h2 style={{ color: 'black', fontSize: '20px', marginTop: 0 }}>What is this error?</h2>
         <p style={{ color: 'black', fontSize: '14px', lineHeight: '1.6' }}>
-          "Email rate limit exceeded" is a Supabase security feature that limits the number of signup/login attempts 
+          &quot;Email rate limit exceeded&quot; is a Supabase security feature that limits the number of signup/login attempts
           from the same email address to prevent abuse and unauthorized access attempts.
         </p>
       </section>
@@ -16,7 +16,7 @@ export default function RateLimitInfo() {
         <ol style={{ color: 'black', fontSize: '14px', lineHeight: '1.8', paddingLeft: '20px' }}>
           <li><strong>Wait a few minutes (5-15 minutes)</strong> - The rate limit is temporary and will reset automatically</li>
           <li><strong>Use a different email address</strong> - Each email has its own rate limit counter</li>
-          <li><strong>Check your Supabase settings</strong> - If you're self-hosting, you can adjust rate limit settings</li>
+          <li><strong>Check your Supabase settings</strong> - If you&apos;re self-hosting, you can adjust rate limit settings</li>
         </ol>
       </section>
 
@@ -48,9 +48,9 @@ export default function RateLimitInfo() {
       <section style={{ marginBottom: '30px', padding: '20px', background: '#fff3e0', borderLeft: '4px solid #ff6f00' }}>
         <h2 style={{ color: 'black', fontSize: '20px', marginTop: 0 }}>🔧 To Adjust Rate Limits (If Self-Hosted)</h2>
         <p style={{ color: 'black', fontSize: '14px', lineHeight: '1.6' }}>
-          1. Go to your Supabase Dashboard<br/>
-          2. Navigate to Authentication → Providers → Email<br/>
-          3. Adjust "Signup Rate Limit" and "Login Rate Limit" settings<br/>
+          1. Go to your Supabase Dashboard<br />
+          2. Navigate to Authentication → Providers → Email<br />
+          3. Adjust &quot;Signup Rate Limit&quot; and &quot;Login Rate Limit&quot; settings<br />
           4. Save changes
         </p>
       </section>

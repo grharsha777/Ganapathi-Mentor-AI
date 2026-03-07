@@ -7,10 +7,12 @@ import { searchTavily } from './integrations/tavily';
 import { searchArxiv } from './integrations/arxiv';
 import { searchSemanticScholar } from './integrations/semantic-scholar';
 import { searchTMDB } from './integrations/tmdb';
+import { fetchPatientEntities, updatePatientEntity } from './base44';
 
 // Environment Variables
 const MISTRAL_API_KEY = process.env.MISTRAL_API_KEY;
 const GROQ_API_KEY = process.env.GROQ_API_KEY;
+const GROQ_API_KEY_2 = process.env.GROQ_API_KEY_2;
 
 // Define specific interface to avoid import issues
 type Role = 'system' | 'user' | 'assistant' | 'tool';
@@ -21,23 +23,34 @@ interface CoreMessage {
 }
 
 /**
- * Returns the best available AI model instance.
- * Priority: MISTRAL -> GROQ
+ * Returns a randomly selected AI model from the available pool (Groq 1, Groq 2, Mistral).
+ * This load balances requests, ensuring faster responses, reduced hallucination, and lower individual token usage.
  */
 export function getAIModel() {
-  // 1. Mistral AI (Primary)
-  if (MISTRAL_API_KEY) {
-    const mistral = createMistral({ apiKey: MISTRAL_API_KEY });
-    return mistral('mistral-large-latest');
+  const models = [];
+
+  if (process.env.GROQ_API_KEY) {
+    const groq = createGroq({ apiKey: process.env.GROQ_API_KEY });
+    models.push(groq('llama-3.3-70b-versatile'));
   }
 
-  // 2. Groq (Secondary / Fast Inference)
-  if (GROQ_API_KEY) {
-    const groq = createGroq({ apiKey: GROQ_API_KEY });
-    return groq('llama-3.3-70b-versatile');
+  if (process.env.GROQ_API_KEY_2) {
+    const groq2 = createGroq({ apiKey: process.env.GROQ_API_KEY_2 });
+    models.push(groq2('llama-3.3-70b-versatile'));
   }
 
-  throw new Error("No valid API keys found for Mistral or Groq. Please configure MISTRAL_API_KEY or GROQ_API_KEY in .env.local");
+  if (process.env.MISTRAL_API_KEY) {
+    const mistral = createMistral({ apiKey: process.env.MISTRAL_API_KEY });
+    models.push(mistral('mistral-large-latest'));
+  }
+
+  if (models.length === 0) {
+    throw new Error("No valid API keys found for Mistral or Groq in .env.local");
+  }
+
+  // Distribute load evenly across all available active api keys
+  const randomIndex = Math.floor(Math.random() * models.length);
+  return models[randomIndex];
 }
 
 /**
@@ -206,6 +219,34 @@ export const aiTools = {
     execute: async ({ query }: { query: string }) => {
       const results = await searchTMDB(query);
       return results.map(r => `${r.title} (${r.release_date}) - Rating: ${r.vote_average}\nOverview: ${r.overview}`).join('\n\n');
+    },
+  }),
+  fetch_base44_patients: tool({
+    description: 'Fetch all patient records from the primary Base44 API database',
+    inputSchema: z.object({}),
+    execute: async () => {
+      try {
+        const results = await fetchPatientEntities();
+        // Limit to 50 to prevent token explosion
+        return JSON.stringify(results.slice(0, 50));
+      } catch (e: any) {
+        return `Failed to fetch patients: ${e.message}`;
+      }
+    },
+  }),
+  update_base44_patient: tool({
+    description: 'Update a patient record in the primary Base44 API database',
+    inputSchema: z.object({
+      entityId: z.string().describe('The _id of the patient entity to update'),
+      updateData: z.record(z.any()).describe('A partial object containing fields to update like current_risk_score, medical_history, etc.')
+    }),
+    execute: async ({ entityId, updateData }: { entityId: string, updateData: any }) => {
+      try {
+        const result = await updatePatientEntity(entityId, updateData);
+        return `Successfully updated patient. Result: ${JSON.stringify(result)}`;
+      } catch (e: any) {
+        return `Failed to update patient: ${e.message}`;
+      }
     },
   }),
 };

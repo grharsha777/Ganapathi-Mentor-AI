@@ -76,7 +76,7 @@ export function ChatPanel({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                     <div className="space-y-4">
                         {messages.length === 0 && (
                             <div className="text-center text-muted-foreground mt-10">
-                                <p>Hi! I'm your AI Copilot.</p>
+                                <p>Hi! I&apos;m your AI Copilot.</p>
                                 <p className="text-sm mt-2">Ask me to explain concepts, code, or help you debug.</p>
                             </div>
                         )}

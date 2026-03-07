@@ -11,11 +11,18 @@ function generateSlug() {
 
 export async function GET(req: NextRequest) {
     try {
+        const token = req.cookies.get('token')?.value;
+        if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+        const decoded = await verifyToken(token) as any;
+        if (!decoded) return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
+        const userId = decoded.userId || decoded.id;
+
         const conn = await connectSafe();
         if (!conn) return NextResponse.json({ error: 'DB not connected' }, { status: 503 });
 
-        const rooms = await Room.find({ is_active: true })
-            .select('name slug host_name language participants max_participants challenge_id created_at')
+        // Privacy: Return recent rooms where the user is (or was) a participant
+        const rooms = await Room.find({ 'participants.user_id': userId })
+            .select('name slug joinCode host_name language participants max_participants challenge_id created_at')
             .sort({ updated_at: -1 })
             .limit(20)
             .lean();
@@ -49,14 +56,21 @@ export async function POST(req: NextRequest) {
         try {
             const user = await User.findById(userId).select('name').lean();
             if (user) username = (user as any).name || 'Coder';
-        } catch { }
+        } catch (e) {
+            console.error('Failed to fetch user in room creation:', e);
+        }
 
         // CREATE a new room
         if (action === 'create') {
             const slug = generateSlug();
+            const { customAlphabet } = await import('nanoid');
+            const nanoid6 = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyz', 6);
+            const joinCode = nanoid6();
+
             const room = await Room.create({
                 name: name || `${username}'s Room`,
                 slug,
+                joinCode,
                 host_id: userId,
                 host_name: username,
                 language: language || 'python',
@@ -65,13 +79,17 @@ export async function POST(req: NextRequest) {
                 participants: [{ user_id: userId, username, is_active: true }],
             });
 
-            return NextResponse.json({ room: { slug: room.slug, _id: room._id } });
+            return NextResponse.json({ room: { slug: room.slug, joinCode: room.joinCode, _id: room._id } });
         }
 
         // JOIN a room
         if (action === 'join') {
-            const room = await Room.findOne({ slug: roomSlug, is_active: true });
-            if (!room) return NextResponse.json({ error: 'Room not found' }, { status: 404 });
+            const room = await Room.findOne({
+                $or: [{ slug: roomSlug }, { joinCode: roomSlug }]
+            });
+            if (!room) return NextResponse.json({ error: 'Room not found or invalid code' }, { status: 404 });
+
+            room.is_active = true; // Reactivate if it was empty
 
             const existingParticipant = room.participants.find((p: any) => p.user_id === userId);
             if (existingParticipant) {
@@ -87,7 +105,7 @@ export async function POST(req: NextRequest) {
 
             return NextResponse.json({
                 room: {
-                    _id: room._id, name: room.name, slug: room.slug,
+                    _id: room._id, name: room.name, slug: room.slug, joinCode: room.joinCode,
                     host_name: room.host_name, language: room.language,
                     code: room.code, participants: room.participants.filter((p: any) => p.is_active),
                     chat_messages: room.chat_messages?.slice(-50),

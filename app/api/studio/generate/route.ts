@@ -89,39 +89,60 @@ export async function POST(req: NextRequest) {
     }
 
     let image: string | null = null;
+    let usedProvider: string = '';
 
-    // 1. Try Freepik first (configured & working)
+    // 1. Try Freepik first (configured & working with rotation)
     if (!image && isFreepikConfigured()) {
       try {
+        console.log(`[Studio] Attempting Freepik gen for: "${prompt}"`);
         const result = await freepikGenerate({ prompt, num_images: 1, image_size: 'square' });
         const img = result.images?.[0];
-        if (img?.url) image = img.url;
-        else if (img?.base64) image = `data:image/png;base64,${img.base64}`;
-      } catch (e) {
-        console.error('Freepik image gen error:', e);
+        if (img?.url) {
+          image = img.url;
+          usedProvider = 'freepik';
+        } else if (img?.base64) {
+          image = `data:image/png;base64,${img.base64}`;
+          usedProvider = 'freepik';
+        }
+      } catch (e: any) {
+        console.error('[Studio] Freepik primary/fallback failed:', e.message);
       }
     }
 
     // 2. Try Stability
-    if (!image) {
-      image = await generateWithStability(prompt);
+    if (!image && STABILITY_API_KEY) {
+      try {
+        console.log(`[Studio] Falling back to Stability for: "${prompt}"`);
+        image = await generateWithStability(prompt);
+        if (image) usedProvider = 'stability';
+      } catch (e: any) {
+        console.error('[Studio] Stability fallback failed:', e.message);
+      }
     }
 
     // 3. Try AIMLAPI
-    if (!image) {
-      image = await generateWithAIMLAPI(prompt);
+    if (!image && AIMLAPI_API_KEY) {
+      try {
+        console.log(`[Studio] Falling back to AIMLAPI for: "${prompt}"`);
+        image = await generateWithAIMLAPI(prompt);
+        if (image) usedProvider = 'aimlapi';
+      } catch (e: any) {
+        console.error('[Studio] AIMLAPI fallback failed:', e.message);
+      }
     }
 
     if (!image) {
+      console.error('[Studio] All image providers failed for prompt:', prompt);
       return NextResponse.json(
-        { error: 'Image generation failed across all providers. Please try again.' },
+        { error: 'Image generation failed across all providers. Check your API quotas and environment variables.' },
         { status: 500 }
       );
     }
 
-    return NextResponse.json({ image });
+    console.log(`[Studio] Successfully generated image using ${usedProvider}`);
+    return NextResponse.json({ image, provider: usedProvider });
   } catch (error: unknown) {
-    console.error('Studio generate error:', error);
+    console.error('[Studio] Global generate error:', error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Generation failed' },
       { status: 500 }

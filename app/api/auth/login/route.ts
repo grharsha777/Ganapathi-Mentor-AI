@@ -22,10 +22,13 @@ export async function POST(req: NextRequest) {
     const isMatch = await bcrypt.compare(password, user.password_hash);
 
     if (!isMatch) {
+      console.warn(`Login failed for email: ${email} - Password mismatch.`);
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
     }
+    console.log(`Password matched for user: ${user.email}. Generating token.`);
 
-    const token = await signToken({ userId: user._id, email: user.email, role: user.role });
+    const token = await signToken({ userId: user._id.toString(), email: user.email, role: user.role });
+    console.log(`Token generated for user: ${user.email}.`);
 
     const response = NextResponse.json({
       user: {
@@ -36,6 +39,7 @@ export async function POST(req: NextRequest) {
       },
       token
     });
+    console.log(`Setting authentication cookie for user: ${user.email}.`);
 
     response.cookies.set('token', token, {
       httpOnly: true,
@@ -47,7 +51,14 @@ export async function POST(req: NextRequest) {
     return response;
 
   } catch (error: any) {
-    console.error('Login error:', error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    console.error('Detailed login error:', {
+      message: error.message,
+      stack: error.stack,
+      name: error.name
+    });
+    return NextResponse.json({
+      error: 'Internal Server Error',
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+    }, { status: 500 });
   }
 }

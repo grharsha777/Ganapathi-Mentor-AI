@@ -10,6 +10,7 @@ const ParticipantSchema = new mongoose.Schema({
 const RoomSchema = new mongoose.Schema({
     name: { type: String, required: true },
     slug: { type: String, required: true, unique: true, index: true },
+    joinCode: { type: String, required: true, unique: true },
     host_id: { type: String, required: true },
     host_name: { type: String, default: '' },
     challenge_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Challenge', default: null },

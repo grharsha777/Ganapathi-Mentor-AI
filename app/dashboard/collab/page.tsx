@@ -152,7 +152,9 @@ export default function CollabPage() {
                         return prevLang;
                     });
                 }
-            } catch { }
+            } catch (e) {
+                console.error('Room sync failed:', e);
+            }
         }, 1000);
     };
 
@@ -165,7 +167,9 @@ export default function CollabPage() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ action: 'sync', roomSlug: room.slug, code: newCode, language: forceLanguage || language }),
             });
-        } catch { }
+        } catch (e) {
+            console.error('Room sync failed:', e);
+        }
     }, [room, language]);
 
     const syncTimerRef = useRef<any>(null);
@@ -193,7 +197,9 @@ export default function CollabPage() {
                 body: JSON.stringify({ action: 'chat', roomSlug: room.slug, message: chatInput }),
             });
             setChatInput('');
-        } catch { }
+        } catch (e) {
+            console.error('Failed to send chat message:', e);
+        }
     };
 
     // Execute Code
@@ -265,7 +271,9 @@ export default function CollabPage() {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ action: 'leave', roomSlug: room.slug }),
                 });
-            } catch { }
+            } catch (e) {
+                console.error('Failed to leave room:', e);
+            }
         }
         setRoom(null);
         setState('lobby');
@@ -274,7 +282,7 @@ export default function CollabPage() {
 
     const copyLink = () => {
         if (!room) return;
-        navigator.clipboard.writeText(room.slug);
+        navigator.clipboard.writeText(room.joinCode);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
     };
@@ -326,10 +334,10 @@ export default function CollabPage() {
                     </CardHeader>
                     <CardContent className="flex gap-3">
                         <Input
-                            placeholder="Paste room code..."
+                            placeholder="Paste 6-character room code..."
                             value={joinSlug}
                             onChange={(e) => setJoinSlug(e.target.value)}
-                            className="bg-background/50 border-white/10 flex-1 font-mono"
+                            className="bg-background/50 border-white/10 flex-1 font-mono uppercase"
                         />
                         <Button onClick={() => joinRoom(joinSlug)} disabled={joining || !joinSlug.trim()} variant="outline">
                             {joining ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <LogIn className="h-4 w-4 mr-2" />}
@@ -339,14 +347,14 @@ export default function CollabPage() {
                 </Card>
 
                 {/* Active Rooms */}
-                <h3 className="text-lg font-bold mb-4">🟢 Active Rooms</h3>
+                <h3 className="text-lg font-bold mb-4">🟢 Your Recent Rooms</h3>
                 {loadingRooms ? (
                     <div className="flex justify-center py-12"><Loader2 className="h-6 w-6 animate-spin text-muted-foreground" /></div>
                 ) : rooms.length === 0 ? (
                     <Card className="border-dashed border-white/10 bg-background/30 text-center py-12">
                         <CardContent>
                             <Users2 className="h-12 w-12 mx-auto mb-3 text-muted-foreground opacity-30" />
-                            <p className="text-muted-foreground">No active rooms. Create one to get started!</p>
+                            <p className="text-muted-foreground">You have no recent rooms. Create one to get started!</p>
                         </CardContent>
                     </Card>
                 ) : (
@@ -387,9 +395,12 @@ export default function CollabPage() {
                     </div>
                 </div>
                 <div className="flex items-center gap-2">
+                    <div className="hidden sm:flex items-center text-xs text-muted-foreground bg-black/20 px-3 py-1.5 rounded-md border border-white/5 mr-2">
+                        Room Code: <span className="font-mono text-white ml-2 tracking-widest">{room?.joinCode}</span>
+                    </div>
                     <Button variant="outline" size="sm" onClick={copyLink} className="text-xs border-white/10">
                         {copied ? <Check className="h-3 w-3 mr-1 text-emerald-400" /> : <Copy className="h-3 w-3 mr-1" />}
-                        {copied ? 'Copied!' : room?.slug}
+                        {copied ? 'Copied!' : 'Copy Code'}
                     </Button>
                     <Button variant="outline" size="sm" onClick={leaveRoom} className="text-xs border-red-500/30 text-red-400 hover:bg-red-500/10">
                         <LogOut className="h-3 w-3 mr-1" /> Leave
