@@ -13,7 +13,15 @@ const UserSchema = new Schema({
         completed_lessons: { type: Number, default: 0 },
         current_streak: { type: Number, default: 0 },
         longest_streak: { type: Number, default: 0 },
-        last_active: { type: Date, default: Date.now }
+        last_active: { type: Date, default: Date.now },
+        activities: [{
+            id: { type: String, required: true },
+            title: { type: String, required: true },
+            type: { type: String, required: true },
+            xpEarned: { type: Number, required: true },
+            timeAgo: { type: String, default: 'Recent' },
+            createdAt: { type: Date, default: Date.now }
+        }]
     },
     created_at: { type: Date, default: Date.now },
     updated_at: { type: Date, default: Date.now },

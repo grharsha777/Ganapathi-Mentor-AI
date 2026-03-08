@@ -50,13 +50,26 @@ export async function POST(req: NextRequest) {
             // Award points for completing a session (e.g., 50 points base + bonus for length, but stick to simple 50 for now)
             const newPoints = (user.metrics?.practice_points || 0) + 50;
 
+            const activities = user.metrics?.activities || [];
+            activities.unshift({
+                id: crypto.randomUUID(),
+                title: 'Completed Study Session',
+                type: 'Session',
+                xpEarned: 50,
+                timeAgo: 'Just now',
+                createdAt: new Date()
+            });
+
+            if (activities.length > 10) activities.pop();
+
             user.metrics = {
                 ...user.metrics,
                 total_sessions: newTotalSessions,
                 practice_points: newPoints,
                 current_streak: newStreak,
                 longest_streak: Math.max(user.metrics?.longest_streak || 0, newStreak),
-                last_active: now
+                last_active: now,
+                activities: activities
             };
             await user.save();
         }

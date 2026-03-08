@@ -27,7 +27,8 @@ export async function GET(req: NextRequest) {
                 completed_lessons: 0,
                 current_streak: 0,
                 longest_streak: 0,
-                last_active: new Date()
+                last_active: new Date(),
+                activities: []
             }
         }
     });

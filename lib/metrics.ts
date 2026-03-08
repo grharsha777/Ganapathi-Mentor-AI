@@ -89,8 +89,20 @@ export async function awardChallengeXP(userId: string, difficulty: string) {
         };
     }
 
+    const activities = user.metrics.activities || [];
+    activities.unshift({
+        id: crypto.randomUUID(),
+        title: `Completed ${difficulty} Challenge`,
+        type: 'Challenge',
+        xpEarned: points,
+        timeAgo: 'Just now',
+        createdAt: new Date()
+    });
+    if (activities.length > 10) activities.pop();
+
     user.metrics.practice_points = (user.metrics.practice_points || 0) + points;
     user.metrics.last_active = new Date();
+    user.metrics.activities = activities;
 
     await user.save();
     return user;

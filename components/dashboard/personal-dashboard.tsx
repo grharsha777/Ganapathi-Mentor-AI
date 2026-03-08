@@ -1,6 +1,7 @@
 "use client"
 
-import { useState, useEffect, memo } from 'react';
+import { memo } from 'react';
+import useSWR from 'swr';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -91,66 +92,33 @@ const LeaderboardItem = memo(({ user, currentUserId }: { user: LeaderboardUser; 
 });
 LeaderboardItem.displayName = 'LeaderboardItem';
 
+const fetcher = (url: string) => fetch(url).then(res => res.json());
+
 export default function PersonalDashboard() {
-    const [stats, setStats] = useState<UserStats | null>(null);
-    const [leaderboard, setLeaderboard] = useState<LeaderboardUser[]>([]);
-    const [activities, setActivities] = useState<Activity[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [currentUserId, setCurrentUserId] = useState<string>('');
+    const { data: meRes, isLoading: meLoading } = useSWR('/api/auth/me', fetcher, { refreshInterval: 5000 });
+    const { data: lbRes, isLoading: lbLoading } = useSWR('/api/leaderboard', fetcher, { refreshInterval: 30000 });
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                // Fetch personal stats
-                const meRes = await fetch('/api/auth/me');
-                if (meRes.ok) {
-                    const meData = await meRes.json();
-                    if (meData.user) {
-                        setCurrentUserId(meData.user.id);
-                        const m = meData.user.metrics || {};
-                        const xp = m.practice_points || 0;
-                        const level = xp >= 1000 ? 'Architect III' :
-                            xp >= 500 ? 'Architect II' :
-                                xp >= 200 ? 'Architect I' :
-                                    xp >= 100 ? 'Senior Developer' :
-                                        xp >= 50 ? 'Intermediate' : 'Junior Developer';
+    const loading = meLoading || lbLoading;
+    const currentUserId = meRes?.user?.id || '';
 
-                        setStats({
-                            streak: m.current_streak || 0,
-                            skillsMastered: m.completed_lessons || 0,
-                            weeklyGoal: Math.min(100, (m.completed_lessons || 0) * 10 + (m.total_sessions || 0) * 5),
-                            xpPoints: xp,
-                            level: level
-                        });
-                    }
-                }
+    const m = meRes?.user?.metrics || {};
+    const xp = m.practice_points || 0;
+    const level = xp >= 1000 ? 'Architect III' :
+        xp >= 500 ? 'Architect II' :
+            xp >= 200 ? 'Architect I' :
+                xp >= 100 ? 'Senior Developer' :
+                    xp >= 50 ? 'Intermediate' : 'Junior Developer';
 
-                // Fetch leaderboard
-                const lbRes = await fetch('/api/leaderboard');
-                if (lbRes.ok) {
-                    const lbData = await lbRes.json();
-                    setLeaderboard(lbData.leaderboard || []);
-                }
+    const stats: UserStats = {
+        streak: m.current_streak || 0,
+        skillsMastered: m.completed_lessons || 0,
+        weeklyGoal: Math.min(100, (m.completed_lessons || 0) * 10 + (m.total_sessions || 0) * 5),
+        xpPoints: xp,
+        level: level
+    };
 
-                // Activities Mock (leave as is for UI structure unless db schema supports activities)
-                setActivities([
-                    { id: '1', title: 'Completed "Advanced TypeScript Patterns"', type: 'Milestone', xpEarned: 50, timeAgo: 'Recent' },
-                    { id: '2', title: 'Practice Session', type: 'Session', xpEarned: 30, timeAgo: 'Recent' },
-                ]);
-
-            } catch (error) {
-                console.error('Failed to fetch dashboard data:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchData();
-
-        // Polling for live updates (optional but good for 'real-time' feel)
-        const interval = setInterval(fetchData, 30000);
-        return () => clearInterval(interval);
-    }, []);
+    const leaderboard: LeaderboardUser[] = lbRes?.leaderboard || [];
+    const activities: Activity[] = m.activities || [];
 
     if (loading) {
         return (
@@ -241,23 +209,31 @@ export default function PersonalDashboard() {
                     >
                         <Card className="glass-card border-0 overflow-hidden">
                             <CardContent className="p-0">
-                                {activities.map((activity) => (
-                                    <div key={activity.id} className="flex items-center gap-6 p-6 border-b border-border/40 last:border-0 hover:bg-white/5 transition-colors group">
-                                        <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
-                                            <BookOpen className="h-7 w-7" />
-                                        </div>
-                                        <div className="flex-1">
-                                            <p className="font-bold text-lg group-hover:text-primary transition-colors">{activity.title}</p>
-                                            <p className="text-sm text-muted-foreground mt-1 flex items-center gap-2">
-                                                <span className="bg-primary/10 px-2 py-0.5 rounded text-primary text-xs font-semibold uppercase">{activity.type}</span>
-                                                <span>• {activity.timeAgo}</span>
-                                            </p>
-                                        </div>
-                                        <Badge variant="secondary" className="bg-green-500/10 text-green-500 border-green-500/20 px-3 py-1 text-sm font-bold">
-                                            +{activity.xpEarned} XP
-                                        </Badge>
+                                {activities.length === 0 ? (
+                                    <div className="flex flex-col items-center justify-center p-8 text-center opacity-70">
+                                        <BookOpen className="h-12 w-12 text-muted-foreground mb-4" />
+                                        <p className="text-lg font-bold">No Recent Activity</p>
+                                        <p className="text-sm text-muted-foreground">Start a challenge or session to see your progress here.</p>
                                     </div>
-                                ))}
+                                ) : (
+                                    activities.map((activity) => (
+                                        <div key={activity.id} className="flex items-center gap-6 p-6 border-b border-border/40 last:border-0 hover:bg-white/5 transition-colors group">
+                                            <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+                                                <BookOpen className="h-7 w-7" />
+                                            </div>
+                                            <div className="flex-1">
+                                                <p className="font-bold text-lg group-hover:text-primary transition-colors">{activity.title}</p>
+                                                <p className="text-sm text-muted-foreground mt-1 flex items-center gap-2">
+                                                    <span className="bg-primary/10 px-2 py-0.5 rounded text-primary text-xs font-semibold uppercase">{activity.type}</span>
+                                                    <span>• {activity.timeAgo || 'Recent'}</span>
+                                                </p>
+                                            </div>
+                                            <Badge variant="secondary" className="bg-green-500/10 text-green-500 border-green-500/20 px-3 py-1 text-sm font-bold">
+                                                +{activity.xpEarned} XP
+                                            </Badge>
+                                        </div>
+                                    ))
+                                )}
                             </CardContent>
                         </Card>
                     </Section>
