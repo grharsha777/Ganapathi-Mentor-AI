@@ -1,6 +1,6 @@
 /**
  * Learning path API - AI or template fallback
- * Required env for AI: OPENAI_API_KEY, GEMINI_API_KEY, GROQ_API_KEY, MISTRAL_API_KEY, or KIMI_API_KEY
+ * Supports custom durations from 1 week to 3 months
  */
 import { NextRequest, NextResponse } from 'next/server';
 import { connectSafe } from '@/lib/mongodb';
@@ -26,16 +26,37 @@ const roadmapSchema = z.object({
     })),
 });
 
-const TEMPLATE_ROADMAP = (role: string) => ({
-    title: `${role} Mastery Path`,
-    description: `A 4-week journey to master ${role}. Configure an LLM API key for AI-generated roadmaps.`,
-    milestones: [
-        { week: 1, title: 'Foundations', description: 'Core concepts and setup', resources: [{ title: 'Getting Started', url: 'https://example.com', type: 'article' as const, is_completed: false }] },
-        { week: 2, title: 'Intermediate Skills', description: 'Build on basics', resources: [{ title: 'Deep Dive', url: 'https://example.com', type: 'video' as const, is_completed: false }] },
-        { week: 3, title: 'Advanced Topics', description: 'Master complex patterns', resources: [{ title: 'Advanced Guide', url: 'https://example.com', type: 'doc' as const, is_completed: false }] },
-        { week: 4, title: 'Project Practice', description: 'Apply learning', resources: [{ title: 'Capstone', url: 'https://example.com', type: 'course' as const, is_completed: false }] },
-    ],
-});
+function generateTemplateMilestones(role: string, weeks: number) {
+    const phases = [
+        { title: 'Foundations & Setup', description: 'Core concepts, environment setup, and fundamentals' },
+        { title: 'Core Skills', description: 'Build essential skills and practical knowledge' },
+        { title: 'Intermediate Patterns', description: 'Design patterns, best practices, and architecture' },
+        { title: 'Advanced Techniques', description: 'Performance optimization and advanced strategies' },
+        { title: 'Real-World Projects', description: 'Build production-grade applications' },
+        { title: 'System Design', description: 'Large-scale architecture and distributed systems' },
+        { title: 'Testing & DevOps', description: 'CI/CD, testing strategies, and deployment' },
+        { title: 'Leadership & Mentoring', description: 'Code reviews, tech leadership, and team growth' },
+        { title: 'Specialization Deep Dive', description: 'Domain-specific expertise and cutting-edge tech' },
+        { title: 'Portfolio & Career', description: 'Showcase work and interview preparation' },
+        { title: 'Open Source & Community', description: 'Contributing to OSS and building reputation' },
+        { title: 'Capstone Mastery', description: 'Final comprehensive project demonstrating all skills' },
+    ];
+
+    const milestones = [];
+    for (let i = 0; i < weeks; i++) {
+        const phase = phases[i % phases.length];
+        milestones.push({
+            week: i + 1,
+            title: `Week ${i + 1}: ${phase.title}`,
+            description: phase.description,
+            resources: [
+                { title: `${role} - ${phase.title} Tutorial`, url: 'https://youtube.com/results?search_query=' + encodeURIComponent(`${role} ${phase.title} tutorial 2025`), type: 'video' as const, is_completed: false },
+                { title: `${phase.title} Guide`, url: 'https://google.com/search?q=' + encodeURIComponent(`${role} ${phase.title} guide`), type: 'article' as const, is_completed: false },
+            ],
+        });
+    }
+    return milestones;
+}
 
 export async function POST(req: NextRequest) {
     try {
@@ -45,23 +66,41 @@ export async function POST(req: NextRequest) {
         const decoded = (await verifyToken(token)) as { userId: string } | null;
         if (!decoded) return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
 
-        const { role, repoUrl, focusAreas } = await req.json();
+        const { role, repoUrl, focusAreas, durationWeeks = 4, level = 'Intermediate' } = await req.json();
         const roleStr = role || 'Developer';
+        const weeks = Math.max(1, Math.min(12, durationWeeks));
 
         const model = getAIModelOrNull();
         let roadmap;
 
         if (model && isAIConfigured()) {
             try {
-                const prompt = `Create a personalized 4-week learning roadmap for a ${roleStr}. Focus: ${focusAreas || 'General improvement'}. Provide 4 milestones (1 per week) with resources (title, url, type: video|article|doc|course).`;
+                const prompt = `Create a personalized ${weeks}-week learning roadmap for a ${level} level ${roleStr}.
+Focus areas: ${focusAreas || 'General improvement'}.
+CRITICAL REQUIREMENTS:
+- Generate exactly ${weeks} milestones (1 per week).
+- Each milestone MUST have 5-10 resources.
+- Resources MUST include real YouTube video URLs (use format https://www.youtube.com/results?search_query=TOPIC).
+- Mix resource types: at least 3 videos, 2 articles, 1 documentation link per milestone.
+- Make titles descriptive and specific to the topic.
+- Progress from fundamentals to advanced over the ${weeks} weeks.
+- Tailor difficulty to ${level} level.`;
                 const { object } = await generateObject({ model, schema: roadmapSchema, prompt });
                 roadmap = object;
             } catch (e) {
                 console.warn('AI roadmap failed, using template:', e);
-                roadmap = TEMPLATE_ROADMAP(roleStr);
+                roadmap = {
+                    title: `${roleStr} Mastery Path`,
+                    description: `A ${weeks}-week journey to master ${roleStr}. Configure an LLM API key for AI-generated roadmaps.`,
+                    milestones: generateTemplateMilestones(roleStr, weeks),
+                };
             }
         } else {
-            roadmap = TEMPLATE_ROADMAP(roleStr);
+            roadmap = {
+                title: `${roleStr} Mastery Path`,
+                description: `A ${weeks}-week journey to master ${roleStr}. Configure an LLM API key for AI-generated roadmaps.`,
+                milestones: generateTemplateMilestones(roleStr, weeks),
+            };
         }
 
         const conn = await connectSafe();

@@ -1,42 +1,52 @@
 'use client'
 
+import { useState } from 'react'
 import { Tool, CATEGORY_META } from './data'
-import { ExternalLink, Heart, Star, Zap } from 'lucide-react'
+import { ExternalLink, Heart, Zap, Star, Sparkles, Send, Loader2, Copy, Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 
 interface ToolCardProps {
     tool: Tool
     isFavorite?: boolean
     onToggleFavorite?: (toolId: string) => void
     onShowPrompt?: (tool: Tool) => void
+    onSelect?: (tool: Tool) => void
 }
 
-export function ToolCard({ tool, isFavorite, onToggleFavorite, onShowPrompt }: ToolCardProps) {
+export function ToolCard({ tool, isFavorite, onToggleFavorite, onShowPrompt, onSelect }: ToolCardProps) {
     const catMeta = CATEGORY_META[tool.category]
 
     return (
         <div
+            onClick={() => onSelect?.(tool)}
             className={cn(
-                'group relative rounded-xl border border-border/50 bg-card/80 backdrop-blur-sm',
-                'p-4 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5',
-                'hover:border-primary/30 hover:-translate-y-0.5'
+                'group relative rounded-2xl border-2 border-border/30 bg-card/80 backdrop-blur-sm cursor-pointer',
+                'p-5 transition-all duration-400 ease-out',
+                'hover:shadow-2xl hover:shadow-primary/10 hover:border-primary/40',
+                'hover:-translate-y-1 hover:scale-[1.02]',
+                'active:scale-[0.98]'
             )}
         >
+            {/* Glow Effect on Hover */}
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
             {/* Header */}
-            <div className="flex items-start justify-between gap-2 mb-3">
-                <div className="flex items-center gap-2.5 min-w-0">
-                    <span className="text-2xl flex-shrink-0">{tool.icon}</span>
+            <div className="relative z-10 flex items-start justify-between gap-3 mb-4">
+                <div className="flex items-center gap-3 min-w-0">
+                    <span className="text-4xl flex-shrink-0 drop-shadow-sm">{tool.icon}</span>
                     <div className="min-w-0">
-                        <h3 className="font-semibold text-sm truncate">{tool.name}</h3>
-                        <div className="flex items-center gap-1.5 mt-0.5">
+                        <h3 className="font-bold text-lg truncate">{tool.name}</h3>
+                        <div className="flex items-center gap-2 mt-1 flex-wrap">
                             <span
-                                className="text-[10px] font-medium px-1.5 py-0.5 rounded-full"
+                                className="text-xs font-semibold px-2.5 py-1 rounded-full"
                                 style={{ backgroundColor: catMeta.color + '20', color: catMeta.color }}
                             >
                                 {catMeta.label}
                             </span>
                             {tool.noSignup && (
-                                <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-green-500/15 text-green-400">
+                                <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-green-500/15 text-green-400">
                                     No Signup
                                 </span>
                             )}
@@ -46,47 +56,48 @@ export function ToolCard({ tool, isFavorite, onToggleFavorite, onShowPrompt }: T
 
                 {/* Favorite */}
                 <button
-                    onClick={() => onToggleFavorite?.(tool.id)}
-                    className="flex-shrink-0 p-1 rounded-md hover:bg-muted transition-colors"
+                    onClick={(e) => { e.stopPropagation(); onToggleFavorite?.(tool.id); }}
+                    className="flex-shrink-0 p-2 rounded-xl hover:bg-muted transition-colors"
                 >
                     <Heart
                         className={cn(
-                            'h-3.5 w-3.5 transition-colors',
-                            isFavorite ? 'fill-red-500 text-red-500' : 'text-muted-foreground'
+                            'h-5 w-5 transition-all',
+                            isFavorite ? 'fill-red-500 text-red-500 scale-110' : 'text-muted-foreground'
                         )}
                     />
                 </button>
             </div>
 
             {/* Description */}
-            <p className="text-xs text-muted-foreground leading-relaxed mb-3 line-clamp-2">
+            <p className="relative z-10 text-sm text-muted-foreground leading-relaxed mb-4 line-clamp-2">
                 {tool.description}
             </p>
 
             {/* Pricing Badge */}
-            <div className="flex items-center gap-1.5 mb-3">
-                <span
+            <div className="relative z-10 flex items-center gap-2 mb-4">
+                <Badge
+                    variant="outline"
                     className={cn(
-                        'text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider',
+                        'text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider border-2',
                         tool.pricing === 'Free'
-                            ? 'bg-emerald-500/15 text-emerald-400'
+                            ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400'
                             : tool.pricing === 'Freemium'
-                                ? 'bg-blue-500/15 text-blue-400'
+                                ? 'border-blue-500/30 bg-blue-500/10 text-blue-400'
                                 : tool.pricing === 'Free Trial'
-                                    ? 'bg-amber-500/15 text-amber-400'
-                                    : 'bg-purple-500/15 text-purple-400'
+                                    ? 'border-amber-500/30 bg-amber-500/10 text-amber-400'
+                                    : 'border-purple-500/30 bg-purple-500/10 text-purple-400'
                     )}
                 >
                     {tool.pricing}
-                </span>
+                </Badge>
             </div>
 
             {/* Tags */}
-            <div className="flex flex-wrap gap-1 mb-3">
-                {tool.tags.slice(0, 3).map((tag) => (
+            <div className="relative z-10 flex flex-wrap gap-1.5 mb-4">
+                {tool.tags.slice(0, 4).map((tag) => (
                     <span
                         key={tag}
-                        className="text-[10px] px-1.5 py-0.5 rounded bg-muted text-muted-foreground"
+                        className="text-xs px-2 py-1 rounded-lg bg-muted/80 text-muted-foreground font-medium"
                     >
                         #{tag}
                     </span>
@@ -94,31 +105,34 @@ export function ToolCard({ tool, isFavorite, onToggleFavorite, onShowPrompt }: T
             </div>
 
             {/* Actions */}
-            <div className="flex items-center gap-2">
+            <div className="relative z-10 flex items-center gap-2">
                 <a
                     href={tool.url}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
                     className={cn(
-                        'flex-1 flex items-center justify-center gap-1.5 text-xs font-medium',
-                        'py-2 rounded-lg transition-all duration-200',
-                        'bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground'
+                        'flex-1 flex items-center justify-center gap-2 text-sm font-bold',
+                        'py-3 rounded-xl transition-all duration-300',
+                        'bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground',
+                        'shadow-sm hover:shadow-lg hover:shadow-primary/10'
                     )}
                 >
-                    <ExternalLink className="h-3 w-3" />
-                    Open
+                    <ExternalLink className="h-4 w-4" />
+                    Open App
                 </a>
 
                 {tool.hackathonPrompt && (
                     <button
-                        onClick={() => onShowPrompt?.(tool)}
+                        onClick={(e) => { e.stopPropagation(); onShowPrompt?.(tool); }}
                         className={cn(
-                            'flex items-center justify-center gap-1.5 text-xs font-medium',
-                            'py-2 px-3 rounded-lg transition-all duration-200',
-                            'bg-amber-500/10 text-amber-400 hover:bg-amber-500/20'
+                            'flex items-center justify-center gap-2 text-sm font-bold',
+                            'py-3 px-4 rounded-xl transition-all duration-300',
+                            'bg-amber-500/10 text-amber-400 hover:bg-amber-500/20',
+                            'shadow-sm hover:shadow-lg hover:shadow-amber-500/10'
                         )}
                     >
-                        <Zap className="h-3 w-3" />
+                        <Zap className="h-4 w-4" />
                         Prompt
                     </button>
                 )}
