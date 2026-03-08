@@ -77,6 +77,17 @@ export async function GET(req: NextRequest) {
 
   } catch (error: any) {
     console.error('OAuth Callback Error:', error);
-    return NextResponse.redirect(new URL(`/auth/error?message=${encodeURIComponent(error.message)}`, req.url));
+    const errorMessage = error.message || 'An unknown error occurred during authentication';
+    // Provide more context for common errors
+    let userFriendlyMessage = errorMessage;
+    if (errorMessage.includes('Failed to fetch tokens')) {
+      userFriendlyMessage = 'Google authentication failed (token exchange). Please check your GOOGLE_CLIENT_SECRET.';
+    } else if (errorMessage.includes('Failed to get user profile')) {
+      userFriendlyMessage = 'Google authentication failed (profile retrieval).';
+    } else if (errorMessage.includes('MONGODB_URI')) {
+      userFriendlyMessage = 'Database connection error. Please configure MONGODB_URI.';
+    }
+
+    return NextResponse.redirect(new URL(`/auth/error?message=${encodeURIComponent(userFriendlyMessage)}`, req.url));
   }
 }
