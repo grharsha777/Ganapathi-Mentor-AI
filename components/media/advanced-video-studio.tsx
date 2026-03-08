@@ -11,7 +11,7 @@ import {
     CheckCircle2, AlertCircle, RefreshCcw,
     Settings2, Clock, Ratio, Palette,
     Volume2, VolumeX, Play, Pause,
-    RotateCcw, Maximize2, ChevronDown
+    RotateCcw, Maximize2, ChevronDown, Lock
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
@@ -176,10 +176,34 @@ export function AdvancedVideoStudio() {
         else { videoRef.current.pause(); setIsPlaying(false) }
     }
 
+    const [isSubscribed] = useState(false)
+
     return (
-        <div className="min-h-screen">
+        <div className="min-h-screen relative">
+            {!isSubscribed && (
+                <div className="absolute inset-x-0 top-0 bottom-[-100px] z-50 flex items-center justify-center backdrop-blur-md bg-[#000000]/60 rounded-3xl pb-32">
+                    <div className="text-center space-y-6 max-w-md mx-auto p-10 rounded-3xl bg-[#0A0A12] border border-cyan-500/30 shadow-[0_0_80px_-15px_rgba(6,182,212,0.3)]">
+                        <div className="mx-auto w-20 h-20 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 flex items-center justify-center border border-cyan-500/30">
+                            <Lock className="h-10 w-10 text-cyan-400" />
+                        </div>
+                        <div className="space-y-3">
+                            <h2 className="text-2xl font-black text-white tracking-tight">Studio Access Locked</h2>
+                            <p className="text-sm text-gray-400 leading-relaxed">
+                                Advanced AI Video Generation is incredibly resource-intensive. This feature and its API keys are exclusively available for our premium members.
+                            </p>
+                        </div>
+                        <Button className="w-full h-14 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-black uppercase tracking-widest text-[12px] shadow-lg shadow-cyan-500/25 hover:scale-[1.02] active:scale-[0.98] transition-all">
+                            Upgrade Plan
+                        </Button>
+                        <p className="text-[11px] text-emerald-400/80 font-bold uppercase tracking-widest pt-2 flex items-center justify-center gap-1.5">
+                            <Sparkles className="h-3 w-3" /> Subscribe to get the best benefit
+                        </p>
+                    </div>
+                </div>
+            )}
+
             {/* Top Status Bar */}
-            <div className="flex items-center justify-between mb-6 px-2">
+            <div className={cn("flex items-center justify-between mb-6 px-2", !isSubscribed && "opacity-20 pointer-events-none")}>
                 <div className="flex items-center gap-3">
                     <div className="relative">
                         <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
@@ -195,7 +219,7 @@ export function AdvancedVideoStudio() {
                 </div>
             </div>
 
-            <div className="grid xl:grid-cols-[1fr_380px] gap-6">
+            <div className={cn("grid xl:grid-cols-[1fr_380px] gap-6", !isSubscribed && "opacity-20 pointer-events-none")}>
                 {/* Main Panel */}
                 <div className="space-y-6">
                     {/* Cinema Display */}
