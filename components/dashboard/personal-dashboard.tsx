@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Trophy, Flame, Target, BookOpen, Star, ArrowUpRight, Crown, Medal, Award, Zap, TrendingUp } from 'lucide-react';
+import { Trophy, Flame, Target, BookOpen, Star, ArrowUpRight, Crown, Medal, Award, Zap, TrendingUp, Terminal } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { GridContainer } from '@/components/layout/GridContainer';
 import { Section } from '@/components/layout/Section';
@@ -194,6 +194,46 @@ export default function PersonalDashboard() {
                                         <Link href="/dashboard/challenges">
                                             Start Challenge
                                             <ArrowUpRight className="ml-2 h-5 w-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                                        </Link>
+                                    </Button>
+                                </CardContent>
+                            </Card>
+
+                            <Card className="group relative overflow-hidden glass-card border-0">
+                                <div className="absolute top-0 left-0 w-1 h-full bg-cyan-500/80 group-hover:w-2 transition-all duration-300" />
+                                <CardHeader className="pb-4">
+                                    <div className="flex justify-between items-start">
+                                        <Badge variant="outline" className="border-cyan-500/30 text-cyan-400 bg-cyan-500/5">DevOps Studio</Badge>
+                                        <span className="text-sm text-muted-foreground font-semibold flex items-center bg-card/50 px-2 py-1 rounded-full"><Trophy className="h-3 w-3 mr-1" /> New</span>
+                                    </div>
+                                    <CardTitle className="text-2xl mt-4 group-hover:text-cyan-400 transition-colors">AI DevOps Inspector</CardTitle>
+                                    <CardDescription className="text-lg mt-2">Paste your Docker or K8s config and get instant AI security audits & auto-fixes.</CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <Button size="lg" className="w-full bg-cyan-600/90 hover:bg-cyan-500 text-lg h-12 rounded-xl" asChild>
+                                        <Link href="/dashboard/devops-studio">
+                                            Open Studio
+                                            <ArrowUpRight className="ml-2 h-5 w-5" />
+                                        </Link>
+                                    </Button>
+                                </CardContent>
+                            </Card>
+
+                            <Card className="group relative overflow-hidden glass-card border-0">
+                                <div className="absolute top-0 left-0 w-1 h-full bg-orange-500/80 group-hover:w-2 transition-all duration-300" />
+                                <CardHeader className="pb-4">
+                                    <div className="flex justify-between items-start">
+                                        <Badge variant="outline" className="border-orange-500/30 text-orange-400 bg-orange-500/5">Terminal Hub</Badge>
+                                        <span className="text-sm text-muted-foreground font-semibold flex items-center bg-card/50 px-2 py-1 rounded-full"><Zap className="h-3 w-3 mr-1 text-orange-400" /> Power User</span>
+                                    </div>
+                                    <CardTitle className="text-2xl mt-4 group-hover:text-orange-400 transition-colors">Ganapathi Neural CLI</CardTitle>
+                                    <CardDescription className="text-lg mt-2">Access your mentor directly from the terminal. Speed up your workflow by 10x.</CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <Button size="lg" variant="secondary" className="w-full hover:bg-orange-500/10 hover:text-orange-500 text-lg h-12 rounded-xl border border-orange-500/20" asChild>
+                                        <Link href="/dashboard/tools/cli">
+                                            Setup CLI
+                                            <Terminal className="ml-2 h-5 w-5" />
                                         </Link>
                                     </Button>
                                 </CardContent>

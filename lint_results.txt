@@ -1,0 +1,64 @@
+
+> ganapathi-mentor-ai@0.1.0 lint
+> eslint .
+
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\api\devops\validate\route.ts
+  49:13  error  'fileTypeDesc' is never reassigned. Use 'const' instead  prefer-const
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\app\dashboard\challenges\page.tsx
+  49:45  warning  React Hook useEffect has a missing dependency: 'fetchChallenges'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\dashboard\github-dashboard.tsx
+  179:107  warning  React Hook useEffect has missing dependencies: 'aiAnalysis', 'aiLoading', and 'fetchAIAnalysis'. Either include them or remove the dependency array                                    react-hooks/exhaustive-deps
+  320:43   error    Using target="_blank" without rel="noreferrer" (which implies rel="noopener") is a security risk in older browsers: see https://mathiasbynens.github.io/rel-noopener/#recommendations  react/jsx-no-target-blank
+  328:21   error    Using target="_blank" without rel="noreferrer" (which implies rel="noopener") is a security risk in older browsers: see https://mathiasbynens.github.io/rel-noopener/#recommendations  react/jsx-no-target-blank
+  387:113  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                        react/no-unescaped-entities
+  387:140  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                        react/no-unescaped-entities
+  410:199  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                        react/no-unescaped-entities
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\specialized\interview-simulator.tsx
+   209:34  error  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\specialized\interview-simulator.tsx:209:34
+  207 |                     style={{
+  208 |                         height: isActive
+> 209 |                             ? `${Math.random() * 24 + 8}px`
+      |                                  ^^^^^^^^^^^^^ Cannot call impure function
+  210 |                             : '4px',
+  211 |                         animationDuration: `${0.3 + Math.random() * 0.5}s`,
+  212 |                         animation: isActive ? `wave ${0.3 + Math.random() * 0.5}s ease-in-out infinite alternate` : 'none',  react-hooks/purity
+   211:53  error  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\specialized\interview-simulator.tsx:211:53
+  209 |                             ? `${Math.random() * 24 + 8}px`
+  210 |                             : '4px',
+> 211 |                         animationDuration: `${0.3 + Math.random() * 0.5}s`,
+      |                                                     ^^^^^^^^^^^^^ Cannot call impure function
+  212 |                         animation: isActive ? `wave ${0.3 + Math.random() * 0.5}s ease-in-out infinite alternate` : 'none',
+  213 |                     }}
+  214 |                 />           react-hooks/purity
+   212:61  error  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\specialized\interview-simulator.tsx:212:61
+  210 |                             : '4px',
+  211 |                         animationDuration: `${0.3 + Math.random() * 0.5}s`,
+> 212 |                         animation: isActive ? `wave ${0.3 + Math.random() * 0.5}s ease-in-out infinite alternate` : 'none',
+      |                                                             ^^^^^^^^^^^^^ Cannot call impure function
+  213 |                     }}
+  214 |                 />
+  215 |             ))}                                               react-hooks/purity
+   688:54  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            react/no-unescaped-entities
+   688:62  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            react/no-unescaped-entities
+   688:93  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            react/no-unescaped-entities
+  1058:71  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            react/no-unescaped-entities
+
+Γ£û 15 problems (13 errors, 2 warnings)
+  3 errors and 0 warnings potentially fixable with the `--fix` option.
+

@@ -1,0 +1,6 @@
+
+C:\Users\G R  HARSHA\OneDrive\Desktop\Ganapathi Mentor AI\neural-code-symbiosis\components\tools\devops-studio.tsx
+  334:108  error  Parsing error: Invalid character
+
+Γ£û 1 problem (1 error, 0 warnings)
+

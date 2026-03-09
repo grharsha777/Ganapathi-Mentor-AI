@@ -21,7 +21,9 @@ import {
   ChevronLeft,
   ChevronRight,
   Telescope,
-  Clapperboard
+  Clapperboard,
+  Server,
+  Terminal
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
@@ -43,6 +45,8 @@ const navigation = [
   { name: 'Studio', href: '/dashboard/media/studio', icon: Clapperboard },
   { name: 'Last Minute', href: '/dashboard/last-minute', icon: Zap },
   { name: 'Training', href: '/dashboard/specialized', icon: GraduationCap },
+  { name: 'DevOps Studio', href: '/dashboard/devops-studio', icon: Server },
+  { name: 'Terminal Hub', href: '/dashboard/tools/cli', icon: Terminal },
   { name: 'Settings', href: '/dashboard/settings', icon: Settings },
 ]
 

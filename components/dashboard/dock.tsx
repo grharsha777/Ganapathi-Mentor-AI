@@ -14,7 +14,7 @@ import {
 import {
     LayoutDashboard, Compass, Code, Brain, CheckCircle, FileText,
     Github, Activity, AlertTriangle, Users, Telescope, Clapperboard,
-    Zap, GraduationCap, Trophy, Mic, MonitorPlay, Briefcase, Settings,
+    Zap, GraduationCap, Trophy, Mic, MonitorPlay, Briefcase, Settings, Server,
     Menu, X, ChevronRight,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -32,6 +32,7 @@ const navigation = [
     { name: 'Anomalies', href: '/dashboard/analytics/anomalies', icon: AlertTriangle, bg: 'linear-gradient(135deg, #EF4444 0%, #B91C1C 50%, #F87171 100%)', shadow: '#EF4444', color: '#EF4444' },
     { name: 'Collab', href: '/dashboard/collaboration', icon: Users, bg: 'linear-gradient(135deg, #A855F7 0%, #7C3AED 50%, #C084FC 100%)', shadow: '#A855F7', color: '#A855F7' },
     { name: 'Research', href: '/dashboard/research', icon: Telescope, bg: 'linear-gradient(135deg, #14B8A6 0%, #0D9488 50%, #2DD4BF 100%)', shadow: '#14B8A6', color: '#14B8A6' },
+    { name: 'News', href: '/dashboard/news', icon: FileText, bg: 'linear-gradient(135deg, #EF4444 0%, #DC2626 50%, #F87171 100%)', shadow: '#EF4444', color: '#EF4444' },
     { name: 'Studio', href: '/dashboard/media/studio', icon: Clapperboard, bg: 'linear-gradient(135deg, #D946EF 0%, #A21CAF 50%, #E879F9 100%)', shadow: '#D946EF', color: '#D946EF' },
     { name: 'Challenges', href: '/dashboard/challenges', icon: Trophy, bg: 'linear-gradient(135deg, #F59E0B 0%, #D97706 50%, #FBBF24 100%)', shadow: '#F59E0B', color: '#F59E0B' },
     { name: 'Interview', href: '/dashboard/interview', icon: Mic, bg: 'linear-gradient(135deg, #8B5CF6 0%, #6D28D9 50%, #A78BFA 100%)', shadow: '#8B5CF6', color: '#8B5CF6' },
@@ -39,6 +40,7 @@ const navigation = [
     { name: 'Portfolio', href: '/dashboard/portfolio', icon: Briefcase, bg: 'linear-gradient(135deg, #F43F5E 0%, #E11D48 50%, #FB7185 100%)', shadow: '#F43F5E', color: '#F43F5E' },
     { name: 'Quick Prep', href: '/dashboard/last-minute', icon: Zap, bg: 'linear-gradient(135deg, #EAB308 0%, #CA8A04 50%, #FDE047 100%)', shadow: '#EAB308', color: '#EAB308' },
     { name: 'Training', href: '/dashboard/specialized', icon: GraduationCap, bg: 'linear-gradient(135deg, #0284C7 0%, #0369A1 50%, #38BDF8 100%)', shadow: '#0284C7', color: '#0284C7' },
+    { name: 'DevOps', href: '/dashboard/devops-studio', icon: Server, bg: 'linear-gradient(135deg, #06B6D4 0%, #0891B2 50%, #10B981 100%)', shadow: '#06B6D4', color: '#06B6D4' },
     { name: 'Settings', href: '/dashboard/settings', icon: Settings, bg: 'linear-gradient(135deg, #6B7280 0%, #4B5563 50%, #9CA3AF 100%)', shadow: '#6B7280', color: '#9CA3AF' },
 ] as const
 

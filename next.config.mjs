@@ -17,6 +17,16 @@ const nextConfig = {
 
   images: {
     unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+      {
+        protocol: 'http',
+        hostname: '**',
+      }
+    ]
   },
   // Ensure Turbopack uses an absolute project root when multiple lockfiles exist
   turbopack: {

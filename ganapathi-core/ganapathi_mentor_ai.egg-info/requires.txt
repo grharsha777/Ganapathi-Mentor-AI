@@ -1,0 +1,6 @@
+typer[all]
+rich
+openai
+python-dotenv
+pydantic
+requests

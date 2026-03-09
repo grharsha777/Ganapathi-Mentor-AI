@@ -176,6 +176,7 @@ export default function GitHubDashboard() {
     }, [profile, repos, starred, aiLoading]);
 
     useEffect(() => { fetchGitHubData(); }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => { if (profile && repos.length > 0 && !aiAnalysis && !aiLoading) fetchAIAnalysis(); }, [profile, repos]);
 
     const grav = useMemo(() => computeGravity(repos, profile, starred.length), [repos, profile, starred]);
@@ -317,7 +318,7 @@ export default function GitHubDashboard() {
                     <div className="space-y-2 text-sm text-gray-500">
                         {profile?.company && <div className="flex items-center gap-2"><Building2 className="h-3.5 w-3.5" />{profile.company}</div>}
                         {profile?.location && <div className="flex items-center gap-2"><MapPin className="h-3.5 w-3.5" />{profile.location}</div>}
-                        {profile?.blog && <a href={profile.blog.startsWith('http') ? profile.blog : `https://${profile.blog}`} target="_blank" rel="noopener" className="flex items-center gap-2 hover:text-purple-400 transition-colors"><Globe className="h-3.5 w-3.5" /><span className="truncate">{profile.blog}</span></a>}
+                        {profile?.blog && <a href={profile.blog.startsWith('http') ? profile.blog : `https://${profile.blog}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-purple-400 transition-colors"><Globe className="h-3.5 w-3.5" /><span className="truncate">{profile.blog}</span></a>}
                         {memberSince && <div className="flex items-center gap-2"><Clock className="h-3.5 w-3.5" />Joined {memberSince}</div>}
                     </div>
                     <div className="flex gap-3 text-sm">
@@ -325,7 +326,7 @@ export default function GitHubDashboard() {
                         <span className="text-gray-800">·</span>
                         <button onClick={() => setActiveTab('following')} className="hover:text-purple-400 transition-colors"><span className="text-white font-semibold">{profile?.following || 0}</span> <span className="text-gray-500">following</span></button>
                     </div>
-                    <a href={profile?.html_url} target="_blank" rel="noopener"><Button variant="outline" size="sm" className="w-full border-white/[0.06] text-gray-400 hover:text-white hover:border-purple-500/20"><Github className="h-3.5 w-3.5 mr-2" />View on GitHub</Button></a>
+                    <a href={profile?.html_url} target="_blank" rel="noopener noreferrer"><Button variant="outline" size="sm" className="w-full border-white/[0.06] text-gray-400 hover:text-white hover:border-purple-500/20"><Github className="h-3.5 w-3.5 mr-2" />View on GitHub</Button></a>
                 </aside>
 
                 {/* Mobile Profile */}
@@ -384,7 +385,7 @@ export default function GitHubDashboard() {
                                             <div className="p-5 space-y-5">
                                                 {/* Mentor Message */}
                                                 <div className="p-4 rounded-lg bg-gradient-to-r from-orange-500/5 to-pink-500/5 border border-orange-500/10">
-                                                    <p className="text-sm text-gray-300 leading-relaxed italic">"{aiAnalysis.mentorMessage}"</p>
+                                                    <p className="text-sm text-gray-300 leading-relaxed italic">&quot;{aiAnalysis.mentorMessage}&quot;</p>
                                                     <p className="text-xs text-orange-400 mt-2 font-medium">— Ganapathi Mentor AI</p>
                                                 </div>
 
@@ -407,7 +408,7 @@ export default function GitHubDashboard() {
 
                                                 {/* Weekly Goals */}
                                                 <div>
-                                                    <p className="text-xs uppercase tracking-wider text-purple-400 font-semibold mb-2 flex items-center gap-1"><Swords className="h-3 w-3" />This Week's Goals</p>
+                                                    <p className="text-xs uppercase tracking-wider text-purple-400 font-semibold mb-2 flex items-center gap-1"><Swords className="h-3 w-3" />This Week&apos;s Goals</p>
                                                     <div className="grid sm:grid-cols-3 gap-2">{aiAnalysis.weeklyGoals.map((g, i) => (
                                                         <div key={i} className="p-3 rounded-lg bg-purple-500/5 border border-purple-500/10 text-sm text-gray-400 flex items-start gap-2"><Zap className="h-3.5 w-3.5 text-purple-400 mt-0.5 flex-shrink-0" />{g}</div>
                                                     ))}</div>

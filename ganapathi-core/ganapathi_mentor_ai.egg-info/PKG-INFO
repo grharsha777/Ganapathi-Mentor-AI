@@ -1,0 +1,10 @@
+Metadata-Version: 2.4
+Name: ganapathi-mentor-ai
+Version: 2.0.0
+Requires-Dist: typer[all]
+Requires-Dist: rich
+Requires-Dist: openai
+Requires-Dist: python-dotenv
+Requires-Dist: pydantic
+Requires-Dist: requests
+Dynamic: requires-dist

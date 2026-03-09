@@ -1,0 +1,2 @@
+[console_scripts]
+ganapathi = ganapathi.cli:app

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
@@ -193,9 +193,14 @@ function PostureOverlay({ analysis }: { analysis: PostureAnalysis | null }) {
 
 // ─── WAVEFORM VISUALIZER ────────────────────────────────────────────────────
 function WaveformVisualizer({ isActive }: { isActive: boolean }) {
+    const [bars] = useState(() => Array.from({ length: 20 }).map(() => ({
+        height: Math.random() * 24 + 8,
+        duration: 0.3 + Math.random() * 0.5
+    })));
+
     return (
         <div className="flex items-end gap-0.5 h-8">
-            {Array.from({ length: 20 }).map((_, i) => (
+            {bars.map((bar, i) => (
                 <div
                     key={i}
                     className={cn(
@@ -206,10 +211,10 @@ function WaveformVisualizer({ isActive }: { isActive: boolean }) {
                     )}
                     style={{
                         height: isActive
-                            ? `${Math.random() * 24 + 8}px`
+                            ? `${bar.height}px`
                             : '4px',
-                        animationDuration: `${0.3 + Math.random() * 0.5}s`,
-                        animation: isActive ? `wave ${0.3 + Math.random() * 0.5}s ease-in-out infinite alternate` : 'none',
+                        animationDuration: `${bar.duration}s`,
+                        animation: isActive ? `wave ${bar.duration}s ease-in-out infinite alternate` : 'none',
                     }}
                 />
             ))}
@@ -685,7 +690,7 @@ Be encouraging but honest. Evaluate technical accuracy, completeness, and commun
                     </div>
                     {filteredTopics.length === 0 && searchQuery && (
                         <div className="text-center py-8 text-muted-foreground">
-                            <p>No matching topics. We'll use "<strong>{searchQuery}</strong>" as your custom topic.</p>
+                            <p>No matching topics. We&apos;ll use &quot;<strong>{searchQuery}</strong>&quot; as your custom topic.</p>
                             <Button variant="outline" className="mt-3" onClick={() => setSelectedTopic(searchQuery)}>
                                 Use Custom Topic: {searchQuery}
                             </Button>
@@ -1055,7 +1060,7 @@ Be encouraging but honest. Evaluate technical accuracy, completeness, and commun
                     <div className="relative z-10">
                         <Trophy className="w-12 h-12 text-amber-400 mx-auto mb-4" />
                         <h2 className="text-2xl font-bold mb-2">Interview Complete!</h2>
-                        <p className="text-muted-foreground mb-6">Here's how you performed in your {selectedTopic} interview</p>
+                        <p className="text-muted-foreground mb-6">Here&apos;s how you performed in your {selectedTopic} interview</p>
                         <div className="flex justify-center mb-6">
                             <ScoreRing score={overallScore} size={120} />
                         </div>

@@ -1,0 +1,13 @@
+setup.py
+ganapathi/__init__.py
+ganapathi/ai.py
+ganapathi/audit.py
+ganapathi/cli.py
+ganapathi/doctor.py
+ganapathi/explain.py
+ganapathi_mentor_ai.egg-info/PKG-INFO
+ganapathi_mentor_ai.egg-info/SOURCES.txt
+ganapathi_mentor_ai.egg-info/dependency_links.txt
+ganapathi_mentor_ai.egg-info/entry_points.txt
+ganapathi_mentor_ai.egg-info/requires.txt
+ganapathi_mentor_ai.egg-info/top_level.txt

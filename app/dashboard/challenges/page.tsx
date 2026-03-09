@@ -46,6 +46,7 @@ export default function ChallengesPage() {
         }
     };
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => { fetchChallenges(); }, [difficultyFilter]);
 
     const handleSeed = async () => {
