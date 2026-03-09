@@ -323,6 +323,7 @@ MISTRAL_API_KEY=your-mistral-key
 GROQ_API_KEY=your-groq-key
 OPENAI_API_KEY=your-openai-key
 HUGGINGFACE_API_KEY=your-hf-key
+GPT_API_KEY=your-gpt-key
 
 # ─── AWS Cloud Infrastructure ───────────────────
 AWS_ACCESS_KEY_ID=your-aws-access-key
@@ -334,15 +335,21 @@ AWS_CLOUDFRONT_DOMAIN=d2x7k9a8f3qr1p.cloudfront.net
 # ─── Media & Creative ───────────────────────────
 FREEPIK_API_KEY=your-freepik-key
 SUNO_API_KEY=your-suno-key
+GEMINI_API_KEY=your-api-key
+KLING_API_KEY=your-api-key
+RUNWAYML_API_KEY=your-api-key
+HUGGINGFACE_API_KEY=your-api-key
 
 # ─── Search & Research ───────────────────────────
 YOUTUBE_API_KEY=your-youtube-key
 SERPAPI_KEY=your-serpapi-key
-NEWS_API_KEY=your-newsorg-key
+NEWSDATA_AI_KEY=your-api-key
+NEWSAPI_ORG_KEY=you-api-key
 
 # ─── Voice & TTS ─────────────────────────────────
 SARVAM_API_KEY=your-sarvam-key
 ELEVENLABS_API_KEY=your-elevenlabs-key
+MURF_API_KEY=your-api-key
 ```
 
 ### Run Development Server
