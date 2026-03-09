@@ -14,64 +14,88 @@ import {
 } from 'lucide-react';
 import React, { useRef, useState, useEffect, useCallback, useMemo } from 'react';
 
-// ─── CUSTOM CURSOR ───────────────────────────────────────────────
+// ─── CUSTOM CURSOR (Ultra-smooth, RAF-based, zero React re-renders) ─
 function CustomCursor() {
-  const [pos, setPos] = useState({ x: -100, y: -100 });
-  const [hue, setHue] = useState(0);
-  const [isHover, setIsHover] = useState(false);
-  const [trail, setTrail] = useState<{ x: number, y: number, id: number }[]>([]);
-  const trailId = useRef(0);
+  const outerRef = useRef<HTMLDivElement>(null);
+  const dotRef = useRef<HTMLDivElement>(null);
+  const mouse = useRef({ x: -100, y: -100 });
+  const smoothPos = useRef({ x: -100, y: -100 });
+  const hueRef = useRef(0);
+  const hoverRef = useRef(false);
 
   useEffect(() => {
-    const move = (e: MouseEvent) => {
-      setPos({ x: e.clientX, y: e.clientY });
-      trailId.current++;
-      setTrail(prev => [...prev.slice(-12), { x: e.clientX, y: e.clientY, id: trailId.current }]);
+    const onMove = (e: MouseEvent) => {
+      mouse.current = { x: e.clientX, y: e.clientY };
     };
-    const over = () => setIsHover(true);
-    const out = () => setIsHover(false);
-    window.addEventListener('mousemove', move);
-    document.querySelectorAll('a, button, [role="button"]').forEach(el => {
-      el.addEventListener('mouseenter', over);
-      el.addEventListener('mouseleave', out);
-    });
 
-    const hueInterval = setInterval(() => setHue(h => (h + 1) % 360), 30);
+    const onOver = (e: Event) => {
+      hoverRef.current = true;
+      if (outerRef.current) outerRef.current.style.width = outerRef.current.style.height = '48px';
+    };
+    const onOut = (e: Event) => {
+      hoverRef.current = false;
+      if (outerRef.current) outerRef.current.style.width = outerRef.current.style.height = '20px';
+    };
+
+    window.addEventListener('mousemove', onMove, { passive: true });
+
+    const observer = new MutationObserver(() => {
+      document.querySelectorAll('a, button, [role="button"]').forEach(el => {
+        el.removeEventListener('mouseenter', onOver);
+        el.removeEventListener('mouseleave', onOut);
+        el.addEventListener('mouseenter', onOver, { passive: true });
+        el.addEventListener('mouseleave', onOut, { passive: true });
+      });
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    let raf: number;
+    const tick = () => {
+      // Lerp for butter-smooth following
+      smoothPos.current.x += (mouse.current.x - smoothPos.current.x) * 0.25;
+      smoothPos.current.y += (mouse.current.y - smoothPos.current.y) * 0.25;
+      hueRef.current = (hueRef.current + 0.5) % 360;
+
+      const h = hueRef.current;
+      if (outerRef.current) {
+        outerRef.current.style.transform = `translate(${smoothPos.current.x - 24}px, ${smoothPos.current.y - 24}px)`;
+        outerRef.current.style.borderColor = `hsl(${h}, 80%, 65%)`;
+        outerRef.current.style.boxShadow = `0 0 15px hsl(${h}, 80%, 65%, 0.3)`;
+      }
+      if (dotRef.current) {
+        dotRef.current.style.transform = `translate(${mouse.current.x - 4}px, ${mouse.current.y - 4}px)`;
+        dotRef.current.style.background = `hsl(${h}, 80%, 65%)`;
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
 
     return () => {
-      window.removeEventListener('mousemove', move);
-      clearInterval(hueInterval);
+      window.removeEventListener('mousemove', onMove);
+      cancelAnimationFrame(raf);
+      observer.disconnect();
     };
   }, []);
 
   return (
     <>
-      <div className="fixed pointer-events-none z-[9999] hidden lg:block" style={{ left: pos.x, top: pos.y, transform: 'translate(-50%, -50%)' }}>
-        <div
-          className="rounded-full transition-all duration-150 ease-out"
-          style={{
-            width: isHover ? 48 : 20,
-            height: isHover ? 48 : 20,
-            border: `2px solid hsl(${hue}, 90%, 65%)`,
-            boxShadow: `0 0 20px hsl(${hue}, 90%, 65%, 0.4), 0 0 60px hsl(${hue}, 90%, 65%, 0.1)`,
-            background: isHover ? `hsl(${hue}, 90%, 65%, 0.1)` : 'transparent',
-          }}
-        />
-      </div>
-      {trail.map((t, i) => (
-        <div
-          key={t.id}
-          className="fixed pointer-events-none z-[9998] rounded-full hidden lg:block"
-          style={{
-            left: t.x, top: t.y,
-            transform: 'translate(-50%, -50%)',
-            width: 4 + i * 0.3,
-            height: 4 + i * 0.3,
-            background: `hsl(${(hue + i * 8) % 360}, 80%, 60%)`,
-            opacity: (i + 1) / trail.length * 0.5,
-          }}
-        />
-      ))}
+      {/* Outer ring */}
+      <div
+        ref={outerRef}
+        className="fixed top-0 left-0 pointer-events-none z-[9999] hidden lg:block rounded-full"
+        style={{
+          width: 20, height: 20,
+          border: '2px solid white',
+          transition: 'width 0.15s ease-out, height 0.15s ease-out',
+          willChange: 'transform',
+        }}
+      />
+      {/* Inner dot */}
+      <div
+        ref={dotRef}
+        className="fixed top-0 left-0 pointer-events-none z-[9999] hidden lg:block rounded-full"
+        style={{ width: 8, height: 8, willChange: 'transform' }}
+      />
     </>
   );
 }
@@ -98,53 +122,9 @@ function Counter({ target, suffix = "", duration = 2 }: { target: number; suffix
   return <span ref={ref}>{count.toLocaleString()}{suffix}</span>;
 }
 
-// ─── Floating Particles ──────────────────────────────────────────
-function Particles({ count = 40 }: { count?: number }) {
-  const [particles, setParticles] = useState<{ width: number, height: number, left: string, top: string, duration: number, delay: number, hue: number }[]>([]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setParticles(Array.from({ length: count }).map(() => ({
-        width: Math.random() * 4 + 1,
-        height: Math.random() * 4 + 1,
-        left: `${Math.random() * 100}%`,
-        top: `${Math.random() * 100}%`,
-        duration: Math.random() * 5 + 3,
-        delay: Math.random() * 3,
-        hue: Math.random() * 360,
-      })));
-    }, 0);
-  }, [count]);
-
-  if (particles.length === 0) return null;
-
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {particles.map((p, i) => (
-        <motion.div
-          key={i}
-          className="absolute rounded-full"
-          style={{
-            width: p.width,
-            height: p.height,
-            left: p.left,
-            top: p.top,
-            background: `hsl(${p.hue}, 70%, 60%)`,
-          }}
-          animate={{
-            y: [0, -40, 0],
-            x: [0, Math.random() * 20 - 10, 0],
-            opacity: [0.1, 0.6, 0.1],
-          }}
-          transition={{
-            duration: p.duration,
-            repeat: Infinity,
-            delay: p.delay,
-          }}
-        />
-      ))}
-    </div>
-  );
+// ─── Particles disabled (clean background) ──────────────────────
+function Particles({ count = 0 }: { count?: number }) {
+  return null;
 }
 
 // ─── Color Shifting Background ───────────────────────────────────
