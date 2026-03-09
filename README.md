@@ -13,9 +13,9 @@ An enterprise-grade, full-stack AI development ecosystem that unifies **20+ cutt
 ## 🏛️ Platform Architecture
 
 ```
-┌────────────────────────────────────────────────────────────────────┐
-│                     GANAPATHI MENTOR AI                            │
-│                  Neural Code Symbiosis v3.0                        │
+┌───────────────────────────────────────────────────────────────────┐
+│                     GANAPATHI MENTOR AI                           │
+│                  Neural Code Symbiosis v3.0                       │
 ├────────────┬──────────┬──────────┬──────────┬─────────────────────┤
 │   Vercel   │   AWS    │  MongoDB │  Multi   │   External          │
 │   Edge     │  Cloud   │  Atlas   │  AI      │   APIs              │
@@ -25,11 +25,11 @@ An enterprise-grade, full-stack AI development ecosystem that unifies **20+ cutt
 │ React 19   │ S3       │ 20 Models│ Groq     │ SerpAPI             │
 │ TypeScript │ Lambda   │ IndexedDB│ GPT-4o   │ StackExchange       │
 │ Tailwind   │ CloudFrt │          │ Claude   │ arXiv               │
-│ Framer Mtn │ DynamoDB │          │ Gemini   │ Semantic Scholar     │
-│ Radix UI   │ SQS      │          │ Grok     │ Wikipedia            │
-│            │ CloudWch │          │ Kling    │ Freepik AI           │
-│            │          │          │ Runway   │ Suno AI              │
-│            │          │          │ Sarvam   │ NewsOrg              │
+│ Framer Mtn │ DynamoDB │          │ Gemini   │ Semantic Scholar    │
+│ Radix UI   │ SQS      │          │ Grok     │ Wikipedia           │
+│            │ CloudWch │          │ Kling    │ Freepik AI          │
+│            │          │          │ Runway   │ Suno AI             │
+│            │          │          │ Sarvam   │ NewsOrg             │
 └────────────┴──────────┴──────────┴──────────┴─────────────────────┘
 ```
 
@@ -312,11 +312,6 @@ Create `.env.local` in the root directory:
 # ─── Database ────────────────────────────────────
 MONGODB_URI=mongodb+srv://...
 
-# ─── Authentication ──────────────────────────────
-JWT_SECRET=your-jwt-secret
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-ENCRYPTION_KEY=32-character-hex-key
 
 # ─── AI Providers ────────────────────────────────
 MISTRAL_API_KEY=your-mistral-key
