@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "ganapathi": "npx tsx scripts/ganapathi.ts"
+  },
+  "bin": {
+    "ganapathi": "./scripts/bin.js"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^3.0.42",
@@ -15,6 +19,10 @@
     "@ai-sdk/mistral": "^3.0.19",
     "@ai-sdk/openai": "^3.0.25",
     "@ai-sdk/react": "^3.0.75",
+    "@aws-sdk/client-bedrock-runtime": "^3.1004.0",
+    "@aws-sdk/client-lambda": "^3.1004.0",
+    "@aws-sdk/client-s3": "^3.1004.0",
+    "@aws-sdk/s3-request-presigner": "^3.1004.0",
     "@dotenvx/dotenvx": "^1.52.0",
     "@hookform/resolvers": "^3.9.1",
     "@huggingface/inference": "^4.13.12",
