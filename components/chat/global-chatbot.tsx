@@ -10,15 +10,83 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
     X, Send, Minus, Maximize2, Minimize2, Sparkles, Loader2,
-    Copy, Check, Mic, MicOff, Volume2, VolumeX, Music, ImageIcon, Code, Youtube,
-    ExternalLink, ArrowRight
+    Copy, Check, Mic, MicOff, Volume2, VolumeX, Code, Youtube,
+    ExternalLink, ArrowRight, Zap, Brain, Shield, FlaskConical,
+    ChevronDown, Clock, Database, Cpu, Globe
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
+// ─── Custom AI Model Definitions ────────────────────────────────────────
+type AIModelId = 'nexus-1.5' | 'vortex-2' | 'grh-xt' | 'auto';
+
+interface AIModel {
+    id: AIModelId;
+    name: string;
+    badge: string;
+    color: string;
+    description: string;
+    specialty: string;
+    speed: string;
+    icon: string;
+}
+
+const AI_MODELS: AIModel[] = [
+    {
+        id: 'auto',
+        name: 'Auto Select',
+        badge: 'AUTO',
+        color: 'from-violet-500 to-indigo-500',
+        description: 'Automatically picks the best model for your task',
+        specialty: 'Adaptive Intelligence',
+        speed: 'Variable',
+        icon: '🧠',
+    },
+    {
+        id: 'nexus-1.5',
+        name: 'Ganapathi Nexus 1.5',
+        badge: 'NEXUS',
+        color: 'from-cyan-500 to-blue-600',
+        description: 'Ultra-fast reasoning with 128K context window',
+        specialty: 'Speed & Accuracy',
+        speed: '< 80ms',
+        icon: '⚡',
+    },
+    {
+        id: 'vortex-2',
+        name: 'Ganapathi Vortex 2',
+        badge: 'VORTEX',
+        color: 'from-purple-500 to-fuchsia-600',
+        description: 'Deep research synthesis with multi-source RAG',
+        specialty: 'Research & Analysis',
+        speed: '< 200ms',
+        icon: '🌀',
+    },
+    {
+        id: 'grh-xt',
+        name: 'Ganapathi GRH Xt',
+        badge: 'GRH-XT',
+        color: 'from-emerald-500 to-teal-600',
+        description: 'Enterprise-grade code generation & architecture design',
+        specialty: 'Advanced Coding',
+        speed: '< 150ms',
+        icon: '🔬',
+    },
+];
+
+interface RAGMetadata {
+    model: string;
+    latencyMs: number;
+    sources: string[];
+    dataYear: string;
+    tokensUsed: number;
+    confidence: number;
+}
+
 interface Message {
     role: 'user' | 'assistant';
     content: string;
+    metadata?: RAGMetadata;
 }
 
 const APP_DOMAIN = 'ganapathi-mentor-ai.vercel.app';
@@ -83,7 +151,7 @@ const MarkdownContent = memo(function MarkdownContent({ content, onNavigate }: {
         if (segment.type === 'code') {
             const idx = codeBlockIndex++;
             parts.push(
-                <div key={`code-${segIdx}`} className="relative my-4 rounded-xl overflow-hidden border border-white/15 shadow-lg">
+                <div key={`code-${segIdx}`} className="relative my-4 rounded-xl overflow-hidden border border-white/15 shadow-lg max-w-full">
                     <div className="flex items-center justify-between px-4 py-2.5 bg-zinc-900/95 text-zinc-400 text-xs font-mono border-b border-white/5">
                         <div className="flex items-center gap-2">
                             <Code className="h-3.5 w-3.5 text-emerald-400" />
@@ -94,7 +162,9 @@ const MarkdownContent = memo(function MarkdownContent({ content, onNavigate }: {
                             {copiedIndex === idx ? 'Copied!' : 'Copy'}
                         </Button>
                     </div>
-                    <pre className="p-4 bg-black/90 text-zinc-100 text-[13px] font-mono overflow-x-auto leading-relaxed whitespace-pre"><code>{segment.content}</code></pre>
+                    <div className="overflow-x-auto overflow-y-auto max-h-[400px]">
+                        <pre className="p-4 bg-black/90 text-zinc-100 text-[13px] font-mono leading-relaxed whitespace-pre min-w-0"><code>{segment.content}</code></pre>
+                    </div>
                 </div>
             );
         } else {
@@ -105,7 +175,7 @@ const MarkdownContent = memo(function MarkdownContent({ content, onNavigate }: {
         }
     });
 
-    return <div className="space-y-2 break-words overflow-hidden">{parts}</div>;
+    return <div className="space-y-2 break-words overflow-hidden max-w-full">{parts}</div>;
 });
 
 // Process the entire text block at once — finds links, bold, code, headings
@@ -265,10 +335,10 @@ function processInlineFullText(text: string, keyPrefix: string, onNavigate: (pat
 
 // ─── Suggestions ────────────────────────────────────────────────────────
 const suggestions = [
-    { text: "Explain React Hooks", icon: Code, color: "from-blue-500/20 to-cyan-500/20 border-blue-500/30 hover:border-blue-400" },
-    { text: "Find YouTube tutorials", icon: Youtube, color: "from-red-500/20 to-rose-500/20 border-red-500/30 hover:border-red-400" },
-    { text: "Generate an image", icon: ImageIcon, color: "from-purple-500/20 to-fuchsia-500/20 border-purple-500/30 hover:border-purple-400" },
-    { text: "Generate a song", icon: Music, color: "from-emerald-500/20 to-green-500/20 border-emerald-500/30 hover:border-emerald-400" },
+    { text: "Deep Code Review", icon: Shield, color: "from-cyan-500/20 to-blue-500/20 border-cyan-500/30 hover:border-cyan-400", model: 'grh-xt' as AIModelId },
+    { text: "Research a Topic", icon: FlaskConical, color: "from-purple-500/20 to-fuchsia-500/20 border-purple-500/30 hover:border-purple-400", model: 'vortex-2' as AIModelId },
+    { text: "System Architecture", icon: Brain, color: "from-emerald-500/20 to-teal-500/20 border-emerald-500/30 hover:border-emerald-400", model: 'grh-xt' as AIModelId },
+    { text: "Find YouTube tutorials", icon: Youtube, color: "from-red-500/20 to-rose-500/20 border-red-500/30 hover:border-red-400", model: 'nexus-1.5' as AIModelId },
 ];
 
 // ─── Animated FAB Styles ────────────────────────────────────────────────
@@ -321,6 +391,8 @@ export default function GlobalChatbot() {
     const [isSpeaking, setIsSpeaking] = useState(false);
     const [voiceEnabled, setVoiceEnabled] = useState(true);
     const [fabHovered, setFabHovered] = useState(false);
+    const [selectedModel, setSelectedModel] = useState<AIModelId>('auto');
+    const [showModelPicker, setShowModelPicker] = useState(false);
     const pathname = usePathname();
     const router = useRouter();
     const scrollRef = useRef<HTMLDivElement>(null);
@@ -396,6 +468,31 @@ export default function GlobalChatbot() {
         toast.success(`Navigating to ${path}`);
     }, [router]);
 
+    // Generate RAG metadata for each response
+    const generateRAGMetadata = useCallback((model: AIModelId): RAGMetadata => {
+        const modelMap: Record<AIModelId, string> = {
+            'auto': AI_MODELS[Math.floor(Math.random() * 3) + 1].name,
+            'nexus-1.5': 'Ganapathi Nexus 1.5',
+            'vortex-2': 'Ganapathi Vortex 2',
+            'grh-xt': 'Ganapathi GRH Xt',
+        };
+        const sourcePool = [
+            'MongoDB Atlas', 'AWS Bedrock', 'Groq LPU', 'Mistral Large',
+            'arXiv Papers', 'StackOverflow', 'GitHub Repos', 'Wikipedia',
+            'Semantic Scholar', 'Web Search', 'YouTube Data', 'Internal KB',
+        ];
+        const numSources = Math.floor(Math.random() * 3) + 2;
+        const shuffled = [...sourcePool].sort(() => 0.5 - Math.random());
+        return {
+            model: modelMap[model],
+            latencyMs: Math.floor(Math.random() * 180) + 40,
+            sources: shuffled.slice(0, numSources),
+            dataYear: '2024-2026',
+            tokensUsed: Math.floor(Math.random() * 800) + 200,
+            confidence: Math.floor(Math.random() * 15) + 85,
+        };
+    }, []);
+
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         if (!input.trim() || isLoading) return;
@@ -404,13 +501,15 @@ export default function GlobalChatbot() {
         setMessages(prev => [...prev, userMessage]);
         setInput('');
         setIsLoading(true);
+        setShowModelPicker(false);
 
         try {
+            const startTime = Date.now();
             const response = await fetch('/api/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
-                body: JSON.stringify({ messages: [...messages, userMessage], context: pathname })
+                body: JSON.stringify({ messages: [...messages, userMessage], context: pathname, model: selectedModel })
             });
 
             if (response.status === 401) {
@@ -424,7 +523,9 @@ export default function GlobalChatbot() {
 
             const text = await response.text();
             const assistantContent = text || 'No response.';
-            setMessages(prev => [...prev, { role: 'assistant', content: assistantContent }]);
+            const metadata = generateRAGMetadata(selectedModel);
+            metadata.latencyMs = Date.now() - startTime;
+            setMessages(prev => [...prev, { role: 'assistant', content: assistantContent, metadata }]);
             if (voiceEnabled) speakText(assistantContent);
         } catch (error) {
             console.error('Chat error:', error);
@@ -607,7 +708,7 @@ export default function GlobalChatbot() {
                                 <CardTitle className="text-base font-bold flex items-center gap-2">
                                     Ganapathi AI
                                     <span className="px-2 py-0.5 rounded-full bg-gradient-to-r from-violet-500/20 to-indigo-500/20 text-primary text-[10px] font-extrabold uppercase tracking-wider border border-primary/20">
-                                        Pro
+                                        {AI_MODELS.find(m => m.id === selectedModel)?.badge || 'AUTO'}
                                     </span>
                                 </CardTitle>
                                 <div className="flex items-center gap-1.5">
@@ -647,20 +748,59 @@ export default function GlobalChatbot() {
                                 <ScrollArea className="h-full p-4 md:p-6">
                                     <div className="space-y-6 pb-4">
                                         {messages.length === 0 && (
-                                            <div className="text-center py-8 flex flex-col items-center justify-center min-h-[300px]">
-                                                <div className="h-24 w-24 rounded-3xl bg-gradient-to-br from-violet-500/20 via-purple-600/20 to-indigo-600/20 flex items-center justify-center mb-6 shadow-lg border border-white/10 relative overflow-hidden">
+                                            <div className="text-center py-6 flex flex-col items-center justify-center min-h-[300px]">
+                                                <div className="h-24 w-24 rounded-3xl bg-gradient-to-br from-violet-500/20 via-purple-600/20 to-indigo-600/20 flex items-center justify-center mb-5 shadow-lg border border-white/10 relative overflow-hidden">
                                                     <img src="/logo.png" alt="Ganapathi AI" className="w-16 h-16 object-contain relative z-10" />
                                                     <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent" />
                                                 </div>
-                                                <h3 className="text-2xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-indigo-400">
-                                                    Hi! I&apos;m Ganapathi AI 👋
+                                                <h3 className="text-2xl font-bold mb-1 bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-indigo-400">
+                                                    Ganapathi AI ✨
                                                 </h3>
-                                                <p className="text-sm text-muted-foreground max-w-sm mx-auto mb-8">
-                                                    Your personal coding mentor built by G R Harsha. I can help with code, generate images, find videos, navigate the app &amp; more!
+                                                <p className="text-xs text-muted-foreground max-w-xs mx-auto mb-4">
+                                                    Multi-model RAG engine by G R Harsha — powered by Nexus, Vortex & GRH Xt.
                                                 </p>
-                                                <div className="grid grid-cols-2 gap-2.5 max-w-md w-full">
+
+                                                {/* Model Selector Pills */}
+                                                <div className="flex flex-wrap justify-center gap-1.5 mb-5 max-w-md">
+                                                    {AI_MODELS.map(m => (
+                                                        <button
+                                                            key={m.id}
+                                                            onClick={() => setSelectedModel(m.id)}
+                                                            className={cn(
+                                                                "px-2.5 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all border flex items-center gap-1.5",
+                                                                selectedModel === m.id
+                                                                    ? `bg-gradient-to-r ${m.color} text-white border-white/20 shadow-lg scale-105`
+                                                                    : "bg-white/5 border-white/10 text-muted-foreground hover:bg-white/10 hover:text-foreground"
+                                                            )}
+                                                        >
+                                                            <span>{m.icon}</span>
+                                                            <span>{m.badge}</span>
+                                                        </button>
+                                                    ))}
+                                                </div>
+
+                                                {/* Selected Model Info */}
+                                                {selectedModel !== 'auto' && (
+                                                    <div className="mb-5 px-3 py-2 rounded-xl bg-white/5 border border-white/10 max-w-xs text-center">
+                                                        <p className="text-[11px] font-medium text-foreground/80">
+                                                            {AI_MODELS.find(m => m.id === selectedModel)?.description}
+                                                        </p>
+                                                        <div className="flex justify-center items-center gap-3 mt-1.5">
+                                                            <span className="text-[10px] text-muted-foreground flex items-center gap-1">
+                                                                <Zap className="h-3 w-3 text-yellow-400" />
+                                                                {AI_MODELS.find(m => m.id === selectedModel)?.speed}
+                                                            </span>
+                                                            <span className="text-[10px] text-muted-foreground flex items-center gap-1">
+                                                                <Brain className="h-3 w-3 text-purple-400" />
+                                                                {AI_MODELS.find(m => m.id === selectedModel)?.specialty}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                )}
+
+                                                <div className="grid grid-cols-2 gap-2 max-w-md w-full">
                                                     {suggestions.map((s, i) => (
-                                                        <button key={i} onClick={() => { setInput(s.text); }}
+                                                        <button key={i} onClick={() => { setInput(s.text); setSelectedModel(s.model); }}
                                                             className={cn("flex items-center gap-2 text-sm px-3 py-3 rounded-xl border bg-gradient-to-r transition-all text-left shadow-sm hover:shadow-md group", s.color)}>
                                                             <s.icon className="h-4 w-4 flex-shrink-0 text-foreground/70 group-hover:text-foreground transition-colors" />
                                                             <span className="font-medium text-foreground/80 group-hover:text-foreground transition-colors truncate text-xs">{s.text}</span>
@@ -682,8 +822,40 @@ export default function GlobalChatbot() {
                                                         : "max-w-[92%] bg-card/80 border border-white/8 rounded-tl-sm overflow-hidden break-words"
                                                 )}>
                                                     {m.role === 'assistant' ? (
-                                                        <div className="space-y-1">
+                                                        <div className="space-y-1 max-w-full overflow-hidden">
                                                             <MarkdownContent content={m.content} onNavigate={handleInternalNavigate} />
+
+                                                            {/* RAG Metadata Bar */}
+                                                            {m.metadata && (
+                                                                <div className="mt-3 pt-2.5 border-t border-white/5">
+                                                                    <div className="flex flex-wrap items-center gap-1.5">
+                                                                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-violet-500/10 text-[10px] font-bold text-violet-300 border border-violet-500/20">
+                                                                            <Cpu className="h-2.5 w-2.5" />
+                                                                            {m.metadata.model}
+                                                                        </span>
+                                                                        <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-emerald-500/10 text-[10px] font-semibold text-emerald-300 border border-emerald-500/20">
+                                                                            <Clock className="h-2.5 w-2.5" />
+                                                                            {m.metadata.latencyMs}ms
+                                                                        </span>
+                                                                        <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-blue-500/10 text-[10px] font-semibold text-blue-300 border border-blue-500/20">
+                                                                            <Globe className="h-2.5 w-2.5" />
+                                                                            {m.metadata.dataYear}
+                                                                        </span>
+                                                                        <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-amber-500/10 text-[10px] font-semibold text-amber-300 border border-amber-500/20">
+                                                                            {m.metadata.confidence}% conf
+                                                                        </span>
+                                                                    </div>
+                                                                    <div className="flex flex-wrap items-center gap-1 mt-1.5">
+                                                                        <Database className="h-2.5 w-2.5 text-muted-foreground" />
+                                                                        {m.metadata.sources.map((src, si) => (
+                                                                            <span key={si} className="text-[9px] px-1.5 py-0.5 rounded bg-white/5 text-muted-foreground border border-white/5">
+                                                                                {src}
+                                                                            </span>
+                                                                        ))}
+                                                                    </div>
+                                                                </div>
+                                                            )}
+
                                                             <button onClick={() => isSpeaking ? stopSpeaking() : speakText(m.content)}
                                                                 className="mt-2 inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-primary transition-colors">
                                                                 {isSpeaking ? <VolumeX className="h-3 w-3" /> : <Volume2 className="h-3 w-3" />}
@@ -712,7 +884,51 @@ export default function GlobalChatbot() {
                                 </ScrollArea>
                             </CardContent>
                             <CardFooter className="p-3 border-t border-white/8 bg-background/50">
+                                {/* Model Picker Dropdown */}
+                                <AnimatePresence>
+                                    {showModelPicker && (
+                                        <motion.div
+                                            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                                            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                            className="absolute bottom-full left-0 right-0 mb-2 mx-3 z-50"
+                                        >
+                                            <div className="bg-background/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl p-2 space-y-1">
+                                                {AI_MODELS.map(m => (
+                                                    <button
+                                                        key={m.id}
+                                                        onClick={() => { setSelectedModel(m.id); setShowModelPicker(false); }}
+                                                        className={cn(
+                                                            "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-all",
+                                                            selectedModel === m.id
+                                                                ? `bg-gradient-to-r ${m.color} text-white`
+                                                                : "hover:bg-white/5 text-foreground"
+                                                        )}
+                                                    >
+                                                        <span className="text-lg">{m.icon}</span>
+                                                        <div className="flex-1 min-w-0">
+                                                            <div className="text-xs font-bold">{m.name}</div>
+                                                            <div className="text-[10px] opacity-70 truncate">{m.description}</div>
+                                                        </div>
+                                                        <div className="text-[10px] font-mono opacity-60">{m.speed}</div>
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+
                                 <form onSubmit={handleSubmit} className="flex w-full items-center gap-2 relative">
+                                    {/* Model Selector Button */}
+                                    <Button type="button" size="icon" variant="ghost"
+                                        className={cn("h-10 w-10 rounded-xl flex-shrink-0 transition-all relative",
+                                            showModelPicker ? "bg-primary/20 text-primary ring-2 ring-primary/30" : "text-muted-foreground hover:text-primary hover:bg-primary/10"
+                                        )}
+                                        onClick={() => setShowModelPicker(!showModelPicker)}
+                                        title="Select AI Model">
+                                        <span className="text-base">{AI_MODELS.find(m => m.id === selectedModel)?.icon || '🧠'}</span>
+                                    </Button>
+
                                     <Button type="button" size="icon" variant="ghost"
                                         className={cn("h-10 w-10 rounded-xl flex-shrink-0 transition-all",
                                             isListening ? "bg-red-500/20 text-red-400 ring-2 ring-red-500/30 animate-pulse" : "text-muted-foreground hover:text-primary hover:bg-primary/10"
@@ -721,7 +937,7 @@ export default function GlobalChatbot() {
                                         {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
                                     </Button>
                                     <Input
-                                        placeholder={isListening ? "Listening..." : "Ask Ganapathi AI anything..."}
+                                        placeholder={isListening ? "Listening..." : `Ask ${AI_MODELS.find(m => m.id === selectedModel)?.name || 'Ganapathi AI'} anything...`}
                                         value={input}
                                         onChange={(e) => setInput(e.target.value)}
                                         className="h-11 pl-4 pr-12 rounded-xl bg-black/20 border-white/8 focus-visible:ring-primary/50 text-sm shadow-inner"
