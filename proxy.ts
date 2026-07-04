@@ -3,14 +3,15 @@ import type { NextRequest } from 'next/server'
 import { jwtVerify } from 'jose'
 
 const JWT_SECRET = process.env.JWT_SECRET
-if (!JWT_SECRET) {
-    throw new Error('JWT_SECRET environment variable is not set')
-}
-const key = new TextEncoder().encode(JWT_SECRET)
+const JWT_KEY = JWT_SECRET ? new TextEncoder().encode(JWT_SECRET) : null
 
 async function verifyToken(token: string) {
+    if (!JWT_KEY) {
+        return null
+    }
+
     try {
-        const { payload } = await jwtVerify(token, key, {
+        const { payload } = await jwtVerify(token, JWT_KEY, {
             algorithms: ['HS256'],
         })
         return payload as { id: string; email: string; role?: string }
