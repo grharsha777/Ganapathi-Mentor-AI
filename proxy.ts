@@ -1,14 +1,60 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { verifyToken } from '@/lib/auth'
+import { jwtVerify } from 'jose'
+
+const JWT_SECRET = process.env.JWT_SECRET
+if (!JWT_SECRET) {
+    throw new Error('JWT_SECRET environment variable is not set')
+}
+const key = new TextEncoder().encode(JWT_SECRET)
+
+async function verifyToken(token: string) {
+    try {
+        const { payload } = await jwtVerify(token, key, {
+            algorithms: ['HS256'],
+        })
+        return payload as { id: string; email: string; role?: string }
+    } catch (error) {
+        return null
+    }
+}
 
 export default async function proxy(request: NextRequest) {
     const path = request.nextUrl.pathname;
-    if (path.startsWith('/auth') || path.startsWith('/api/auth/')) {
-        return NextResponse.next();
+    
+    // Public routes that don't require authentication
+    const publicRoutes = [
+        '/',
+        '/auth/login',
+        '/auth/sign-up',
+        '/auth/sign-up-success',
+        '/auth/error',
+        '/docs',
+        '/privacy',
+        '/terms',
+        '/test',
+        '/rate-limit-info',
+        '/dashboard-demo',
+    ]
+
+    // API routes that are public
+    const publicApiRoutes = [
+        '/api/auth/login',
+        '/api/auth/signup',
+        '/api/auth/oauth',
+        '/api/auth/oauth/callback',
+    ]
+
+    // Check if the route is public
+    const isPublicRoute = publicRoutes.some(route => path === route || path.startsWith(route))
+    const isPublicApiRoute = publicApiRoutes.some(route => path.startsWith(route))
+
+    if (isPublicRoute || isPublicApiRoute) {
+        return NextResponse.next()
     }
 
-    const isProtected = path.startsWith('/dashboard') || (path.startsWith('/api/') && !path.startsWith('/api/auth/'));
+    // Protected routes
+    const isProtected = path.startsWith('/dashboard') || (path.startsWith('/api/') && !path.startsWith('/api/auth/'))
 
     if (isProtected) {
         const token = request.cookies.get('token')?.value
@@ -27,13 +73,6 @@ export default async function proxy(request: NextRequest) {
             }
             return NextResponse.redirect(new URL('/auth/login', request.url))
         }
-
-        // Basic verification - for full verification we might need to call an API or use edge-compatible jwt verify
-        // Since 'jsonwebtoken' might not work fully in Edge Runtime, we might rely on cookie presence 
-        // or use 'jose' library. For now, we assume the cookie existence is a first check.
-        // Ideally, we replace verifyToken with 'jose' here.
-
-        // For this migration, we will let the API routes verify the token deeply.
     }
 
     return NextResponse.next()
@@ -41,7 +80,6 @@ export default async function proxy(request: NextRequest) {
 
 export const config = {
     matcher: [
-        '/dashboard/:path*',
-        '/api/:path*',
+        '/((?!_next/static|_next/image|favicon.ico|public|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)).*)',
     ],
 }

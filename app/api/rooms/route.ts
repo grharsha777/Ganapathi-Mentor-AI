@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
         if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         const decoded = await verifyToken(token) as any;
         if (!decoded) return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
-        const userId = decoded.userId || decoded.id;
+        const userId = decoded.id;
 
         const conn = await connectSafe();
         if (!conn) return NextResponse.json({ error: 'DB not connected' }, { status: 503 });
@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
         if (!conn) return NextResponse.json({ error: 'DB not connected' }, { status: 503 });
 
         const { action, roomSlug, name, language, challengeId, code, message } = await req.json();
-        const userId = decoded.userId || decoded.id;
+        const userId = decoded.id;
 
         // Get user name
         let username = 'Coder';

@@ -1,0 +1,6 @@
+include README.md
+include LICENSE
+include CONTRIBUTING.md
+include SECURITY.md
+include requirements.txt
+recursive-include ganapathi *.py py.typed

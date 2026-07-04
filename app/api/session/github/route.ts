@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
 
         const conn = await connectSafe();
         if (conn) {
-            const integration = await UserIntegration.findOne({ user_id: decoded.userId });
+            const integration = await UserIntegration.findOne({ user_id: decoded.id });
             if (integration?.github_token) {
                 return NextResponse.json({ hasToken: true, source: 'user' });
             }
@@ -63,7 +63,7 @@ export async function POST(req: NextRequest) {
 
         // Upsert the integration
         await UserIntegration.findOneAndUpdate(
-            { user_id: decoded.userId },
+            { user_id: decoded.id },
             {
                 github_token: githubToken,
                 updated_at: new Date()

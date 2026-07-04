@@ -200,7 +200,7 @@ export default function RoadmapView() {
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-5 duration-700">
             {!roadmap ? (
                 /* ── GENERATOR FORM ── */
-                <div className="w-full max-w-4xl mx-auto space-y-8">
+                <div className="w-full space-y-8">
                     <Card className="relative overflow-hidden border-0 shadow-2xl bg-gradient-to-br from-background via-background to-purple-950/20">
                         <div className="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay" />
                         <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-purple-500/10 to-transparent rounded-full blur-3xl" />

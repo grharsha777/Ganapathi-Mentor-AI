@@ -7,11 +7,11 @@ export async function GET(req: NextRequest) {
     const token = req.cookies.get('token')?.value;
     if (!token) return NextResponse.json({ user: null }, { status: 401 });
 
-    const decoded = await verifyToken(token) as any;
+    const decoded = await verifyToken(token);
     if (!decoded) return NextResponse.json({ user: null }, { status: 401 });
 
     await connectToDatabase();
-    const user = await User.findById(decoded.userId);
+    const user = await User.findById(decoded.id);
 
     if (!user) return NextResponse.json({ user: null }, { status: 401 });
 

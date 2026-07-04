@@ -11,4 +11,15 @@ node_modules/
 .env*.local
 .DS_Store
 .vercel
-.env*.local
+
+# Log/debug files (keep out of Vercel deploy)
+*.log
+build.log
+dev.log
+hive.log
+*.txt
+final_lint_check.json
+real_bugs.json
+real_bugs2.json
+tsconfig.tsbuildinfo
+tmp/

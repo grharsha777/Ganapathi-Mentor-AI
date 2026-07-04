@@ -1,0 +1,197 @@
+import React from 'react';
+import { Document, Page, Text, View, StyleSheet, Font, Link } from '@react-pdf/renderer';
+import type { StructuredResearchResponse } from '@/lib/research/schemas';
+import { sanitizeHtml } from './publication-document';
+
+// Use same fonts and styles as PublicationDocument
+const styles = StyleSheet.create({
+  page: {
+    padding: 72,
+    fontFamily: 'Lora',
+    fontSize: 11,
+    lineHeight: 1.6,
+    color: '#1e293b',
+    backgroundColor: '#ffffff',
+  },
+  coverPage: {
+    padding: 72,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontFamily: 'Lora',
+    backgroundColor: '#ffffff',
+    height: '100%',
+  },
+  coverTitle: {
+    fontFamily: 'Inter',
+    fontSize: 32,
+    fontWeight: 700,
+    color: '#0f172a',
+    marginBottom: 16,
+    textAlign: 'center',
+  },
+  coverSubtitle: {
+    fontFamily: 'Inter',
+    fontSize: 14,
+    color: '#64748b',
+    textTransform: 'uppercase',
+    textAlign: 'center',
+  },
+  header: {
+    marginBottom: 40,
+    borderBottom: '1pt solid #e2e8f0',
+    paddingBottom: 20,
+  },
+  title: {
+    fontFamily: 'Inter',
+    fontSize: 24,
+    fontWeight: 700,
+    color: '#0f172a',
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontFamily: 'Inter',
+    fontSize: 10,
+    color: '#64748b',
+    textTransform: 'uppercase',
+  },
+  section: {
+    marginBottom: 24,
+  },
+  h2: {
+    fontFamily: 'Inter',
+    fontSize: 16,
+    fontWeight: 600,
+    color: '#0f172a',
+    marginTop: 20,
+    marginBottom: 12,
+  },
+  h3: {
+    fontFamily: 'Inter',
+    fontSize: 13,
+    fontWeight: 600,
+    color: '#334155',
+    marginTop: 16,
+    marginBottom: 8,
+  },
+  paragraph: {
+    marginBottom: 12,
+    textAlign: 'justify',
+  },
+  abstractBox: {
+    backgroundColor: '#f8fafc',
+    padding: 20,
+    borderRadius: 4,
+    marginBottom: 30,
+    borderLeft: '4pt solid #0ea5e9',
+  },
+  abstractTitle: {
+    fontFamily: 'Inter',
+    fontSize: 12,
+    fontWeight: 700,
+    color: '#0f172a',
+    marginBottom: 8,
+    textTransform: 'uppercase',
+  },
+  listItem: {
+    flexDirection: 'row',
+    marginBottom: 6,
+    paddingLeft: 10,
+  },
+  bullet: {
+    width: 15,
+    fontSize: 12,
+  },
+  listItemContent: {
+    flex: 1,
+  },
+  footer: {
+    position: 'absolute',
+    bottom: 30,
+    left: 72,
+    right: 72,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderTop: '1pt solid #e2e8f0',
+    paddingTop: 10,
+  },
+  watermark: {
+    fontFamily: 'Inter',
+    fontSize: 9,
+    color: '#94a3b8',
+  },
+  pageNumber: {
+    fontFamily: 'Inter',
+    fontSize: 9,
+    color: '#94a3b8',
+  },
+});
+
+interface CollectionItem {
+  id: string;
+  query: string;
+  answer: StructuredResearchResponse;
+  sources: Array<any>;
+  createdAt: string;
+}
+
+interface CollectionDocumentProps {
+  name: string;
+  items: CollectionItem[];
+}
+
+export function CollectionDocument({ name, items }: CollectionDocumentProps) {
+  return (
+    <Document title={name} author="Ganapathi Mentor AI">
+      {/* Cover Page */}
+      <Page size="A4" style={styles.coverPage}>
+        <View>
+          <Text style={styles.coverTitle}>{name}</Text>
+          <Text style={styles.coverSubtitle}>Research Collection • {items.length} Reports</Text>
+          <Text style={[styles.coverSubtitle, { marginTop: 16, fontSize: 10 }]}>{new Date().toLocaleDateString()}</Text>
+        </View>
+      </Page>
+
+      {/* Chapters (Items) */}
+      {items.map((item, index) => (
+        <Page key={item.id} size="A4" style={styles.page}>
+          
+          <View style={styles.header}>
+            <Text style={styles.title}>Chapter {index + 1}: {item.query}</Text>
+            <Text style={styles.subtitle}>Generated on {new Date(item.createdAt).toLocaleDateString()} • Confidence: {Math.round(item.answer.confidence)}%</Text>
+          </View>
+
+          {/* Abstract */}
+          <View style={styles.abstractBox}>
+            <Text style={styles.abstractTitle}>Abstract / TL;DR</Text>
+            <Text style={styles.paragraph}>{sanitizeHtml(item.answer.tldr)}</Text>
+          </View>
+
+          {/* Main Sections */}
+          {item.answer.answer_sections.map((section, idx) => (
+            <View key={idx} style={styles.section} break={idx > 0 && idx % 2 === 0}>
+              <Text style={styles.h2}>{section.heading}</Text>
+              <Text style={styles.paragraph}>{sanitizeHtml(section.content)}</Text>
+              
+              <Text style={styles.h3}>Key Points</Text>
+              {section.key_points.map((point, pIdx) => (
+                <View key={pIdx} style={styles.listItem}>
+                  <Text style={styles.bullet}>•</Text>
+                  <Text style={styles.listItemContent}>{sanitizeHtml(point)}</Text>
+                </View>
+              ))}
+            </View>
+          ))}
+
+          {/* Dynamic Footer for Watermark and Pagination */}
+          <View style={styles.footer} fixed>
+            <Text style={styles.watermark}>Generated by Ganapathi Mentor AI</Text>
+            <Text style={styles.pageNumber} render={({ pageNumber, totalPages }) => (`Page ${pageNumber} of ${totalPages}`)} />
+          </View>
+        </Page>
+      ))}
+    </Document>
+  );
+}

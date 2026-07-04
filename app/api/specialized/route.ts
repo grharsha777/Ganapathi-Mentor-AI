@@ -66,7 +66,7 @@ Requirements:
 
             try {
                 await Interview.create({
-                    user_id: decoded.userId,
+                    user_id: decoded.id,
                     topic: topicName,
                     questions: object.questions.map(q => ({
                         question: q.question,

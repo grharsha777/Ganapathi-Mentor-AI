@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
         try {
             await connectToDatabase();
             await Feedback.create({
-                user_id: decoded.userId,
+                user_id: decoded.id,
                 user_email: decoded.email || 'Unknown',
                 user_name: decoded.full_name || decoded.email || 'Anonymous',
                 category: category || 'suggestion',

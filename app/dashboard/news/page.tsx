@@ -11,7 +11,7 @@ export const metadata = {
 
 export default function NewsPage() {
     return (
-        <PageShell className="max-w-[1920px] mx-auto w-full px-2 sm:px-4 md:px-6">
+        <PageShell className="w-full px-2 sm:px-4 md:px-6">
             <PageHeader
                 title="AI News Hub"
                 description="Real-time global insights, tailored for developers and visionaries."

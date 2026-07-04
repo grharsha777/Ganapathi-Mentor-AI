@@ -1,9 +1,10 @@
 'use client'
 
-import { useState, useMemo, useRef } from 'react'
+import { useState, useMemo, useRef, useEffect } from 'react'
 import { TOOLS, WORKFLOWS, ToolCategory, Tool, CATEGORY_META } from './data'
 import { ToolCardFeatured } from './tool-card'
 import { WorkflowGenerator } from './workflow-generator'
+import { APIProvidersPanel } from './api-providers'
 import {
     Search,
     Sparkles,
@@ -23,11 +24,166 @@ import {
     Share2,
     Shield,
     Globe,
+    Key,
+    Download,
+    Zap,
+    TrendingUp,
 } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { BrandAssets } from './brand-assets'
+import { AppLogo } from './app-logo'
+
+/* ─────────────────────────────────────────────────────────── */
+/*  Hero Spotlight Carousel                                    */
+/* ─────────────────────────────────────────────────────────── */
+const SPOTLIGHT_TOOLS = ['replit', 'v0-dev', 'bolt', 'figma', 'vercel', 'capcut']
+
+function HeroSpotlight({ tools, onSelect }: { tools: Tool[]; onSelect: (t: Tool) => void }) {
+    const [activeIdx, setActiveIdx] = useState(0)
+    const spotlightTools = tools.filter(t => SPOTLIGHT_TOOLS.includes(t.id)).slice(0, 6)
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setActiveIdx(prev => (prev + 1) % spotlightTools.length)
+        }, 5000)
+        return () => clearInterval(timer)
+    }, [spotlightTools.length])
+
+    if (!spotlightTools.length) return null
+
+    const main = spotlightTools[activeIdx]
+    const mainMeta = CATEGORY_META[main.category]
+    const sideTools = spotlightTools.filter((_, i) => i !== activeIdx).slice(0, 2)
+
+    return (
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] xl:grid-cols-[1fr_340px] gap-3 sm:gap-4">
+            {/* Main spotlight */}
+            <div
+                className="relative rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer group min-h-[240px] sm:min-h-[280px] lg:min-h-[320px]"
+                onClick={() => onSelect(main)}
+            >
+                {/* Background */}
+                <div
+                    className="absolute inset-0 transition-all duration-700"
+                    style={{
+                        background: `linear-gradient(135deg, ${mainMeta.color}35, ${mainMeta.color}08, hsl(225, 20%, 8%))`,
+                    }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+
+                {/* Ghost logo (background decoration) */}
+                <div className="absolute top-0 right-0 w-[220px] sm:w-[300px] lg:w-[380px] h-full opacity-[0.06] flex items-center justify-center pointer-events-none select-none overflow-hidden">
+                    <AppLogo toolName={main.name} toolUrl={main.url} fallbackIcon={main.icon} imgClassName="w-[70%] h-[70%] grayscale" />
+                </div>
+
+                {/* Content */}
+                <div className="relative z-10 p-6 sm:p-8 lg:p-10 flex flex-col justify-end h-full">
+                    <div className="flex items-start gap-4 sm:gap-5">
+                        <div
+                            className="flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-2xl sm:rounded-3xl flex items-center justify-center shadow-2xl border border-white/15 overflow-hidden bg-black/30 backdrop-blur-sm"
+                        >
+                            <AppLogo toolName={main.name} toolUrl={main.url} fallbackIcon={main.icon} className="w-full h-full p-3 sm:p-4" />
+                        </div>
+
+                        <div className="flex-1 min-w-0 space-y-2">
+                            <div>
+                                <h2 className="text-xl sm:text-2xl lg:text-3xl font-black text-white leading-tight truncate">
+                                    {main.name}
+                                </h2>
+                                <p className="text-xs sm:text-sm font-medium mt-0.5" style={{ color: mainMeta.color }}>
+                                    {mainMeta.label}
+                                </p>
+                            </div>
+                            <p className="text-sm text-gray-300 leading-relaxed line-clamp-2 max-w-lg">
+                                {main.description}
+                            </p>
+                            <div className="flex items-center gap-2 pt-1">
+                                <Button
+                                    size="sm"
+                                    className="h-9 sm:h-10 px-5 sm:px-6 rounded-xl text-sm font-bold shadow-lg transition-all duration-200 hover:scale-[1.03] active:scale-[0.97]"
+                                    style={{ backgroundColor: mainMeta.color, color: '#fff' }}
+                                    onClick={(e) => { e.stopPropagation(); window.open(main.url, '_blank') }}
+                                >
+                                    <Download className="h-4 w-4 mr-1.5" /> Get
+                                </Button>
+                                <span className={cn(
+                                    'text-xs font-bold px-2.5 py-1.5 rounded-lg',
+                                    main.pricing === 'Free' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-blue-500/20 text-blue-300'
+                                )}>
+                                    {main.pricing}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Carousel dots */}
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+                    {spotlightTools.map((_, i) => (
+                        <button
+                            key={i}
+                            onClick={(e) => { e.stopPropagation(); setActiveIdx(i) }}
+                            className={cn(
+                                'rounded-full transition-all duration-300',
+                                i === activeIdx ? 'w-6 h-2 bg-white' : 'w-2 h-2 bg-white/30 hover:bg-white/50'
+                            )}
+                        />
+                    ))}
+                </div>
+            </div>
+
+            {/* Side cards */}
+            <div className="hidden lg:flex flex-col gap-3 sm:gap-4">
+                {sideTools.map(tool => {
+                    const meta = CATEGORY_META[tool.category]
+                    return (
+                        <div
+                            key={tool.id}
+                            className="relative flex-1 rounded-2xl overflow-hidden cursor-pointer group"
+                            onClick={() => onSelect(tool)}
+                        >
+                            <div
+                                className="absolute inset-0"
+                                style={{ background: `linear-gradient(135deg, ${meta.color}25, ${meta.color}05, hsl(225,20%,8%))` }}
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent" />
+
+                            {/* Background logo */}
+                            <div className="absolute top-0 right-0 w-[140px] h-full opacity-[0.06] flex items-center justify-center pointer-events-none overflow-hidden">
+                                <AppLogo toolName={tool.name} toolUrl={tool.url} fallbackIcon={tool.icon} imgClassName="w-[80%] h-[80%] grayscale" />
+                            </div>
+
+                            <div className="relative z-10 p-4 sm:p-5 flex items-center gap-3 h-full">
+                                <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-black/30 border border-white/10 overflow-hidden flex-shrink-0">
+                                    <AppLogo toolName={tool.name} toolUrl={tool.url} fallbackIcon={tool.icon} className="w-full h-full p-2" />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                    <h3 className="text-sm font-bold text-white truncate">{tool.name}</h3>
+                                    <p className="text-[11px] text-gray-400 line-clamp-1">{tool.description}</p>
+                                    <div className="flex items-center gap-2 mt-1.5">
+                                        <Button
+                                            size="sm"
+                                            className="h-7 px-3 rounded-lg text-[11px] font-bold"
+                                            style={{ backgroundColor: meta.color, color: '#fff' }}
+                                            onClick={(e) => { e.stopPropagation(); window.open(tool.url, '_blank') }}
+                                        >
+                                            Get
+                                        </Button>
+                                        <span className="text-[10px] font-bold text-gray-500">{tool.pricing}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                })}
+            </div>
+        </div>
+    )
+}
 
 /* ─────────────────────────────────────────────────────────── */
 /*  Horizontal Scroll Row                                      */
@@ -36,7 +192,7 @@ function CategoryRow({
     title, icon, tools, favorites,
     onToggleFavorite, onSelect,
 }: {
-    title: string; icon: string; tools: Tool[]; favorites: string[]
+    title: string; icon: React.ReactNode; tools: Tool[]; favorites: string[]
     onToggleFavorite: (id: string) => void; onSelect: (tool: Tool) => void
 }) {
     const scrollRef = useRef<HTMLDivElement>(null)
@@ -49,7 +205,7 @@ function CategoryRow({
         <section className="space-y-4">
             <div className="flex items-center justify-between">
                 <h2 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
-                    <span className="text-xl sm:text-2xl">{icon}</span>
+                    {icon}
                     <span className="truncate">{title}</span>
                     <ChevronRight className="h-5 w-5 text-gray-600 flex-shrink-0" />
                 </h2>
@@ -68,7 +224,7 @@ function CategoryRow({
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             >
                 {tools.map(t => (
-                    <div key={t.id} className="snap-start">
+                    <div key={t.id} className="snap-start flex-shrink-0 w-[160px] sm:w-[180px] md:w-[200px] lg:w-[210px]">
                         <ToolCardFeatured
                             tool={t}
                             isFavorite={favorites.includes(t.id)}
@@ -93,10 +249,10 @@ function DiscoverCard({ tool, onClick }: { tool: Tool; onClick: () => void }) {
             className="flex items-center gap-3 p-3 rounded-xl hover:bg-white/[0.06] transition-all duration-200 w-full text-left group"
         >
             <div
-                className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center text-xl sm:text-2xl flex-shrink-0 transition-transform duration-300 group-hover:scale-110"
+                className="relative w-11 h-11 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-110 overflow-hidden"
                 style={{ backgroundColor: catMeta.color + '20' }}
             >
-                {tool.icon}
+                <AppLogo toolName={tool.name} toolUrl={tool.url} fallbackIcon={tool.icon} className="w-full h-full p-2.5" />
             </div>
             <div className="flex-1 min-w-0">
                 <p className="text-sm font-semibold text-white truncate group-hover:text-white/90 transition-colors">{tool.name}</p>
@@ -172,17 +328,17 @@ function AppDetailPage({
                 {/* Ambient gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-black/30" />
                 {/* Big ghost icon - hidden on tiny screens */}
-                <div className="absolute top-0 right-0 w-[200px] sm:w-[300px] lg:w-[400px] h-full opacity-[0.06] flex items-center justify-center text-[120px] sm:text-[160px] lg:text-[200px] pointer-events-none select-none">
-                    {tool.icon}
+                <div className="absolute top-0 right-0 w-[200px] sm:w-[300px] lg:w-[400px] h-full opacity-[0.06] flex items-center justify-center pointer-events-none select-none overflow-hidden">
+                    <AppLogo toolName={tool.name} toolUrl={tool.url} fallbackIcon={tool.icon} imgClassName="w-[80%] h-[80%] grayscale blur-sm" />
                 </div>
 
                 <div className="relative z-10 p-5 sm:p-8 md:p-10 lg:p-12 flex flex-col sm:flex-row gap-5 sm:gap-8">
                     {/* App Icon */}
                     <div
-                        className="flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 rounded-2xl sm:rounded-3xl flex items-center justify-center text-5xl sm:text-6xl md:text-7xl shadow-2xl border-2 border-white/10"
+                        className="flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 rounded-2xl sm:rounded-3xl flex items-center justify-center shadow-2xl border-2 border-white/10 overflow-hidden bg-black/20"
                         style={{ backgroundColor: catMeta.color + '25' }}
                     >
-                        {tool.icon}
+                        <AppLogo toolName={tool.name} toolUrl={tool.url} fallbackIcon={tool.icon} className="w-full h-full p-4 sm:p-5" />
                     </div>
 
                     {/* App Info */}
@@ -371,7 +527,7 @@ function AppDetailPage({
 /* ─────────────────────────────────────────────────────────── */
 export function LastMinutePanel() {
     const [searchQuery, setSearchQuery] = useState('')
-    const [viewMode, setViewMode] = useState<'store' | 'all' | 'workflow'>('store')
+    const [viewMode, setViewMode] = useState<'store' | 'all' | 'api-keys' | 'workflow' | 'brand-assets'>('store')
     const [favorites, setFavorites] = useState<string[]>([])
     const [selectedTool, setSelectedTool] = useState<Tool | null>(null)
 
@@ -410,6 +566,15 @@ export function LastMinutePanel() {
     const featuredTools = TOOLS.filter(t => t.hackathonPrompt).slice(0, 14)
     const freeTools = TOOLS.filter(t => t.pricing === 'Free').slice(0, 14)
     const aiTools = TOOLS.filter(t => t.category === 'research-ai')
+    const trendingTools = TOOLS.filter(t => ['replit', 'bolt', 'v0-dev', 'cursor', 'lovable', 'figma', 'capcut', 'vercel', 'supabase', 'chatgpt', 'claude', 'deepseek', 'notion', 'elevenlabs'].includes(t.id))
+
+    const TABS = [
+        { id: 'store' as const, label: 'Home', icon: <Zap className="h-4 w-4" /> },
+        { id: 'all' as const, label: 'All Apps', icon: <Globe className="h-4 w-4" /> },
+        { id: 'api-keys' as const, label: 'API Keys', icon: <Key className="h-4 w-4" /> },
+        { id: 'workflow' as const, label: 'Workflows', icon: <Sparkles className="h-4 w-4" /> },
+        { id: 'brand-assets' as const, label: 'Brand Assets', icon: <Star className="h-4 w-4" /> },
+    ]
 
     /* ── FULL-PAGE APP DETAIL ── */
     if (selectedTool) {
@@ -434,7 +599,7 @@ export function LastMinutePanel() {
                 <div className="relative max-w-xs sm:max-w-md md:max-w-lg lg:max-w-2xl mx-auto w-full">
                     <Search className="absolute left-3.5 sm:left-4 top-1/2 -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-gray-500" />
                     <Input
-                        placeholder="Search apps, tools, and more"
+                        placeholder="Search apps, tools, APIs, and more"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         className="pl-10 sm:pl-12 pr-10 h-10 sm:h-12 text-sm sm:text-base rounded-full bg-white/[0.06] border-white/[0.08] text-white placeholder:text-gray-500 focus:bg-white/[0.10] focus:ring-1 focus:ring-white/15 transition-all duration-200"
@@ -448,17 +613,16 @@ export function LastMinutePanel() {
 
                 {/* Tabs */}
                 <div className="flex items-center gap-1 overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
-                    {[
-                        { id: 'store' as const, label: 'Home', icon: '🏠' },
-                        { id: 'all' as const, label: 'All Apps', icon: '📱' },
-                        { id: 'workflow' as const, label: 'Workflows', icon: '⚡' },
-                    ].map(tab => (
+                    {TABS.map(tab => (
                         <button key={tab.id} onClick={() => { setViewMode(tab.id); setSearchQuery(''); }}
                             className={cn(
                                 'px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center gap-1.5 sm:gap-2 whitespace-nowrap flex-shrink-0',
                                 viewMode === tab.id ? 'bg-white/[0.10] text-white' : 'text-gray-500 hover:text-white hover:bg-white/[0.04]'
                             )}>
-                            <span>{tab.icon}</span>{tab.label}
+                            {tab.icon}{tab.label}
+                            {tab.id === 'api-keys' && (
+                                <span className="ml-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-violet-500/30 text-violet-300">NEW</span>
+                            )}
                         </button>
                     ))}
                     <div className="ml-auto flex-shrink-0">
@@ -475,7 +639,7 @@ export function LastMinutePanel() {
                     <h2 className="text-base sm:text-lg font-bold text-white">
                         {searchResults.length} results for &quot;{searchQuery}&quot;
                     </h2>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-3 sm:gap-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-5">
                         {searchResults.map(t => (
                             <ToolCardFeatured key={t.id} tool={t} isFavorite={favorites.includes(t.id)} onToggleFavorite={toggleFavorite} onSelect={selectTool} />
                         ))}
@@ -489,14 +653,65 @@ export function LastMinutePanel() {
                 </div>
             ) : viewMode === 'store' ? (
                 <div className="space-y-8 sm:space-y-10 pb-10">
-                    <CategoryRow title="Popular Tools" icon="🔥" tools={featuredTools} favorites={favorites} onToggleFavorite={toggleFavorite} onSelect={selectTool} />
-                    <CategoryRow title="Best Free Tools" icon="💚" tools={freeTools} favorites={favorites} onToggleFavorite={toggleFavorite} onSelect={selectTool} />
-                    <CategoryRow title="AI & Research" icon="🧠" tools={aiTools} favorites={favorites} onToggleFavorite={toggleFavorite} onSelect={selectTool} />
+                    {/* Hero Spotlight */}
+                    <HeroSpotlight tools={TOOLS} onSelect={selectTool} />
+
+                    {/* Trending Now */}
+                    <CategoryRow
+                        title="Trending Now"
+                        icon={<TrendingUp className="h-5 w-5 text-rose-400" />}
+                        tools={trendingTools}
+                        favorites={favorites}
+                        onToggleFavorite={toggleFavorite}
+                        onSelect={selectTool}
+                    />
+
+                    {/* Popular Tools */}
+                    <CategoryRow
+                        title="Popular Tools"
+                        icon={<Star className="h-5 w-5 text-amber-400 fill-amber-400" />}
+                        tools={featuredTools}
+                        favorites={favorites}
+                        onToggleFavorite={toggleFavorite}
+                        onSelect={selectTool}
+                    />
+
+                    {/* Best Free */}
+                    <CategoryRow
+                        title="Best Free Tools"
+                        icon={<Shield className="h-5 w-5 text-emerald-400" />}
+                        tools={freeTools}
+                        favorites={favorites}
+                        onToggleFavorite={toggleFavorite}
+                        onSelect={selectTool}
+                    />
+
+                    {/* AI & Research */}
+                    <CategoryRow
+                        title="AI & Research"
+                        icon={<Brain className="h-5 w-5 text-violet-400" />}
+                        tools={aiTools}
+                        favorites={favorites}
+                        onToggleFavorite={toggleFavorite}
+                        onSelect={selectTool}
+                    />
+
+                    {/* Category rows */}
                     {categories.filter(c => c !== 'research-ai').map(cat => {
                         const catTools = toolsByCategory[cat]
                         if (!catTools?.length) return null
                         const meta = CATEGORY_META[cat]
-                        return <CategoryRow key={cat} title={meta.label} icon={meta.icon} tools={catTools} favorites={favorites} onToggleFavorite={toggleFavorite} onSelect={selectTool} />
+                        return (
+                            <CategoryRow
+                                key={cat}
+                                title={meta.label}
+                                icon={<span className="w-2 h-5 rounded-full inline-block" style={{ backgroundColor: meta.color }} />}
+                                tools={catTools}
+                                favorites={favorites}
+                                onToggleFavorite={toggleFavorite}
+                                onSelect={selectTool}
+                            />
+                        )
                     })}
                 </div>
             ) : viewMode === 'all' ? (
@@ -508,10 +723,11 @@ export function LastMinutePanel() {
                         return (
                             <section key={cat} className="space-y-3 sm:space-y-4">
                                 <h2 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
-                                    <span className="text-xl sm:text-2xl">{meta.icon}</span> {meta.label}
+                                    <span className="w-2 h-6 rounded-full" style={{ backgroundColor: meta.color }} />
+                                    {meta.label}
                                     <ChevronRight className="h-5 w-5 text-gray-600" />
                                 </h2>
-                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-3 sm:gap-4">
+                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-5">
                                     {catTools.map(t => (
                                         <ToolCardFeatured key={t.id} tool={t} isFavorite={favorites.includes(t.id)} onToggleFavorite={toggleFavorite} onSelect={selectTool} />
                                     ))}
@@ -520,8 +736,12 @@ export function LastMinutePanel() {
                         )
                     })}
                 </div>
+            ) : viewMode === 'api-keys' ? (
+                <APIProvidersPanel />
+            ) : viewMode === 'brand-assets' ? (
+                <BrandAssets />
             ) : (
-                <WorkflowGenerator workflows={WORKFLOWS} />
+                <WorkflowGenerator />
             )}
         </div>
     )

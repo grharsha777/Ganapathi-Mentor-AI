@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
     await connectToDatabase();
 
     // Find all team memberships for this user
-    const memberships = await TeamMember.find({ user_id: decoded.userId }).populate('team_id');
+    const memberships = await TeamMember.find({ user_id: decoded.id }).populate('team_id');
 
     // Extract teams from memberships
     const teams = memberships.map(m => m.team_id);
@@ -43,13 +43,13 @@ export async function POST(req: NextRequest) {
     // Create Team
     const newTeam = await Team.create({
       name,
-      created_by: decoded.userId
+      created_by: decoded.id
     });
 
     // Add user as owner
     await TeamMember.create({
       team_id: newTeam._id,
-      user_id: decoded.userId,
+      user_id: decoded.id,
       role: 'owner'
     });
 

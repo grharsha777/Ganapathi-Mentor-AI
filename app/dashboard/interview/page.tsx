@@ -303,7 +303,7 @@ export default function InterviewPage() {
     if (state === 'setup') {
         return (
             <PageShell>
-                <div className="space-y-8 max-w-5xl mx-auto animate-in fade-in duration-700">
+                <div className="w-full space-y-8 animate-in fade-in duration-700">
                     {/* Hero Header */}
                     <div className="relative overflow-hidden rounded-2xl border border-white/[0.06] bg-gradient-to-br from-violet-950/50 via-background to-indigo-950/30 p-8 sm:p-12">
                         <div className="absolute top-0 right-0 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
@@ -533,7 +533,7 @@ export default function InterviewPage() {
     if (state === 'report' && report) {
         return (
             <PageShell>
-                <div className="max-w-3xl mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
+                <div className="w-full space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
                     {/* Hero Score */}
                     <div className="relative overflow-hidden rounded-2xl border border-white/[0.06] bg-gradient-to-br from-violet-950/50 via-card/50 to-purple-950/30 p-8 text-center">
                         <div className="absolute top-0 right-0 w-72 h-72 bg-violet-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />

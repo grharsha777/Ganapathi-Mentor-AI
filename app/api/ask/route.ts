@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
     try {
         const token = req.cookies.get('token')?.value;
         if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-        const decoded = await verifyToken(token) as any;
+        const decoded = await verifyToken(token);
         if (!decoded) return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
 
         await connectToDatabase();
@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
 
         try {
             await Question.create({
-                user_id: decoded.userId,
+                user_id: decoded.id,
                 session_id: sessionId || null,
                 question: question,
                 answer: answer,

@@ -9,6 +9,11 @@ import { verifyToken } from '@/lib/auth';
 import { getAIModelOrNull, isAIConfigured } from '@/lib/ai';
 import { generateObject } from 'ai';
 import { z } from 'zod';
+import { resolveRoadmapResources, type ResourceIntent } from '@/lib/learning/resource-intelligence';
+import type { LearningRoadmap } from '@/lib/learning/types';
+import { serializeLearningPath } from '@/lib/learning/server/serialize';
+
+const learningLevelSchema = z.enum(['Beginner', 'Intermediate', 'Advanced', 'Expert']);
 
 const roadmapSchema = z.object({
     title: z.string(),
@@ -17,10 +22,13 @@ const roadmapSchema = z.object({
         title: z.string(),
         description: z.string(),
         week: z.number(),
+        goals: z.array(z.string()).optional().default([]),
+        concepts: z.array(z.string()).optional().default([]),
         resources: z.array(z.object({
             title: z.string(),
-            url: z.string(),
-            type: z.enum(['video', 'article', 'doc', 'course']),
+            url: z.string().optional().default(''),
+            query: z.string().optional(),
+            type: z.enum(['video', 'article', 'doc', 'course', 'paper', 'practice', 'project', 'quiz', 'checkpoint']),
             is_completed: z.boolean().optional(),
         })),
     })),
@@ -49,9 +57,12 @@ function generateTemplateMilestones(role: string, weeks: number) {
             week: i + 1,
             title: `Week ${i + 1}: ${phase.title}`,
             description: phase.description,
+            goals: [],
+            concepts: [],
             resources: [
-                { title: `${role} - ${phase.title} Tutorial`, url: 'https://youtube.com/results?search_query=' + encodeURIComponent(`${role} ${phase.title} tutorial 2025`), type: 'video' as const, is_completed: false },
-                { title: `${phase.title} Guide`, url: 'https://google.com/search?q=' + encodeURIComponent(`${role} ${phase.title} guide`), type: 'article' as const, is_completed: false },
+                { title: `${role}: ${phase.title} tutorial`, url: '', query: `${role} ${phase.title} tutorial`, type: 'video' as const, is_completed: false },
+                { title: `${phase.title}: official documentation`, url: '', query: `${role} ${phase.title} documentation`, type: 'doc' as const, is_completed: false },
+                { title: `${phase.title}: implementation guide`, url: '', query: `${role} ${phase.title} guide`, type: 'article' as const, is_completed: false },
             ],
         });
     }
@@ -63,28 +74,34 @@ export async function POST(req: NextRequest) {
         const token = req.cookies.get('token')?.value;
         if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-        const decoded = (await verifyToken(token)) as { userId: string } | null;
+        const decoded = await verifyToken(token);
         if (!decoded) return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
+
+        const userId = decoded.id ?? decoded.userId;
+        if (!userId) return NextResponse.json({ error: 'Invalid token payload' }, { status: 401 });
 
         const { role, repoUrl, focusAreas, durationWeeks = 4, level = 'Intermediate' } = await req.json();
         const roleStr = role || 'Developer';
         const weeks = Math.max(1, Math.min(12, durationWeeks));
+        const normalizedLevel = learningLevelSchema.parse(level);
 
         const model = getAIModelOrNull();
-        let roadmap;
+        let roadmap: z.infer<typeof roadmapSchema>;
 
         if (model && isAIConfigured()) {
             try {
-                const prompt = `Create a personalized ${weeks}-week learning roadmap for a ${level} level ${roleStr}.
+                const prompt = `Create a personalized ${weeks}-week learning roadmap for a ${normalizedLevel} level ${roleStr}.
 Focus areas: ${focusAreas || 'General improvement'}.
 CRITICAL REQUIREMENTS:
 - Generate exactly ${weeks} milestones (1 per week).
-- Each milestone MUST have 5-10 resources.
-- Resources MUST include real YouTube video URLs (use format https://www.youtube.com/results?search_query=TOPIC).
-- Mix resource types: at least 3 videos, 2 articles, 1 documentation link per milestone.
+- Each milestone MUST include goals[] and concepts[] (3-6 each).
+- Each milestone MUST include resource intents (6-9 items). Do not output Google/Bing search URLs.
+- For videos: provide a query string; you may leave url empty.
+- For docs/articles: prefer official docs URLs when confident; otherwise provide a query string.
+- Never output youtube.com/results as the main resource (fallback-only).
 - Make titles descriptive and specific to the topic.
 - Progress from fundamentals to advanced over the ${weeks} weeks.
-- Tailor difficulty to ${level} level.`;
+ - Tailor difficulty to ${normalizedLevel} level.`;
                 const { object } = await generateObject({ model, schema: roadmapSchema, prompt });
                 roadmap = object;
             } catch (e) {
@@ -103,30 +120,80 @@ CRITICAL REQUIREMENTS:
             };
         }
 
+        // Resolve, validate, dedupe, and rank real resources (videos/docs/articles/papers).
+        const resolvedMilestones = await resolveRoadmapResources({
+            role: roleStr,
+            level: normalizedLevel,
+            milestones: roadmap.milestones.map((m) => ({
+                title: m.title,
+                description: m.description,
+                week: m.week,
+                goals: m.goals ?? [],
+                concepts: m.concepts ?? [],
+                intents: (m.resources || []).map((r) => ({
+                    title: r.title,
+                    url: r.url,
+                    query: r.query,
+                    type: r.type,
+                })) satisfies ResourceIntent[],
+            })),
+        });
+
         const conn = await connectSafe();
-        if (conn && decoded.userId) {
+        if (conn && userId) {
             try {
-                await LearningPath.create({
-                    user_id: decoded.userId,
+                const created = await LearningPath.create({
+                    user_id: userId,
                     title: roadmap.title,
                     description: roadmap.description,
                     role: roleStr,
+                    level: normalizedLevel,
+                    duration_weeks: weeks,
                     generated_from_repo_url: repoUrl,
-                    milestones: roadmap.milestones.map((m: { title: string; description: string; week: number; resources: { title: string; url: string; type: string; is_completed?: boolean }[] }, idx: number) => ({
+                    milestones: resolvedMilestones.map((m, idx) => ({
                         title: m.title,
                         description: m.description,
                         week: m.week,
                         order_index: idx,
                         due_date: new Date(Date.now() + m.week * 7 * 24 * 60 * 60 * 1000),
-                        resources: (m.resources || []).map((r: { title: string; url: string; type: string; is_completed?: boolean }) => ({ ...r, is_completed: r.is_completed ?? false })),
+                        goals: m.goals ?? [],
+                        concepts: m.concepts ?? [],
+                        estimated_minutes: m.estimated_minutes ?? 0,
+                        resources: (m.resources || []).map((r) => ({
+                            title: r.title,
+                            url: r.url,
+                            type: r.type,
+                            is_completed: r.is_completed ?? false,
+                            confidence: r.confidence,
+                            provider: r.provider,
+                            domain: r.domain,
+                            relevance_note: r.relevance_note,
+                            freshness: r.freshness,
+                            estimated_minutes: r.estimated_minutes,
+                            metadata: r.metadata ?? {},
+                        })),
                     })),
                 });
+
+                return NextResponse.json({ success: true, roadmap: serializeLearningPath(created) });
             } catch (e) {
                 console.warn('LearningPath save failed:', e);
             }
         }
 
-        return NextResponse.json({ success: true, roadmap });
+        // Offline / no DB configured fallback
+        return NextResponse.json({
+            success: true,
+            roadmap: {
+                id: 'generated',
+                title: roadmap.title,
+                description: roadmap.description,
+                role: roleStr,
+                level: normalizedLevel,
+                durationWeeks: weeks,
+                milestones: resolvedMilestones,
+            } satisfies LearningRoadmap,
+        });
     } catch (error: unknown) {
         console.error('Learning Path Generation Error:', error);
         return NextResponse.json(

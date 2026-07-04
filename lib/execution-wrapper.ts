@@ -1,6 +1,15 @@
 /**
  * This module wraps user-submitted code in the necessary boilerplate to 
  * read standard input, execute the function, and print standard output.
+ * 
+ * STRATEGY:
+ * - For known problem slugs, use problem-specific wrappers.
+ * - For unknown problems, use a SMART generic wrapper that:
+ *   1. Detects the user's function name from the code
+ *   2. Reads stdin as lines
+ *   3. Parses each input line as JSON (arrays, numbers, strings)
+ *   4. Calls the user function with parsed args
+ *   5. Prints the result as JSON
  */
 
 export function wrapCode(slug: string, language: string, userCode: string): string {
@@ -8,21 +17,145 @@ export function wrapCode(slug: string, language: string, userCode: string): stri
         'merge-two-sorted-lists': {
             python: pythonMergeTwoLists(userCode),
             javascript: jsMergeTwoLists(userCode),
-            cpp: cppMergeTwoLists(userCode),
-            java: javaMergeTwoLists(userCode),
-        }
+        },
+        'reverse-linked-list': {
+            python: pythonReverseLinkedList(userCode),
+            javascript: jsReverseLinkedList(userCode),
+        },
     };
 
-    // If we have a custom wrapper for this specific problem, use it.
-    if (wrapperMap[slug] && wrapperMap[slug][language]) {
+    if (wrapperMap[slug]?.[language]) {
         return wrapperMap[slug][language];
     }
 
-    // Otherwise, attempt a generic wrapper or just return raw code
     return generateGenericWrapper(language, userCode);
 }
 
-// ==== MERGE TWO SORTED LISTS ====
+// ==== GENERIC SMART WRAPPER ====
+
+function generateGenericWrapper(language: string, userCode: string): string {
+    if (language === 'python') return pythonGenericWrapper(userCode);
+    if (language === 'javascript') return jsGenericWrapper(userCode);
+    if (language === 'cpp') return cppGenericWrapper(userCode);
+    if (language === 'java') return javaGenericWrapper(userCode);
+    return userCode;
+}
+
+function pythonGenericWrapper(userCode: string): string {
+    return `
+import sys
+import json
+import re
+
+${userCode}
+
+def _parse_val(s):
+    s = s.strip()
+    if not s:
+        return s
+    try:
+        return json.loads(s)
+    except:
+        return s
+
+def _format_output(val):
+    if val is None:
+        return "null"
+    if isinstance(val, bool):
+        return "true" if val else "false"
+    if isinstance(val, list):
+        return json.dumps(val, separators=(',', ': '))
+    if isinstance(val, str):
+        return val
+    return str(val)
+
+if __name__ == '__main__':
+    # Find the user's main function name
+    code_text = """${userCode.replace(/\\/g, '\\\\').replace(/"""/g, '\\"\\"\\"')}"""
+    fn_match = re.findall(r'^def\\s+(\\w+)\\s*\\(', code_text, re.MULTILINE)
+    # Filter out helper/private functions
+    fn_names = [f for f in fn_match if not f.startswith('_')]
+    
+    if not fn_names:
+        # No function found - just execute the code as-is (for SQL etc.)
+        pass
+    else:
+        func_name = fn_names[0]
+        func = globals().get(func_name)
+        if func:
+            lines = sys.stdin.read().strip().splitlines()
+            args = [_parse_val(line) for line in lines]
+            try:
+                result = func(*args)
+                print(_format_output(result))
+            except TypeError:
+                # If too many args, try with fewer
+                try:
+                    result = func(args[0]) if len(args) == 1 else func(args[0], args[1])
+                    print(_format_output(result))
+                except Exception as e:
+                    print(str(e))
+`;
+}
+
+function jsGenericWrapper(userCode: string): string {
+    return `
+${userCode}
+
+const fs = require('fs');
+
+function _parseVal(s) {
+    s = s.trim();
+    if (!s) return s;
+    try { return JSON.parse(s); } catch { return s; }
+}
+
+function _formatOutput(val) {
+    if (val === null || val === undefined) return "null";
+    if (typeof val === 'boolean') return val ? "true" : "false";
+    if (Array.isArray(val)) return JSON.stringify(val);
+    return String(val);
+}
+
+// Detect function name
+const codeText = ${JSON.stringify(userCode)};
+const fnMatch = codeText.match(/function\\s+(\\w+)\\s*\\(/g) || [];
+const fnNames = fnMatch.map(m => m.replace(/function\\s+/, '').replace(/\\s*\\(/, '')).filter(n => !n.startsWith('_'));
+
+if (fnNames.length > 0) {
+    const funcName = fnNames[0];
+    const func = eval(funcName);
+    
+    try {
+        const input = fs.readFileSync('/dev/stdin', 'utf-8').trim();
+        const lines = input.split('\\n');
+        const args = lines.map(_parseVal);
+        
+        let result;
+        try {
+            result = func(...args);
+        } catch {
+            result = args.length === 1 ? func(args[0]) : func(args[0], args[1]);
+        }
+        console.log(_formatOutput(result));
+    } catch (e) {
+        console.log(e.message);
+    }
+}
+`;
+}
+
+function cppGenericWrapper(userCode: string): string {
+    // For C++, just return the raw code - user needs to handle I/O
+    return userCode;
+}
+
+function javaGenericWrapper(userCode: string): string {
+    // For Java, just return the raw code - user needs to handle I/O
+    return userCode;
+}
+
+// ==== LINKED LIST WRAPPERS ====
 
 function pythonMergeTwoLists(userCode: string) {
     return `
@@ -45,218 +178,123 @@ def build_list(arr):
         curr = curr.next
     return head
 
-def print_list(node):
+def list_to_arr(node):
     res = []
     while node:
         res.append(node.val)
         node = node.next
-    print("[" + ",".join(map(str, res)) + "]")
+    return res
 
 if __name__ == '__main__':
-    try:
-        lines = sys.stdin.read().splitlines()
-        if len(lines) >= 2:
-            l1 = build_list(json.loads(lines[0]))
-            l2 = build_list(json.loads(lines[1]))
-            res = mergeTwoLists(l1, l2)
-            print_list(res)
-    except Exception as e:
-        print(str(e))
+    lines = sys.stdin.read().splitlines()
+    if len(lines) >= 2:
+        l1 = build_list(json.loads(lines[0]))
+        l2 = build_list(json.loads(lines[1]))
+        res = mergeTwoLists(l1, l2)
+        print(json.dumps(list_to_arr(res)))
 `;
 }
 
 function jsMergeTwoLists(userCode: string) {
     return `
 class ListNode {
-    constructor(val = 0, next = null) {
-        this.val = val;
-        this.next = next;
-    }
+    constructor(val = 0, next = null) { this.val = val; this.next = next; }
 }
 
 ${userCode}
 
 function buildList(arr) {
-    if (!arr || arr.length === 0) return null;
+    if (!arr || !arr.length) return null;
     let head = new ListNode(arr[0]);
     let curr = head;
-    for (let i = 1; i < arr.length; i++) {
-        curr.next = new ListNode(arr[i]);
-        curr = curr.next;
-    }
+    for (let i = 1; i < arr.length; i++) { curr.next = new ListNode(arr[i]); curr = curr.next; }
     return head;
 }
 
-function printList(node) {
+function listToArr(node) {
     let res = [];
-    while (node) {
-        res.push(node.val);
-        node = node.next;
-    }
-    console.log("[" + res.join(",") + "]");
-}
-
-const fs = require('fs');
-try {
-    const input = fs.readFileSync('/dev/stdin', 'utf-8').trim().split('\\n');
-    if (input.length >= 2) {
-        const l1 = buildList(JSON.parse(input[0]));
-        const l2 = buildList(JSON.parse(input[1]));
-        const res = mergeTwoLists(l1, l2);
-        printList(res);
-    }
-} catch (e) {
-    console.log(e.message);
-}
-`;
-}
-
-function cppMergeTwoLists(userCode: string) {
-    return `
-#include <iostream>
-#include <vector>
-#include <string>
-#include <sstream>
-
-using namespace std;
-
-struct ListNode {
-    int val;
-    ListNode *next;
-    ListNode() : val(0), next(nullptr) {}
-    ListNode(int x) : val(x), next(nullptr) {}
-    ListNode(int x, ListNode *next) : val(x), next(next) {}
-};
-
-// Remove the standalone function declaration if user included it, 
-// but we just assume the user code provides ListNode* mergeTwoLists(ListNode* l1, ListNode* l2)
-${userCode}
-
-ListNode* buildList(const vector<int>& v) {
-    if (v.empty()) return nullptr;
-    ListNode* head = new ListNode(v[0]);
-    ListNode* curr = head;
-    for (size_t i = 1; i < v.size(); ++i) {
-        curr->next = new ListNode(v[i]);
-        curr = curr->next;
-    }
-    return head;
-}
-
-void printList(ListNode* node) {
-    cout << "[";
-    bool first = true;
-    while (node) {
-        if (!first) cout << ",";
-        cout << node->val;
-        first = false;
-        node = node->next;
-    }
-    cout << "]" << endl;
-}
-
-vector<int> parseArray(string s) {
-    vector<int> res;
-    if (s.empty() || s == "[]") return res;
-    s = s.substr(1, s.length() - 2); // remove [ and ]
-    stringstream ss(s);
-    string item;
-    while (getline(ss, item, ',')) {
-        res.push_back(stoi(item));
-    }
+    while (node) { res.push(node.val); node = node.next; }
     return res;
 }
 
-int main() {
-    string line1, line2;
-    if (getline(cin, line1) && getline(cin, line2)) {
-        ListNode* l1 = buildList(parseArray(line1));
-        ListNode* l2 = buildList(parseArray(line2));
-        ListNode* res = mergeTwoLists(l1, l2);
-        printList(res);
-    }
-    return 0;
+const fs = require('fs');
+const lines = fs.readFileSync('/dev/stdin', 'utf-8').trim().split('\\n');
+if (lines.length >= 2) {
+    const l1 = buildList(JSON.parse(lines[0]));
+    const l2 = buildList(JSON.parse(lines[1]));
+    const res = mergeTwoLists(l1, l2);
+    console.log(JSON.stringify(listToArr(res)));
 }
 `;
 }
 
-function javaMergeTwoLists(userCode: string) {
+function pythonReverseLinkedList(userCode: string) {
     return `
-import java.util.*;
-import java.io.*;
+import sys
+import json
 
-class ListNode {
-    int val;
-    ListNode next;
-    ListNode() {}
-    ListNode(int val) { this.val = val; }
-    ListNode(int val, ListNode next) { this.val = val; this.next = next; }
-}
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
 
-public class Main {
-    
-${userCode.replace(/public\\s+ListNode\\s+mergeTwoLists/, 'public static ListNode mergeTwoLists')}
+${userCode}
 
-    public static ListNode buildList(int[] arr) {
-        if (arr == null || arr.length == 0) return null;
-        ListNode head = new ListNode(arr[0]);
-        ListNode curr = head;
-        for (int i = 1; i < arr.length; i++) {
-            curr.next = new ListNode(arr[i]);
-            curr = curr.next;
-        }
-        return head;
-    }
+def build_list(arr):
+    if not arr: return None
+    head = ListNode(arr[0])
+    curr = head
+    for val in arr[1:]:
+        curr.next = ListNode(val)
+        curr = curr.next
+    return head
 
-    public static void printList(ListNode node) {
-        List<Integer> res = new ArrayList<>();
-        while (node != null) {
-            res.add(node.val);
-            node = node.next;
-        }
-        System.out.print("[");
-        for (int i = 0; i < res.size(); i++) {
-            System.out.print(res.get(i));
-            if (i < res.size() - 1) System.out.print(",");
-        }
-        System.out.println("]");
-    }
+def list_to_arr(node):
+    res = []
+    while node:
+        res.append(node.val)
+        node = node.next
+    return res
 
-    public static int[] parseArray(String s) {
-        if (s == null || s.trim().equals("[]") || s.trim().isEmpty()) return new int[0];
-        s = s.substring(1, s.length() - 1);
-        String[] parts = s.split(",");
-        int[] arr = new int[parts.length];
-        for (int i = 0; i < parts.length; i++) {
-            arr[i] = Integer.parseInt(parts[i].trim());
-        }
-        return arr;
-    }
-
-    public static void main(String[] args) {
-        try (Scanner scanner = new Scanner(System.in)) {
-            if (scanner.hasNextLine()) {
-                String line1 = scanner.nextLine();
-                String line2 = scanner.nextLine();
-                ListNode l1 = buildList(parseArray(line1));
-                ListNode l2 = buildList(parseArray(line2));
-                ListNode res = mergeTwoLists(l1, l2);
-                printList(res);
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
-}
+if __name__ == '__main__':
+    lines = sys.stdin.read().splitlines()
+    if lines:
+        arr = json.loads(lines[0])
+        head = build_list(arr)
+        res = reverseList(head)
+        print(json.dumps(list_to_arr(res)))
 `;
 }
 
-// ==== GENERIC WRAPPER (Fallback for simple string processing) ====
+function jsReverseLinkedList(userCode: string) {
+    return `
+class ListNode {
+    constructor(val = 0, next = null) { this.val = val; this.next = next; }
+}
 
-function generateGenericWrapper(language: string, userCode: string) {
-    // If it's just raw functions, it won't execute without a print block.
-    // This generic wrapper attempts to guess the function and invoke it with line inputs,
-    // assuming inputs are simple strings or comma separated numbers.
-    // For now, we will just return userCode if we don't have a reliable generic wrapper.
-    return userCode;
+${userCode}
+
+function buildList(arr) {
+    if (!arr || !arr.length) return null;
+    let head = new ListNode(arr[0]);
+    let curr = head;
+    for (let i = 1; i < arr.length; i++) { curr.next = new ListNode(arr[i]); curr = curr.next; }
+    return head;
+}
+
+function listToArr(node) {
+    let res = [];
+    while (node) { res.push(node.val); node = node.next; }
+    return res;
+}
+
+const fs = require('fs');
+const lines = fs.readFileSync('/dev/stdin', 'utf-8').trim().split('\\n');
+if (lines.length > 0) {
+    const arr = JSON.parse(lines[0]);
+    const head = buildList(arr);
+    const res = reverseList(head);
+    console.log(JSON.stringify(listToArr(res)));
+}
+`;
 }

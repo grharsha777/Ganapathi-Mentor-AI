@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
 
         // Fetch last 5 finished sessions
         const sessions = await Session.find({
-            user_id: decoded.userId,
+            user_id: decoded.id,
             ended_at: { $exists: true, $ne: null }
         })
             .sort({ ended_at: -1 })

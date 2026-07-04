@@ -9,10 +9,12 @@ export async function GET(req: NextRequest) {
   const stateParams = searchParams.get('state');
 
   let nextUrl = '/dashboard';
+  let provider = 'google';
   if (stateParams) {
     try {
       const decodedState = JSON.parse(decodeURIComponent(stateParams));
       if (decodedState.next) nextUrl = decodedState.next;
+      if (decodedState.provider) provider = decodedState.provider;
     } catch (e) {
       console.error('Failed to parse OAuth state parameter:', e);
     }
@@ -22,30 +24,95 @@ export async function GET(req: NextRequest) {
     return NextResponse.redirect(new URL('/auth/error?message=Authorization code missing', req.url));
   }
 
-  const clientId = process.env.GOOGLE_CLIENT_ID;
-  const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
   const redirectUri = `${req.nextUrl.origin}/api/auth/oauth/callback`;
 
   try {
-    const tokenRes = await fetch('https://oauth2.googleapis.com/token', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({
-        client_id: clientId!,
-        client_secret: clientSecret!,
-        code,
-        grant_type: 'authorization_code',
-        redirect_uri: redirectUri,
-      })
-    });
-    const tokenData = await tokenRes.json();
-    if (!tokenRes.ok) throw new Error(tokenData.error_description || 'Failed to fetch tokens');
+    let userData: { email: string; name: string; picture?: string };
 
-    const userRes = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
-      headers: { Authorization: `Bearer ${tokenData.access_token}` }
-    });
-    const userData = await userRes.json();
-    if (!userRes.ok) throw new Error('Failed to get user profile');
+    if (provider === 'google') {
+      const clientId = process.env.GOOGLE_CLIENT_ID;
+      const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+      
+      const tokenRes = await fetch('https://oauth2.googleapis.com/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          client_id: clientId!,
+          client_secret: clientSecret!,
+          code,
+          grant_type: 'authorization_code',
+          redirect_uri: redirectUri,
+        })
+      });
+      const tokenData = await tokenRes.json();
+      if (!tokenRes.ok) throw new Error(tokenData.error_description || 'Failed to fetch Google tokens');
+
+      const userRes = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
+        headers: { Authorization: `Bearer ${tokenData.access_token}` }
+      });
+      const googleData = await userRes.json();
+      if (!userRes.ok) throw new Error('Failed to get Google user profile');
+      
+      userData = {
+        email: googleData.email,
+        name: googleData.name,
+        picture: googleData.picture
+      };
+    } else if (provider === 'github') {
+      const clientId = process.env.GITHUB_CLIENT_ID;
+      const clientSecret = process.env.GITHUB_CLIENT_SECRET;
+      
+      const tokenRes = await fetch('https://github.com/login/oauth/access_token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        body: JSON.stringify({
+          client_id: clientId,
+          client_secret: clientSecret,
+          code,
+          redirect_uri: redirectUri,
+        })
+      });
+      const tokenData = await tokenRes.json();
+      if (tokenData.error) throw new Error(tokenData.error_description || 'Failed to fetch GitHub tokens');
+      
+      const userRes = await fetch('https://api.github.com/user', {
+        headers: { 
+          Authorization: `Bearer ${tokenData.access_token}`,
+          Accept: 'application/vnd.github.v3+json'
+        }
+      });
+      const githubData = await userRes.json();
+      if (!userRes.ok) throw new Error('Failed to get GitHub user profile');
+
+      let email = githubData.email;
+      if (!email) {
+        // Fetch emails if primary email is not public
+        const emailRes = await fetch('https://api.github.com/user/emails', {
+          headers: { 
+            Authorization: `Bearer ${tokenData.access_token}`,
+            Accept: 'application/vnd.github.v3+json'
+          }
+        });
+        const emails = await emailRes.json();
+        const primaryEmail = emails.find((e: any) => e.primary) || emails[0];
+        if (primaryEmail) {
+          email = primaryEmail.email;
+        }
+      }
+
+      if (!email) throw new Error('No email found for GitHub user');
+
+      userData = {
+        email: email,
+        name: githubData.name || githubData.login,
+        picture: githubData.avatar_url
+      };
+    } else {
+      throw new Error(`Unsupported provider: ${provider}`);
+    }
 
     await connectToDatabase();
 
@@ -63,7 +130,7 @@ export async function GET(req: NextRequest) {
       await user.save();
     }
 
-    const token = await signToken({ userId: user._id, email: user.email, role: user.role });
+    const token = await signToken({ id: user._id, email: user.email, role: user.role });
 
     const response = NextResponse.redirect(new URL(nextUrl, req.url));
     response.cookies.set('token', token, {
@@ -80,10 +147,14 @@ export async function GET(req: NextRequest) {
     const errorMessage = error.message || 'An unknown error occurred during authentication';
     // Provide more context for common errors
     let userFriendlyMessage = errorMessage;
-    if (errorMessage.includes('Failed to fetch tokens')) {
+    if (errorMessage.includes('fetch Google tokens')) {
       userFriendlyMessage = 'Google authentication failed (token exchange). Please check your GOOGLE_CLIENT_SECRET.';
-    } else if (errorMessage.includes('Failed to get user profile')) {
+    } else if (errorMessage.includes('fetch GitHub tokens')) {
+      userFriendlyMessage = 'GitHub authentication failed (token exchange). Please check your GITHUB_CLIENT_SECRET.';
+    } else if (errorMessage.includes('get Google user profile')) {
       userFriendlyMessage = 'Google authentication failed (profile retrieval).';
+    } else if (errorMessage.includes('get GitHub user profile')) {
+      userFriendlyMessage = 'GitHub authentication failed (profile retrieval).';
     } else if (errorMessage.includes('MONGODB_URI')) {
       userFriendlyMessage = 'Database connection error. Please configure MONGODB_URI.';
     }

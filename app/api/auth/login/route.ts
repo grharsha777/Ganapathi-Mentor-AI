@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     }
     console.log(`Password matched for user: ${user.email}. Generating token.`);
 
-    const token = await signToken({ userId: user._id.toString(), email: user.email, role: user.role });
+    const token = await signToken({ id: user._id.toString(), email: user.email, role: user.role });
     console.log(`Token generated for user: ${user.email}.`);
 
     const response = NextResponse.json({
@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
     response.cookies.set('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      sameSite: 'strict',
       maxAge: 7 * 24 * 60 * 60 // 7 days
     });
 

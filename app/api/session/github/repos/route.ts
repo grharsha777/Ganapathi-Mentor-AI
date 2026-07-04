@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
         let ghToken: string | null = null;
         const conn = await connectSafe();
         if (conn) {
-            const integration = await UserIntegration.findOne({ user_id: decoded.userId });
+            const integration = await UserIntegration.findOne({ user_id: decoded.id });
             ghToken = integration?.github_token || null;
         }
         if (!ghToken) ghToken = GITHUB_TOKEN || null;

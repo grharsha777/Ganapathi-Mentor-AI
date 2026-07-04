@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
         const conn = await connectSafe();
         if (!conn) return NextResponse.json({ error: 'DB not connected' }, { status: 503 });
 
-        const userId = decoded.userId || decoded.id;
+        const userId = decoded.id;
 
         // Get user data
         const user = await User.findById(userId).lean() as any;

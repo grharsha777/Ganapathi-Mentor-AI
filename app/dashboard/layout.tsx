@@ -24,15 +24,24 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="flex flex-col h-screen bg-background relative overflow-hidden">
-      <DashboardNav user={user} />
-      <main className="flex-1 overflow-y-auto pb-6 sm:pb-8 lg:pb-32 xl:pb-44 flex flex-col items-center overscroll-y-contain">
-        <div className="w-full px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12 2xl:max-w-[1600px] 2xl:mx-auto">
+    <div className="flex flex-col h-screen bg-background relative overflow-hidden w-full text-foreground">
+      {/* Enterprise Cinematic Dashboard Background */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay" />
+        <div className="absolute -top-[20%] -right-[10%] w-[60%] h-[60%] bg-indigo-500/5 rounded-full blur-[140px]" />
+        <div className="absolute -bottom-[20%] -left-[10%] w-[60%] h-[60%] bg-purple-500/5 rounded-full blur-[140px]" />
+      </div>
+
+      <div className="relative z-10 flex flex-col h-full w-full">
+        <DashboardNav user={user} />
+      <main className="flex-1 overflow-y-auto w-full flex flex-col items-center overscroll-y-contain pb-32 sm:pb-40 lg:pb-52 relative">
+        <div className="w-full flex-1 flex flex-col p-4 sm:p-6 lg:p-8 min-w-0 relative">
           {children}
         </div>
       </main>
       <DashboardDock />
       <OnboardingTutorial />
+      </div>
     </div>
   )
 }

@@ -43,10 +43,6 @@ const APP_PAGES: Record<string, { name: string; url: string; description: string
     'docs': { name: 'Documentation Generator', url: `${BASE_URL}/dashboard/tools/docs`, description: 'Auto-generate documentation from code' },
     'documentation': { name: 'Documentation Generator', url: `${BASE_URL}/dashboard/tools/docs`, description: 'Auto-generate documentation from code' },
     'github': { name: 'GitHub Integration', url: `${BASE_URL}/dashboard/github`, description: 'Connect your GitHub for repo analysis' },
-    'analytics': { name: 'Analytics - Performance', url: `${BASE_URL}/dashboard/analytics/performance`, description: 'Track learning progress and coding metrics' },
-    'performance': { name: 'Analytics - Performance', url: `${BASE_URL}/dashboard/analytics/performance`, description: 'Track learning progress and coding metrics' },
-    'anomalies': { name: 'Analytics - Anomalies', url: `${BASE_URL}/dashboard/analytics/anomalies`, description: 'Detect anomalies in your coding patterns' },
-    'collaboration': { name: 'Collaboration', url: `${BASE_URL}/dashboard/collaboration`, description: 'Team collaboration and project sharing' },
     'research': { name: 'Research Hub', url: `${BASE_URL}/dashboard/research`, description: 'Deep research with web search and AI analysis' },
     'media': { name: 'Media Studio', url: `${BASE_URL}/dashboard/media/studio`, description: 'AI image generation for project assets' },
     'studio': { name: 'Media Studio', url: `${BASE_URL}/dashboard/media/studio`, description: 'AI image generation for project assets' },
@@ -103,10 +99,7 @@ You live inside the **Ganapathi Mentor AI** platform. You have full access to th
    - **Deep Code Review** ([Open](${BASE_URL}/dashboard/code-review)): Paste code to get security, performance, and best-practice analysis.
    - **CodeCollab** ([Open](${BASE_URL}/dashboard/collab)): Real-time team collaboration and project sharing.
    - **GitHub Integration** ([Open](${BASE_URL}/dashboard/github)): Connect GitHub to let me analyze entire repositories.
-3. **Analytics & Performance:**
-   - **Performance Analytics** ([Open](${BASE_URL}/dashboard/analytics/performance)): Track coding metrics and learning progression.
-   - **Anomaly Detection** ([Open](${BASE_URL}/dashboard/analytics/anomalies)): AI detection of bad coding patterns or sudden drops in productivity.
-4. **Research & Tools:**
+3. **Research & Tools:**
    - **Research Hub** ([Open](${BASE_URL}/dashboard/research)): Deep research with web search, RAG, and AI synthesis.
    - **Productivity Tools** ([Open](${BASE_URL}/dashboard/tools/productivity)): Task management and focus tools.
    - **Documentation Generator** ([Open](${BASE_URL}/dashboard/tools/docs)): Auto-generate READMEs and inline docs from code.
@@ -142,7 +135,7 @@ Here is what you know about this specific user from the database:
 export async function POST(req: NextRequest) {
     const token = req.cookies.get('token')?.value;
     if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    const decoded = await verifyToken(token) as { userId: string } | null;
+    const decoded = await verifyToken(token);
 
     if (!decoded) {
         return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -178,9 +171,9 @@ export async function POST(req: NextRequest) {
         try {
             await connectToDatabase();
             const [userData, userConcepts, userPaths] = await Promise.all([
-                User.findById(decoded.userId).select('full_name email role created_at').lean(),
-                Concept.find({ user_id: decoded.userId }).select('title difficulty is_mastered').sort({ created_at: -1 }).limit(25).lean(),
-                LearningPath.find({ user_id: decoded.userId }).select('title status').sort({ created_at: -1 }).limit(10).lean(),
+                User.findById(decoded.id).select('full_name email role created_at').lean(),
+                Concept.find({ user_id: decoded.id }).select('title difficulty is_mastered').sort({ created_at: -1 }).limit(25).lean(),
+                LearningPath.find({ user_id: decoded.id }).select('title status').sort({ created_at: -1 }).limit(10).lean(),
             ]);
 
             const parts: string[] = [];

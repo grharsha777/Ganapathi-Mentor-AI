@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Compass, Cpu, Code, Globe, Activity, HeartPulse, Loader2, ArrowUpRight, Zap, RefreshCw } from 'lucide-react';
+import { Search, Compass, Cpu, Code, Globe, Activity, HeartPulse, Loader2, ArrowUpRight, Zap, RefreshCw, ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
 
@@ -17,17 +17,20 @@ interface NewsArticle {
     source: string;
     author: string | null;
     publishedAt: string;
-    apiSource: 'newsdata' | 'newsapi';
+    apiSource: string;
+    hasVideo?: boolean;
+    videoThumbnailId?: string;
 }
 
 const CATEGORIES = [
     { id: 'all', label: 'All News', icon: Compass, color: 'from-blue-500 to-indigo-600' },
-    { id: 'ai', label: 'AI & ML', icon: Cpu, color: 'from-purple-500 to-fuchsia-600' },
     { id: 'technology', label: 'Technology', icon: Zap, color: 'from-cyan-500 to-blue-600' },
+    { id: 'ai', label: 'AI & ML', icon: Cpu, color: 'from-purple-500 to-fuchsia-600' },
     { id: 'developer', label: 'Developer', icon: Code, color: 'from-emerald-500 to-teal-600' },
     { id: 'science', label: 'Science', icon: Globe, color: 'from-orange-500 to-red-600' },
-    { id: 'business', label: 'Business', icon: Activity, color: 'from-amber-500 to-orange-600' },
-    { id: 'health', label: 'Health', icon: HeartPulse, color: 'from-rose-500 to-pink-600' },
+    { id: 'movies', label: 'Movies & Ent.', icon: Activity, color: 'from-pink-500 to-rose-600' },
+    { id: 'cricket', label: 'Cricket / Sports', icon: Activity, color: 'from-amber-500 to-orange-600' },
+    { id: 'god_stories', label: 'God Stories', icon: HeartPulse, color: 'from-yellow-500 to-amber-600' },
 ];
 
 export function NewsHub() {
@@ -38,6 +41,9 @@ export function NewsHub() {
     const [isLoading, setIsLoading] = useState(true);
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [error, setError] = useState<string | null>(null);
+
+    // Carousel state
+    const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
 
     // Debounce search input
     useEffect(() => {
@@ -82,9 +88,23 @@ export function NewsHub() {
         fetchNews();
     }, [fetchNews]);
 
-    // Derived state
-    const heroArticle = articles.length > 0 ? articles[0] : null;
-    const gridArticles = articles.length > 1 ? articles.slice(1) : [];
+    // Derived state for Carousel & Grid
+    const heroArticles = articles.slice(0, Math.min(5, articles.length));
+    const gridArticles = articles.slice(heroArticles.length);
+
+    // Reset carousel index when articles change
+    useEffect(() => {
+        setCurrentHeroIndex(0);
+    }, [articles]);
+
+    // Auto-advance carousel
+    useEffect(() => {
+        if (heroArticles.length <= 1) return;
+        const timer = setInterval(() => {
+            setCurrentHeroIndex((prev) => (prev + 1) % heroArticles.length);
+        }, 8000); // 8 second rotation
+        return () => clearInterval(timer);
+    }, [heroArticles.length]);
 
     // Format relative time helper
     const getRelativeTime = (dateString: string) => {
@@ -185,6 +205,37 @@ export function NewsHub() {
                 </div>
             </div>
 
+            {/* Trusted Sources Indicator */}
+            <div className="flex items-center justify-center gap-2 sm:gap-6 py-2 z-20">
+                <span className="text-xs font-semibold text-muted-foreground uppercase tracking-widest hidden sm:inline-block">Powering Global News:</span>
+                <div className="flex flex-wrap items-center justify-center gap-2">
+                    <div className="flex items-center gap-1.5 px-3 py-1 bg-white/5 border border-white/10 rounded-full">
+                        <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                        <span className="text-xs font-medium text-white/80">MediaStack</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 px-3 py-1 bg-white/5 border border-white/10 rounded-full">
+                        <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" style={{ animationDelay: '300ms' }} />
+                        <span className="text-xs font-medium text-white/80">NewsAPI</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 px-3 py-1 bg-white/5 border border-white/10 rounded-full">
+                        <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" style={{ animationDelay: '600ms' }} />
+                        <span className="text-xs font-medium text-white/80">SerpAPI</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 px-3 py-1 bg-white/5 border border-white/10 rounded-full">
+                        <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" style={{ animationDelay: '900ms' }} />
+                        <span className="text-xs font-medium text-white/80">NewsData</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 px-3 py-1 bg-white/5 border border-white/10 rounded-full">
+                        <div className="w-2 h-2 rounded-full bg-cyan-500 animate-pulse" style={{ animationDelay: '1200ms' }} />
+                        <span className="text-xs font-medium text-white/80">Bing News</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 px-3 py-1 bg-white/5 border border-white/10 rounded-full">
+                        <div className="w-2 h-2 rounded-full bg-purple-500 animate-pulse" style={{ animationDelay: '1500ms' }} />
+                        <span className="text-xs font-medium text-white/80">GNews</span>
+                    </div>
+                </div>
+            </div>
+
             {/* Main Content Area */}
             <div className="relative min-h-[400px]">
                 {error ? (
@@ -208,68 +259,124 @@ export function NewsHub() {
                 ) : (
                     <div className="space-y-6 sm:space-y-8 pb-10">
 
-                        {/* Hero Article Spotlight */}
-                        {heroArticle && (
-                            <motion.a
-                                href={heroArticle.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5, ease: "easeOut" }}
-                                className="group relative block w-full rounded-[2rem] overflow-hidden bg-card border border-white/10 shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ring-offset-background"
-                            >
-                                {/* Background Image Setup */}
-                                <div className="absolute inset-0 w-full h-full">
-                                    {heroArticle.imageUrl ? (
-                                        <img
-                                            src={heroArticle.imageUrl}
-                                            alt={heroArticle.title}
-                                            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                                            loading="lazy"
-                                        />
-                                    ) : (
-                                        <div className="w-full h-full bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900" />
-                                    )}
-                                    {/* Heavy dark gradient overlay for text readability */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-80" />
-                                    <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/40 to-transparent" />
-                                </div>
+                        {/* Hero Article Spotlight Carousel */}
+                        {heroArticles.length > 0 && (
+                            <div className="relative w-full rounded-[2rem] overflow-hidden bg-card border border-white/10 shadow-2xl group min-h-[400px] sm:min-h-[500px] lg:min-h-[600px] flex items-end">
+                                <AnimatePresence mode="wait">
+                                    <motion.a
+                                        key={currentHeroIndex}
+                                        href={heroArticles[currentHeroIndex].url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        initial={{ opacity: 0, scale: 1.02 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        exit={{ opacity: 0 }}
+                                        transition={{ duration: 0.6, ease: "easeOut" }}
+                                        className="absolute inset-0 block w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ring-offset-background"
+                                    >
+                                        {/* Background Image Setup */}
+                                        <div className="absolute inset-0 w-full h-full">
+                                            {heroArticles[currentHeroIndex].imageUrl ? (
+                                                <img
+                                                    src={heroArticles[currentHeroIndex].imageUrl}
+                                                    alt={heroArticles[currentHeroIndex].title}
+                                                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                                                    loading="lazy"
+                                                />
+                                            ) : (
+                                                <div className="w-full h-full bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900" />
+                                            )}
+                                            {/* Heavy dark gradient overlay for text readability */}
+                                            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-80" />
+                                            <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/40 to-transparent" />
+                                        </div>
 
-                                {/* Content */}
-                                <div className="relative z-10 flex flex-col justify-end min-h-[400px] sm:min-h-[500px] lg:min-h-[600px] p-6 sm:p-10 lg:p-14 w-full md:w-4/5 lg:w-3/4">
-                                    <div className="flex items-center gap-3 mb-4 sm:mb-6">
-                                        <span className="px-3 py-1 rounded-full bg-primary/20 text-primary border border-primary/30 text-xs sm:text-sm font-bold backdrop-blur-md">
-                                            {heroArticle.source}
-                                        </span>
-                                        <span className="text-sm font-medium text-white/60 flex items-center gap-1.5">
-                                            <Activity className="w-3.5 h-3.5" />
-                                            {getRelativeTime(heroArticle.publishedAt)}
-                                        </span>
-                                    </div>
+                                        {/* Content */}
+                                        <div className="absolute bottom-0 left-0 flex flex-col justify-end p-6 sm:p-10 lg:p-14 w-full md:w-4/5 lg:w-3/4">
+                                            <div className="flex items-center gap-3 mb-4 sm:mb-6">
+                                                <span className="px-3 py-1 rounded-full bg-primary/20 text-primary border border-primary/30 text-xs sm:text-sm font-bold backdrop-blur-md">
+                                                    {heroArticles[currentHeroIndex].source}
+                                                </span>
+                                                <span className="text-sm font-medium text-white/60 flex items-center gap-1.5">
+                                                    <Activity className="w-3.5 h-3.5" />
+                                                    {getRelativeTime(heroArticles[currentHeroIndex].publishedAt)}
+                                                </span>
+                                            </div>
 
-                                    <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-white leading-[1.15] tracking-tight mb-4 group-hover:text-primary-foreground transition-colors drop-shadow-lg text-balance">
-                                        {heroArticle.title}
-                                    </h2>
+                                            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-white leading-[1.15] tracking-tight mb-4 group-hover:text-primary-foreground transition-colors drop-shadow-lg text-balance">
+                                                {heroArticles[currentHeroIndex].title}
+                                            </h2>
 
-                                    <p className="text-sm sm:text-base lg:text-lg pl-0.5 text-white/70 line-clamp-2 md:line-clamp-3 mb-6 sm:mb-8 font-medium max-w-2xl leading-relaxed drop-shadow">
-                                        {heroArticle.description}
-                                    </p>
+                                            <p className="text-sm sm:text-base lg:text-lg pl-0.5 text-white/70 line-clamp-2 md:line-clamp-3 mb-6 sm:mb-8 font-medium max-w-2xl leading-relaxed drop-shadow">
+                                                {heroArticles[currentHeroIndex].description}
+                                            </p>
 
-                                    <div className="flex items-center gap-2 text-primary group-hover:text-primary-foreground font-bold text-sm sm:text-base transition-colors">
-                                        Read Full Story
-                                        <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                                    </div>
-                                </div>
-                            </motion.a>
+                                            <div className="flex items-center gap-2 text-primary group-hover:text-primary-foreground font-bold text-sm sm:text-base transition-colors">
+                                                Read Full Story
+                                                <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                                            </div>
+                                        </div>
+                                    </motion.a>
+                                </AnimatePresence>
+
+                                {/* Carousel Controls */}
+                                {heroArticles.length > 1 && (
+                                    <>
+                                        <button 
+                                            onClick={(e) => { e.preventDefault(); setCurrentHeroIndex((prev) => (prev - 1 + heroArticles.length) % heroArticles.length); }}
+                                            className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/40 border border-white/10 text-white opacity-0 group-hover:opacity-100 transition-all hover:bg-black/60 shadow-2xl backdrop-blur-md z-30 focus:opacity-100"
+                                            aria-label="Previous article"
+                                        >
+                                            <ChevronLeft className="w-6 h-6" />
+                                        </button>
+                                        <button 
+                                            onClick={(e) => { e.preventDefault(); setCurrentHeroIndex((prev) => (prev + 1) % heroArticles.length); }}
+                                            className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/40 border border-white/10 text-white opacity-0 group-hover:opacity-100 transition-all hover:bg-black/60 shadow-2xl backdrop-blur-md z-30 focus:opacity-100"
+                                            aria-label="Next article"
+                                        >
+                                            <ChevronRight className="w-6 h-6" />
+                                        </button>
+                                        
+                                        {/* Pagination Dots */}
+                                        <div className="absolute bottom-6 right-6 sm:bottom-10 sm:right-10 flex items-center gap-2.5 z-30">
+                                            {heroArticles.map((_, i) => (
+                                                <button 
+                                                    key={i} 
+                                                    onClick={(e) => { e.preventDefault(); setCurrentHeroIndex(i); }}
+                                                    className={cn("transition-all duration-500 rounded-full opacity-80 hover:opacity-100",
+                                                        i === currentHeroIndex ? "w-10 h-2 bg-primary shadow-[0_0_12px_rgba(124,58,237,0.9)]" : "w-2 h-2 bg-white/40 hover:bg-white/80"
+                                                    )}
+                                                    aria-label={`Go to slide ${i + 1}`}
+                                                />
+                                            ))}
+                                        </div>
+                                    </>
+                                )}
+                            </div>
                         )}
 
-                        {/* Grid Articles */}
+                        {/* Grid Articles (BENTO LAYOUT) */}
                         {gridArticles.length > 0 && (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 mt-8">
-                                {gridArticles.map((article, index) => (
-                                    <ArticleCard key={article.id} article={article} index={index} getRelativeTime={getRelativeTime} />
-                                ))}
+                            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 mt-8 auto-rows-[300px]">
+                                {gridArticles.map((article, index) => {
+                                    // Bento Grid sizing logic: make every 5th or 8th item larger
+                                    const isLarge = index === 0 || index % 7 === 0;
+                                    const isTall = index % 5 === 2;
+                                    const colSpan = isLarge ? "md:col-span-2 lg:col-span-2" : "col-span-1";
+                                    const rowSpan = isLarge ? "row-span-1" : isTall ? "row-span-2" : "row-span-1";
+                                    
+                                    return (
+                                        <div key={article.id} className={cn(colSpan, rowSpan, "h-full")}>
+                                            <ArticleCard 
+                                                article={article} 
+                                                index={index} 
+                                                getRelativeTime={getRelativeTime} 
+                                                isLarge={isLarge}
+                                                isTall={isTall}
+                                            />
+                                        </div>
+                                    )
+                                })}
                             </div>
                         )}
 
@@ -287,56 +394,86 @@ export function NewsHub() {
 
 // --- Sub Components ---
 
-function ArticleCard({ article, index, getRelativeTime }: { article: NewsArticle; index: number; getRelativeTime: (d: string) => string }) {
+function ArticleCard({ article, index, getRelativeTime, isLarge = false, isTall = false }: { article: NewsArticle; index: number; getRelativeTime: (d: string) => string; isLarge?: boolean; isTall?: boolean }) {
+    const [isHovered, setIsHovered] = useState(false);
+
     return (
         <motion.a
             href={article.url}
             target="_blank"
             rel="noopener noreferrer"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.4, delay: Math.min(index * 0.05, 0.4), ease: "easeOut" }}
-            className="group flex flex-col h-full bg-card/40 backdrop-blur-lg border border-white/5 rounded-3xl overflow-hidden hover:bg-card hover:border-white/20 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            className="group relative flex flex-col h-full bg-[#111113] border border-white/10 rounded-[2rem] overflow-hidden hover:border-white/20 hover:shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary w-full shadow-lg"
+            style={{ zIndex: isHovered ? 50 : 1 }}
         >
-            <div className="relative w-full aspect-[16/9] overflow-hidden bg-slate-800/50">
-                {article.imageUrl ? (
-                    <img
-                        src={article.imageUrl}
-                        alt={article.title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        loading="lazy"
-                        onError={(e) => {
-                            (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(article.source)}&background=random&size=400&font-size=0.15&length=3`;
-                        }}
-                    />
-                ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-800 to-indigo-950">
-                        <Compass className="w-10 h-10 text-white/20" />
+            <motion.div 
+                animate={isHovered ? { scale: 1.02 } : { scale: 1 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className="flex flex-col h-full w-full"
+            >
+                <div className={cn("relative w-full overflow-hidden bg-black shrink-0", isLarge ? "h-48" : isTall ? "h-64" : "h-40")}>
+                    {article.hasVideo && isHovered && article.videoThumbnailId ? (
+                        <iframe
+                            src={`https://www.youtube.com/embed/${article.videoThumbnailId}?autoplay=1&mute=1&controls=0&modestbranding=1&showinfo=0`}
+                            className="absolute top-0 left-0 w-full h-[150%] -translate-y-[15%] pointer-events-none scale-110"
+                            allow="autoplay; encrypted-media"
+                        />
+                    ) : (
+                        article.imageUrl ? (
+                            <img
+                                src={article.imageUrl}
+                                alt={article.title}
+                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                loading="lazy"
+                                onError={(e) => {
+                                    (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(article.source)}&background=111113&color=fff&size=400`;
+                                }}
+                            />
+                        ) : (
+                            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-800 to-indigo-950">
+                                <Compass className="w-10 h-10 text-white/20" />
+                            </div>
+                        )
+                    )}
+
+                    {article.hasVideo && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-transparent transition-colors">
+                            <div className="w-12 h-12 rounded-full bg-red-600/90 text-white flex items-center justify-center backdrop-blur-md shadow-[0_0_20px_rgba(220,38,38,0.5)] group-hover:scale-110 transition-transform">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 ml-1"><path d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z" /></svg>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Source Badge */}
+                    <div className="absolute top-3 left-3 px-3 py-1 rounded-full backdrop-blur-xl bg-black/60 border border-white/20 text-xs font-bold text-white max-w-[calc(100%-24px)] truncate shadow-lg">
+                        {article.source}
                     </div>
-                )}
-                <div className="absolute top-3 left-3 px-2.5 py-1 rounded-lg bg-black/60 backdrop-blur-md border border-white/10 text-xs font-bold text-white max-w-[calc(100%-24px)] truncate shadow-sm">
-                    {article.source}
                 </div>
-            </div>
 
-            <div className="flex flex-col flex-1 p-5 sm:p-6">
-                <h3 className="text-lg sm:text-[19px] font-bold text-white leading-tight mb-3 line-clamp-3 group-hover:text-primary transition-colors">
-                    {article.title}
-                </h3>
+                <div className="flex flex-col flex-1 p-5 sm:p-6 bg-gradient-to-b from-[#111113] to-[#09090b]">
+                    <h3 className={cn("font-bold text-white leading-tight mb-3 group-hover:text-cyan-400 transition-colors", isLarge ? "text-xl sm:text-2xl line-clamp-2" : "text-[17px] line-clamp-3")}>
+                        {article.title}
+                    </h3>
 
-                <p className="text-sm text-muted-foreground line-clamp-3 mb-4 mt-auto">
-                    {article.description || "Click to read the full story and discover more details about this topic."}
-                </p>
+                    <p className={cn("text-muted-foreground mb-4 mt-auto", isLarge ? "text-sm line-clamp-3" : "text-xs line-clamp-2")}>
+                        {article.description || "In-depth global coverage and realtime updates."}
+                    </p>
 
-                <div className="flex items-center justify-between pt-4 border-t border-white/5 mt-auto">
-                    <span className="text-xs font-medium text-white/40">
-                        {getRelativeTime(article.publishedAt)}
-                    </span>
-                    <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-colors border border-white/5 shadow-sm">
-                        <ArrowUpRight className="w-4 h-4" />
+                    <div className="flex items-center justify-between pt-4 border-t border-white/10 mt-auto">
+                        <span className="text-[11px] sm:text-xs font-bold text-emerald-400 uppercase tracking-widest flex items-center gap-2">
+                            <Activity className="w-3.5 h-3.5" />
+                            {getRelativeTime(article.publishedAt)}
+                        </span>
+                        <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-cyan-500 text-white transition-colors border border-white/10 shadow-lg">
+                            <ArrowUpRight className="w-4 h-4" />
+                        </div>
                     </div>
                 </div>
-            </div>
+            </motion.div>
         </motion.a>
     );
 }

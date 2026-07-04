@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
 
         // Check for existing active session
         const activeSession = await Session.findOne({
-            user_id: decoded.userId,
+            user_id: decoded.id,
             ended_at: null
         }).sort({ started_at: -1 });
 
@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
 
         // Create new session
         const newSession = await Session.create({
-            user_id: decoded.userId,
+            user_id: decoded.id,
             team_id: teamId || null,
             started_at: new Date()
         });

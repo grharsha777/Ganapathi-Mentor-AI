@@ -5,12 +5,10 @@ import connectToDatabase from '@/lib/mongoose';
 import User from '@/models/User';
 import PersonalDashboard from '@/components/dashboard/personal-dashboard';
 import { Skeleton } from '@/components/ui/skeleton';
-import { PageShell } from '@/components/layout/PageShell';
-import { PageHeader } from '@/components/layout/PageHeader';
 
 export const metadata = {
-  title: 'Dashboard | Neural Code Symbiosis',
-  description: 'Your personal AI mentor dashboard.',
+  title: 'Dashboard | Ganapathi Mentor AI',
+  description: 'Your personal AI mentor command center.',
 };
 
 export default async function DashboardPage() {
@@ -20,9 +18,9 @@ export default async function DashboardPage() {
   let userData = null;
   if (token) {
     const decoded = await verifyToken(token) as any;
-    if (decoded?.userId) {
+    if (decoded?.id) {
       await connectToDatabase();
-      const userDoc = await User.findById(decoded.userId).lean() as any;
+      const userDoc = await User.findById(decoded.id).lean() as any;
       if (userDoc) {
         userData = {
           full_name: userDoc.full_name,
@@ -32,25 +30,18 @@ export default async function DashboardPage() {
     }
   }
 
-  const firstName = userData?.full_name ? userData.full_name.split(' ')[0] : 'User';
-  const streak = userData?.metrics?.current_streak || 0;
-
   return (
-    <PageShell>
-      <PageHeader
-        title={`Welcome back, ${firstName}`}
-        description={`You're on a ${streak}-day streak! Keep expanding your neural network.`}
-        actions={
-          <div className="hidden md:block text-right bg-card/50 px-6 py-3 rounded-2xl border border-white/10 backdrop-blur-sm shadow-sm">
-            <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-1">Current Level</p>
-            <p className="text-2xl font-black text-primary drop-shadow-md">Senior Architect I</p>
+    <div className="flex-1 w-full flex flex-col bg-black text-white min-h-screen relative pb-8">
+      <Suspense fallback={
+        <div className="space-y-6 w-full animate-pulse">
+          <div className="h-[300px] rounded-3xl bg-white/[0.03]" />
+          <div className="grid grid-cols-4 gap-4">
+            {[1,2,3,4].map(i => <Skeleton key={i} className="h-28 rounded-2xl" />)}
           </div>
-        }
-      />
-
-      <Suspense fallback={<Skeleton className="w-full h-[800px] rounded-3xl" />}>
+        </div>
+      }>
         <PersonalDashboard />
       </Suspense>
-    </PageShell>
+    </div>
   );
 }

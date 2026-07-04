@@ -67,6 +67,10 @@ const config: Config = {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
+      fontFamily: {
+        sans: ['var(--font-manrope)', 'system-ui', 'sans-serif'],
+        serif: ['var(--font-source-serif)', 'Georgia', 'serif'],
+      },
       keyframes: {
         'accordion-down': {
           from: { height: '0' },
@@ -109,6 +113,9 @@ const config: Config = {
         breathe: 'breathe 4s ease-in-out infinite',
         'divine-glow': 'divineGlow 2s ease-in-out infinite',
         'float-up': 'floatUp 3s ease-in-out infinite',
+      },
+      transitionDuration: {
+        '3000': '3000ms',
       },
     },
   },

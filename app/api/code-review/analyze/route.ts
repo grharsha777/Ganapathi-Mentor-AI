@@ -78,7 +78,7 @@ export async function POST(req: NextRequest) {
   try {
     const token = req.cookies.get('token')?.value;
     if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    const decoded = (await verifyToken(token)) as { userId?: string };
+    const decoded = await verifyToken(token);
     if (!decoded) return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
 
     const { code, language, context } = await req.json();
@@ -114,10 +114,10 @@ ${code.substring(0, 10000)}
     }
 
     const conn = await connectSafe();
-    if (conn && decoded.userId) {
+    if (conn && decoded.id) {
       try {
         await CodeReview.create({
-          user_id: decoded.userId,
+          user_id: decoded.id,
           code_snippet: code.substring(0, 50000),
           ai_feedback: JSON.stringify(analysis),
           complexity_score: (analysis.complexConcepts?.length || 0) * 2,

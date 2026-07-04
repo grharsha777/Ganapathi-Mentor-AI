@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
         await session.save();
 
         // Update user metrics
-        const user = await User.findById(decoded.userId);
+        const user = await User.findById(decoded.id);
         if (user) {
             const now = new Date();
             const lastActive = user.metrics?.last_active ? new Date(user.metrics.last_active) : new Date(0);

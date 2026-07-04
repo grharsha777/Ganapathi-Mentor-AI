@@ -1,7 +1,6 @@
 import { Schema, model, models } from 'mongoose';
 
 const UserSchema = new Schema({
-    _id: { type: String, required: true }, // Using UUID from Supabase or generating new
     email: { type: String, required: true, unique: true },
     full_name: { type: String },
     avatar_url: { type: String },

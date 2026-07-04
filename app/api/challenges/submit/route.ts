@@ -111,7 +111,21 @@ export async function POST(req: NextRequest) {
                 const actual = result.stdout.trim();
                 const expected = tc.expectedOutput.trim();
 
-                if (actual === expected) {
+                // Flexible comparison: normalize spaces, JSON formatting, etc.
+                const normalize = (s: string) => {
+                    return s
+                        .replace(/\s+/g, ' ')          // collapse whitespace
+                        .replace(/,\s*/g, ', ')         // normalize comma spacing
+                        .replace(/\[\s*/g, '[')         // normalize bracket spacing
+                        .replace(/\s*\]/g, ']')
+                        .replace(/\(\s*/g, '(')
+                        .replace(/\s*\)/g, ')')
+                        .replace(/^"|"$/g, '')          // strip outer quotes
+                        .trim()
+                        .toLowerCase();
+                };
+
+                if (normalize(actual) === normalize(expected)) {
                     passedTests++;
                 } else {
                     overallStatus = 'Wrong Answer';
@@ -128,7 +142,7 @@ export async function POST(req: NextRequest) {
             overallStatus = 'Accepted';
         }
 
-        const userId = decoded.userId || decoded.id;
+        const userId = decoded.id;
 
         const submission = await Submission.create({
             user_id: userId,

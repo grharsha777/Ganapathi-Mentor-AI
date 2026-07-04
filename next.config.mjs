@@ -1,20 +1,19 @@
-import path from 'path'
-import { fileURLToPath } from 'url'
+import bundleAnalyzer from '@next/bundle-analyzer'
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+})
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   typescript: {
-    // !! WARN !!
-    // Dangerously allow production builds to successfully complete even if
-    // your project has type errors.
-    // !! WARN !!
     ignoreBuildErrors: false,
   },
-
+  turbopack: {
+    root: '.',
+  },
   images: {
     unoptimized: true,
     remotePatterns: [
@@ -28,10 +27,21 @@ const nextConfig = {
       }
     ]
   },
-  // Ensure Turbopack uses an absolute project root when multiple lockfiles exist
-  turbopack: {
-    root: __dirname,
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '2mb',
+    },
+  },
+  // Environment variables that should be available in the browser
+  env: {
+    NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
+  },
+  // Logging
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
   },
 }
 
-export default nextConfig
+export default withBundleAnalyzer(nextConfig)

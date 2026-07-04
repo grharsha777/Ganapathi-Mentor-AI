@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
         const conn = await connectSafe();
         if (!conn) return NextResponse.json({ error: 'DB not connected' }, { status: 503 });
 
-        const userId = decoded.userId || decoded.id;
+        const userId = decoded.id;
 
         // Get all accepted submissions for this user
         const submissions = await Submission.find({ user_id: userId }).lean();

@@ -343,38 +343,17 @@ const suggestions = [
 
 // ─── Animated FAB Styles ────────────────────────────────────────────────
 const fabKeyframes = `
-@keyframes fabFloat {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
+@keyframes fabSmoothFloat {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-8px) scale(1.02); }
 }
-@keyframes fabGlowPulse {
-  0%, 100% { opacity: 0.4; transform: scale(1); }
-  50% { opacity: 0.8; transform: scale(1.15); }
+@keyframes fabGlowSoft {
+  0%, 100% { box-shadow: 0 0 20px -5px rgba(139, 92, 246, 0.4); }
+  50% { box-shadow: 0 0 40px 0px rgba(139, 92, 246, 0.6); }
 }
-@keyframes fabOrbit1 {
-  0% { transform: rotate(0deg) translateX(32px) rotate(0deg); }
-  100% { transform: rotate(360deg) translateX(32px) rotate(-360deg); }
-}
-@keyframes fabOrbit2 {
-  0% { transform: rotate(120deg) translateX(36px) rotate(-120deg); }
-  100% { transform: rotate(480deg) translateX(36px) rotate(-480deg); }
-}
-@keyframes fabOrbit3 {
-  0% { transform: rotate(240deg) translateX(30px) rotate(-240deg); }
-  100% { transform: rotate(600deg) translateX(30px) rotate(-600deg); }
-}
-@keyframes fabRingRotate {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-@keyframes fabWave {
-  0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(20deg); }
-  75% { transform: rotate(-15deg); }
-}
-@keyframes fabSparkle {
-  0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
-  50% { opacity: 1; transform: scale(1) rotate(180deg); }
+@keyframes fabAvatarReveal {
+  0% { transform: scale(0.8); opacity: 0; filter: blur(4px); }
+  100% { transform: scale(1); opacity: 1; filter: blur(0px); }
 }
 `;
 
@@ -550,118 +529,56 @@ export default function GlobalChatbot() {
                     onMouseEnter={() => setFabHovered(true)}
                     onMouseLeave={() => setFabHovered(false)}
                     className="fixed bottom-4 sm:bottom-6 lg:bottom-24 right-4 sm:right-6 z-[9999] group cursor-pointer"
-                    style={{ animation: 'fabFloat 3s ease-in-out infinite' }}
+                    style={{ animation: 'fabSmoothFloat 4s ease-in-out infinite' }}
                     aria-label="Open Ganapathi AI Chat"
                 >
-                    {/* Glow effect behind the button */}
+                    {/* Ring Outer */}
                     <div
-                        className="absolute inset-0 rounded-2xl bg-gradient-to-br from-violet-500 via-purple-500 to-indigo-600 blur-xl"
-                        style={{ animation: 'fabGlowPulse 2.5s ease-in-out infinite' }}
-                    />
-
-                    {/* Rotating gradient ring */}
-                    <div
-                        className="absolute -inset-1.5 rounded-[22px] opacity-70"
+                        className="absolute inset-x-[-4px] inset-y-[-4px] rounded-full opacity-60 transition-opacity duration-500 group-hover:opacity-100"
                         style={{
-                            background: 'conic-gradient(from 0deg, #8b5cf6, #6366f1, #a78bfa, #818cf8, #7c3aed, #8b5cf6)',
-                            animation: 'fabRingRotate 4s linear infinite',
+                            background: 'linear-gradient(45deg, #7c3aed, #4f46e5, #a78bfa)',
+                            filter: 'blur(8px)',
+                            animation: 'fabGlowSoft 3s infinite'
                         }}
                     />
 
-                    {/* Orbiting particles */}
-                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <div
-                            className="absolute h-2 w-2 rounded-full bg-violet-400 shadow-lg shadow-violet-400/50"
-                            style={{ animation: 'fabOrbit1 3s linear infinite' }}
-                        />
-                        <div
-                            className="absolute h-1.5 w-1.5 rounded-full bg-indigo-300 shadow-lg shadow-indigo-300/50"
-                            style={{ animation: 'fabOrbit2 4s linear infinite' }}
-                        />
-                        <div
-                            className="absolute h-1 w-1 rounded-full bg-purple-300 shadow-lg shadow-purple-300/50"
-                            style={{ animation: 'fabOrbit3 3.5s linear infinite' }}
-                        />
-                    </div>
-
-                    {/* Main button body */}
+                    {/* Main Avatar Container */}
                     <div className={cn(
-                        "relative h-14 w-14 sm:h-16 sm:w-16 rounded-2xl bg-gradient-to-br from-violet-600 via-purple-600 to-indigo-700 flex items-center justify-center shadow-2xl shadow-violet-500/40 border border-white/20 overflow-hidden transition-all duration-300",
-                        fabHovered && "scale-110 shadow-violet-500/60"
+                        "relative h-14 w-14 sm:h-16 sm:w-16 rounded-full bg-black/40 backdrop-blur-xl flex items-center justify-center p-0.5 shadow-2xl border border-white/20 overflow-hidden transition-all duration-500",
+                        fabHovered && "scale-110 -translate-y-1"
                     )}>
-                        {/* Glossy top overlay */}
-                        <div className="absolute inset-x-0 top-0 h-[45%] bg-gradient-to-b from-white/25 to-transparent rounded-t-2xl" />
-
-                        {/* Inner shimmer effect */}
-                        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                        </div>
-
-                        {/* AI Mascot Icon */}
-                        <div className="relative z-10 flex flex-col items-center gap-0.5">
-                            <div style={{ animation: fabHovered ? 'fabWave 0.5s ease-in-out infinite' : 'none' }}>
-                                <svg width="28" height="28" viewBox="0 0 32 32" fill="none" className="drop-shadow-lg">
-                                    {/* Robot head */}
-                                    <rect x="6" y="8" width="20" height="16" rx="4" fill="white" fillOpacity="0.95" />
-                                    {/* Eyes */}
-                                    <circle cx="12" cy="16" r="2.5" fill="#7c3aed">
-                                        <animate attributeName="r" values="2.5;2;2.5" dur="2s" repeatCount="indefinite" />
-                                    </circle>
-                                    <circle cx="20" cy="16" r="2.5" fill="#6366f1">
-                                        <animate attributeName="r" values="2.5;2;2.5" dur="2s" repeatCount="indefinite" begin="0.3s" />
-                                    </circle>
-                                    {/* Eye sparkle */}
-                                    <circle cx="13" cy="15" r="0.8" fill="white" />
-                                    <circle cx="21" cy="15" r="0.8" fill="white" />
-                                    {/* Smile */}
-                                    <path d="M12 20 Q16 23 20 20" stroke="#7c3aed" strokeWidth="1.5" fill="none" strokeLinecap="round" />
-                                    {/* Antenna */}
-                                    <line x1="16" y1="8" x2="16" y2="4" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
-                                    <circle cx="16" cy="3" r="2" fill="#a78bfa">
-                                        <animate attributeName="fill" values="#a78bfa;#c4b5fd;#a78bfa" dur="1.5s" repeatCount="indefinite" />
-                                    </circle>
-                                    {/* Side decoration */}
-                                    <rect x="3" y="14" width="3" height="4" rx="1.5" fill="white" fillOpacity="0.7" />
-                                    <rect x="26" y="14" width="3" height="4" rx="1.5" fill="white" fillOpacity="0.7" />
-                                </svg>
-                            </div>
-                        </div>
-
-                        {/* Sparkle particles on hover */}
-                        {fabHovered && (
-                            <>
-                                <div className="absolute top-1 right-1" style={{ animation: 'fabSparkle 0.8s ease-in-out infinite' }}>
-                                    <Sparkles className="h-3 w-3 text-yellow-300" />
-                                </div>
-                                <div className="absolute bottom-2 left-1" style={{ animation: 'fabSparkle 0.8s ease-in-out infinite 0.4s' }}>
-                                    <Sparkles className="h-2.5 w-2.5 text-cyan-300" />
-                                </div>
-                            </>
-                        )}
+                        <div className="absolute inset-0 bg-gradient-to-tr from-violet-600/30 to-indigo-600/30" />
+                        <img
+                            src="/ganapathi.png"
+                            alt="Ganapathi"
+                            className="w-full h-full object-cover rounded-full relative z-10 select-none grayscale-[0.2] group-hover:grayscale-0 transition-all duration-500"
+                            style={{ animation: 'fabAvatarReveal 0.6s cubic-bezier(0.23, 1, 0.32, 1)' }}
+                        />
                     </div>
 
-                    {/* Tooltip on hover */}
+                    {/* Meta Label */}
                     <AnimatePresence>
                         {fabHovered && (
                             <motion.div
-                                initial={{ opacity: 0, x: 10, scale: 0.9 }}
-                                animate={{ opacity: 1, x: 0, scale: 1 }}
-                                exit={{ opacity: 0, x: 10, scale: 0.9 }}
-                                className="absolute right-full mr-3 top-1/2 -translate-y-1/2 whitespace-nowrap"
+                                initial={{ opacity: 0, x: -10, scale: 0.95 }}
+                                animate={{ opacity: 1, x: -4, scale: 1 }}
+                                exit={{ opacity: 0, x: -10, scale: 0.95 }}
+                                className="absolute right-full top-1/2 -translate-y-1/2 pr-4 pointer-events-none"
                             >
-                                <div className="px-3 py-2 rounded-xl bg-background/95 backdrop-blur-xl border border-white/15 shadow-2xl shadow-black/30">
-                                    <span className="text-sm font-bold bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-indigo-400">
-                                        ✨ Chat with Ganapathi AI
-                                    </span>
+                                <div className="px-4 py-2.5 rounded-2xl bg-black/80 backdrop-blur-2xl border border-white/10 shadow-2xl whitespace-nowrap">
+                                    <p className="text-sm font-bold bg-clip-text text-transparent bg-gradient-to-r from-violet-200 to-indigo-100 flex items-center gap-2">
+                                        <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                                        Ganapathi AI Mentor
+                                    </p>
                                 </div>
                             </motion.div>
                         )}
                     </AnimatePresence>
 
-                    {/* Notification dot */}
-                    <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-green-500 border-2 border-background flex items-center justify-center">
-                        <span className="h-2 w-2 rounded-full bg-green-300 animate-ping" />
-                    </span>
+                    {/* Active Status Indicator */}
+                    <div className="absolute top-0 right-0 h-4 w-4 bg-green-500 border-2 border-black rounded-full shadow-lg z-20">
+                        <div className="absolute inset-0 rounded-full bg-green-400 animate-ping opacity-60" />
+                    </div>
                 </button>
             </>
         );
@@ -694,27 +611,33 @@ export default function GlobalChatbot() {
                         "bg-gradient-to-r from-violet-900/40 via-purple-900/30 to-indigo-900/40"
                     )}>
                         <div className="flex items-center gap-3">
-                            <div className="relative">
-                                <div className="h-11 w-11 rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-primary/30 overflow-hidden">
-                                    <img src="/logo.png" alt="Ganapathi AI" className="w-full h-full object-cover" onError={(e) => {
-                                        (e.target as HTMLImageElement).style.display = 'none';
-                                        (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
-                                    }} />
-                                    <Sparkles className="h-6 w-6 text-white hidden" />
+                            <div className="relative group">
+                                <div className="h-12 w-12 rounded-full bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center shadow-lg border-2 border-white/20 overflow-hidden transition-transform duration-300 group-hover:scale-110">
+                                    <img 
+                                        src="/ganapathi.png" 
+                                        alt="Ganapathi AI" 
+                                        className="w-full h-full object-cover" 
+                                        onError={(e) => {
+                                            (e.target as HTMLImageElement).src = '/logo.png';
+                                        }} 
+                                    />
                                 </div>
-                                <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-green-500 border-2 border-background" />
+                                <span className="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full bg-green-500 border-2 border-background ring-2 ring-green-500/20 shadow-lg" />
                             </div>
                             <div>
-                                <CardTitle className="text-base font-bold flex items-center gap-2">
-                                    Ganapathi AI
-                                    <span className="px-2 py-0.5 rounded-full bg-gradient-to-r from-violet-500/20 to-indigo-500/20 text-primary text-[10px] font-extrabold uppercase tracking-wider border border-primary/20">
-                                        {AI_MODELS.find(m => m.id === selectedModel)?.badge || 'AUTO'}
+                                <CardTitle className="text-base font-black tracking-tight flex items-center gap-2">
+                                    Ganapathi Mentor
+                                    <span className="px-2 py-0.5 rounded-md bg-white/10 text-white/90 text-[9px] font-black uppercase tracking-widest border border-white/20">
+                                        {AI_MODELS.find(m => m.id === selectedModel)?.badge || 'PRO'}
                                     </span>
                                 </CardTitle>
-                                <div className="flex items-center gap-1.5">
-                                    <span className="text-xs text-muted-foreground font-medium">Built by G R Harsha</span>
-                                    <span className="h-1 w-1 rounded-full bg-zinc-500" />
-                                    <span className="text-xs text-green-400 font-medium">Online</span>
+                                <div className="flex items-center gap-2">
+                                    <div className="flex items-center gap-1">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]" />
+                                        <span className="text-[10px] text-green-400 font-bold uppercase tracking-wider">Active</span>
+                                    </div>
+                                    <span className="text-[10px] text-white/30 font-black">|</span>
+                                    <span className="text-[10px] text-white/40 font-bold">Latency: 24ms</span>
                                 </div>
                             </div>
                         </div>
@@ -748,81 +671,63 @@ export default function GlobalChatbot() {
                                 <ScrollArea className="h-full p-4 md:p-6">
                                     <div className="space-y-6 pb-4">
                                         {messages.length === 0 && (
-                                            <div className="text-center py-6 flex flex-col items-center justify-center min-h-[300px]">
-                                                <div className="h-24 w-24 rounded-3xl bg-gradient-to-br from-violet-500/20 via-purple-600/20 to-indigo-600/20 flex items-center justify-center mb-5 shadow-lg border border-white/10 relative overflow-hidden">
-                                                    <img src="/logo.png" alt="Ganapathi AI" className="w-16 h-16 object-contain relative z-10" />
-                                                    <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent" />
+                                            <div className="text-center py-10 flex flex-col items-center justify-center min-h-[350px] animate-in fade-in zoom-in duration-700">
+                                                <div className="relative mb-6">
+                                                    <div className="absolute inset-0 bg-violet-500/20 blur-3xl rounded-full" />
+                                                    <div className="h-28 w-28 rounded-full bg-gradient-to-br from-violet-500/10 via-purple-500/10 to-indigo-500/10 flex items-center justify-center shadow-2xl border border-white/20 relative overflow-hidden backdrop-blur-md">
+                                                        <img src="/ganapathi.png" alt="Ganapathi" className="w-20 h-20 object-cover rounded-full shadow-lg" />
+                                                    </div>
+                                                    <div className="absolute -bottom-2 -right-2 h-8 w-8 rounded-xl bg-background border border-white/10 flex items-center justify-center shadow-xl">
+                                                        <Sparkles className="h-4 w-4 text-amber-400" />
+                                                    </div>
                                                 </div>
-                                                <h3 className="text-2xl font-bold mb-1 bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-indigo-400">
-                                                    Ganapathi AI ✨
+                                                
+                                                <h3 className="text-3xl font-black mb-2 bg-clip-text text-transparent bg-gradient-to-r from-white via-violet-200 to-indigo-200">
+                                                    Elite AI Intelligence
                                                 </h3>
-                                                <p className="text-xs text-muted-foreground max-w-xs mx-auto mb-4">
-                                                    Multi-model RAG engine by G R Harsha — powered by Nexus, Vortex & GRH Xt.
+                                                <p className="text-xs text-white/50 max-w-[280px] mx-auto mb-8 font-medium leading-relaxed uppercase tracking-[0.1em]">
+                                                    Your high-performance neural mentor is ready to assist.
                                                 </p>
 
-                                                {/* Model Selector Pills */}
-                                                <div className="flex flex-wrap justify-center gap-1.5 mb-5 max-w-md">
-                                                    {AI_MODELS.map(m => (
-                                                        <button
-                                                            key={m.id}
-                                                            onClick={() => setSelectedModel(m.id)}
+                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-md px-4">
+                                                    {suggestions.map((s, i) => (
+                                                        <button 
+                                                            key={i} 
+                                                            onClick={() => { setInput(s.text); setSelectedModel(s.model); }}
                                                             className={cn(
-                                                                "px-2.5 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all border flex items-center gap-1.5",
-                                                                selectedModel === m.id
-                                                                    ? `bg-gradient-to-r ${m.color} text-white border-white/20 shadow-lg scale-105`
-                                                                    : "bg-white/5 border-white/10 text-muted-foreground hover:bg-white/10 hover:text-foreground"
+                                                                "flex items-center gap-3 text-xs p-4 rounded-2xl border bg-black/40 backdrop-blur-md transition-all text-left group hover:scale-[1.02] hover:bg-black/60",
+                                                                "border-white/5 hover:border-violet-500/40 shadow-lg hover:shadow-violet-500/10"
                                                             )}
                                                         >
-                                                            <span>{m.icon}</span>
-                                                            <span>{m.badge}</span>
-                                                        </button>
-                                                    ))}
-                                                </div>
-
-                                                {/* Selected Model Info */}
-                                                {selectedModel !== 'auto' && (
-                                                    <div className="mb-5 px-3 py-2 rounded-xl bg-white/5 border border-white/10 max-w-xs text-center">
-                                                        <p className="text-[11px] font-medium text-foreground/80">
-                                                            {AI_MODELS.find(m => m.id === selectedModel)?.description}
-                                                        </p>
-                                                        <div className="flex justify-center items-center gap-3 mt-1.5">
-                                                            <span className="text-[10px] text-muted-foreground flex items-center gap-1">
-                                                                <Zap className="h-3 w-3 text-yellow-400" />
-                                                                {AI_MODELS.find(m => m.id === selectedModel)?.speed}
-                                                            </span>
-                                                            <span className="text-[10px] text-muted-foreground flex items-center gap-1">
-                                                                <Brain className="h-3 w-3 text-purple-400" />
-                                                                {AI_MODELS.find(m => m.id === selectedModel)?.specialty}
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                )}
-
-                                                <div className="grid grid-cols-2 gap-2 max-w-md w-full">
-                                                    {suggestions.map((s, i) => (
-                                                        <button key={i} onClick={() => { setInput(s.text); setSelectedModel(s.model); }}
-                                                            className={cn("flex items-center gap-2 text-sm px-3 py-3 rounded-xl border bg-gradient-to-r transition-all text-left shadow-sm hover:shadow-md group", s.color)}>
-                                                            <s.icon className="h-4 w-4 flex-shrink-0 text-foreground/70 group-hover:text-foreground transition-colors" />
-                                                            <span className="font-medium text-foreground/80 group-hover:text-foreground transition-colors truncate text-xs">{s.text}</span>
+                                                            <div className={cn("h-8 w-8 rounded-lg flex items-center justify-center bg-gradient-to-br transition-colors", s.color)}>
+                                                                <s.icon className="h-4 w-4 text-white" />
+                                                            </div>
+                                                            <span className="font-bold text-white/70 group-hover:text-white transition-colors flex-1">{s.text}</span>
+                                                            <ArrowRight className="h-3 w-3 text-white/20 group-hover:text-violet-400 transition-colors" />
                                                         </button>
                                                     ))}
                                                 </div>
                                             </div>
                                         )}
                                         {messages.map((m, i) => (
-                                            <div key={i} className={cn("flex gap-3", m.role === 'user' ? "flex-row-reverse" : "flex-row")}>
-                                                <Avatar className={cn("h-9 w-9 flex-shrink-0 shadow-md border border-white/10", m.role === 'user' ? "ring-2 ring-primary/20" : "ring-2 ring-violet-500/20")}>
-                                                    <AvatarFallback className={cn("font-bold text-xs", m.role === 'user' ? "bg-primary text-primary-foreground" : "bg-gradient-to-br from-violet-600 to-indigo-600 text-white")}>
-                                                        {m.role === 'user' ? "ME" : "GA"}
-                                                    </AvatarFallback>
-                                                </Avatar>
-                                                <div className={cn("p-4 rounded-2xl text-sm shadow-md min-w-0",
+                                            <div key={i} className={cn("flex gap-3 animate-in fade-in slide-in-from-bottom-2 duration-300", m.role === 'user' ? "flex-row-reverse" : "flex-row")}>
+                                                <div className={cn(
+                                                    "h-10 w-10 shrink-0 rounded-full border-2 overflow-hidden shadow-lg",
+                                                    m.role === 'user' ? "border-primary/40 bg-zinc-800" : "border-violet-500/40 bg-black"
+                                                )}>
+                                                    {m.role === 'user' ? (
+                                                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-indigo-600 to-violet-700 text-white text-[10px] font-black uppercase">Me</div>
+                                                    ) : (
+                                                        <img src="/ganapathi.png" alt="Ganapathi" className="w-full h-full object-cover" />
+                                                    )}
+                                                </div>
+                                                <div className={cn("p-4 rounded-2xl text-sm shadow-xl min-w-0 transition-all",
                                                     m.role === 'user'
-                                                        ? "max-w-[80%] bg-gradient-to-r from-primary to-violet-600 text-primary-foreground rounded-tr-sm"
-                                                        : "max-w-[92%] bg-card/80 border border-white/8 rounded-tl-sm overflow-hidden break-words"
+                                                        ? "max-w-[85%] bg-gradient-to-br from-indigo-600/90 via-violet-700/90 to-purple-800/90 text-white rounded-tr-sm border border-white/10"
+                                                        : "max-w-[85%] bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-tl-sm text-zinc-100 ring-1 ring-white/5"
                                                 )}>
                                                     {m.role === 'assistant' ? (
-                                                        <div className="space-y-1 max-w-full overflow-hidden">
+                                                        <div className="space-y-1 w-full overflow-x-auto overflow-y-hidden">
                                                             <MarkdownContent content={m.content} onNavigate={handleInternalNavigate} />
 
                                                             {/* RAG Metadata Bar */}
@@ -869,13 +774,17 @@ export default function GlobalChatbot() {
                                             </div>
                                         ))}
                                         {isLoading && messages[messages.length - 1]?.role === 'user' && (
-                                            <div className="flex gap-3">
-                                                <Avatar className="h-9 w-9 flex-shrink-0 border border-white/10 shadow-md">
-                                                    <AvatarFallback className="bg-gradient-to-br from-violet-600 to-indigo-600 text-white font-bold text-xs">GA</AvatarFallback>
-                                                </Avatar>
-                                                <div className="bg-card/50 p-4 rounded-2xl rounded-tl-sm border border-white/5 flex items-center gap-3">
-                                                    <Loader2 className="h-4 w-4 animate-spin text-primary" />
-                                                    <span className="text-sm font-medium text-muted-foreground">Thinking...</span>
+                                            <div className="flex gap-3 animate-pulse">
+                                                <div className="h-10 w-10 shrink-0 rounded-full border-2 border-violet-500/40 bg-black overflow-hidden shadow-lg">
+                                                    <img src="/ganapathi.png" alt="Ganapathi" className="w-full h-full object-cover" />
+                                                </div>
+                                                <div className="bg-white/[0.03] backdrop-blur-xl p-4 px-6 rounded-2xl rounded-tl-sm border border-white/10 flex items-center gap-3 shadow-xl">
+                                                    <div className="flex gap-1">
+                                                        <div className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-bounce" style={{ animationDelay: '0ms' }} />
+                                                        <div className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-bounce" style={{ animationDelay: '150ms' }} />
+                                                        <div className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-bounce" style={{ animationDelay: '300ms' }} />
+                                                    </div>
+                                                    <span className="text-xs font-black uppercase tracking-widest text-violet-300/60 ml-2">Neural Synthesis...</span>
                                                 </div>
                                             </div>
                                         )}
@@ -883,7 +792,7 @@ export default function GlobalChatbot() {
                                     </div>
                                 </ScrollArea>
                             </CardContent>
-                            <CardFooter className="p-3 border-t border-white/8 bg-background/50">
+                            <CardFooter className="p-3 border-t border-white/8 bg-background/50 relative">
                                 {/* Model Picker Dropdown */}
                                 <AnimatePresence>
                                     {showModelPicker && (
@@ -891,7 +800,7 @@ export default function GlobalChatbot() {
                                             initial={{ opacity: 0, y: 10, scale: 0.95 }}
                                             animate={{ opacity: 1, y: 0, scale: 1 }}
                                             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                            className="absolute bottom-full left-0 right-0 mb-2 mx-3 z-50"
+                                            className="absolute bottom-full left-0 right-0 mb-1 z-[100]"
                                         >
                                             <div className="bg-background/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl p-2 space-y-1">
                                                 {AI_MODELS.map(m => (

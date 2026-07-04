@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
 
         // Save to DB
         const newConcept = await Concept.create({
-            user_id: decoded.userId,
+            user_id: decoded.id,
             title: title,
             explanation: aiResult.explanation,
             tags: aiResult.tags,
@@ -77,7 +77,7 @@ export async function GET(req: NextRequest) {
 
         await connectToDatabase();
 
-        const concepts = await Concept.find({ user_id: decoded.userId }).sort({ created_at: -1 });
+        const concepts = await Concept.find({ user_id: decoded.id }).sort({ created_at: -1 });
 
         return NextResponse.json({ success: true, concepts });
     } catch (error: any) {

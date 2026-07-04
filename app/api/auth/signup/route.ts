@@ -21,19 +21,14 @@ export async function POST(req: NextRequest) {
     const salt = await bcrypt.genSalt(10);
     const passwordHash = await bcrypt.hash(password, salt);
 
-    // Generate a UUID-like string for compatibility if needed, or stick to Mongo ID
-    // Using simple random string for ID if schema requires string
-    const userId = crypto.randomUUID();
-
     const newUser = await User.create({
-      _id: userId,
       email,
       full_name: fullName,
       password_hash: passwordHash,
       role: 'viewer'
     });
 
-    const token = await signToken({ userId: newUser._id, email: newUser.email, role: newUser.role });
+    const token = await signToken({ id: newUser._id, email: newUser.email, role: newUser.role });
 
     const response = NextResponse.json({
       user: {
@@ -47,7 +42,7 @@ export async function POST(req: NextRequest) {
     response.cookies.set('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      sameSite: 'strict',
       maxAge: 7 * 24 * 60 * 60 // 7 days
     });
 

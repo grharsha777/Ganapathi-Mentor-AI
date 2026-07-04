@@ -34,10 +34,10 @@ export async function POST(req: NextRequest) {
         const conn = await connectSafe();
         let document: unknown = { content, type, project_name: projectName || 'Untitled' };
 
-        if (conn && decoded.userId) {
+        if (conn && decoded.id) {
             try {
                 const newDoc = await Documentation.create({
-                    user_id: decoded.userId,
+                    user_id: decoded.id,
                     project_name: projectName || 'Untitled',
                     type,
                     content,

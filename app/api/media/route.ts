@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
         const body = await req.json();
 
         const newMedia = await MediaProject.create({
-            user_id: decoded.userId,
+            user_id: decoded.id,
             ...body
         });
 
@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
         const decoded = await verifyToken(token) as any;
 
         await connectToDatabase();
-        const media = await MediaProject.find({ user_id: decoded.userId }).sort({ created_at: -1 });
+        const media = await MediaProject.find({ user_id: decoded.id }).sort({ created_at: -1 });
 
         return NextResponse.json({ success: true, media });
     } catch (error: any) {

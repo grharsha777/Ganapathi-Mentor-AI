@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { connectSafe } from '@/lib/mongodb';
 import Challenge from '@/models/Challenge';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
     try {
         const conn = await connectSafe();
@@ -23,7 +25,7 @@ export async function GET(req: NextRequest) {
         }
 
         const challenges = await Challenge.find(filter)
-            .select('title slug difficulty category source tags created_at')
+            .select('title slug difficulty track category source tags created_at')
             .sort({ difficulty: 1, title: 1 })
             .lean();
 

@@ -438,3 +438,88 @@ This project is private and proprietary. All rights reserved © 2026 G R Harsha.
 `AWS` · `Mistral` · `Groq` · `Claude` · `GPT` · `Gemini` · `Grok` · `Kling` · `Runway ML` · `NanoBanana` · `Freepik` · `NewsOrg`
 
 </div>
+
+---
+
+## 🔎 Research Engine v2 (Perplexity-Level)
+
+The `/dashboard/research` experience was rebuilt into a structured multi-stage research system with streaming, collections CRUD, and enterprise exports.
+
+### Pipeline Architecture
+
+```text
+┌───────────────────────────────────────────────────────────────────────────┐
+│ Stage 1: Query Intelligence                                              │
+│ - Intent classification (factual | analytical | comparative | etc.)      │
+│ - Query decomposition into sub-questions                                 │
+│ - Entity/timeframe extraction                                            │
+└───────────────────────────────────────────────────────────────────────────┘
+                                  │
+                                  ▼
+┌───────────────────────────────────────────────────────────────────────────┐
+│ Stage 2: Parallel Retrieval (Promise.allSettled)                         │
+│ - Strategy providers: Web, Academic, News, Code, Mock                   │
+│ - Provider fallback + retry backoff                                      │
+│ - Dedup + ranking (relevance + recency + domain authority)              │
+│ - Full-text extraction for top ranked sources                            │
+└───────────────────────────────────────────────────────────────────────────┘
+                                  │
+                                  ▼
+┌───────────────────────────────────────────────────────────────────────────┐
+│ Stage 3: AI Synthesis (Mistral/Groq)                                     │
+│ - Strict JSON schema output                                               │
+│ - Citation-aware sections with [1][2] markers                            │
+│ - Confidence score + confidence breakdown                                │
+│ - Research gaps + follow-up questions                                    │
+└───────────────────────────────────────────────────────────────────────────┘
+                                  │
+                                  ▼
+┌───────────────────────────────────────────────────────────────────────────┐
+│ Stage 4: Structured Rendering + Streaming                                │
+│ - SSE/ReadableStream stage-by-stage updates                              │
+│ - TL;DR banner, data points, sections, source cards, follow-ups          │
+│ - Export actions (PDF, Markdown, JSON, Rich Text)                        │
+└───────────────────────────────────────────────────────────────────────────┘
+```
+
+### Major Capabilities
+
+- Three-panel enterprise layout (History/Collections | Research Canvas | Sources/Metadata)
+- Dynamic background crossfade engine (6 themes, 30s rotate, preloaded assets)
+- Collections CRUD with MongoDB persistence
+- Save one answer to multiple collections (optimistic UI + toast feedback)
+- Collection sharing via public view-only links (7-day expiry)
+- Research history persistence and full-text search
+- Multi-mode research: Quick, Deep, Comparative, Academic, News
+- Dynamic provider strategy architecture (no hardcoded search flow)
+- Optional Redis cache + in-flight deduplication for repeated queries
+
+### New API Endpoints
+
+- `POST /api/research/query` (SSE streaming answer pipeline)
+- `GET /api/research/suggest` (real-time query suggestions)
+- `GET|POST /api/research/collections`
+- `GET|PATCH|DELETE /api/research/collections/:id`
+- `POST /api/research/collections/:id/share`
+- `GET|POST /api/research/items`
+- `GET|POST /api/research/history`
+- `GET /api/research/public/:token`
+- `GET /api/research/analytics`
+
+### Research Engine Setup
+
+1. Copy `.env.example` to `.env.local`.
+2. Provide `MISTRAL_API_KEY` and/or `GROQ_API_KEY`.
+3. Add search keys (`TAVILY_API_KEY`, `SERP_API_KEY`, `SEMANTIC_SCHOLAR_API_KEY`, `NEWSAPI_ORG_KEY`) for full retrieval coverage.
+4. Configure `MONGODB_URI` for collections/history persistence.
+5. Optional: configure Upstash keys for shared Redis cache.
+
+### Export Support
+
+- PDF (branded report with title, sections, sources, timestamp)
+- Markdown (`.md`)
+- JSON (`.json`)
+- Copy as Rich Text (`text/html` clipboard)
+
+- Bundle analysis (webpack analyzer reports): 
+pm run analyze (outputs in .next/analyze/).
