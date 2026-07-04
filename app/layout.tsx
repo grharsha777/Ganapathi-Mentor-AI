@@ -38,7 +38,6 @@ const inter = Inter({
   subsets: ['latin'],
   variable: '--font-manrope',
   display: 'swap',
-  preload: false,
 })
 
 const spaceMono = Space_Mono({
@@ -46,7 +45,6 @@ const spaceMono = Space_Mono({
   subsets: ['latin'],
   variable: '--font-mono',
   display: 'swap',
-  preload: false,
 })
 
 export default function RootLayout({
