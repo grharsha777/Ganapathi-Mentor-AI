@@ -332,7 +332,7 @@ export default function ChallengeWorkspacePage({ params }: { params: Promise<{ s
                                             </div>
                                             <h3 className="text-lg font-bold">Expert Notes</h3>
                                         </div>
-                                        <p className="text-sm text-gray-400 italic">"{challenge.mentorInsights?.recruiterNotes}"</p>
+                                         <p className="text-sm text-gray-400 italic">&quot;{challenge.mentorInsights?.recruiterNotes}&quot;</p>
                                     </div>
                                 </TabsContent>
 

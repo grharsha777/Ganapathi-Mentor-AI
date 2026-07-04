@@ -394,7 +394,7 @@ export default function ChallengesPage() {
                         </div>
                         <div className="flex-1 text-center md:text-left">
                             <h3 className="text-lg font-bold mb-1">New challenges added daily</h3>
-                            <p className="text-sm text-gray-400">Our AI mentor curates a new daily challenge every 24 hours. Combined with 6 external platforms, you'll never run out of problems to solve.</p>
+                            <p className="text-sm text-gray-400">Our AI mentor curates a new daily challenge every 24 hours. Combined with 6 external platforms, you&apos;ll never run out of problems to solve.</p>
                         </div>
                         <div className="flex items-center gap-2 text-xs text-gray-500 shrink-0">
                             <div className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />

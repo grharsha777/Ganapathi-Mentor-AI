@@ -661,7 +661,7 @@ export function APIProvidersPanel() {
                 <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter leading-none mt-2">
                     Models & <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500">Datasets</span>
                 </h1>
-                <p className="text-xl text-gray-400 max-w-2xl mx-auto font-medium mt-4">Equip your applications with the world's most powerful Foundation Models, Inference APIs, and Gigabyte-scale ML datasets.</p>
+                <p className="text-xl text-gray-400 max-w-2xl mx-auto font-medium mt-4">Equip your applications with the world&apos;s most powerful Foundation Models, Inference APIs, and Gigabyte-scale ML datasets.</p>
                 
                 <div className="flex items-center justify-center gap-3 mt-4 opacity-80 hover:opacity-100 transition-opacity">
                     <span className="flex h-2.5 w-2.5 relative">

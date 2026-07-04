@@ -37,7 +37,9 @@ function trackVisit(page: string, title: string) {
         const filtered = history.filter((h: any) => h.page !== page);
         filtered.unshift({ page, title, time: Date.now() });
         localStorage.setItem('gm_visit_history', JSON.stringify(filtered.slice(0, 8)));
-    } catch {}
+    } catch {
+        // ignore
+    }
 }
 
 function getVisitHistory(): { page: string; title: string; time: number }[] {
@@ -125,6 +127,40 @@ const FEATURES = [
 // ═══════════════════════════════════════
 //  MAIN COMPONENT
 // ═══════════════════════════════════════
+function ActivityFeed({ history }: { history: any[] }) {
+    return (
+        <div className="space-y-4">
+            {history.length === 0 ? (
+                <div className="py-10 text-center opacity-40">
+                    <Activity className="h-10 w-10 mx-auto mb-3 text-gray-600" />
+                    <p className="text-xs font-bold uppercase tracking-wider text-gray-500">No Neural Activity Detected</p>
+                </div>
+            ) : (
+                <div className="space-y-3 relative before:absolute before:left-2 before:top-2 before:bottom-2 before:w-px before:bg-white/5">
+                    {history.map((item, i) => (
+                        <motion.div 
+                            key={i}
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: i * 0.1 }}
+                            className="flex items-start gap-4 group pl-6 relative"
+                        >
+                            <div className="absolute left-[3px] top-[7px] w-2 h-2 rounded-full bg-indigo-500/40 border border-indigo-400 group-hover:scale-125 group-hover:bg-indigo-400 transition-all shadow-[0_0_8px_rgba(129,140,248,0.5)]" />
+                            <div className="flex-1 min-w-0">
+                                <div className="flex items-center justify-between gap-2 mb-0.5">
+                                    <span className="text-xs font-bold text-gray-300 group-hover:text-indigo-300 transition-colors truncate">{item.title}</span>
+                                    <span className="text-[10px] text-gray-600 font-mono shrink-0">{new Date(item.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                </div>
+                                <p className="text-[10px] text-gray-500 font-mono truncate">{item.page}</p>
+                            </div>
+                        </motion.div>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+}
+
 export default function PersonalDashboard() {
     const { data: meRes, isLoading: meLoading } = useSWR('/api/auth/me', fetcher, { refreshInterval: 5000 });
     const { data: lbRes } = useSWR('/api/leaderboard', fetcher, { refreshInterval: 30000 });
@@ -159,42 +195,8 @@ export default function PersonalDashboard() {
                     {[1,2,3,4,5,6,7,8].map(i => <div key={i} className="h-44 rounded-2xl bg-white/[0.03]" />)}
                 </div>
             </div>
-    );
-}
-
-function ActivityFeed({ history }: { history: any[] }) {
-    return (
-        <div className="space-y-4">
-            {history.length === 0 ? (
-                <div className="py-10 text-center opacity-40">
-                    <Activity className="h-10 w-10 mx-auto mb-3 text-gray-600" />
-                    <p className="text-xs font-bold uppercase tracking-wider text-gray-500">No Neural Activity Detected</p>
-                </div>
-            ) : (
-                <div className="space-y-3 relative before:absolute before:left-2 before:top-2 before:bottom-2 before:w-px before:bg-white/5">
-                    {history.map((item, i) => (
-                        <motion.div 
-                            key={i}
-                            initial={{ opacity: 0, x: -10 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: i * 0.1 }}
-                            className="flex items-start gap-4 group pl-6 relative"
-                        >
-                            <div className="absolute left-[3px] top-[7px] w-2 h-2 rounded-full bg-indigo-500/40 border border-indigo-400 group-hover:scale-125 group-hover:bg-indigo-400 transition-all shadow-[0_0_8px_rgba(129,140,248,0.5)]" />
-                            <div className="flex-1 min-w-0">
-                                <div className="flex items-center justify-between gap-2 mb-0.5">
-                                    <span className="text-xs font-bold text-gray-300 group-hover:text-indigo-300 transition-colors truncate">{item.title}</span>
-                                    <span className="text-[10px] text-gray-600 font-mono shrink-0">{new Date(item.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                                </div>
-                                <p className="text-[10px] text-gray-500 font-mono truncate">{item.page}</p>
-                            </div>
-                        </motion.div>
-                    ))}
-                </div>
-            )}
-        </div>
-    );
-}
+        );
+    }
 
     return (
         <div className="w-full space-y-8 animate-in fade-in duration-700">

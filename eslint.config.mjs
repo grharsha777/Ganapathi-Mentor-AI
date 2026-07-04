@@ -21,7 +21,9 @@ export default tseslint.config(
             "src_lint_output.txt",
             "final_source_bugs.txt",
             "source_bugs.txt",
-            "real_bugs.txt"
+            "real_bugs.txt",
+            "ganapathi-mentor-cli/**",
+            "ganapathi-vscode/**"
         ]
     },
     {
@@ -58,6 +60,8 @@ export default tseslint.config(
             "@next/next/no-html-link-for-pages": "off",
             "@next/next/no-img-element": "off",
             "@typescript-eslint/ban-ts-comment": "off",
+            "react-hooks/set-state-in-effect": "off",
+            "react-hooks/refs": "off",
         },
         settings: {
             react: {

@@ -66,7 +66,9 @@ export default function SettingsPage() {
     try {
       const savedKeys = localStorage.getItem('gm_local_api_keys')
       if (savedKeys) setApiKeys(JSON.parse(savedKeys))
-    } catch(e) {}
+    } catch(e) {
+      // ignore
+    }
 
     fetch('/api/session/github').then(res => res.json()).then(data => {
       setIsConnected(data.hasToken)
@@ -131,7 +133,9 @@ export default function SettingsPage() {
     try {
       localStorage.setItem('gm_local_api_keys', JSON.stringify(newKeys))
       toast.info('API key removed')
-    } catch(e) {}
+    } catch(e) {
+      // ignore
+    }
   }
 
   const toggleKeyVisibility = (id: string) => {
@@ -253,7 +257,7 @@ export default function SettingsPage() {
                 </div>
                 <p className="text-sm text-gray-500 flex items-center gap-1.5">
                   A classic token with <code className="bg-white/10 px-1.5 py-0.5 rounded text-gray-300 font-mono text-xs">repo</code> scope is required. 
-                  <a href="https://github.com/settings/tokens" target="_blank" className="text-indigo-400 hover:text-indigo-300 hover:underline font-medium inline-flex items-center gap-1 ml-1">Generate here <ExternalLink className="w-3.5 h-3.5"/></a>
+                  <a href="https://github.com/settings/tokens" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:text-indigo-300 hover:underline font-medium inline-flex items-center gap-1 ml-1">Generate here <ExternalLink className="w-3.5 h-3.5"/></a>
                 </p>
               </div>
             </CardContent>
@@ -312,7 +316,7 @@ export default function SettingsPage() {
                   </div>
 
                   <div className="space-y-3">
-                    <Label className="text-sm text-gray-200 font-semibold block">How's your experience? (optional)</Label>
+                    <Label className="text-sm text-gray-200 font-semibold block">How&apos;s your experience? (optional)</Label>
                     <div className="flex gap-2">
                       {[1, 2, 3, 4, 5].map(star => (
                          <button

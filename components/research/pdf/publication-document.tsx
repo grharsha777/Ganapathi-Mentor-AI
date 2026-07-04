@@ -250,7 +250,7 @@ export function PublicationDocument({ query, answer, date }: PublicationDocument
             return (
               <View key={idx} style={{ marginBottom: 12 }}>
                 <Text style={styles.citation}>
-                  [{source.id}] <Link src={source.url} style={styles.link}>"{sanitizeHtml(source.title)}"</Link>. {domain}. {source.published_date !== 'Unknown' ? source.published_date : ''}
+                  [{source.id}] <Link src={source.url} style={styles.link}>&quot;{sanitizeHtml(source.title)}&quot;</Link>. {domain}. {source.published_date !== 'Unknown' ? source.published_date : ''}
                 </Text>
               </View>
             );

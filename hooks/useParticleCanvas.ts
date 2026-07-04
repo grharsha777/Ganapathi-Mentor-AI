@@ -33,7 +33,10 @@ const DEFAULTS: Required<ParticleConfig> = {
 export function useParticleCanvas(config: ParticleConfig = {}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const cfgRef = useRef({ ...DEFAULTS, ...config });
-  cfgRef.current = { ...DEFAULTS, ...config };
+  
+  useEffect(() => {
+    cfgRef.current = { ...DEFAULTS, ...config };
+  });
 
   useEffect(() => {
     const canvas = canvasRef.current;

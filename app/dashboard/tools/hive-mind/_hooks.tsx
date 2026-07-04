@@ -136,7 +136,9 @@ export function useHiveIDE() {
                         else if (d.sub === 'pull') { toast[d.success ? 'success' : 'error'](d.success ? '⬇️ Pulled!' : d.output || 'Pull failed'); send({ action: 'git', sub: 'status' }); }
                         break;
                 }
-            } catch { }
+            } catch {
+                // ignore
+            }
         };
         ws.onerror = () => { setConn('error'); toast.error('Connection failed'); addDebugLog('error', 'WebSocket error', 'ws'); };
         ws.onclose = () => { setConn('disconnected'); addDebugLog('warn', 'Disconnected', 'ws'); };
@@ -191,7 +193,14 @@ export function useHiveIDE() {
 
     const gitAction = useCallback((sub: string, extra?: any) => { setGitLoading(sub); send({ action: 'git', sub, ...extra }); }, [send]);
 
-    useEffect(() => { if (conn === 'connected' && sidebarView === 'git') { gitAction('status'); gitAction('log'); } }, [conn, sidebarView, gitAction]);
+    useEffect(() => { 
+        if (conn === 'connected' && sidebarView === 'git') { 
+            setTimeout(() => {
+                gitAction('status'); 
+                gitAction('log'); 
+            }, 0);
+        } 
+    }, [conn, sidebarView, gitAction]);
 
     const handlePredict = useCallback(() => {
         if (!selectedFile) { toast.error('Select a file first'); return; }

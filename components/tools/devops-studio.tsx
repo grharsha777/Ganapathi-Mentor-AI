@@ -46,7 +46,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-CMD [\"node\", \"app.js\"]`;
+CMD ["node", "app.js"]`;
 
 const DEFAULT_KUBERNETES = `apiVersion: apps/v1
 kind: Deployment

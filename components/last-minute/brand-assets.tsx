@@ -184,7 +184,7 @@ export function BrandAssets() {
                                 <Search className="w-10 h-10 text-white/20" />
                             </div>
                             <h3 className="text-2xl font-bold text-white mb-2">Asset Not Found</h3>
-                            <p className="text-muted-foreground text-center max-w-sm">We couldn't locate an official vector or asset for <span className="text-white font-medium">"{query}"</span>. Ensure the spelling or ticker is exact.</p>
+                            <p className="text-muted-foreground text-center max-w-sm">We couldn&apos;t locate an official vector or asset for <span className="text-white font-medium">&quot;{query}&quot;</span>. Ensure the spelling or ticker is exact.</p>
                         </motion.div>
                     )
                 )}

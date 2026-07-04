@@ -74,7 +74,9 @@ export async function GET(req: NextRequest) {
                 },
             });
         }
-    } catch {}
+    } catch {
+        // ignore
+    }
 
     // All sources failed
     return new NextResponse(null, { status: 404 });
