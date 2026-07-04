@@ -5,9 +5,6 @@
   "installCommand": "npm install",
   "framework": "nextjs",
   "regions": ["iad1"],
-  "env": {
-    "NEXT_PUBLIC_BASE_URL": "https://ganapathi-mentor-ai.vercel.app"
-  },
   "headers": [
     {
       "source": "/(.*)",
