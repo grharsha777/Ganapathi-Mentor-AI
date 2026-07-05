@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 // ─── Animation Variants ──────────────────────────────────────────────────────
 const fadeUp: Variants = {
@@ -25,13 +26,13 @@ const staggerContainer: Variants = {
 };
 
 // ─── Tech Stack Marquee ──────────────────────────────────────────────────────
-function MarqueeRow({ text, dir }: { text: string; dir: 'left' | 'right' }) {
+function MarqueeRow({ text, dir, paused }: { text: string; dir: 'left' | 'right'; paused?: boolean }) {
   return (
     <div className="flex w-full overflow-hidden whitespace-nowrap">
       <motion.div
         initial={{ x: dir === 'left' ? '0%' : '-50%' }}
-        animate={{ x: dir === 'left' ? '-50%' : '0%' }}
-        transition={{ repeat: Infinity, ease: 'linear', duration: 35 }}
+        animate={paused ? { x: 0 } : { x: dir === 'left' ? '-50%' : '0%' }}
+        transition={paused ? { duration: 0 } : { repeat: Infinity, ease: 'linear', duration: 35 }}
         className="flex whitespace-nowrap text-[clamp(3rem,8vw,6rem)] font-black uppercase text-white/[0.03] select-none tracking-tight"
       >
         {[0, 1, 2, 3].map((i) => (
@@ -46,12 +47,12 @@ function MarqueeRow({ text, dir }: { text: string; dir: 'left' | 'right' }) {
 export default function NeuralLanding() {
   const [copied, setCopied] = useState(false);
   const heroRef = useRef<HTMLElement>(null);
+  const isMobile = useIsMobile();
 
-  // ─── 3D Mouse Tracking with Heavy Momentum ─────────────────────────────
+  // ─── 3D Mouse Tracking with Heavy Momentum (desktop only) ──────────────
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
 
-  // Heavy spring: mass=3 creates dramatic momentum/inertia
   const heavy = { damping: 12, stiffness: 40, mass: 3 };
   const rotX = useSpring(useTransform(my, [-0.5, 0.5], [18, -18]), heavy);
   const rotY = useSpring(useTransform(mx, [-0.5, 0.5], [-22, 22]), heavy);
@@ -60,6 +61,8 @@ export default function NeuralLanding() {
   const skewXVal = useSpring(useTransform(mx, [-0.5, 0.5], [-3, 3]), heavy);
 
   useEffect(() => {
+    if (isMobile) return;
+
     const el = heroRef.current;
     if (!el) return;
 
@@ -79,7 +82,7 @@ export default function NeuralLanding() {
       el.removeEventListener('mousemove', handleMove);
       el.removeEventListener('mouseleave', handleLeave);
     };
-  }, [mx, my]);
+  }, [mx, my, isMobile]);
 
   const handleCopy = () => {
     navigator.clipboard.writeText('npm i -g ganapathi-mentor-cli');
@@ -96,41 +99,41 @@ export default function NeuralLanding() {
           ═══════════════════════════════════════════════════════════════════ */}
       <section
         ref={heroRef}
-        className="h-screen w-full snap-start relative flex flex-col items-center justify-center overflow-hidden"
+        className="h-screen max-sm:h-auto max-sm:min-h-0 w-full snap-start relative flex flex-col items-center justify-center overflow-hidden contain-section max-sm:py-16"
         style={{ background: '#030712' }}
       >
-        {/* ── Aurora Gradient Blobs ──────────────────────────────────────── */}
+        {/* ── Aurora Gradient Blobs (2 on mobile, 5 on desktop) ──────────── */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {/* Purple Blob — slow orbit top-left */}
           <motion.div
             animate={{
               x: [0, 120, -80, 100, 0],
               y: [0, -100, 120, -50, 0],
               scale: [1, 1.3, 0.85, 1.15, 1],
             }}
-            transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute top-[5%] left-[15%] w-[500px] h-[500px] md:w-[800px] md:h-[800px] rounded-full opacity-30"
+            transition={{ duration: isMobile ? 30 : 20, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute top-[5%] left-[15%] w-[500px] h-[500px] md:w-[800px] md:h-[800px] rounded-full opacity-30 will-change-transform gpu-accelerated"
             style={{
               background:
                 'radial-gradient(circle, rgba(124,58,237,0.6) 0%, rgba(124,58,237,0.1) 40%, transparent 70%)',
-              filter: 'blur(80px)',
+              filter: isMobile ? 'blur(40px)' : 'blur(80px)',
             }}
           />
-          {/* Cyan Blob — drift top-right */}
           <motion.div
             animate={{
               x: [0, -120, 80, -140, 0],
               y: [0, 70, -100, 60, 0],
               scale: [1, 0.85, 1.25, 0.9, 1],
             }}
-            transition={{ duration: 26, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute top-[20%] right-[5%] w-[450px] h-[450px] md:w-[700px] md:h-[700px] rounded-full opacity-25"
+            transition={{ duration: isMobile ? 36 : 26, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute top-[20%] right-[5%] w-[450px] h-[450px] md:w-[700px] md:h-[700px] rounded-full opacity-25 will-change-transform gpu-accelerated"
             style={{
               background:
                 'radial-gradient(circle, rgba(56,189,248,0.6) 0%, rgba(56,189,248,0.1) 40%, transparent 70%)',
-              filter: 'blur(80px)',
+              filter: isMobile ? 'blur(40px)' : 'blur(80px)',
             }}
           />
+          {!isMobile && (
+            <>
           {/* Rose/Pink Blob — bottom center */}
           <motion.div
             animate={{
@@ -139,7 +142,7 @@ export default function NeuralLanding() {
               scale: [1, 1.15, 0.9, 1.2, 1],
             }}
             transition={{ duration: 30, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute bottom-[5%] left-[35%] w-[500px] h-[500px] md:w-[750px] md:h-[750px] rounded-full opacity-20"
+            className="absolute bottom-[5%] left-[35%] w-[500px] h-[500px] md:w-[750px] md:h-[750px] rounded-full opacity-20 will-change-transform gpu-accelerated"
             style={{
               background:
                 'radial-gradient(circle, rgba(236,72,153,0.5) 0%, rgba(236,72,153,0.08) 40%, transparent 70%)',
@@ -154,7 +157,7 @@ export default function NeuralLanding() {
               scale: [1, 1.2, 0.8, 1.1, 1],
             }}
             transition={{ duration: 24, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute top-[55%] left-[5%] w-[400px] h-[400px] md:w-[600px] md:h-[600px] rounded-full opacity-20"
+            className="absolute top-[55%] left-[5%] w-[400px] h-[400px] md:w-[600px] md:h-[600px] rounded-full opacity-20 will-change-transform gpu-accelerated"
             style={{
               background:
                 'radial-gradient(circle, rgba(20,184,166,0.5) 0%, rgba(20,184,166,0.08) 40%, transparent 70%)',
@@ -168,26 +171,32 @@ export default function NeuralLanding() {
               opacity: [0.15, 0.25, 0.15, 0.2, 0.15],
             }}
             transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] md:w-[900px] md:h-[900px] rounded-full"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] md:w-[900px] md:h-[900px] rounded-full will-change-transform gpu-accelerated"
             style={{
               background:
                 'radial-gradient(circle, rgba(59,130,246,0.4) 0%, transparent 60%)',
               filter: 'blur(100px)',
             }}
           />
+            </>
+          )}
         </div>
 
         {/* ── 3D Perspective Title Container ─────────────────────────────── */}
-        <div className="relative z-10" style={{ perspective: '800px' }}>
+        <div className="relative z-10" style={isMobile ? undefined : { perspective: '800px' }}>
           <motion.div
-            style={{
-              rotateX: rotX,
-              rotateY: rotY,
-              x: textX,
-              y: textY,
-              skewX: skewXVal,
-              transformStyle: 'preserve-3d',
-            }}
+            style={
+              isMobile
+                ? undefined
+                : {
+                    rotateX: rotX,
+                    rotateY: rotY,
+                    x: textX,
+                    y: textY,
+                    skewX: skewXVal,
+                    transformStyle: 'preserve-3d',
+                  }
+            }
             className="text-center"
           >
             <motion.h1
@@ -235,15 +244,15 @@ export default function NeuralLanding() {
       {/* ═══════════════════════════════════════════════════════════════════
           SLIDE 2: CORE NARRATIVE + CTAs
           ═══════════════════════════════════════════════════════════════════ */}
-      <section className="min-h-screen w-full snap-start relative flex flex-col items-center justify-center overflow-hidden border-b border-white/[0.05]">
+      <section className="min-h-screen max-sm:min-h-0 w-full snap-start relative flex flex-col items-center justify-center overflow-hidden border-b border-white/[0.05] contain-section">
         {/* Background glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-tr from-blue-600/10 to-cyan-400/10 rounded-full blur-[140px] opacity-50 pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-tr from-blue-600/10 to-cyan-400/10 rounded-full blur-[140px] opacity-50 pointer-events-none max-sm:blur-[80px]" />
 
         {/* Tech Stack Marquee */}
         <div className="absolute inset-0 z-0 flex flex-col justify-center gap-20 opacity-80 pointer-events-none">
-          <MarqueeRow text="NEXT.JS • REACT • TAILWIND • TYPESCRIPT • FRAMER MOTION •" dir="left" />
-          <MarqueeRow text="AWS BEDROCK • MISTRAL • CLAUDE • GPT-4O • GROQ •" dir="right" />
-          <MarqueeRow text="WEBSOCKETS • PYTHON • POSTGRES • REDIS • DOCKER •" dir="left" />
+          <MarqueeRow text="NEXT.JS • REACT • TAILWIND • TYPESCRIPT • FRAMER MOTION •" dir="left" paused={isMobile} />
+          <MarqueeRow text="AWS BEDROCK • MISTRAL • CLAUDE • GPT-4O • GROQ •" dir="right" paused={isMobile} />
+          <MarqueeRow text="WEBSOCKETS • PYTHON • POSTGRES • REDIS • DOCKER •" dir="left" paused={isMobile} />
         </div>
 
         <div className="relative z-10 max-w-5xl mx-auto text-center px-6 py-12">
@@ -303,10 +312,10 @@ export default function NeuralLanding() {
 
               <button
                 onClick={handleCopy}
-                className="group flex items-center gap-3 px-6 py-4 bg-white/5 border border-white/[0.1] rounded-lg hover:border-cyan-500/50 transition-colors backdrop-blur-xl"
+                className="group flex items-center gap-3 px-6 py-4 bg-white/5 border border-white/[0.1] rounded-lg hover:border-cyan-500/50 transition-colors backdrop-blur-xl max-w-full overflow-x-auto"
               >
-                <Terminal className="w-5 h-5 text-cyan-400" />
-                <code className="font-mono text-sm text-slate-300 group-hover:text-white transition-colors">
+                <Terminal className="w-5 h-5 text-cyan-400 shrink-0" />
+                <code className="font-mono text-sm text-slate-300 group-hover:text-white transition-colors whitespace-nowrap">
                   npm i -g ganapathi-mentor-cli
                 </code>
                 <div className="pl-3 border-l border-white/[0.1]">
@@ -325,7 +334,7 @@ export default function NeuralLanding() {
       {/* ═══════════════════════════════════════════════════════════════════
           SLIDE 3: THE UBIQUITOUS RUNTIME
           ═══════════════════════════════════════════════════════════════════ */}
-      <section className="min-h-screen w-full snap-start relative py-24 px-6 border-b border-white/[0.05] flex items-center">
+      <section className="min-h-screen max-sm:min-h-0 w-full snap-start relative py-24 px-6 border-b border-white/[0.05] flex items-center contain-section">
         <div className="max-w-7xl mx-auto w-full">
           <motion.div
             initial="hidden"
@@ -399,7 +408,7 @@ export default function NeuralLanding() {
       {/* ═══════════════════════════════════════════════════════════════════
           SLIDE 4: CAREER & MASTERY BENTO
           ═══════════════════════════════════════════════════════════════════ */}
-      <section className="min-h-screen w-full snap-start relative py-24 px-6 border-b border-white/[0.05] flex items-center">
+      <section className="min-h-screen max-sm:min-h-0 w-full snap-start relative py-24 px-6 border-b border-white/[0.05] flex items-center contain-section">
         <div className="max-w-7xl mx-auto w-full">
           <motion.div
             initial="hidden"
@@ -418,11 +427,11 @@ export default function NeuralLanding() {
             </motion.p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-[240px]">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-auto">
             {/* AI Learning Paths — large card */}
             <motion.div
               whileHover={{ scale: 1.02 }}
-              className="col-span-1 md:col-span-2 lg:col-span-2 row-span-2 p-8 rounded-2xl bg-gradient-to-br from-[#0F172A]/80 to-[#020617]/80 border border-white/[0.08] flex flex-col backdrop-blur-xl"
+              className="col-span-1 md:col-span-2 lg:col-span-2 row-span-2 p-8 rounded-2xl bg-gradient-to-br from-[#0F172A]/80 to-[#020617]/80 border border-white/[0.08] flex flex-col backdrop-blur-xl min-h-[200px]"
             >
               <Layers className="w-10 h-10 text-indigo-400 mb-6" />
               <h3 className="text-2xl font-bold text-white mb-4">AI Learning Paths</h3>
@@ -444,7 +453,7 @@ export default function NeuralLanding() {
             {/* Voice Interview Simulator */}
             <motion.div
               whileHover={{ scale: 1.02 }}
-              className="col-span-1 md:col-span-2 row-span-1 p-6 rounded-2xl bg-[#0F172A]/80 border border-white/[0.08] backdrop-blur-xl"
+              className="col-span-1 md:col-span-2 row-span-1 p-6 rounded-2xl bg-[#0F172A]/80 border border-white/[0.08] backdrop-blur-xl min-h-[200px]"
             >
               <Radio className="w-8 h-8 text-pink-400 mb-4" />
               <h3 className="text-xl font-bold text-white mb-2">Voice Interview Simulator</h3>
@@ -457,7 +466,7 @@ export default function NeuralLanding() {
             {/* XP & Hackathons */}
             <motion.div
               whileHover={{ scale: 1.02 }}
-              className="col-span-1 row-span-1 p-6 rounded-2xl bg-[#0F172A]/80 border border-white/[0.08] backdrop-blur-xl"
+              className="col-span-1 row-span-1 p-6 rounded-2xl bg-[#0F172A]/80 border border-white/[0.08] backdrop-blur-xl min-h-[200px]"
             >
               <Award className="w-8 h-8 text-amber-400 mb-4" />
               <h3 className="text-lg font-bold text-white mb-2">XP &amp; Hackathons</h3>
@@ -469,7 +478,7 @@ export default function NeuralLanding() {
             {/* Last-Minute Revision */}
             <motion.div
               whileHover={{ scale: 1.02 }}
-              className="col-span-1 row-span-1 p-6 rounded-2xl bg-[#0F172A]/80 border border-white/[0.08] backdrop-blur-xl"
+              className="col-span-1 row-span-1 p-6 rounded-2xl bg-[#0F172A]/80 border border-white/[0.08] backdrop-blur-xl min-h-[200px]"
             >
               <Zap className="w-8 h-8 text-cyan-400 mb-4" />
               <h3 className="text-lg font-bold text-white mb-2">Last-Minute Revision</h3>
@@ -485,7 +494,7 @@ export default function NeuralLanding() {
       {/* ═══════════════════════════════════════════════════════════════════
           SLIDE 5: INTELLIGENCE PIPELINE
           ═══════════════════════════════════════════════════════════════════ */}
-      <section className="min-h-screen w-full snap-start relative py-24 px-6 bg-gradient-to-b from-[#020617] to-[#030712] flex items-center">
+      <section className="min-h-screen max-sm:min-h-0 w-full snap-start relative py-24 px-6 bg-gradient-to-b from-[#020617] to-[#030712] flex items-center contain-section">
         <div className="max-w-7xl mx-auto w-full">
           <motion.div
             initial="hidden"
@@ -568,7 +577,7 @@ export default function NeuralLanding() {
       {/* ═══════════════════════════════════════════════════════════════════
           SLIDE 6: FREQUENTLY ASKED QUESTIONS
           ═══════════════════════════════════════════════════════════════════ */}
-      <section className="min-h-screen w-full snap-start relative py-24 px-6 border-b border-white/[0.05] flex items-center bg-gradient-to-b from-[#030712] to-[#050505]">
+      <section className="min-h-screen max-sm:min-h-0 w-full snap-start relative py-24 px-6 border-b border-white/[0.05] flex items-center bg-gradient-to-b from-[#030712] to-[#050505] contain-section">
         <div className="max-w-4xl mx-auto w-full relative z-10">
           <motion.div
             initial="hidden"

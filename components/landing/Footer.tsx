@@ -5,6 +5,7 @@ import { Linkedin, Github, Mail, ArrowUpRight } from 'lucide-react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useRef, useEffect } from 'react';
 import type { FooterProps, FooterLink, FooterSocialLink } from '@/types/landing';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const DEFAULT_LINKS: FooterLink[] = [
   { label: 'Features',   href: '#features'     },
@@ -30,8 +31,8 @@ export default function Footer({
 }: FooterProps) {
   const year = new Date().getFullYear();
   const footerRef = useRef<HTMLElement>(null);
+  const isMobile = useIsMobile();
   
-  // Magnetic / parallax state
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   
@@ -39,15 +40,15 @@ export default function Footer({
   const smoothX = useSpring(mouseX, springConfig);
   const smoothY = useSpring(mouseY, springConfig);
   
-  // Transform values for the giant text (moves slightly against cursor)
   const xTransform = useTransform(smoothX, [-0.5, 0.5], [-25, 25]);
   const yTransform = useTransform(smoothY, [-0.5, 0.5], [-15, 15]);
 
   useEffect(() => {
+    if (isMobile) return;
+
     const handleMouseMove = (e: MouseEvent) => {
       if (!footerRef.current) return;
       const rect = footerRef.current.getBoundingClientRect();
-      // Normalize mouse position relative to footer center (-0.5 to 0.5)
       const x = (e.clientX - rect.left) / rect.width - 0.5;
       const y = (e.clientY - rect.top) / rect.height - 0.5;
       mouseX.set(x);
@@ -70,37 +71,38 @@ export default function Footer({
         el.removeEventListener('mouseleave', handleMouseLeave);
       }
     };
-  }, [mouseX, mouseY]);
+  }, [mouseX, mouseY, isMobile]);
 
   return (
     <footer
       ref={footerRef}
       aria-label="Site footer"
-      className="relative z-10 overflow-hidden"
+      className="relative z-10 overflow-hidden pb-safe"
       style={{ borderTop: '1px solid #1F1F1F', background: '#030712' }}
     >
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-[1px] bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[30%] h-[1px] bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent" />
 
       {/* ─── Magnetic Giant Title ────────────────────────────────────────── */}
-      <div className="relative pt-32 pb-20 px-6 flex flex-col items-center justify-center border-b border-white/[0.05]">
+      <div className="relative pt-16 sm:pt-32 pb-10 sm:pb-20 px-6 flex flex-col items-center justify-center border-b border-white/[0.05] overflow-hidden">
         <motion.div
-          style={{ x: xTransform, y: yTransform }}
-          className="text-center relative z-10"
+          style={isMobile ? undefined : { x: xTransform, y: yTransform }}
+          className="text-center relative z-10 w-full max-w-full overflow-hidden"
         >
-          <h1 className="text-[clamp(4rem,15vw,12rem)] font-black uppercase tracking-[-0.05em] text-white leading-none whitespace-nowrap pointer-events-none select-none">
+          <h1 className="text-[clamp(2.5rem,10vw,8rem)] font-black uppercase tracking-[-0.05em] text-white leading-none break-words pointer-events-none select-none overflow-hidden">
             GANAPATHI <span className="text-cyan-400">AI</span>
           </h1>
-          <p className="mt-6 font-mono text-[clamp(12px,2vw,16px)] text-[#9CA3AF] uppercase tracking-[0.2em] font-bold">
+          <p className="mt-6 font-mono text-[clamp(12px,2vw,16px)] text-[#9CA3AF] uppercase tracking-[0.2em] font-bold break-words">
             Works on your code, terminal, web, etc.
           </p>
         </motion.div>
         
-        {/* Subtle background glow that follows the text */}
-        <motion.div 
-          style={{ x: xTransform, y: yTransform }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[50%] bg-cyan-500/5 blur-[100px] pointer-events-none"
-        />
+        {!isMobile && (
+          <motion.div 
+            style={{ x: xTransform, y: yTransform }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[50%] bg-cyan-500/5 blur-[100px] pointer-events-none"
+          />
+        )}
       </div>
 
       {/* ─── Links & Socials Grid ──────────────────────────────────────── */}
@@ -165,21 +167,21 @@ export default function Footer({
 
       {/* ─── Compliance & Copyright Bottom Bar ─────────────────────────── */}
       <div 
-        className="w-full px-6 md:px-10 lg:px-16 py-8 flex flex-col md:flex-row items-center justify-between gap-6"
+        className="w-full px-6 md:px-10 lg:px-16 py-8 flex flex-col md:flex-row items-center justify-center md:justify-between gap-6"
         style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}
       >
-        <span className="font-mono text-[10px] text-[#6B7280] uppercase tracking-[0.2em]">
+        <span className="font-mono text-[10px] text-[#6B7280] uppercase tracking-[0.2em] text-center">
           &copy; {year} Ganapathi Mentor AI. All rights reserved.
         </span>
 
-        <div className="flex flex-wrap items-center justify-center gap-4">
+        <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
           {COMPLIANCE_MARKS.map((mark, i) => (
             <div key={mark} className="flex items-center gap-4">
-              <span className="font-mono text-[9px] text-[#4B5563] font-bold uppercase tracking-[0.2em] whitespace-nowrap">
+              <span className="font-mono text-[9px] text-[#4B5563] font-bold uppercase tracking-[0.2em]">
                 {mark}
               </span>
               {i < COMPLIANCE_MARKS.length - 1 && (
-                <div className="w-[1px] h-3 bg-white/[0.05]" aria-hidden="true" />
+                <div className="hidden sm:block w-[1px] h-3 bg-white/[0.05]" aria-hidden="true" />
               )}
             </div>
           ))}

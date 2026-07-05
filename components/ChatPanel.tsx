@@ -1,4 +1,3 @@
-
 "use client";
 
 import * as React from "react";
@@ -14,6 +13,7 @@ import {
     SheetTrigger,
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 type Message = {
     id: string;
@@ -34,6 +34,7 @@ export function ChatPanel({ sessionId, open, onOpenChange }: ChatPanelProps) {
     const [loading, setLoading] = React.useState(false);
     const [isEli5, setIsEli5] = React.useState(false);
     const scrollRef = React.useRef<HTMLDivElement>(null);
+    const isMobile = useIsMobile();
 
     React.useEffect(() => {
         if (scrollRef.current) {
@@ -98,13 +99,21 @@ export function ChatPanel({ sessionId, open, onOpenChange }: ChatPanelProps) {
                     <Button
                         variant="outline"
                         size="icon"
-                        className="fixed bottom-8 right-8 h-14 w-14 rounded-full shadow-2xl bg-primary text-primary-foreground hover:bg-primary/90 hover:scale-105 transition-all duration-300 z-50 border-2 border-white/20"
+                        className="fixed bottom-8 right-8 mb-safe h-14 w-14 rounded-full shadow-2xl bg-primary text-primary-foreground hover:bg-primary/90 hover:scale-105 transition-all duration-300 z-50 border-2 border-white/20 max-sm:bottom-4 max-sm:right-4"
                     >
                         <Sparkles className="h-6 w-6" />
                     </Button>
                 )}
             </SheetTrigger>
-            <SheetContent className="w-[400px] sm:w-[540px] flex flex-col glass border-l-theme p-0 gap-0">
+            <SheetContent
+                side={isMobile ? "bottom" : "right"}
+                className={cn(
+                    "flex flex-col glass p-0 gap-0",
+                    isMobile
+                        ? "w-full h-[65vh] max-h-[65vh] rounded-t-2xl border-t border-border/50"
+                        : "w-full sm:w-[380px] sm:h-full border-l-theme"
+                )}
+            >
                 <SheetHeader className="p-6 border-b border-border/50 bg-background/40 backdrop-blur-xl">
                     <SheetTitle className="flex items-center gap-2 text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-400">
                         <Bot className="h-6 w-6 text-primary" />
@@ -144,13 +153,13 @@ export function ChatPanel({ sessionId, open, onOpenChange }: ChatPanelProps) {
                                 </div>
                                 <div
                                     className={cn(
-                                        "p-3 rounded-2xl text-sm shadow-sm backdrop-blur-sm",
+                                        "p-3 rounded-2xl shadow-sm backdrop-blur-sm max-sm:text-xs max-sm:p-2.5",
                                         msg.role === "user"
                                             ? "bg-primary/90 text-primary-foreground rounded-tr-none"
                                             : "bg-card/80 border border-border/50 text-foreground rounded-tl-none"
                                     )}
                                 >
-                                    <div className="prose prose-invert max-w-none text-sm leading-relaxed whitespace-pre-wrap">
+                                    <div className="prose prose-invert max-w-none text-sm max-sm:text-xs leading-relaxed whitespace-pre-wrap">
                                         {msg.content}
                                     </div>
                                 </div>

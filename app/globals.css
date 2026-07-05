@@ -24,12 +24,31 @@
     font-size: clamp(0.875rem, 2vw, 1.125rem);
     line-height: 1.6;
     overflow-x: hidden;
-    overscroll-behavior: none;
-    cursor: none !important;
   }
 
-  a, button, [role="button"], input, select, textarea, [role="link"], [role="listitem"] {
-    cursor: none !important;
+  /* Custom cursor + scroll lock — desktop pointer only */
+  @media (pointer: fine) {
+    body {
+      overscroll-behavior: none;
+      cursor: none !important;
+    }
+
+    a, button, [role="button"], input, select, textarea, [role="link"], [role="listitem"] {
+      cursor: none !important;
+    }
+  }
+
+  /* Allow pinch-zoom and pan on touch devices */
+  @media (pointer: coarse) {
+    body {
+      touch-action: pan-x pan-y pinch-zoom;
+      cursor: auto;
+    }
+
+    a, button, [role="button"], input, select, textarea, [role="link"], [role="listitem"] {
+      cursor: auto;
+      touch-action: auto;
+    }
   }
 
   h1,
@@ -58,14 +77,16 @@
     @apply text-lg sm:text-xl md:text-2xl lg:text-3xl;
   }
 
-  /* Touch-friendly minimum sizes */
-  button,
-  a,
-  [role="button"],
-  input,
-  select,
-  textarea {
-    touch-action: manipulation;
+  /* Touch-friendly minimum sizes — manipulation only on fine pointers */
+  @media (pointer: fine) {
+    button,
+    a,
+    [role="button"],
+    input,
+    select,
+    textarea {
+      touch-action: manipulation;
+    }
   }
 
   /* Ensure images and media scale */
@@ -283,6 +304,7 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+    will-change: auto !important;
   }
 }
 
@@ -291,6 +313,11 @@
   .glass-card {
     -webkit-backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
+  }
+
+  .glass {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
   }
 
   .animate-in {
@@ -478,18 +505,6 @@
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
-    }
-  }
-
-  @media (max-width: 640px) {
-    .glass-card {
-      -webkit-backdrop-filter: blur(8px);
-      backdrop-filter: blur(8px);
-    }
-
-    .glass {
-      -webkit-backdrop-filter: blur(10px);
-      backdrop-filter: blur(10px);
     }
   }
 }
@@ -744,4 +759,12 @@
     border-radius: 2px;
   }
   .rh-scroll::-webkit-scrollbar-thumb:hover { background: rgba(0,212,170,0.3); }
+
+  .contain-section {
+    contain: layout style;
+  }
+
+  .mb-safe {
+    margin-bottom: env(safe-area-inset-bottom, 0px);
+  }
 }
