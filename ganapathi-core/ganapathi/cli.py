@@ -73,7 +73,7 @@ def login():
     print_header(console, "Authentication", "Securely connect your CLI")
 
     console.print("  Opening browser for authentication...")
-    login_url = "https://ganapathi-mentor-ai.vercel.app/auth/login"
+    login_url = "https://ganapathi-mentor-ai.vercel.app/auth/cli"
     
     try:
         webbrowser.open(login_url)
