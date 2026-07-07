@@ -103,7 +103,7 @@ export default function HiveMindPage() {
                                             <span className="flex items-center justify-center w-5 h-5 rounded-full bg-primary/20 text-primary text-[10px] font-bold">4</span>
                                             <p className="text-xs font-semibold text-white/80">Connect Here</p>
                                         </div>
-                                        <p className="text-[10px] text-white/40 ml-7">Copy the <strong className="text-white/60">Token</strong> and <strong className="text-white/60">WebSocket URL</strong> from the terminal output and paste them on the right, then click Connect.</p>
+                                        <p className="text-[10px] text-white/40 ml-7">Copy the <strong className="text-white/60">Connection Key</strong> and <strong className="text-white/60">WebSocket URL</strong> from the terminal output and paste them on the right, then click Connect.</p>
                                     </div>
                                 </div>
                             </div>
@@ -117,8 +117,15 @@ export default function HiveMindPage() {
                                         <Input value={h.wsUrl} onChange={e => h.setWsUrl(e.target.value)} className="bg-black/40 border-white/[0.06] font-mono text-xs h-11 rounded-xl" />
                                     </div>
                                     <div className="space-y-1.5">
-                                        <label className="text-[9px] font-bold text-white/25 uppercase tracking-widest">Auth Token</label>
-                                        <Input value={h.token} onChange={e => h.setToken(e.target.value)} type="password" placeholder="Paste from CLI..." className="bg-black/40 border-white/[0.06] font-mono text-xs h-11 rounded-xl" />
+                                        <div className="flex justify-between items-end">
+                                            <label className="text-[9px] font-bold text-white/25 uppercase tracking-widest">Connection Key</label>
+                                        </div>
+                                        <Input value={h.token} onChange={e => h.setToken(e.target.value.trim())} type="password" placeholder="Paste 64-character Connection Key..." className="bg-black/40 border-white/[0.06] font-mono text-xs h-11 rounded-xl" />
+                                        {h.token.startsWith('eyJ') && (
+                                            <p className="text-[10px] text-rose-400 mt-1.5 bg-rose-500/10 p-2 rounded border border-rose-500/20">
+                                                ⚠️ This looks like a Login JWT. You need to paste the 64-character <strong>Connection Key</strong> printed by the <code>ganapathi hive-mind start</code> command.
+                                            </p>
+                                        )}
                                     </div>
                                     <Button onClick={h.connect} disabled={h.conn === 'connecting'}
                                         className="w-full mt-2 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-black font-bold h-12 rounded-xl shadow-lg shadow-amber-500/10">
