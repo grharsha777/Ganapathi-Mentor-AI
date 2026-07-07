@@ -11,10 +11,11 @@ export default function CustomCursor() {
   useEffect(() => {
     const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
     const noHover = window.matchMedia('(hover: none)').matches;
-    if (coarsePointer || noHover) {
-      setIsTouchDevice(true);
+    // Only apply custom cursor on non-touch devices
+    if (window.matchMedia('(pointer: coarse)').matches) {
       return;
     }
+
     setIsTouchDevice(false);
 
     const updateMousePosition = (e: MouseEvent) => {
@@ -23,6 +24,7 @@ export default function CustomCursor() {
 
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
+      // If hovering over a button, link, or anything interactive
       if (
         target.tagName.toLowerCase() === 'button' ||
         target.tagName.toLowerCase() === 'a' ||
@@ -30,7 +32,7 @@ export default function CustomCursor() {
         target.closest('a') ||
         target.closest('[role="button"]') ||
         target.closest('[role="link"]') ||
-        target.closest('[role="listitem"]')
+        target.closest('[role="listitem"]') // For bento grid hover effect
       ) {
         setIsHovering(true);
       } else {
@@ -47,7 +49,9 @@ export default function CustomCursor() {
     };
   }, []);
 
-  if (isTouchDevice) return null;
+  if (typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches) {
+    return null;
+  }
 
   return (
     <>

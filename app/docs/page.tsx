@@ -44,10 +44,10 @@ export default function CliDocsPage() {
                 <span className="text-cyan-400 font-mono text-sm">01.</span> Global Installation
               </h2>
               <p className="text-slate-400 leading-relaxed">
-                The CLI is distributed securely via the npm registry. For enterprise environments with strict package management policies, ensure your internal artifact repository proxies the public registry.
+                The CLI is distributed securely via PyPI. For enterprise environments with strict package management policies, ensure your internal artifact repository proxies the public registry.
               </p>
               <div className="bg-[#0F172A]/40 border border-white/[0.05] rounded-xl p-6 backdrop-blur-xl font-mono text-sm text-cyan-300">
-                npm install -g ganapathi-mentor-cli
+                pip install ganapathi-mentor-ai
               </div>
               <div className="flex items-start gap-3 mt-4 text-sm text-slate-500">
                 <Settings className="w-5 h-5 text-slate-400 shrink-0" />
@@ -66,7 +66,7 @@ export default function CliDocsPage() {
                 By default, invoking the CLI evaluates your current workspace context. The agent parses your repository architecture and dependencies to deliver context-aware mentorship.
               </p>
               <div className="bg-[#0F172A]/40 border border-white/[0.05] rounded-xl p-6 backdrop-blur-xl font-mono text-sm text-cyan-300">
-                ganapathi-mentor &quot;Explain the architecture of this project&quot;
+                ganapathi "Explain the architecture of this project"
               </div>
             </div>
 
@@ -91,7 +91,7 @@ export default function CliDocsPage() {
                     Best for high-level system design, architectural reviews, and best-practice validation.
                   </p>
                   <code className="text-xs font-mono bg-black/50 text-indigo-300 px-3 py-1.5 rounded-md border border-indigo-500/20">
-                    ganapathi-mentor mentor &quot;&lt;prompt&gt;&quot;
+                    ganapathi mentor &quot;&lt;prompt&gt;&quot;
                   </code>
                 </div>
 
@@ -105,7 +105,7 @@ export default function CliDocsPage() {
                     Triggers the debugging pipeline. Analyzes stack traces, locates logic faults, and proposes exact diffs for remediation.
                   </p>
                   <code className="text-xs font-mono bg-black/50 text-amber-300 px-3 py-1.5 rounded-md border border-amber-500/20">
-                    ganapathi-mentor fix &quot;&lt;prompt&gt;&quot;
+                    ganapathi fix &quot;&lt;prompt&gt;&quot;
                   </code>
                 </div>
 
@@ -119,7 +119,7 @@ export default function CliDocsPage() {
                     Transforms conceptual feature ideas into deterministic implementation roadmaps and task breakdowns.
                   </p>
                   <code className="text-xs font-mono bg-black/50 text-emerald-300 px-3 py-1.5 rounded-md border border-emerald-500/20">
-                    ganapathi-mentor plan &quot;&lt;prompt&gt;&quot;
+                    ganapathi plan &quot;&lt;prompt&gt;&quot;
                   </code>
                 </div>
 
@@ -133,7 +133,7 @@ export default function CliDocsPage() {
                     Specialized for DevOps tasks, Dockerfile generation, CI/CD pipeline configuration, and cloud resource provisioning.
                   </p>
                   <code className="text-xs font-mono bg-black/50 text-rose-300 px-3 py-1.5 rounded-md border border-rose-500/20">
-                    ganapathi-mentor ops &quot;&lt;prompt&gt;&quot;
+                    ganapathi ops &quot;&lt;prompt&gt;&quot;
                   </code>
                 </div>
 

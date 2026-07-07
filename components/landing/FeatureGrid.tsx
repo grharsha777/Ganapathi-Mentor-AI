@@ -76,9 +76,9 @@ const FEATURES = [
   {
     id: 'cli',
     title: 'Terminal Mentor CLI',
-    desc: 'An AI architect living in your command line. npm install -g ganapathi-mentor-cli for instant access worldwide.',
+    desc: 'An AI architect living in your command line. pip install ganapathi-mentor-ai for instant access worldwide.',
     icon: Terminal,
-    meta: { install: 'npm global', runtime: 'Node 18+', tier: 'Open Source' },
+    meta: { install: 'PyPI', runtime: 'Python 3.9+', tier: 'Open Source' },
     size: 'large',
   },
 ] as const;

@@ -26,14 +26,9 @@
     overflow-x: hidden;
   }
 
-  /* Custom cursor + scroll lock — desktop pointer only */
+  /* Only hide cursor on precise pointing devices */
   @media (pointer: fine) {
-    body {
-      overscroll-behavior: none;
-      cursor: none !important;
-    }
-
-    a, button, [role="button"], input, select, textarea, [role="link"], [role="listitem"] {
+    body, a, button, [role="button"], input, select, textarea, [role="link"], [role="listitem"] {
       cursor: none !important;
     }
   }
@@ -77,15 +72,20 @@
     @apply text-lg sm:text-xl md:text-2xl lg:text-3xl;
   }
 
-  /* Touch-friendly minimum sizes — manipulation only on fine pointers */
-  @media (pointer: fine) {
-    button,
-    a,
-    [role="button"],
-    input,
-    select,
-    textarea {
-      touch-action: manipulation;
+  /* Touch-friendly minimum sizes */
+  button,
+  a,
+  [role="button"],
+  input,
+  select,
+  textarea {
+    touch-action: manipulation;
+  }
+  
+  /* Allow pinch-zoom and pan on touch devices */
+  @media (pointer: coarse) {
+    body {
+      touch-action: pan-x pan-y pinch-zoom;
     }
   }
 

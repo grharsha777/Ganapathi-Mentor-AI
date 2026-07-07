@@ -61,7 +61,9 @@ export default function NeuralLanding() {
   const skewXVal = useSpring(useTransform(mx, [-0.5, 0.5], [-3, 3]), heavy);
 
   useEffect(() => {
-    if (isMobile) return;
+    if (typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches) {
+      return;
+    }
 
     const el = heroRef.current;
     if (!el) return;
@@ -316,7 +318,7 @@ export default function NeuralLanding() {
               >
                 <Terminal className="w-5 h-5 text-cyan-400 shrink-0" />
                 <code className="font-mono text-sm text-slate-300 group-hover:text-white transition-colors whitespace-nowrap">
-                  npm i -g ganapathi-mentor-cli
+                  pip install ganapathi-mentor-ai
                 </code>
                 <div className="pl-3 border-l border-white/[0.1]">
                   {copied ? (
@@ -427,11 +429,11 @@ export default function NeuralLanding() {
             </motion.p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-auto md:auto-rows-[240px]">
             {/* AI Learning Paths — large card */}
             <motion.div
               whileHover={{ scale: 1.02 }}
-              className="col-span-1 md:col-span-2 lg:col-span-2 row-span-2 p-8 rounded-2xl bg-gradient-to-br from-[#0F172A]/80 to-[#020617]/80 border border-white/[0.08] flex flex-col backdrop-blur-xl min-h-[200px]"
+              className="col-span-1 md:col-span-2 lg:col-span-2 row-span-1 md:row-span-2 p-8 rounded-2xl bg-gradient-to-br from-[#0F172A]/80 to-[#020617]/80 border border-white/[0.08] flex flex-col backdrop-blur-xl min-h-[240px]"
             >
               <Layers className="w-10 h-10 text-indigo-400 mb-6" />
               <h3 className="text-2xl font-bold text-white mb-4">AI Learning Paths</h3>
@@ -453,7 +455,7 @@ export default function NeuralLanding() {
             {/* Voice Interview Simulator */}
             <motion.div
               whileHover={{ scale: 1.02 }}
-              className="col-span-1 md:col-span-2 row-span-1 p-6 rounded-2xl bg-[#0F172A]/80 border border-white/[0.08] backdrop-blur-xl min-h-[200px]"
+              className="col-span-1 md:col-span-2 row-span-1 p-6 rounded-2xl bg-[#0F172A]/80 border border-white/[0.08] backdrop-blur-xl min-h-[240px]"
             >
               <Radio className="w-8 h-8 text-pink-400 mb-4" />
               <h3 className="text-xl font-bold text-white mb-2">Voice Interview Simulator</h3>

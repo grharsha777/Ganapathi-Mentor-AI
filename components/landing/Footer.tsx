@@ -84,15 +84,15 @@ export default function Footer({
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[30%] h-[1px] bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent" />
 
       {/* ─── Magnetic Giant Title ────────────────────────────────────────── */}
-      <div className="relative pt-16 sm:pt-32 pb-10 sm:pb-20 px-6 flex flex-col items-center justify-center border-b border-white/[0.05] overflow-hidden">
+      <div className="relative pt-16 pb-10 md:pt-32 md:pb-20 px-6 flex flex-col items-center justify-center border-b border-white/[0.05] overflow-hidden">
         <motion.div
           style={isMobile ? undefined : { x: xTransform, y: yTransform }}
-          className="text-center relative z-10 w-full max-w-full overflow-hidden"
+          className="text-center relative z-10 w-full"
         >
-          <h1 className="text-[clamp(2.5rem,10vw,8rem)] font-black uppercase tracking-[-0.05em] text-white leading-none break-words pointer-events-none select-none overflow-hidden">
+          <h1 className="text-[clamp(2.5rem,10vw,12rem)] font-black uppercase tracking-[-0.05em] text-white leading-none break-words sm:whitespace-nowrap pointer-events-none select-none">
             GANAPATHI <span className="text-cyan-400">AI</span>
           </h1>
-          <p className="mt-6 font-mono text-[clamp(12px,2vw,16px)] text-[#9CA3AF] uppercase tracking-[0.2em] font-bold break-words">
+          <p className="mt-6 font-mono text-[clamp(10px,2vw,16px)] text-[#9CA3AF] uppercase tracking-[0.2em] font-bold px-2">
             Works on your code, terminal, web, etc.
           </p>
         </motion.div>
@@ -167,10 +167,10 @@ export default function Footer({
 
       {/* ─── Compliance & Copyright Bottom Bar ─────────────────────────── */}
       <div 
-        className="w-full px-6 md:px-10 lg:px-16 py-8 flex flex-col md:flex-row items-center justify-center md:justify-between gap-6"
+        className="w-full px-6 md:px-10 lg:px-16 pt-8 pb-[max(2rem,env(safe-area-inset-bottom,2rem))] flex flex-col md:flex-row items-center justify-between gap-6"
         style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}
       >
-        <span className="font-mono text-[10px] text-[#6B7280] uppercase tracking-[0.2em] text-center">
+        <span className="font-mono text-[10px] text-[#6B7280] uppercase tracking-[0.2em] text-center md:text-left">
           &copy; {year} Ganapathi Mentor AI. All rights reserved.
         </span>
 

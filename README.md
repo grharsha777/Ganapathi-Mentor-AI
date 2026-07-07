@@ -5,8 +5,7 @@
 An enterprise-grade, full-stack AI development ecosystem that unifies **20+ cutting-edge AI services**, **AWS cloud infrastructure**, real-time collaboration, adaptive learning, gamified challenges, creative AI studios, and a legendary terminal CLI — all in one premium platform.
 
 🌐 **Live**: [ganapathi-mentor-ai.vercel.app](https://ganapathi-mentor-ai.vercel.app)  
-📦 **CLI**: `npm install -g ganapathi-mentor-cli`  
-🏗️ **Architecture**: Next.js 16 + AWS (Bedrock, S3, Lambda, CloudFront) + MongoDB Atlas
+📦 **CLI**: `pip install ganapathi-mentor-ai`
 
 ---
 
@@ -301,7 +300,7 @@ cd Ganapathi-Mentor-AI
 npm install
 
 # Install the Terminal CLI globally
-npm install -g ganapathi-mentor-cli
+pip install ganapathi-mentor-ai
 ```
 
 ### Environment Variables

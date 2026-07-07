@@ -76,11 +76,12 @@ export default function HiveMindPage() {
                                         </div>
                                         <p className="text-[10px] text-white/40 mb-2 ml-7">Navigate to your project folder and start the CLI bridge.</p>
                                         <div className="flex items-center bg-black/50 border border-white/[0.06] rounded-xl p-2 pl-3">
-                                            <code className="text-[11px] text-amber-200/70 font-mono flex-1">python -m ganapathi.cli hive-mind start --path ./</code>
-                                            <button onClick={() => { navigator.clipboard.writeText('python -m ganapathi.cli hive-mind start --path ./'); toast.success('Copied to clipboard'); }} className="p-1.5 hover:bg-white/10 rounded-lg transition-colors group">
+                                            <code className="text-[11px] text-amber-200/70 font-mono flex-1">ganapathi hive-mind start --path ./</code>
+                                            <button onClick={() => { navigator.clipboard.writeText('ganapathi hive-mind start --path ./'); toast.success('Copied to clipboard'); }} className="p-1.5 hover:bg-white/10 rounded-lg transition-colors group">
                                                 <Copy className="w-3.5 h-3.5 text-white/30 group-hover:text-white/60" />
                                             </button>
                                         </div>
+                                        <p className="text-[10px] text-white/40 ml-7 mt-2">If `ganapathi` is not on your PATH, use <code>python -m ganapathi.cli hive-mind start --path ./</code> as a fallback.</p>
                                     </div>
 
                                     <div className="relative">

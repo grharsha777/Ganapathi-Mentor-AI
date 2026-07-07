@@ -602,8 +602,8 @@ export default function GlobalChatbot() {
                 <Card className={cn(
                     "shadow-2xl transition-all duration-200 flex flex-col overflow-hidden border-white/10",
                     "bg-background/95 backdrop-blur-xl",
-                    isFullScreen ? "w-full h-full rounded-2xl sm:rounded-3xl" : "w-full sm:w-[420px] md:w-[560px] lg:w-[620px] max-w-full",
-                    !isFullScreen && (isMinimized ? "h-16" : "h-[70vh] sm:h-[650px] md:h-[720px] max-h-[calc(100vh-140px)]")
+                    isFullScreen ? "w-full h-full rounded-2xl sm:rounded-3xl" : "w-full sm:w-[400px] md:w-[450px] lg:w-[500px] max-w-[calc(100vw-16px)]",
+                    !isFullScreen && (isMinimized ? "h-16" : "h-[55vh] sm:h-[600px] md:h-[650px] max-h-[calc(100vh-100px)]")
                 )}>
                     {/* Header */}
                     <CardHeader className={cn(

@@ -11,7 +11,11 @@
     "analyze": "cross-env ANALYZE=true next build --webpack",
     "start": "next start",
     "lint": "eslint .",
-    "ganapathi": "npx tsx scripts/ganapathi.ts"
+    "ganapathi": "npx tsx scripts/ganapathi.ts",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:bug-exploration": "playwright test tests/bug-condition-exploration.spec.ts",
+    "test:preservation": "playwright test tests/preservation-property.spec.ts"
   },
   "bin": {
     "ganapathi": "./scripts/bin.js"
@@ -110,6 +114,7 @@
     "@eslint/js": "^9.0.0",
     "@next/bundle-analyzer": "^16.2.3",
     "@next/eslint-plugin-next": "^16.1.6",
+    "@playwright/test": "^1.61.1",
     "@tailwindcss/postcss": "^4.1.13",
     "@types/d3-force": "^3.0.10",
     "@types/node": "^22",
@@ -122,6 +127,7 @@
     "eslint-config-next": "^16.1.6",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.1",
+    "fast-check": "^4.8.0",
     "globals": "^15.0.0",
     "postcss": "^8.5",
     "tailwindcss": "^3.4.17",
