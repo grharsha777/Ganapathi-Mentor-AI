@@ -28,6 +28,9 @@
 
   /* Only hide cursor on precise pointing devices */
   @media (pointer: fine) {
+    body {
+      overscroll-behavior-y: none;
+    }
     body, a, button, [role="button"], input, select, textarea, [role="link"], [role="listitem"] {
       cursor: none !important;
     }
