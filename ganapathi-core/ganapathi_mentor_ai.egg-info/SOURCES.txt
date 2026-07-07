@@ -7,6 +7,7 @@ pyproject.toml
 requirements.txt
 setup.py
 ganapathi/__init__.py
+ganapathi/__main__.py
 ganapathi/ai_agent.py
 ganapathi/ai_engine.py
 ganapathi/audit.py
