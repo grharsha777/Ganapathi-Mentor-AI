@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: 'Complete reference guide for the Ganapathi Mentor AI Command Line Interface — installation, login, hive-mind, and all commands.',
 };
 
-const CodeBlock = ({ children, color = 'text-cyan-300' }: { children: string, color?: string }) => (
+const CodeBlock = ({ children, color = 'text-cyan-300' }: { children: React.ReactNode, color?: string }) => (
   <div className={`bg-[#0a0f1e] border border-white/[0.06] rounded-xl p-4 font-mono text-sm ${color} overflow-x-auto`}>
     <pre className="whitespace-pre-wrap">{children}</pre>
   </div>
@@ -104,7 +104,8 @@ export default function CliDocsPage() {
 
               <div className="space-y-4">
                 <Step num="1" title="Install & Login (see above)">
-                  <CodeBlock>pip install ganapathi-mentor-ai{'\n'}python -m ganapathi login</CodeBlock>
+                  <CodeBlock>{`pip install ganapathi-mentor-ai
+python -m ganapathi login`}</CodeBlock>
                 </Step>
                 <Step num="2" title="Navigate to your project folder">
                   <CodeBlock color="text-slate-400">cd /path/to/your/project</CodeBlock>
