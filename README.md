@@ -11,7 +11,7 @@
   <p>
     <i>Submitted to the <b>TakeOver'26 Hackathon</b></i><br/>
     <b>Theme 2:</b> AI Automation & Intelligent Agents<br/>
-    <b>Built by:</b> <a href="https://www.linkedin.com/in/grharsha777/">Anantha Vector</a>  </p>
+    <b>Built by:</b> <a href="https://www.linkedin.com/in/grharsha777/">Anatha Vector</a>  </p>
 </div>
 
 ---
