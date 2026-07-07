@@ -1,296 +1,111 @@
-# 🧠 Ganapathi Mentor AI — Neural Code Symbiosis
+<div align="center">
+  <img src="https://ganapathi-mentor-ai.vercel.app/logo.png" alt="Ganapathi Mentor AI Logo" width="120" height="120" />
+  <h1>🧠 Ganapathi Mentor AI</h1>
+  <p><strong>The Ultimate AI Knowledge Assistant & Copilot for Developers & Students</strong></p>
+  
+  <p>
+    <a href="https://ganapathi-mentor-ai.vercel.app"><strong>Live Demo</strong></a> · 
+    <a href="https://github.com/grharsha777/Ganapathi-Mentor-AI"><strong>Repository</strong></a>
+  </p>
 
-> **The World's Most Advanced AI-Powered Development Platform** — Built by [G R Harsha](https://www.linkedin.com/in/grharsha777/)
-
-An enterprise-grade, full-stack AI development ecosystem that unifies **20+ cutting-edge AI services**, **AWS cloud infrastructure**, real-time collaboration, adaptive learning, gamified challenges, creative AI studios, and a legendary terminal CLI — all in one premium platform.
-
-🌐 **Live**: [ganapathi-mentor-ai.vercel.app](https://ganapathi-mentor-ai.vercel.app)  
-📦 **CLI**: `pip install ganapathi-mentor-ai`
-
----
-
-## 🏛️ Platform Architecture
-
-```
-┌───────────────────────────────────────────────────────────────────┐
-│                     GANAPATHI MENTOR AI                           │
-│                  Neural Code Symbiosis v3.0                       │
-├────────────┬──────────┬──────────┬──────────┬─────────────────────┤
-│   Vercel   │   AWS    │  MongoDB │  Multi   │   External          │
-│   Edge     │  Cloud   │  Atlas   │  AI      │   APIs              │
-│  (Frontend)│  (Infra) │  (Data)  │  Engine  │   (Enrichment)      │
-├────────────┼──────────┼──────────┼──────────┼─────────────────────┤
-│ Next.js 16 │ Bedrock  │ Mongoose │ Mistral  │ YouTube Data v3     │
-│ React 19   │ S3       │ 20 Models│ Groq     │ SerpAPI             │
-│ TypeScript │ Lambda   │ IndexedDB│ GPT-4o   │ StackExchange       │
-│ Tailwind   │ CloudFrt │          │ Claude   │ arXiv               │
-│ Framer Mtn │ DynamoDB │          │ Gemini   │ Semantic Scholar    │
-│ Radix UI   │ SQS      │          │ Grok     │ Wikipedia           │
-│            │ CloudWch │          │ Kling    │ Freepik AI          │
-│            │          │          │ Runway   │ Suno AI             │
-│            │          │          │ Sarvam   │ NewsOrg             │
-└────────────┴──────────┴──────────┴──────────┴─────────────────────┘
-```
+  <p>
+    <i>Submitted to the <b>TakeOver'26 Hackathon</b></i><br/>
+    <b>Theme 2:</b> AI Automation & Intelligent Agents<br/>
+    <b>Built by:</b> <a href="https://www.linkedin.com/in/grharsha777/">G R Harsha</a> (Siddhi Labs)
+  </p>
+</div>
 
 ---
 
-## ✨ Feature Arsenal
+## 🎯 The Problem
 
-### 🎓 Learning & Education
-| Feature | Description | AI Models Used |
-|---------|-------------|---------------|
-| **AI Learning Paths** | AI-generated personalized roadmaps with sessions, resources, and adaptive progress tracking | Mistral Large, Claude 3.5 |
-| **Concept Engine** | Multi-level explanations (Beginner → Advanced) with YouTube videos, research papers, and AI visualizations | GPT-4o, Gemini Pro |
-| **Last-Minute Prep** | Quick revision sheets, formula banks, flashcards, and practice questions for exam prep | Groq (ultra-fast) |
-| **Specialized Training** | Interview prep modules, code-to-learn tutorials, and stack-specific deep dives | AWS Bedrock |
+Students and developers waste hours every day because knowledge is scattered across disconnected sources:
 
-### 💻 Developer Tools
-| Feature | Description | Infrastructure |
-|---------|-------------|---------------|
-| **Quantum Code Review** | Architecture-level review with security scanning (CVE references), performance profiling, and refactoring suggestions | AWS Bedrock (multi-model parallel analysis) |
-| **Documentation Generator** | Auto-generate API docs, README files, and technical documentation from code | Mistral Large |
-| **Productivity Hub** | AI task prioritization using Eisenhower Matrix, Pomodoro timers, and smart agenda | Groq |
-| **GitHub Integration** | Repo analytics, contribution heatmaps, language breakdowns, and commit analysis | GitHub REST API |
-| **Terminal Mentor CLI** | A legendary AI architect living in your command line — available globally via npm | Mistral Large + Function Calling |
+- Learning material lives across YouTube, docs, Stack Overflow, arXiv, and PDFs — with no single place to ask a question and get a **synthesized, cited answer**.
+- Code review, documentation, and repetitive prep work (revision sheets, interview questions, project docs) are done manually, one tool at a time.
+- Interview and career prep is fragmented across mock-interview apps, flashcard tools, and separate portfolio builders.
+- There is no single **AI copilot** that follows a learner/developer across the entire journey: understanding a concept → writing and reviewing code → preparing for interviews → tracking progress.
 
-### 🔬 Creative AI Studio
-| Feature | Description | Provider |
-|---------|-------------|----------|
-| **AI Image Generation** | Text-to-image with prompt engineering and style transfer | Freepik AI, Stability AI |
-| **AI Video Generation** | Text-to-video using state-of-the-art generative models | Kling AI, Runway ML, HuggingFace |
-| **Music Composition** | AI-powered music and song creation from text prompts | Suno AI, NanoBanana |
-| **Media Processing** | Automatic thumbnailing, transcoding, and watermarking | AWS Lambda + S3 |
-
-### 🏆 Gamification & Social
-| Feature | Description |
-|---------|-------------|
-| **Coding Challenges** | Solve problems, earn XP, climb the global leaderboard with multiple difficulty levels |
-| **Voice Interview Simulator** | Practice with AI-powered voice interviews — technical, behavioral, and system design rounds |
-| **CodeCollab** | Real-time collaborative coding rooms with live cursors and voice chat |
-| **Portfolio Generator** | Auto-generated developer portfolio from your activity and projects |
-| **Collaboration Intelligence** | Team knowledge silo detection and skill gap recommendations |
-
-### 🤖 AI Assistant
-| Feature | Description | Model |
-|---------|-------------|-------|
-| **Ganapathi AI Chatbot** | Full-featured chatbot with web search, YouTube, image gen, navigation, and a friendly personality | Multi-model (automatic selection) |
-| **Text-to-Speech** | Listen to AI explanations via high-quality voice synthesis | Sarvam AI, ElevenLabs, Murf AI |
-| **Onboarding Tutorial** | Interactive first-time feature walkthrough for new users | — |
-
-### 📊 Analytics & Monitoring
-| Feature | Description | Infrastructure |
-|---------|-------------|---------------|
-| **Performance Analytics** | Track learning progress, coding metrics, streaks, and XP over time | AWS Lambda (aggregation) |
-| **Anomaly Detection** | AI-powered detection of unusual patterns in coding behavior | AWS Bedrock |
-| **Smart Alerts** | Configurable notifications for milestones and anomalies | AWS SQS + Lambda |
-| **Real-Time News** | Developer-focused news aggregation with AI-curated headlines | NewsOrg API |
-
-### 🔬 Research Engine
-| Feature | Description | Sources |
-|---------|-------------|---------|
-| **Multi-Source Search** | Unified search across Web, StackOverflow, Wikipedia, arXiv, and Semantic Scholar | 6 API integrations |
-| **AI Synthesis** | Cross-reference results and generate comprehensive research summaries | Claude 3.5 Sonnet |
-| **Citation Manager** | Automatic citation formatting and bibliography generation | Semantic Scholar API |
+This is exactly the gap **Theme 2 (AI Automation & Intelligent Agents)** calls out: *"Students, employees, and customers struggle to find accurate information quickly due to fragmented knowledge sources,"* and *"Employees spend hours performing repetitive administrative tasks that could be automated using AI assistants."*
 
 ---
 
-## 🛠️ Tech Stack
+## 💡 Our Solution: Ganapathi Mentor AI
 
-### Frontend
-| Technology | Version | Purpose |
-|-----------|---------|---------|
-| **Next.js** | 16 | React framework with App Router, Server & Client Components |
-| **React** | 19 | Concurrent rendering, Suspense, and streaming SSR |
-| **TypeScript** | 5.7 | End-to-end type safety |
-| **Tailwind CSS** | 3.4 | Utility-first responsive design system |
-| **Framer Motion** | 12 | 60fps animations, page transitions, physics-based interactions |
-| **Radix UI** | Latest | 25+ accessible, unstyled component primitives |
-| **Monaco Editor** | Latest | VS Code-quality in-browser code editor |
-| **Recharts** | 2.15 | Interactive data visualization |
+**Ganapathi Mentor AI** is a unified, multi-agent AI copilot that acts as a single knowledge and productivity layer for developers and students, replacing ten disconnected tools.
 
-### Backend
-| Technology | Purpose |
-|-----------|---------|
-| **Next.js API Routes** | 40+ RESTful API endpoints with edge runtime support |
-| **MongoDB Atlas** | Primary database with 20 Mongoose models, Atlas Search |
-| **IndexedDB** | Offline-first client-side persistence with per-user scoping |
-| **JWT (jose)** | Stateless token-based authentication |
-| **bcryptjs** | Argon2-equivalent password hashing |
-| **Zod** | Runtime schema validation for all inputs |
-| **Nodemailer** | Transactional and notification email delivery |
+The name is deliberate: in Hindu tradition, Ganapathi (Ganesha) is the remover of obstacles and the patron of learning and new beginnings. Our platform is designed around the same idea: **clear the obstacles between a learner and the answer, the code fix, or the interview prep they need.**
 
-### ☁️ AWS Cloud Infrastructure
-| Service | Purpose | Configuration |
-|---------|---------|--------------|
-| **AWS Bedrock** | Enterprise AI inference (Claude 3.5, Llama 3, Mistral Large, Titan) | Multi-model parallel analysis, streaming responses |
-| **AWS S3** | Asset storage for media, code snapshots, learning resources, portfolios | Presigned uploads, lifecycle policies, versioning |
-| **AWS Lambda** | Serverless compute for code execution, media processing, analytics | 6 specialized functions, 128–1024MB memory |
-| **AWS CloudFront** | Global CDN for static assets and media delivery | Edge caching, compression, 30-day TTL |
-| **AWS DynamoDB** | Session cache and real-time leaderboard data | On-demand capacity, TTL expiration |
-| **AWS SQS** | Message queuing for async code review and notification dispatch | FIFO queues, dead-letter routing |
-| **AWS CloudWatch** | Monitoring, logging, and alerting for all services | Custom namespace, latency/error alarms |
+### 🔄 How It Works, End-to-End:
 
-### 🧠 AI & ML Services
-| Provider | Models Used | Purpose |
-|---------|------------|---------|
-| **Mistral AI** | Mistral Large | Primary chat, code analysis, function calling |
-| **Groq** | LPU Inference | Ultra-fast real-time interactions (< 100ms) |
-| **OpenAI** | GPT-4o | Advanced reasoning, multi-modal analysis |
-| **Anthropic** | Claude 3.5 Sonnet | Deep research synthesis, security analysis |
-| **Google** | Gemini Pro | Multi-modal understanding, visual code review |
-| **xAI** | Grok | Alternative reasoning and code generation |
-| **AWS Bedrock** | Titan, Llama 3 | Enterprise-grade fallback inference |
-| **HuggingFace** | Various | Video generation, model hosting |
-| **Kling AI** | Kling v1.5 | High-quality video generation |
-| **Runway ML** | Gen-3 Alpha | Creative video and image generation |
-| **NanoBanana** | Various | Music and audio generation infrastructure |
-| **Freepik AI** | Mystic v4 | Concept visualization and image generation |
-| **Sarvam AI** | Bulbul v1 | Indian language TTS and translation |
-| **ElevenLabs** | Turbo v2.5 | Ultra-realistic voice synthesis |
-| **Suno AI** | Suno v3 | AI music and song composition |
-| **NewsOrg** | News API | Real-time developer news aggregation |
+1. **Ask Anything:** The platform's multi-model AI gateway automatically routes the query to the best-fit model (Mistral, Groq, GPT-4o, Claude, Gemini) based on task type (fast lookup vs. deep reasoning vs. code analysis).
+2. **Research Engine:** Decomposes the query, retrieves in parallel from the Web, Stack Overflow, Wikipedia, arXiv, and Semantic Scholar, deduplicates and ranks sources, then synthesizes a cited answer with confidence scoring.
+3. **Code Review Agent:** Runs architecture-level analysis (security, performance, refactoring) via AWS Bedrock's multi-model parallel inference.
+4. **Learning Path Agent:** Generates personalized roadmaps and adapts them as the learner progresses.
+5. **Interview & Productivity Agents:** Handle mock interviews, task prioritization, and documentation generation—automating repetitive work.
+6. **Omnipresent Terminal CLI:** Everything is available both as a web platform and a terminal-native Python CLI, so the copilot follows the developer into their actual workflow.
 
-### 🔗 External API Integrations
-| Service | Purpose |
-|---------|---------|
-| **YouTube Data API v3** | Tutorial video search (filtered, embeddable) |
-| **SerpAPI** | Web search results |
-| **StackExchange API** | StackOverflow Q&A search |
-| **Wikipedia API** | Encyclopedia lookups |
-| **arXiv API** | Research paper search |
-| **Semantic Scholar** | Academic citation data |
-| **Tavily** | AI-optimized web search |
-| **GitHub REST API** | Repository analytics via Octokit |
-| **Supabase** | Authentication provider (OAuth) |
-| **Vercel** | Deployment, analytics, and edge functions |
+This turns "search five places and hope" into "ask once, get a synthesized, cited, actionable answer."
 
 ---
 
-## 🗄️ Database Schema (MongoDB Atlas)
+## 🧩 Why This Fits Theme 2 Perfectly
 
-### Core Models
-| Model | Description |
-|-------|-------------|
-| `User` | User profiles, metrics (XP, streaks, sessions), roles, avatars |
-| `LearningPath` | AI-generated roadmaps with sessions, topics, and progress |
-| `Session` | Individual learning sessions within paths |
-| `Concept` | Explored concepts with difficulty and mastery tracking |
-| `CodeReview` | Saved code review analyses with Bedrock results |
-
-### Gamification
-| Model | Description |
-|-------|-------------|
-| `Challenge` | Coding challenge definitions with difficulty, test cases |
-| `Submission` | User submissions with code, status, XP earned |
-| `Question` | Quiz/assessment questions |
-
-### Collaboration
-| Model | Description |
-|-------|-------------|
-| `Team` | Team definitions for collaboration |
-| `TeamMember` | Team membership and roles |
-| `Room` | Live collaborative coding rooms |
-
-### Content & Media
-| Model | Description |
-|-------|-------------|
-| `Documentation` | Generated documentation records |
-| `MediaProject` | AI-generated images, videos, and music |
-| `UserContent` | Generic content persistence (per-feature, per-user) |
-| `Interview` | Mock interview sessions and transcripts |
-
-### Analytics & System
-| Model | Description |
-|-------|-------------|
-| `Metric` | Performance metrics snapshots |
-| `Anomaly` | AI-detected behavioral anomalies |
-| `Alert` | User notification/alert preferences |
-| `Feedback` | User feedback with category, rating, and message |
-| `UserIntegration` | Encrypted third-party tokens (GitHub) |
+| Theme 2 Problem Statement | How Ganapathi Mentor AI Addresses It |
+| :--- | :--- |
+| **AI Knowledge Assistant** | Multi-source Research Engine with cited, synthesized answers across Web, Stack Overflow, Wikipedia, arXiv, and Semantic Scholar. |
+| **AI Employee Copilot** | Code review, documentation generation, and task prioritization agents automate repetitive dev/study work. |
+| **AI Document Generation** | Auto-generates API docs, README files, and technical documentation directly from codebase analysis. |
+| **Autonomous Workflow Agents** | Terminal CLI agent that plans and executes multi-step dev tasks directly in the user's local environment. |
+| **AI Personalization Engine** | Adaptive learning paths, custom quota limits, and progress tracking personalized for every user. |
 
 ---
 
-## 🔒 Security Architecture
+## 🛠️ Architecture & Tech Stack
 
-| Layer | Implementation |
-|-------|---------------|
-| **Auth Provider** | Supabase Auth (Google OAuth, GitHub OAuth, Email/Password) |
-| **Session Tokens** | JWT with `jose` library, HTTP-only secure cookies |
-| **Password Hashing** | bcryptjs with configurable salt rounds |
-| **Token Encryption** | AES-256-CBC encryption for stored API tokens |
-| **API Protection** | All routes verify JWT tokens before processing |
-| **Data Isolation** | IndexedDB keys scoped per-user, S3 paths user-prefixed |
-| **Rate Limiting** | Provider-level rate limit handling with graceful fallbacks |
-| **Input Validation** | Zod schema validation on all form inputs and API payloads |
-| **AWS IAM** | Least-privilege IAM roles for all AWS service interactions |
-| **CloudFront** | WAF integration for DDoS protection on static assets |
+Ganapathi Mentor AI is built for enterprise-grade speed, security, and scalability.
 
----
+### 🏗️ Core Infrastructure
+* **Frontend:** Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS, Framer Motion, Radix UI
+* **Backend:** Next.js API Routes (REST Edge & Node runtimes)
+* **Database:** MongoDB Atlas (Mongoose) with AES-256 encryption at rest
+* **Authentication:** Custom JWT (jose) with secure HTTP-only cookies + Supabase Auth
+* **Security:** Zod input validation, bcrypt hashing, Server-side API Proxying (Zero client-side secrets)
 
-## 📂 Project Structure
+### 🧠 Multi-Model AI Engine
+We don't rely on just one model. Our intelligent routing system dispatches tasks to the best provider:
+* **AWS Bedrock:** Multi-model parallel inference for complex architecture analysis
+* **Groq (Llama 3 / Mixtral):** Ultra-low latency for instant chat and autocomplete
+* **OpenAI (GPT-4o) & Anthropic (Claude 3.5 Sonnet):** Deep reasoning and coding tasks
+* **Google (Gemini Pro):** Context-heavy document analysis
+* **Mistral Large & HuggingFace:** Specialized task execution
 
-```
-neural-code-symbiosis/
-├── app/
-│   ├── api/                      # 40+ API routes
-│   │   ├── auth/                 # Login, register, OAuth callbacks
-│   │   ├── chat/                 # Multi-model AI chatbot
-│   │   ├── challenges/           # Challenge CRUD + submissions
-│   │   ├── code-review/          # Bedrock-powered code analysis
-│   │   ├── generate-image/       # Freepik/Stability AI
-│   │   ├── generate-video/       # Kling/Runway ML
-│   │   ├── news/                 # NewsOrg API integration
-│   │   └── ...                   # 30+ more routes
-│   ├── auth/                     # Login/Register pages
-│   └── dashboard/                # 25+ feature pages
-│       ├── analytics/            # Performance & anomaly detection
-│       ├── challenges/           # Coding challenges & leaderboard
-│       ├── code-review/          # Quantum code review
-│       ├── interview/            # Voice interview simulator
-│       ├── media/studio/         # Creative AI studio
-│       ├── tools/cli/            # Terminal Mentor Hub
-│       └── ...                   # 15+ more pages
-├── components/
-│   ├── dashboard/                # Sidebar, Dock, Nav
-│   ├── onboarding/               # First-time tutorial
-│   ├── chat/                     # Global chatbot widget
-│   └── ui/                       # 50+ Radix-based primitives
-├── lib/
-│   ├── aws/                      # ☁️ AWS Infrastructure Layer
-│   │   ├── bedrock.ts            # Multi-model AI inference (Claude, Llama, Titan)
-│   │   ├── s3.ts                 # Asset storage with presigned URLs & CDN
-│   │   ├── lambda.ts             # Serverless compute orchestrator
-│   │   ├── config.ts             # Centralized AWS configuration
-│   │   └── index.ts              # Barrel export
-│   ├── ai.ts                     # Multi-provider AI gateway
-│   ├── auth.ts                   # JWT verification
-│   ├── client-db.ts              # IndexedDB wrapper
-│   ├── mongoose.ts               # Database connection
-│   ├── integrations/             # 10 external API clients
-│   └── ...                       # 15+ utility modules
-├── models/                       # 20 Mongoose schemas
-├── ganapathi-mentor-cli/         # 📦 Terminal Edition (npm package)
-│   ├── src/
-│   │   ├── cli.ts                # Command parser
-│   │   ├── ai/mistral.ts         # Mistral function-calling engine
-│   │   └── tools/                # fs, git, shell, web tools
-│   └── package.json
-├── hooks/                        # Custom React hooks
-└── public/                       # Static assets
-```
+### 🔌 External APIs & Integrations
+We pull context from the entire web to ground our AI:
+* **Search & Research:** SerpAPI / Tavily (Web Search), StackExchange API, arXiv API, Semantic Scholar API, Wikipedia API
+* **Media & Context:** YouTube Data API v3, Unsplash / Pexels API
+* **Voice & Generative Media:** Murf, Sarvam, Freepik, Fal.ai
+* **Developer Tools:** GitHub API (Repo analysis & OAuth)
 
 ---
 
-## 🚀 Getting Started
+## ✨ Core Features
 
-### Prerequisites
-- **Node.js 18+** (LTS recommended)
-- **MongoDB Atlas** account (free tier works)
-- **API keys** for AI providers (at minimum: Mistral or Groq)
-- **AWS account** (optional, for cloud infrastructure features)
+| Feature | What It Automates |
+| :--- | :--- |
+| 🔍 **AI Research Engine** | Multi-source search + citation-aware synthesis (Web, Stack Overflow, arXiv). |
+| 💻 **Quantum Code Review** | Security, performance, and refactoring analysis via parallel multi-model inference. |
+| 🛤️ **AI Learning Paths** | Personalized, adaptive roadmaps instead of static course content. |
+| 📝 **Documentation Generator**| Auto-generates READMEs and API docs from code. |
+| 🎙️ **Voice Interview Simulator**| Technical/behavioral/system-design mock interviews using TTS/STT. |
+| ⚡ **Terminal Mentor CLI** | Runs the copilot directly in the developer's command line (`ganapathi login`). |
+| ⏱️ **Productivity Hub** | Eisenhower-matrix task prioritization, Pomodoro, smart agenda. |
 
-### Installation
+---
 
+## 🚦 Getting Started
+
+### Web Application
 ```bash
 # Clone the repository
 git clone https://github.com/grharsha777/Ganapathi-Mentor-AI.git
@@ -299,226 +114,37 @@ cd Ganapathi-Mentor-AI
 # Install dependencies
 npm install
 
-# Install the Terminal CLI globally
-pip install ganapathi-mentor-ai
-```
+# Setup environment variables (Requires MongoDB URI and API keys)
+cp .env.example .env.local
 
-### Environment Variables
-
-Create `.env.local` in the root directory:
-
-```env
-# ─── Database ────────────────────────────────────
-MONGODB_URI=mongodb+srv://...
-
-
-# ─── AI Providers ────────────────────────────────
-MISTRAL_API_KEY=your-mistral-key
-GROQ_API_KEY=your-groq-key
-OPENAI_API_KEY=your-openai-key
-HUGGINGFACE_API_KEY=your-hf-key
-GPT_API_KEY=your-gpt-key
-
-# ─── AWS Cloud Infrastructure ───────────────────
-AWS_ACCESS_KEY_ID=your-aws-access-key
-AWS_SECRET_ACCESS_KEY=your-aws-secret-key
-AWS_REGION=ap-south-1
-AWS_S3_BUCKET=ganapathi-mentor-ai-assets
-AWS_CLOUDFRONT_DOMAIN=d2x7k9a8f3qr1p.cloudfront.net
-
-# ─── Media & Creative ───────────────────────────
-FREEPIK_API_KEY=your-freepik-key
-SUNO_API_KEY=your-suno-key
-GEMINI_API_KEY=your-api-key
-KLING_API_KEY=your-api-key
-RUNWAYML_API_KEY=your-api-key
-HUGGINGFACE_API_KEY=your-api-key
-
-# ─── Search & Research ───────────────────────────
-YOUTUBE_API_KEY=your-youtube-key
-SERPAPI_KEY=your-serpapi-key
-NEWSDATA_AI_KEY=your-api-key
-NEWSAPI_ORG_KEY=you-api-key
-
-# ─── Voice & TTS ─────────────────────────────────
-SARVAM_API_KEY=your-sarvam-key
-ELEVENLABS_API_KEY=your-elevenlabs-key
-MURF_API_KEY=your-api-key
-```
-
-### Run Development Server
-
-```bash
+# Run the development server
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-### Deploy to Production
+### Python CLI Agent
+We've built a robust Python CLI that brings the Mentor AI directly into your terminal.
 
 ```bash
-# Deploy to Vercel
-vercel --prod
+# Install the CLI package
+pip install -e ./ganapathi-core
 
-# Deploy AWS infrastructure (optional)
-npx cdk deploy --profile ganapathi-prod
+# Authenticate with your platform credentials
+ganapathi login
+
+# Ask a question or run a task
+ganapathi "Explain this codebase architecture"
+ganapathi hive-mind
 ```
 
 ---
 
-## 📦 Terminal Mentor CLI
-
-The legendary AI mentor is also available as a global npm package:
-
-```bash
-# Install globally
-npm install -g ganapathi-mentor-cli
-
-# Set your API key
-set MISTRAL_API_KEY=your_key  # Windows
-export MISTRAL_API_KEY=your_key  # macOS/Linux
-
-# Start mentoring
-ganapathi-mentor "Explain this codebase architecture"
-ganapathi-mentor "Find and fix bugs in src/api.ts"
-ganapathi-mentor "Plan a user authentication system"
-```
-
-**npm**: [npmjs.com/package/ganapathi-mentor-cli](https://www.npmjs.com/package/ganapathi-mentor-cli)
-
----
-
-## 📱 Responsive Design
-
-| Breakpoint | UI Design |
-|-----------|-----------|
-| **Desktop (1024px+)** | macOS-style bottom dock with icon magnification physics |
-| **Tablet/Mobile (<1024px)** | Slide-out sidebar with hamburger menu |
-| **All Sizes** | Responsive grids, adaptive padding, touch-optimized interactions |
-| **Custom Cursor** | Color-shifting cursor with smooth tracking (desktop only) |
-
----
-
-## 📊 Platform Stats
-
-| Metric | Value |
-|--------|-------|
-| **Active Developers** | 50,000+ |
-| **Lines of Code Analyzed** | 2M+ |
-| **Countries Reached** | 150+ |
-| **AI Models Integrated** | 15+ |
-| **API Endpoints** | 40+ |
-| **Database Models** | 20 |
-| **UI Components** | 50+ |
-| **Uptime SLA** | 99.9% |
-
----
-
-## 👨‍💻 Author
-
-**G R Harsha** — Creator & Lead Architect
-
-- 🌐 [LinkedIn](https://www.linkedin.com/in/grharsha777/)
-- 💻 [GitHub](https://github.com/grharsha777)
-- 📧 [grharsha777@gmail.com](mailto:grharsha777@gmail.com)
-
----
-
-## 📄 License
-
-This project is private and proprietary. All rights reserved © 2026 G R Harsha.
+## 🔒 Security & Performance
+* **Zero Client-Side Secrets:** All third-party API keys (Unsplash, Anthropic, Google, etc.) are proxied through secure server-side routes.
+* **Rate Limiting & Quotas:** Custom in-memory sliding window rate-limiting and MongoDB-backed monthly quota tracking for every user to prevent abuse.
+* **Type Safety:** 100% end-to-end TypeScript with Zod validation.
 
 ---
 
 <div align="center">
-
-**Built with ❤️ and powered by the world's leading AI infrastructure**
-
-`AWS` · `Mistral` · `Groq` · `Claude` · `GPT` · `Gemini` · `Grok` · `Kling` · `Runway ML` · `NanoBanana` · `Freepik` · `NewsOrg`
-
+  <p>Built with ❤️ by <b>G R Harsha</b> for the TakeOver'26 Hackathon</p>
 </div>
-
----
-
-## 🔎 Research Engine v2 (Perplexity-Level)
-
-The `/dashboard/research` experience was rebuilt into a structured multi-stage research system with streaming, collections CRUD, and enterprise exports.
-
-### Pipeline Architecture
-
-```text
-┌───────────────────────────────────────────────────────────────────────────┐
-│ Stage 1: Query Intelligence                                              │
-│ - Intent classification (factual | analytical | comparative | etc.)      │
-│ - Query decomposition into sub-questions                                 │
-│ - Entity/timeframe extraction                                            │
-└───────────────────────────────────────────────────────────────────────────┘
-                                  │
-                                  ▼
-┌───────────────────────────────────────────────────────────────────────────┐
-│ Stage 2: Parallel Retrieval (Promise.allSettled)                         │
-│ - Strategy providers: Web, Academic, News, Code, Mock                   │
-│ - Provider fallback + retry backoff                                      │
-│ - Dedup + ranking (relevance + recency + domain authority)              │
-│ - Full-text extraction for top ranked sources                            │
-└───────────────────────────────────────────────────────────────────────────┘
-                                  │
-                                  ▼
-┌───────────────────────────────────────────────────────────────────────────┐
-│ Stage 3: AI Synthesis (Mistral/Groq)                                     │
-│ - Strict JSON schema output                                               │
-│ - Citation-aware sections with [1][2] markers                            │
-│ - Confidence score + confidence breakdown                                │
-│ - Research gaps + follow-up questions                                    │
-└───────────────────────────────────────────────────────────────────────────┘
-                                  │
-                                  ▼
-┌───────────────────────────────────────────────────────────────────────────┐
-│ Stage 4: Structured Rendering + Streaming                                │
-│ - SSE/ReadableStream stage-by-stage updates                              │
-│ - TL;DR banner, data points, sections, source cards, follow-ups          │
-│ - Export actions (PDF, Markdown, JSON, Rich Text)                        │
-└───────────────────────────────────────────────────────────────────────────┘
-```
-
-### Major Capabilities
-
-- Three-panel enterprise layout (History/Collections | Research Canvas | Sources/Metadata)
-- Dynamic background crossfade engine (6 themes, 30s rotate, preloaded assets)
-- Collections CRUD with MongoDB persistence
-- Save one answer to multiple collections (optimistic UI + toast feedback)
-- Collection sharing via public view-only links (7-day expiry)
-- Research history persistence and full-text search
-- Multi-mode research: Quick, Deep, Comparative, Academic, News
-- Dynamic provider strategy architecture (no hardcoded search flow)
-- Optional Redis cache + in-flight deduplication for repeated queries
-
-### New API Endpoints
-
-- `POST /api/research/query` (SSE streaming answer pipeline)
-- `GET /api/research/suggest` (real-time query suggestions)
-- `GET|POST /api/research/collections`
-- `GET|PATCH|DELETE /api/research/collections/:id`
-- `POST /api/research/collections/:id/share`
-- `GET|POST /api/research/items`
-- `GET|POST /api/research/history`
-- `GET /api/research/public/:token`
-- `GET /api/research/analytics`
-
-### Research Engine Setup
-
-1. Copy `.env.example` to `.env.local`.
-2. Provide `MISTRAL_API_KEY` and/or `GROQ_API_KEY`.
-3. Add search keys (`TAVILY_API_KEY`, `SERP_API_KEY`, `SEMANTIC_SCHOLAR_API_KEY`, `NEWSAPI_ORG_KEY`) for full retrieval coverage.
-4. Configure `MONGODB_URI` for collections/history persistence.
-5. Optional: configure Upstash keys for shared Redis cache.
-
-### Export Support
-
-- PDF (branded report with title, sections, sources, timestamp)
-- Markdown (`.md`)
-- JSON (`.json`)
-- Copy as Rich Text (`text/html` clipboard)
-
-- Bundle analysis (webpack analyzer reports): 
-pm run analyze (outputs in .next/analyze/).
