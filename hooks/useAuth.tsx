@@ -31,9 +31,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     async function checkAuth() {
         try {
-            // Create a dedicated /api/auth/me route or decode token from cookie if accessible (httpOnly is not)
-            // For now, we rely on a simple verify endpoint
-            // implemented as GET /api/auth/me
             const res = await fetch('/api/auth/me');
             if (res.ok) {
                 const data = await res.json();
@@ -62,7 +59,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         const data = await res.json();
         setUser(data.user);
-        router.push('/dashboard');
+        
+        const callbackUrl = new URLSearchParams(window.location.search).get('callbackUrl');
+        router.push(callbackUrl || '/dashboard');
     }
 
     async function signup(email: string, password: string, fullName: string) {
@@ -79,7 +78,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         const data = await res.json();
         setUser(data.user);
-        router.push('/dashboard');
+        
+        const callbackUrl = new URLSearchParams(window.location.search).get('callbackUrl');
+        router.push(callbackUrl || '/dashboard');
     }
 
     async function logout() {
