@@ -6,6 +6,7 @@
 
 import connectToDatabase from '@/lib/mongoose';
 import User from '@/models/User';
+import mongoose from 'mongoose';
 
 export type QuotaFeature = 'chat' | 'analysis' | 'research';
 
@@ -27,6 +28,8 @@ const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
  */
 export async function getUserQuota(userId: string): Promise<Record<QuotaFeature, QuotaResult> | null> {
     await connectToDatabase();
+    // Guard: only call findById with a valid ObjectId to prevent BSON cast errors
+    if (!mongoose.isValidObjectId(userId)) return null;
     const user = await User.findById(userId).lean<any>();
     if (!user) return null;
 
@@ -62,6 +65,11 @@ export async function checkAndIncrementQuota(
     feature: QuotaFeature
 ): Promise<QuotaResult> {
     await connectToDatabase();
+
+    // Guard: only call findById with a valid ObjectId to prevent BSON cast errors
+    if (!mongoose.isValidObjectId(userId)) {
+        return { allowed: false, used: 0, limit: 0, percent: 100, period_start: new Date().toISOString() };
+    }
 
     const user = await User.findById(userId);
     if (!user) {

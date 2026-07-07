@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers';
-
 import { verifyToken, TokenPayload } from '@/lib/auth';
+import mongoose from 'mongoose';
 
 export interface AuthenticatedUser {
   id: string;
@@ -23,6 +23,12 @@ export async function getAuthenticatedUser(): Promise<AuthenticatedUser | null> 
 
     const id = payload.id ?? payload.userId;
     if (!id) {
+      return null;
+    }
+
+    // Validate that the id is a proper MongoDB ObjectId string
+    // JWT tokens created from old UUID-based accounts have invalid ObjectIds
+    if (!mongoose.isValidObjectId(id)) {
       return null;
     }
 

@@ -4,13 +4,14 @@ import User from '@/models/User';
 import { Session } from '@/models/Session';
 import { verifyToken } from '@/lib/auth';
 import { summarizeSession } from '@/lib/ai';
+import mongoose from 'mongoose';
 
 export async function POST(req: NextRequest) {
     try {
         const token = req.cookies.get('token')?.value;
         if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-        const decoded = verifyToken(token) as any;
+        const decoded = await verifyToken(token) as any;
         if (!decoded) return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
 
         await connectToDatabase();
@@ -25,8 +26,11 @@ export async function POST(req: NextRequest) {
         session.ended_at = new Date();
         await session.save();
 
-        // Update user metrics
-        const user = await User.findById(decoded.id);
+        // Update user metrics — only if we have a valid ObjectId
+        const userId = decoded?.id ?? decoded?.userId;
+        const user = (userId && mongoose.isValidObjectId(userId))
+            ? await User.findById(userId)
+            : null;
         if (user) {
             const now = new Date();
             const lastActive = user.metrics?.last_active ? new Date(user.metrics.last_active) : new Date(0);

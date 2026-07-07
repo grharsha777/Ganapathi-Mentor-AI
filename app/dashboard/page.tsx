@@ -5,6 +5,7 @@ import connectToDatabase from '@/lib/mongoose';
 import User from '@/models/User';
 import PersonalDashboard from '@/components/dashboard/personal-dashboard';
 import { Skeleton } from '@/components/ui/skeleton';
+import mongoose from 'mongoose';
 
 export const metadata = {
   title: 'Dashboard | Ganapathi Mentor AI',
@@ -17,16 +18,33 @@ export default async function DashboardPage() {
 
   let userData = null;
   if (token) {
-    const decoded = await verifyToken(token) as any;
-    if (decoded?.id) {
-      await connectToDatabase();
-      const userDoc = await User.findById(decoded.id).lean() as any;
-      if (userDoc) {
-        userData = {
-          full_name: userDoc.full_name,
-          metrics: userDoc.metrics || { current_streak: 0 }
-        };
+    try {
+      const decoded = await verifyToken(token) as any;
+      // decoded.id or decoded.userId — normalize it
+      const userId = decoded?.id ?? decoded?.userId;
+
+      if (userId && mongoose.isValidObjectId(userId)) {
+        await connectToDatabase();
+        const userDoc = await User.findById(userId).lean() as any;
+        if (userDoc) {
+          userData = {
+            full_name: userDoc.full_name ?? null,
+            metrics: userDoc.metrics ?? { current_streak: 0 }
+          };
+        }
+      } else if (decoded?.email) {
+        // Fallback: find user by email (handles legacy UUID-based id tokens)
+        await connectToDatabase();
+        const userDoc = await User.findOne({ email: decoded.email }).lean() as any;
+        if (userDoc) {
+          userData = {
+            full_name: userDoc.full_name ?? null,
+            metrics: userDoc.metrics ?? { current_streak: 0 }
+          };
+        }
       }
+    } catch {
+      // Silently fail — dashboard renders without user-specific data
     }
   }
 

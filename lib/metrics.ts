@@ -1,9 +1,13 @@
 import User from '@/models/User';
 import Submission from '@/models/Submission';
 import connectToDatabase from '@/lib/mongoose';
+import mongoose from 'mongoose';
 
 export async function updateUserMetrics(userId: string) {
     await connectToDatabase();
+
+    // Guard: prevent BSON cast error from legacy UUID-based user IDs
+    if (!mongoose.isValidObjectId(userId)) return null;
 
     // Find User
     const user = await User.findById(userId);
@@ -67,6 +71,8 @@ export async function updateUserMetrics(userId: string) {
 
 export async function awardChallengeXP(userId: string, difficulty: string) {
     await connectToDatabase();
+    // Guard: prevent BSON cast error from legacy UUID-based user IDs
+    if (!mongoose.isValidObjectId(userId)) return;
     const user = await User.findById(userId);
     if (!user) return;
 

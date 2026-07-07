@@ -18,10 +18,21 @@ export default async function DashboardLayout({
     redirect('/auth/login')
   }
 
-  const user = await verifyToken(token) as any
+  let user: any = null;
+  try {
+    user = await verifyToken(token)
+  } catch {
+    redirect('/auth/login')
+  }
 
   if (!user) {
     redirect('/auth/login')
+  }
+
+  // Normalize the user id — JWT may use `id` or `userId`
+  const normalizedUser = {
+    ...user,
+    id: (user.id ?? user.userId ?? '').toString(),
   }
 
   return (
@@ -35,7 +46,7 @@ export default async function DashboardLayout({
 
       <div className="relative z-10 flex flex-col h-full w-full">
         <QuotaBanner />
-        <DashboardNav user={user} />
+        <DashboardNav user={normalizedUser} />
       <main className="flex-1 overflow-y-auto w-full flex flex-col items-center overscroll-y-contain pb-32 sm:pb-40 lg:pb-52 relative">
         <div className="w-full flex-1 flex flex-col p-4 sm:p-6 lg:p-8 min-w-0 relative">
           {children}
