@@ -49,7 +49,7 @@ export default function CustomCursor() {
     };
   }, []);
 
-  if (typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches) {
+  if (isTouchDevice) {
     return null;
   }
 

@@ -119,7 +119,6 @@ export async function GET(req: NextRequest) {
     let user = await User.findOne({ email: userData.email });
     if (!user) {
       user = await User.create({
-        _id: crypto.randomUUID(),
         email: userData.email,
         full_name: userData.name,
         avatar_url: userData.picture,
@@ -130,7 +129,7 @@ export async function GET(req: NextRequest) {
       await user.save();
     }
 
-    const token = await signToken({ id: user._id, email: user.email, role: user.role });
+    const token = await signToken({ id: user._id.toString(), email: user.email, role: user.role });
 
     const response = NextResponse.redirect(new URL(nextUrl, req.url));
     response.cookies.set('token', token, {
