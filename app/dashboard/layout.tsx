@@ -15,18 +15,21 @@ export default async function DashboardLayout({
   const token = cookieStore.get('token')?.value
 
   if (!token) {
-    redirect('/auth/login')
+    console.error('DashboardLayout: No token found in cookies');
+    redirect('/auth/login?error=no_token')
   }
 
   let user: any = null;
   try {
     user = await verifyToken(token)
-  } catch {
-    redirect('/auth/login')
+  } catch (err: any) {
+    console.error('DashboardLayout: verifyToken threw an error:', err);
+    redirect('/auth/login?error=verify_error')
   }
 
   if (!user) {
-    redirect('/auth/login')
+    console.error('DashboardLayout: verifyToken returned null');
+    redirect('/auth/login?error=invalid_user')
   }
 
   // Normalize the user id — JWT may use `id` or `userId`
