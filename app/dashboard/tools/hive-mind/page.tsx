@@ -63,7 +63,7 @@ export default function HiveMindPage() {
                                         </div>
                                         <div className="flex items-center bg-black/50 border border-white/[0.06] rounded-xl p-2 pl-3">
                                             <code className="text-[11px] text-amber-200/70 font-mono flex-1">pip install ganapathi-mentor-ai</code>
-                                            <button onClick={() => { navigator.clipboard.writeText('pip install ganapathi-mentor-ai'); toast.success('Copied to clipboard'); }} className="p-1.5 hover:bg-white/10 rounded-lg transition-colors group">
+                                            <button onClick={() => { navigator.clipboard.writeText('pip install ganapathi-mentor-ai'); toast.success('Copied!'); }} className="p-1.5 hover:bg-white/10 rounded-lg transition-colors group">
                                                 <Copy className="w-3.5 h-3.5 text-white/30 group-hover:text-white/60" />
                                             </button>
                                         </div>
@@ -72,24 +72,38 @@ export default function HiveMindPage() {
                                     <div className="relative">
                                         <div className="flex items-center gap-2 mb-1.5">
                                             <span className="flex items-center justify-center w-5 h-5 rounded-full bg-primary/20 text-primary text-[10px] font-bold">2</span>
-                                            <p className="text-xs font-semibold text-white/80">Start the Bridge</p>
+                                            <p className="text-xs font-semibold text-white/80">Login to Ganapathi</p>
                                         </div>
-                                        <p className="text-[10px] text-white/40 mb-2 ml-7">Navigate to your project folder and start the CLI bridge.</p>
+                                        <p className="text-[10px] text-white/40 mb-2 ml-7">This opens your browser to get your auth token.</p>
                                         <div className="flex items-center bg-black/50 border border-white/[0.06] rounded-xl p-2 pl-3">
-                                            <code className="text-[11px] text-amber-200/70 font-mono flex-1">ganapathi hive-mind start --path ./</code>
-                                            <button onClick={() => { navigator.clipboard.writeText('ganapathi hive-mind start --path ./'); toast.success('Copied to clipboard'); }} className="p-1.5 hover:bg-white/10 rounded-lg transition-colors group">
+                                            <code className="text-[11px] text-amber-200/70 font-mono flex-1">python -m ganapathi login</code>
+                                            <button onClick={() => { navigator.clipboard.writeText('python -m ganapathi login'); toast.success('Copied!'); }} className="p-1.5 hover:bg-white/10 rounded-lg transition-colors group">
                                                 <Copy className="w-3.5 h-3.5 text-white/30 group-hover:text-white/60" />
                                             </button>
                                         </div>
-                                        <p className="text-[10px] text-white/40 ml-7 mt-2">If `ganapathi` is not on your PATH, use <code>python -m ganapathi.cli hive-mind start --path ./</code> as a fallback.</p>
+                                        <p className="text-[10px] text-white/40 ml-7 mt-2">It will open <code className="text-amber-400/60">ganapathi-mentor-ai.vercel.app/auth/cli</code> — copy the token shown and paste it back in the terminal.</p>
                                     </div>
 
                                     <div className="relative">
                                         <div className="flex items-center gap-2 mb-1.5">
                                             <span className="flex items-center justify-center w-5 h-5 rounded-full bg-primary/20 text-primary text-[10px] font-bold">3</span>
-                                            <p className="text-xs font-semibold text-white/80">Authenticate</p>
+                                            <p className="text-xs font-semibold text-white/80">Start the Hive Mind Bridge</p>
                                         </div>
-                                        <p className="text-[10px] text-white/40 ml-7">Copy the Auth Token from the terminal output and paste it on the right to start coding.</p>
+                                        <p className="text-[10px] text-white/40 mb-2 ml-7">Navigate to your project folder in a terminal and run:</p>
+                                        <div className="flex items-center bg-black/50 border border-white/[0.06] rounded-xl p-2 pl-3">
+                                            <code className="text-[11px] text-amber-200/70 font-mono flex-1">python -m ganapathi hive-mind start --path ./</code>
+                                            <button onClick={() => { navigator.clipboard.writeText('python -m ganapathi hive-mind start --path ./'); toast.success('Copied!'); }} className="p-1.5 hover:bg-white/10 rounded-lg transition-colors group">
+                                                <Copy className="w-3.5 h-3.5 text-white/30 group-hover:text-white/60" />
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div className="relative">
+                                        <div className="flex items-center gap-2 mb-1.5">
+                                            <span className="flex items-center justify-center w-5 h-5 rounded-full bg-primary/20 text-primary text-[10px] font-bold">4</span>
+                                            <p className="text-xs font-semibold text-white/80">Connect Here</p>
+                                        </div>
+                                        <p className="text-[10px] text-white/40 ml-7">Copy the <strong className="text-white/60">Token</strong> and <strong className="text-white/60">WebSocket URL</strong> from the terminal output and paste them on the right, then click Connect.</p>
                                     </div>
                                 </div>
                             </div>

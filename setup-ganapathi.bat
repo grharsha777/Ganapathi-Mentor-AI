@@ -1,35 +1,40 @@
 @echo off
 echo ==========================================
-echo    Ganapathi Neural CLI - Global Setup
+echo    Ganapathi CLI v2.0 - Quick Setup
 echo ==========================================
+echo.
 
-:: Check if in the neural-code-symbiosis or ganapathi-core directory
-set "ROOT_DIR=%cd%"
-
-if exist "ganapathi-core\setup.py" (
-    cd ganapathi-core
-) else if exist "setup.py" (
-    echo Already in the core directory.
-) else (
-    echo [ERROR] Run this script from the Ganapathi Mentor AI project root.
-    pause
-    exit /b 1
-)
-
-echo [STEP 1] Installing Ganapathi Neural Core...
-pip install -e . --quiet
-
+echo [STEP 1] Installing Ganapathi CLI from PyPI...
+pip install ganapathi-mentor-ai
 if %errorlevel% neq 0 (
-    echo [ERROR] Installation failed. Ensure Python and Pip are installed.
+    echo [ERROR] pip install failed. Make sure Python is installed.
     pause
     exit /b 1
 )
 
-echo [STEP 2] Launching Neural Configuration...
-ganapathi setup
+echo.
+echo [STEP 2] Logging in to Ganapathi Mentor AI...
+echo  -- Your browser will open. Sign in, copy the token, and paste it here.
+python -m ganapathi login
+if %errorlevel% neq 0 (
+    echo [ERROR] Login failed. Check your internet connection and try again.
+    pause
+    exit /b 1
+)
 
+echo.
 echo ==========================================
 echo    SETUP COMPLETE!
-echo    You can now type 'ganapathi' anywhere.
+echo.
+echo    To start the Hive Mind bridge, run:
+echo    python -m ganapathi hive-mind start --path ./
+echo.
+echo    All commands use: python -m ganapathi ^<command^>
+echo.
+echo    Examples:
+echo      python -m ganapathi chat
+echo      python -m ganapathi predict --file main.py
+echo      python -m ganapathi audit .
+echo      python -m ganapathi doctor
 echo ==========================================
 pause
