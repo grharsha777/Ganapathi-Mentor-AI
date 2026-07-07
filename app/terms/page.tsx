@@ -5,7 +5,7 @@ import { ErrorBoundary } from '@/components/landing/ErrorBoundary';
 
 export const metadata: Metadata = {
   title: 'Terms & Conditions | Ganapathi Mentor AI',
-  description: 'Enterprise Terms of Service for Ganapathi Mentor AI.',
+  description: 'Terms of Service for Ganapathi Mentor AI.',
 };
 
 export default function TermsPage() {
@@ -29,14 +29,14 @@ export default function TermsPage() {
             1. Master Services Agreement
           </h2>
           <p>
-            By accessing or deploying the Ganapathi Mentor AI platform, you agree to these Enterprise Terms of Service. These terms constitute a legally binding agreement between your organization and Neural Code Symbiosis.
+            By accessing or deploying the Ganapathi Mentor AI platform, you agree to these Terms of Service. These terms constitute a legally binding agreement between you and Neural Code Symbiosis.
           </p>
 
           <h2 className="text-[16px] font-bold text-[#FFFFFF] uppercase tracking-[0.1em] mt-12 mb-4">
             2. SLA & Uptime Guarantees
           </h2>
           <p>
-            Enterprise tier customers are guaranteed a 99.9% uptime SLA. In the event of downtime exceeding the SLA limit, service credits will be issued in accordance with the enterprise contract addendum.
+            Customers are guaranteed a 99.9% uptime SLA. In the event of downtime exceeding the SLA limit, service credits will be issued in accordance with the contract addendum.
           </p>
 
           <h2 className="text-[16px] font-bold text-[#FFFFFF] uppercase tracking-[0.1em] mt-12 mb-4">

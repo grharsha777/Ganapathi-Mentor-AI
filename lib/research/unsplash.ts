@@ -1,3 +1,9 @@
+/**
+ * Unsplash image client — routes through our server-side proxy.
+ * The Unsplash API key is NEVER exposed to the browser.
+ * All requests hit /api/assets/unsplash which reads the key server-side only.
+ */
+
 export interface UnsplashImage {
   id: string;
   url: string;
@@ -7,34 +13,26 @@ export interface UnsplashImage {
 }
 
 export async function fetchUnsplashImages(query: string, count: number = 3): Promise<UnsplashImage[]> {
-  const apiKey = process.env.NEXT_PUBLIC_UNSPLASH_KEY;
-  if (!apiKey) {
-    console.warn('Unsplash API key is missing');
-    return [];
-  }
-
   try {
-    const response = await fetch(`https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&per_page=${count}&orientation=landscape`, {
-      headers: {
-        Authorization: `Client-ID ${apiKey}`,
-      },
+    const params = new URLSearchParams({
+      query,
+      count: String(Math.min(count, 10)),
+    });
+
+    const response = await fetch(`/api/assets/unsplash?${params.toString()}`, {
+      // Credentials needed so the httpOnly cookie (auth token) is sent
+      credentials: 'include',
     });
 
     if (!response.ok) {
-      console.warn('Unsplash API error:', response.statusText);
+      console.warn('[unsplash] Proxy returned', response.status);
       return [];
     }
 
     const data = await response.json();
-    return data.results.map((img: any) => ({
-      id: img.id,
-      url: img.urls.regular,
-      alt_description: img.alt_description,
-      photographer: img.user.name,
-      photographer_url: img.user.links.html,
-    }));
+    return data.images ?? [];
   } catch (error) {
-    console.error('Failed to fetch Unsplash images:', error);
+    console.error('[unsplash] Failed to fetch images:', error);
     return [];
   }
 }

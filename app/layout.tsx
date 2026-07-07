@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_BASE_URL || 'https://ganapathi-mentor-ai.vercel.app'
   ),
-  title: 'Ganapathi Mentor AI — Enterprise AI Engineering Platform',
+  title: 'Ganapathi Mentor AI — AI Engineering Platform',
   description:
-    'AWS-backed, multi-model AI mentoring platform for enterprise engineering teams. Code review, adaptive learning paths, DevOps automation — production-grade.',
+    'AWS-backed, multi-model AI mentoring platform for engineering teams. Code review, adaptive learning paths, DevOps automation.',
   icons: {
     icon: '/logo.png',
     shortcut: '/logo.png',

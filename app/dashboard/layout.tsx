@@ -4,6 +4,7 @@ import { verifyToken } from '@/lib/auth'
 import { DashboardNav } from '@/components/dashboard/nav'
 import { DashboardDock } from '@/components/dashboard/dock'
 import { OnboardingTutorial } from '@/components/onboarding/onboarding-tutorial'
+import { QuotaBanner } from '@/components/dashboard/QuotaBanner'
 
 export default async function DashboardLayout({
   children,
@@ -33,6 +34,7 @@ export default async function DashboardLayout({
       </div>
 
       <div className="relative z-10 flex flex-col h-full w-full">
+        <QuotaBanner />
         <DashboardNav user={user} />
       <main className="flex-1 overflow-y-auto w-full flex flex-col items-center overscroll-y-contain pb-32 sm:pb-40 lg:pb-52 relative">
         <div className="w-full flex-1 flex flex-col p-4 sm:p-6 lg:p-8 min-w-0 relative">

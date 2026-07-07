@@ -8,6 +8,8 @@ import connectToDatabase from '@/lib/mongoose';
 import Concept from '@/models/Concept';
 import LearningPath from '@/models/LearningPath';
 import User from '@/models/User';
+import { checkRateLimit } from '@/lib/rateLimit';
+import { checkAndIncrementQuota } from '@/lib/quota';
 
 const BASE_URL = 'https://ganapathi-mentor-ai.vercel.app';
 
@@ -137,8 +139,26 @@ export async function POST(req: NextRequest) {
     if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     const decoded = await verifyToken(token);
 
-    if (!decoded) {
+    if (!decoded?.id) {
         return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
+    }
+
+    // Rate Limiting Check (In-Memory)
+    const rateLimit = checkRateLimit(decoded.id, 'chat');
+    if (!rateLimit.allowed) {
+        return NextResponse.json(
+            { error: 'Rate limit exceeded. Please wait a minute.' },
+            { status: 429, headers: { 'X-RateLimit-Reset': rateLimit.resetInMs.toString() } }
+        );
+    }
+
+    // Quota Enforcement (MongoDB)
+    const quota = await checkAndIncrementQuota(decoded.id, 'chat');
+    if (!quota.allowed) {
+        return NextResponse.json(
+            { error: 'Monthly AI Chat quota exceeded', quota },
+            { status: 429 }
+        );
     }
 
     try {

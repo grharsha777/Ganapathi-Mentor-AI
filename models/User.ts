@@ -22,6 +22,15 @@ const UserSchema = new Schema({
             createdAt: { type: Date, default: Date.now }
         }]
     },
+    quota: {
+        period_start: { type: Date, default: Date.now },
+        chat_used: { type: Number, default: 0 },
+        chat_limit: { type: Number, default: 200 },
+        analysis_used: { type: Number, default: 0 },
+        analysis_limit: { type: Number, default: 100 },
+        research_used: { type: Number, default: 0 },
+        research_limit: { type: Number, default: 50 },
+    },
     created_at: { type: Date, default: Date.now },
     updated_at: { type: Date, default: Date.now },
 }, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });

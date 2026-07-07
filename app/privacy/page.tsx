@@ -5,7 +5,7 @@ import { ErrorBoundary } from '@/components/landing/ErrorBoundary';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy | Ganapathi Mentor AI',
-  description: 'Privacy Policy and Data Processing Addendum for Ganapathi Mentor AI enterprise deployments.',
+  description: 'Privacy Policy and Data Processing Addendum for Ganapathi Mentor AI.',
 };
 
 export default function PrivacyPolicyPage() {
@@ -26,10 +26,10 @@ export default function PrivacyPolicyPage() {
           </p>
 
           <h2 className="text-[16px] font-bold text-[#FFFFFF] uppercase tracking-[0.1em] mt-12 mb-4">
-            1. Enterprise Data Processing
+            1. Data Processing
           </h2>
           <p>
-            Ganapathi Mentor AI is designed for enterprise engineering teams. All code, prompts, and context injected into the platform are processed exclusively within secure AWS VPC environments. We do not use your proprietary codebase to train our foundational models.
+            Ganapathi Mentor AI is designed for engineering teams. All code, prompts, and context injected into the platform are processed exclusively within secure AWS VPC environments. We do not use your proprietary codebase to train our foundational models.
           </p>
 
           <h2 className="text-[16px] font-bold text-[#FFFFFF] uppercase tracking-[0.1em] mt-12 mb-4">
@@ -43,7 +43,7 @@ export default function PrivacyPolicyPage() {
             3. Data Persistence
           </h2>
           <p>
-            Chat sessions and learning paths are persisted in MongoDB Atlas using AES-256 encryption at rest. Enterprise customers may opt for Bring Your Own Key (BYOK) encryption via AWS KMS.
+            Chat sessions and learning paths are persisted in MongoDB Atlas using AES-256 encryption at rest. Customers may opt for Bring Your Own Key (BYOK) encryption via AWS KMS.
           </p>
 
           <h2 className="text-[16px] font-bold text-[#FFFFFF] uppercase tracking-[0.1em] mt-12 mb-4">

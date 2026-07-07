@@ -6,6 +6,8 @@ import { runResearchPipeline } from '@/lib/research/pipeline';
 import { researchRequestSchema } from '@/lib/research/schemas';
 import { getAuthenticatedUser } from '@/lib/server-auth';
 import ResearchHistory from '@/models/ResearchHistory';
+import { checkRateLimit } from '@/lib/rateLimit';
+import { checkAndIncrementQuota } from '@/lib/quota';
 
 const requestSchema = researchRequestSchema.extend({
   previousContext: z.string().max(4000).optional(),
@@ -20,6 +22,27 @@ export async function POST(req: NextRequest) {
   try {
     const parsed = requestSchema.parse(await req.json());
     const user = await getAuthenticatedUser();
+    if (!user) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 });
+    }
+
+    // Rate Limiting Check (In-Memory)
+    const rateLimit = checkRateLimit(user.id, 'research');
+    if (!rateLimit.allowed) {
+        return new Response(
+            JSON.stringify({ error: 'Rate limit exceeded. Please wait a minute.' }),
+            { status: 429, headers: { 'X-RateLimit-Reset': rateLimit.resetInMs.toString() } }
+        );
+    }
+
+    // Quota Enforcement (MongoDB)
+    const quota = await checkAndIncrementQuota(user.id, 'research');
+    if (!quota.allowed) {
+        return new Response(
+            JSON.stringify({ error: 'Monthly Research quota exceeded', quota }),
+            { status: 429 }
+        );
+    }
 
     const encoder = new TextEncoder();
 

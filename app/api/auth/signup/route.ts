@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
       role: 'viewer'
     });
 
-    const token = await signToken({ id: newUser._id, email: newUser.email, role: newUser.role });
+    const token = await signToken({ id: newUser._id.toString(), email: newUser.email, role: newUser.role });
 
     const response = NextResponse.json({
       user: {

@@ -227,6 +227,15 @@ const featureCards = [
 
 const commands = [
     {
+        cmd: "login",
+        description: "Securely authenticate your CLI with the Ganapathi Mentor AI web platform. Opens a browser to securely fetch your token.",
+        syntax: `ganapathi login`,
+        flags: [],
+        examples: [
+            { desc: "Trigger the authentication flow", code: `ganapathi login\n# Opening browser for authentication...\n# Paste your Auth Token ❯` },
+        ],
+    },
+    {
         cmd: "predict",
         description: "Run ML ensemble predictions (Random Forest + Gradient Boosting) on code — returns bug risk, quality, performance, and career-fit scores with SHAP-like explanations.",
         syntax: `ganapathi predict --code "<code>" --type <bug|perf|quality|career|all>
@@ -641,6 +650,23 @@ export default function CLIHubPage() {
                             <div className="space-y-2">
                                 <Badge variant="secondary" className="text-[10px]">Verify installation</Badge>
                                 <CodeBlock code="ganapathi version\nganapathi doctor" />
+                            </div>
+                        </motion.section>
+
+                        {/* Troubleshooting Windows */}
+                        <motion.section variants={fadeInUp} className="p-8 rounded-[2rem] border border-amber-500/20 bg-amber-500/5 space-y-6">
+                            <h3 className="text-xl font-bold text-white flex items-center gap-3"><Wrench className="w-5 h-5 text-amber-400" /> Windows Troubleshooting: CommandNotFoundException</h3>
+                            <p className="text-sm text-white/70">If Windows PowerShell cannot resolve the global executable <code className="text-primary font-mono bg-primary/10 px-1 rounded">ganapathi</code> after pip installation, Python's Scripts folder is likely missing from your PATH.</p>
+                            <div className="grid md:grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                    <Badge variant="outline" className="text-[10px] border-amber-500/30 text-amber-400">Solution 1: Use Python Module Fallback</Badge>
+                                    <p className="text-xs text-white/50 leading-relaxed">Run the CLI using the native python module fallback, which bypasses the missing executable issue entirely:</p>
+                                    <CodeBlock code="python -m ganapathi login" />
+                                </div>
+                                <div className="space-y-2">
+                                    <Badge variant="outline" className="text-[10px] border-amber-500/30 text-amber-400">Solution 2: Add to System PATH</Badge>
+                                    <p className="text-xs text-white/50 leading-relaxed">Add the pip Scripts path to your Windows Environment Variables (e.g., <code className="bg-white/5 px-1 rounded">C:\Users\YourUser\AppData\Roaming\Python\Python312\Scripts</code>) and restart your terminal.</p>
+                                </div>
                             </div>
                         </motion.section>
 

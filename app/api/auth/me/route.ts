@@ -11,17 +11,23 @@ export async function GET(req: NextRequest) {
     if (!decoded) return NextResponse.json({ user: null }, { status: 401 });
 
     await connectToDatabase();
-    const user = await User.findById(decoded.id);
+    const user = await User.findById(decoded.id).lean<{
+        _id: unknown;
+        email: string;
+        full_name?: string;
+        role?: string;
+        metrics?: Record<string, unknown>;
+    }>();
 
     if (!user) return NextResponse.json({ user: null }, { status: 401 });
 
     return NextResponse.json({
         user: {
-            id: user._id,
-            email: user.email,
-            full_name: user.full_name,
-            role: user.role,
-            metrics: user.metrics || {
+            id: String(user._id),
+            email: user.email ?? '',
+            full_name: user.full_name ?? null,
+            role: user.role ?? 'viewer',
+            metrics: user.metrics ?? {
                 total_sessions: 0,
                 practice_points: 0,
                 completed_lessons: 0,

@@ -7,6 +7,7 @@ Built By G R HARSHA
 import os
 import sys
 import time
+import webbrowser
 from pathlib import Path
 from typing import Optional
 
@@ -52,6 +53,46 @@ def _get_ai():
     return GanapathiAI()
 
 
+def require_auth(console):
+    """Enforce authentication hook."""
+    config = load_config()
+    if not config.get("AUTH_TOKEN"):
+        print_error(console, "Not authenticated. You must login to use this feature.")
+        console.print("  [dim]Run `ganapathi login` to authenticate with your account.[/]\n")
+        raise typer.Exit(1)
+    return config.get("AUTH_TOKEN")
+
+
+# ═══════════════════════════════════════════════════════════════
+# LOGIN Command
+# ═══════════════════════════════════════════════════════════════
+@app.command()
+def login():
+    """🔐 Login to Ganapathi Mentor AI."""
+    print_logo(console, mini=True)
+    print_header(console, "Authentication", "Securely connect your CLI")
+
+    console.print("  Opening browser for authentication...")
+    login_url = "https://ganapathi-mentor-ai.vercel.app/login"
+    
+    try:
+        webbrowser.open(login_url)
+        console.print(f"  [dim]If your browser doesn't open, visit: {login_url}[/]\n")
+    except Exception:
+        console.print(f"  [dim]Please visit: {login_url}[/]\n")
+    
+    token = console.input("  [bold cyan]Paste your Auth Token ❯ [/]").strip()
+    
+    if not token:
+        print_error(console, "Token cannot be empty.")
+        raise typer.Exit(1)
+        
+    config = {"AUTH_TOKEN": token}
+    save_config(config)
+    print_success(console, "Successfully authenticated!")
+    console.print("  [dim]You can now use all Ganapathi CLI features.[/]\n")
+
+
 # ═══════════════════════════════════════════════════════════════
 # SETUP Command
 # ═══════════════════════════════════════════════════════════════
@@ -95,6 +136,8 @@ def chat():
     """💬 Start an interactive AI mentor session with streaming responses."""
     print_logo(console)
     print_header(console, "AI Mentor Session", "Type 'exit' to end • 'clear' to reset")
+    
+    require_auth(console)
 
     ai = _get_ai()
     if not ai.is_configured():
@@ -145,6 +188,7 @@ def predict(
 ):
     """🔮 ML-powered code prediction: bug risk, performance, quality, career fit."""
     print_logo(console, mini=True)
+    require_auth(console)
 
     # Get code
     if file:
@@ -230,6 +274,7 @@ def explain(
 ):
     """🏗  AI architecture review: explains project structure & patterns."""
     print_logo(console, mini=True)
+    require_auth(console)
     from .explain import run_explain
     ai = _get_ai()
     run_explain(console, path, ai if ai.is_configured() else None)
@@ -244,6 +289,7 @@ def audit(
 ):
     """🔒 Deep code audit: security scan + ML scoring + AI review."""
     print_logo(console, mini=True)
+    require_auth(console)
     from .audit import run_audit
     ai = _get_ai()
     run_audit(console, path, ai if ai.is_configured() else None)
@@ -258,6 +304,7 @@ def agent(
 ):
     """🤖 Autonomous AI agent: give it a task, watch it work."""
     print_logo(console, mini=True)
+    require_auth(console)
     ai = _get_ai()
     if not ai.is_configured():
         print_error(console, "AI not configured. Run `ganapathi setup` first.")
@@ -301,6 +348,7 @@ def _run_hive_mind(
 ):
     """Shared hive-mind launch logic."""
     print_logo(console, mini=True)
+    require_auth(console)
     from .hive_mind import run_hive_mind
     run_hive_mind(console, os.path.abspath(path), port, host)
 
