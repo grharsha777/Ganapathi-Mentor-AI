@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
 
     const response = NextResponse.json({
       user: {
-        id: user._id,
+        id: user._id.toString(),
         email: user.email,
         full_name: user.full_name,
         role: user.role
